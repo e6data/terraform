@@ -13,7 +13,6 @@ provider "google" {
     project = var.gcp_project_id
     region = var.gcp_region
     /* credentials = "{{GOOGLE_CLOUD_KEYFILE_JSON}}" */
-    credentials = "/Users/srinathprabhu/Downloads/proven-outpost-351604-b13444a502c4.json" 
     # access_token = "{{ gcp_access_token }}"
 }
 
