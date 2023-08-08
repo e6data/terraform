@@ -4,7 +4,7 @@ cost_tags                         = { App = "e6data"}  ### Tags which will be ap
 
 vpc_id                            = "vpc-abcdef1234567" ### VPC ID in which the EKS cluster should be deployed
 
-private_subnet_ids                = [ "subnet-abcdef1234567", "subnet-abcdef1234567"] ### Public/Private subnets for the node groups
+private_subnet_ids                = [ "subnet-abcdef1234567", "subnet-abcdef1234567"] ### Private subnets for the node groups
 
 subnet_ids                        = ["subnet-abcdef1234567", "subnet-abcdef1234567"] ### Public/Private subnets for the EKS cluster
 
