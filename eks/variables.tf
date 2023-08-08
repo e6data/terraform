@@ -3,11 +3,6 @@ variable "aws_region" {
   description = "AWS region"
 }
 
-variable "e6data_namespaces" {
-  type       = set(string)
-  description = "e6data namespace"
-}
-
 variable "kube_version" {
   type        = string
   description = "kubernetes master version"
@@ -62,7 +57,7 @@ variable "disk_size" {
 variable "instance_type" {
   type        = list(string)
   description = "EKS Worker node EC2 instance type"
-  default     = ["m5.large"]
+  default     = ["t3.medium"]
 }
 
 variable "iam_eks_cluster_policy_arn" {
@@ -94,10 +89,6 @@ variable "capacity_type" {
   default = "SPOT"
 }
 
-variable "tag" {
-  type        = string
-  description = "tag prefix to be added"
-}
 
 variable "cost_tags" {
   type = map(string)

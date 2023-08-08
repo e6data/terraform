@@ -1,5 +1,5 @@
 module "eks" {
-  source = "./eks"
+  source = "./modules/eks"
   cluster_name     = var.cluster_name
   kube_version     = var.kube_version
   cluster_log_types = var.cluster_log_types
@@ -25,7 +25,7 @@ resource "aws_ebs_encryption_by_default" "enable_enc" {
 }
 
 module "eks_tags" {
-  source = "./eks_tags"
+  source = "./modules/eks_tags"
 
   for_each = var.cost_tags
   
@@ -64,59 +64,4 @@ provider "helm" {
       command     = var.aws_command_line_path
     }
   }
-}
-
-resource "kubernetes_namespace" "e6data_namespace" {
-  provider   = kubernetes.e6data
-  for_each   = var.e6data_namespaces
-
-  metadata {
-    annotations = {
-      name = each.key
-    }
-    name = each.key
-  }
-
-  depends_on = [module.eks]
-}
-
-
-module "autoscaler_oidc" {
-  source = "./aws_oidc"
-
-  providers = {
-    kubernetes = kubernetes.e6data
-  }
-
-  tls_url = module.eks.eks_oidc_tls
-  policy_arn = [aws_iam_policy.cluster_autoscaler.arn]
-  eks_oidc_arn = module.eks.oidc_arn
-
-  oidc_role_name = "${module.eks.cluster_name}-autoscaler"
-
-  kubernetes_namespace = var.autoscaler_namespace
-  kubernetes_service_account_name = var.autoscaler_service_account_name
-
-  depends_on = [aws_iam_policy.cluster_autoscaler]
-}
-
-
-
-module "autoscaler_deployment" {
-  providers = {
-    kubernetes = kubernetes.e6data
-    helm       = helm.e6data
-  }
-
-  source = "./autoscaler"
-
-  helm_chart_name = var.autoscaler_helm_chart_name
-  helm_chart_version = var.autoscaler_helm_chart_version
-  
-  namespace = module.autoscaler_oidc.kubernetes_namespace
-  service_account_name = module.autoscaler_oidc.service_account_name  
-  cluster_name = module.eks.cluster_name
-  region = var.aws_region
-  
-  depends_on = [module.eks, module.autoscaler_oidc]
 }
