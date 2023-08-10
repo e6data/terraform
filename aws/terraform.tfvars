@@ -1,5 +1,10 @@
 aws_region                      = "us-east-1" ### AWS region of the EKS cluster.
+
 workspace_name                  = "workspace-name" ### Name of the e6data workspace to be created.
+# Note: The variable workspace_name should meet the following criteria:
+# a) Accepts only lowercase alphanumeric characters.
+# b) Must have a minimum of 3 characters.
+# c) Must not exceed 10 characters.
 
 eks_cluster_name                = "eks-cluster-name" ### The name of the Kubernetes cluster to deploy e6data workspace.
 kube_version                    = "1.24" ### The Kubernetes cluster version. Version 1.24 or higher is required.
@@ -18,4 +23,4 @@ helm_chart_version              = "1.0.1" ### e6data workspace Helm chart versio
 ### Below are the tags which will be applied to all the resources created by this Terraform script.
 cost_tags = {}
 
-aws_command_line_path            = "/usr/bin/aws"
+aws_command_line_path            = "/usr/bin/aws"  ### Specify the path to the AWS Command Line Interface executable
