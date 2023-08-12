@@ -101,17 +101,10 @@ variable "app" {
   default = "e6data"
 }
 
-variable "region" {
-  type = string
-  description = "region of the s3 gateway endpoint"
-  default = "us-east-1"
-}
-
 variable "aws_command_line_path" {
   description = "local aws installation bin path"
   type        = string
 }
-
 
 # Autoscaler variables
 variable "autoscaler_namespace" {
