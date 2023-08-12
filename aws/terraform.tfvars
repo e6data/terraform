@@ -23,4 +23,4 @@ helm_chart_version              = "1.0.1" ### e6data workspace Helm chart versio
 ### Below are the tags which will be applied to all the resources created by this Terraform script.
 cost_tags = {}
 
-aws_command_line_path            = "/usr/bin/aws"  ### Specify the path to the AWS Command Line Interface executable
+aws_command_line_path            = "/usr/bin/aws"  ### Specify the path to the AWS Command Line Interface executable. Run "which aws" command to get exact path.
