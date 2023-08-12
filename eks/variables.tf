@@ -16,7 +16,7 @@ variable "cluster_name" {
 variable "cluster_log_types" {
   type        = list(string)
   description = "EKS Cluster enabled log types to Cloudwatch"
-  default     = ["scheduler", "controllerManager","authenticator","audit"]
+  default     = ["scheduler", "controllerManager", "authenticator", "audit"]
 }
 
 variable "vpc_id" {
