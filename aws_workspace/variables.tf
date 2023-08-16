@@ -172,8 +172,3 @@ variable "alb_controller_helm_chart_version" {
   type        = string
   description = "ALB Ingress Controller helm chart version"
 }
-
-variable "internal_lb_enabled" {
-  type        = bool
-  description = "Internal Load Balancer enabled"
-}
