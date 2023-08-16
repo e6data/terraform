@@ -27,13 +27,13 @@ cluster_log_types               = ["scheduler", "controllerManager","authenticat
 # Data Bucket names
 bucket_names                    = ["*"] ### List of bucket names that the e6data engine queries and therefore, require read access to. Default is ["*"] which means all buckets, it is advisable to change this.
 
-# Kubernetes Namespace Variables
+# Kubernetes Namespace
 kubernetes_namespace            = "namespace" ### Value of the Kubernetes namespace to deploy the e6data workspace.
 
-# Cost Tags Variables
+# Cost Tags
 cost_tags = {}
 
-# AWS Command Line Variables
+# AWS Command Line Variable
 aws_command_line_path           = "aws"  ### Specify the path to the AWS Command Line Interface executable. Run "which aws" command to get the exact path.
 
 # Autoscaler Variables
