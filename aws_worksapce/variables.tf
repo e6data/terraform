@@ -138,7 +138,7 @@ variable "max_instances_in_eks_nodegroup" {
 variable "min_desired_instances_in_eks_nodegroup" {
   description = "Minimum number of instances in nodegroup"
   type        = number
-  default     = 3
+  default     = 1
 }
 
 variable "kubernetes_namespace" {
