@@ -14,11 +14,11 @@ eks_disk_size                   = 100 ### Disk size for the disks in the node gr
 eks_capacity_type               = "ON_DEMAND" ### Options: ON_DEMAND or SPOT. The type of instances that should be created.
 eks_nodegroup_instance_types    = ["c7g.16xlarge"]
 
-vpc_id                          = "vpc-041a467cf004fffbe" ### VPC ID in which the EKS cluster should be deployed
+vpc_id                          = "vpc-abcdefghijk" ### VPC ID in which the EKS cluster should be deployed
 
-private_subnet_ids              = ["subnet-02aac25a635bf0e6c", "subnet-09232c9bb346c2121"] ### Private subnets for the node groups
+private_subnet_ids              = ["subnet-abcdefghijk", "subnet-abcdefghijk"] ### Private subnets for the node groups
 
-subnet_ids                      = ["subnet-05ef56eccf50f4292", "subnet-0b6d57d98bdddfa7a"] ### Public/Private subnets for the EKS cluster
+subnet_ids                      = ["subnet-abcdefghijk", "subnet-abcdefghijk"] ### Public/Private subnets for the EKS cluster
 
 cluster_name                    = "e6data"            ### The name of the Kubernetes cluster to be created for the e6data workspace.
 cluster_log_types               = ["scheduler", "controllerManager","authenticator", "audit"] ### List of the desired control plane logging to enable.
