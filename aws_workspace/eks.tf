@@ -16,12 +16,6 @@ module "eks" {
 
   vpc_id = module.network.vpc_id
   capacity_type = var.eks_capacity_type
-
-  depends_on = [aws_ebs_encryption_by_default.enable_enc]
-}
-
-resource "aws_ebs_encryption_by_default" "enable_enc" {
-  enabled = true
 }
 
 data "aws_eks_cluster_auth" "apps_eks_auth" {

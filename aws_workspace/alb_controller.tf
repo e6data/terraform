@@ -227,7 +227,7 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
 }
 
 resource "aws_iam_policy" "alb_controller_policy" {
-  name = "${module.eks.cluster_name}-alb-controller-policy"
+  name = "e6data-${module.eks.cluster_name}-alb-controller-policy"
   description = "EKS cluster ALB controller policy for cluster ${module.eks.cluster_name}"
   policy      = data.aws_iam_policy_document.alb_controller_access_doc.json
 }
@@ -272,5 +272,5 @@ module "aws_ingress_controller" {
   namespace = module.alb_controller_oidc.kubernetes_namespace
   alb_ingress_controller_version = var.alb_controller_helm_chart_version # "1.4.7"
 
-  depends_on = [ module.alb_controller_oidc ]
+  depends_on = [ module.alb_controller_oidc, module.autoscaler_deployment, aws_eks_node_group.workspace_node_group]
 }

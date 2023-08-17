@@ -15,3 +15,9 @@ variable "excluded_az" {
   description = "AZ where EKS doesnt have capacity"
   default = ["us-east-1e"]
 }
+
+variable "workspace_name" {
+  type        = string
+  description = "Name of the e6data workspace to be created."
+  default = "dummy"
+}

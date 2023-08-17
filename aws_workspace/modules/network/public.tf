@@ -8,7 +8,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = format("%s-public-subnet-%s", var.env, each.value.az)
+    Name = format("%s-%s-public-subnet-%s", var.env, var.workspace_name, each.value.az)
     type = "public" 
   }
 

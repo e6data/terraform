@@ -47,7 +47,7 @@ data "aws_iam_policy_document" "cluster_autoscaler" {
 }
 
 resource "aws_iam_policy" "cluster_autoscaler" {
-  name = "${module.eks.cluster_name}-autoscaler-policy"
+  name = "e6data-${module.eks.cluster_name}-autoscaler-policy"
   description = "EKS cluster-autoscaler policy for cluster ${module.eks.cluster_name}"
   policy      = data.aws_iam_policy_document.cluster_autoscaler.json
 }

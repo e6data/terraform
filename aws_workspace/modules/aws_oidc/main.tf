@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "oidc_assume_role_policy" {
 
 resource "aws_iam_role" "oidc_role" {
   assume_role_policy = data.aws_iam_policy_document.oidc_assume_role_policy.json
-  name               = "${var.oidc_role_name}-oidc-role"
+  name               = "e6data-${var.oidc_role_name}-oidc-role"
   managed_policy_arns = var.policy_arn
 }
 
