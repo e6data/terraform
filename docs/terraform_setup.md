@@ -2,7 +2,7 @@
 ## **Prerequisites**
 Before you begin, ensure you have the following prerequisites in place:
 
-1. **EC2 instance**: You need to spin up an ec2 instance of t4g.small with ec2 instaance role having [appropriate permissions](./iam_permissions.json) to create e6data resources.
+1. **EC2 instance**: You need to spin up an ec2 instance of t4g.small with ec2 instance role having [appropriate IAM permissions](./terraform_permissions.json) to create e6data resources.
 
 1. **Terraform**: [Install](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) Terraform on your machine. Or you can run the following commands
 
