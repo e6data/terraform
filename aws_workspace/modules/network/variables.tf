@@ -21,3 +21,9 @@ variable "workspace_name" {
   description = "Name of the e6data workspace to be created."
   default = "dummy"
 }
+
+variable "region" {
+  type        = string
+  description = "AWS region of the EKS cluster."
+  default = "us-east-1"
+}

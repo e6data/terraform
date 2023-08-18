@@ -36,7 +36,10 @@
                 "ec2:RevokeSecurityGroupIngress",
                 "ec2:RevokeSecurityGroupEgress",
                 "ec2:DisassociateRouteTable",
-                "ec2:ModifySubnetAttribute"
+                "ec2:ModifySubnetAttribute",
+                "ec2:CreateVpcEndpoint",
+                "ec2:DeleteVpcEndpoints",
+                "ec2:ModifyVpcEndpoint"
             ],
             "Resource": [
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:internet-gateway/*",
@@ -45,7 +48,8 @@
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:natgateway/*",
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:elastic-ip/*",
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:route-table/*",
-                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:security-group/*"
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:security-group/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:vpc-endpoint/*"
             ]
         },
         {
@@ -88,7 +92,18 @@
             "Action": [
                 "iam:ListRoles",
                 "iam:GetPolicy",
-                "iam:GetRole"
+                "iam:GetRole",
+                "iam:TagRole",
+                "iam:UntagRole",
+                "iam:TagPolicy",
+                "iam:UntagPolicy",
+                "iam:TagInstanceProfile",
+                "iam:UntagInstanceProfile",
+                "iam:ListPolicyTags",
+                "iam:ListRoleTags",
+                "iam:ListInstanceProfileTags",
+                "iam:TagOpenIDConnectProvider",
+                "iam:UntagOpenIDConnectProvider"
             ],
             "Resource": "*"
         },
@@ -113,7 +128,12 @@
                 "ec2:DescribeSecurityGroupRules",
                 "ec2:DescribeVpcClassicLink",
                 "ec2:DescribeVpcClassicLinkDnsSupport",
-                "ec2:DescribeNetworkInterfaces"
+                "ec2:DescribeNetworkInterfaces",
+                "autoscaling:CreateOrUpdateTags",
+                "autoscaling:DeleteTags",
+                "autoscaling:DescribeTags",
+                "ec2:DescribeVpcEndpoints",
+                "ec2:DescribePrefixLists"
             ],
             "Resource": "*"
         },

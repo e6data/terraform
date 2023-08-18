@@ -10,7 +10,7 @@ The steps are alreaady mentioned in the [terraform_setup.md](../docs/terraform_s
 The permissions required for the terraform user are mentioned in the [terraform_permissions.json](../docs/terraform_permissions.json) file.
 
 ## **Terraform components**
-1. **VPC**: Create a VPC with zones equivalent public subnets and private subnets.
+1. **VPC**: Create a VPC with zones equivalent public subnets and private subnets with NAT gateway.
 2. **EKS Cluster**: Create an EKS cluster in the VPC created in the previous step.
 3. **EKS Node Group**: Create an EKS node group in the EKS cluster created in the previous step.
 4. **S3 Bucket**: Create an S3 bucket to store the e6data operation management data.
@@ -22,5 +22,5 @@ The permissions required for the terraform user are mentioned in the [terraform_
 10. **OIDC Provider**: Create an OIDC provider for the EKS cluster to enable IAM roles for service accounts.
 11. **AWS IAM Roles for Service Accounts**: Create AWS IAM roles for service accounts to access the s3 data buckets.
 12. **e6data Helm Chart**: Deploy the e6data helm chart to the EKS cluster.
-
+13. **VPC Endpoints**: Create VPC endpoints for the EKS cluster to access the s3 bucket.
 
