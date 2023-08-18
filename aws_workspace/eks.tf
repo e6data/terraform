@@ -18,12 +18,6 @@ module "eks" {
   capacity_type = var.eks_capacity_type
 }
 
-data "aws_eks_cluster_auth" "apps_eks_auth" {
-  name = module.eks.cluster_name
-
-  depends_on = [module.eks]
-}
-
 provider "kubernetes" {
   alias                  = "e6data"
   host                   = module.eks.eks_endpoint

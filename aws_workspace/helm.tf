@@ -1,5 +1,5 @@
 resource "helm_release" "e6data_workspace_deployment" {
-  provider = helm.eks_e6data
+  provider = helm.e6data
 
   name       = var.workspace_name
   repository = "https://e6x-labs.github.io/helm-charts/"
@@ -17,7 +17,7 @@ resource "helm_release" "e6data_workspace_deployment" {
 }
 
 data "kubernetes_config_map_v1" "aws_auth_read" {
-  provider = kubernetes.eks_e6data
+  provider = kubernetes.e6data
 
   metadata {
     name = "aws-auth"
@@ -27,7 +27,7 @@ data "kubernetes_config_map_v1" "aws_auth_read" {
 }
 
 resource "kubernetes_config_map_v1_data" "aws_auth_update" {
-  provider = kubernetes.eks_e6data
+  provider = kubernetes.e6data
   metadata {
     name = "aws-auth"
     namespace = "kube-system"

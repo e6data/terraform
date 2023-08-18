@@ -262,8 +262,8 @@ module "aws_ingress_controller" {
   source = "./modules/alb_controller"
 
   providers = {
-    kubernetes = kubernetes.eks_e6data
-    helm       = helm.eks_e6data
+    kubernetes = kubernetes.e6data
+    helm       = helm.e6data
   }
 
   eks_cluster_name = module.eks.cluster_name

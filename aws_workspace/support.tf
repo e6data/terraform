@@ -48,27 +48,3 @@ data "aws_caller_identity" "current" {
 data "aws_eks_cluster_auth" "current" {
   name = module.eks.cluster_name
 }
-
-provider "kubernetes" {
-  alias                  = "eks_e6data"
-  host                   = module.eks.eks_endpoint
-  cluster_ca_certificate = base64decode(module.eks.eks_certificate_data)
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
-    command     = var.aws_command_line_path
-  }
-}
-
-provider "helm" {
-  alias                    = "eks_e6data"
-  kubernetes {
-    host                   = module.eks.eks_endpoint
-    cluster_ca_certificate = base64decode(module.eks.eks_certificate_data)
-    exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
-      args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
-      command     = var.aws_command_line_path
-    }
-  }
-}
