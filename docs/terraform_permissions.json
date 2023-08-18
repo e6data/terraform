@@ -130,12 +130,20 @@
             "Effect": "Allow",
             "Action": [
                 "eks:CreateCluster",
-                "eks:DescribeCluster",
-                "eks:DeleteCluster",
-                "eks:CreateNodegroup",
-                "eks:DescribeNodegroup",
-                "eks:DeleteNodegroup",
-                "eks:UpdateNodegroupConfig"
+				"eks:DescribeCluster",
+				"eks:DeleteCluster",
+				"eks:CreateNodegroup",
+				"eks:DescribeNodegroup",
+				"eks:DeleteNodegroup",
+				"eks:UpdateNodegroupConfig",
+				"eks:TagResource",
+				"eks:UpdateClusterConfig",
+				"eks:UpdateNodegroupVersion",
+				"eks:UpdateClusterVersion",
+				"eks:DescribeUpdate",
+				"eks:AccessKubernetesApi",
+				"eks:UpdateAddon",
+				"eks:UntagResource"
             ],
             "Resource": "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:cluster/e6data-*"
         }
