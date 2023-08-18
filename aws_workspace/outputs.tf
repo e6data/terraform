@@ -19,7 +19,7 @@ output "cross_account_role_arn" {
 }
 
 output "kubernetes_cluster_name" {
-  value = var.cluster_name
+  value = module.eks.cluster_name
 }
 
 output "kubernetes_namespace_for_e6data_workspace" {
