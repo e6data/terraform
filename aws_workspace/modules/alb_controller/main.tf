@@ -38,4 +38,14 @@ resource "helm_release" "alb_controller_release" {
     name = "serviceAccount.name"
     value = var.eks_service_account_name
   }
+
+  set {
+    name = "region"
+    value = var.region
+  }
+
+  set {
+    name = "vpcId"
+    value = var.vpc_id
+  }
 }

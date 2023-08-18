@@ -18,3 +18,13 @@ variable "alb_ingress_controller_version" {
   description = "Version of the alb ingress controller"
   default     = "1.1.8"
 }
+
+variable "region" {
+  type        = string
+  description = "AWS region"
+}
+
+variable "vpc_id" {
+  type        = string
+  description = "VPC ID"
+}

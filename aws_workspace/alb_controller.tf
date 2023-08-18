@@ -272,5 +272,8 @@ module "aws_ingress_controller" {
   namespace = module.alb_controller_oidc.kubernetes_namespace
   alb_ingress_controller_version = var.alb_controller_helm_chart_version # "1.4.7"
 
+  region = var.aws_region
+  vpc_id = module.network.vpc_id
+
   depends_on = [ module.alb_controller_oidc, module.autoscaler_deployment, aws_eks_node_group.workspace_node_group]
 }
