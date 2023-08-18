@@ -143,8 +143,7 @@
 				"eks:DescribeUpdate",
 				"eks:AccessKubernetesApi",
 				"eks:UpdateAddon",
-				"eks:UntagResource",
-                "eks:"
+				"eks:UntagResource"
             ],
             "Resource": [
                 "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:cluster/e6data-*",

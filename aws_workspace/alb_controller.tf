@@ -236,7 +236,7 @@ module "alb_controller_oidc" {
   source = "./modules/aws_oidc"
 
   providers = {
-    kubernetes = kubernetes.eks_e6data
+    kubernetes = kubernetes.e6data
   }
 
   tls_url = module.eks.eks_oidc_tls
