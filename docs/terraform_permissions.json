@@ -147,7 +147,7 @@
                 "eks:"
             ],
             "Resource": [
-                "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:cluster/e6data-*"
+                "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:cluster/e6data-*",
                 "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:nodegroup/e6data-*"
         }
     ]
