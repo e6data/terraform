@@ -9,7 +9,7 @@ terraform {
 
 # Create the EKS cluster
 resource "aws_eks_cluster" "eks" {
-  name     = var.cluster_name
+  name     = "e6data-${var.cluster_name}"
   role_arn = aws_iam_role.iam_eks_cluster_role.arn
   version  = var.kube_version
   enabled_cluster_log_types = var.cluster_log_types
