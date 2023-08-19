@@ -43,5 +43,40 @@ resource "helm_release" "autoscaler_deployment" {
     value = false
   }
   
+  set {
+    name = "extraArgs.scan-interval"
+    value = "10s"
+  }
+
+  set {
+    name = "extraArgs.scale-down-unneeded-time"
+    value = "1m"
+  }
+
+  set {
+    name = "extraArgs.scale-down-unready-time"
+    value = "1m"
+  }
+
+  set {
+    name = "extraArgs.scale-down-utilization-threshold"
+    value = "0.2"
+  } 
+
+  set {
+    name = "extraArgs.scale-down-delay-after-add"
+    value = "1m"
+  }
+
+  set {
+    name = "extraArgs.scale-down-delay-after-delete"
+    value = "1m"
+  }
+
+  set {
+    name = "extraArgs.ignore-daemonsets-utilization"
+    value = "true"
+  }
+  
   depends_on = [null_resource.waiting]
 }

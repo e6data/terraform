@@ -1,7 +1,8 @@
 # Configure the AWS Provider
 provider "aws" {
   region  = var.aws_region
-
+  # access_key = "<Access key ID>"
+  # secret_key = "<Secret access key>"
   default_tags {
     tags = var.cost_tags
   }
