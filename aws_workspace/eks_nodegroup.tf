@@ -1,6 +1,6 @@
 # Create EKS node group for workspace
 resource "aws_launch_template" "nodegroup_launch_template" {
-  name = "e6data-${local.e6data_workspace_name}-nodegroup-launch-template"
+  name = "${local.e6data_workspace_name}-nodegroup-launch-template"
 
   block_device_mappings {
     device_name = "/dev/xvda"
@@ -54,7 +54,7 @@ resource "aws_eks_node_group" "workspace_node_group" {
     id      = aws_launch_template.nodegroup_launch_template.id
     version = aws_launch_template.nodegroup_launch_template.latest_version
   }
-  }
+
   scaling_config {
     min_size     = var.min_desired_instances_in_eks_nodegroup
     desired_size = var.min_desired_instances_in_eks_nodegroup
@@ -77,18 +77,6 @@ resource "aws_eks_node_group" "workspace_node_group" {
 
   depends_on = [ aws_iam_role.eks_nodegroup_iam_role ,module.eks]
 }
-
-/* module "eks_nodegroup_tags" {
-
-  for_each = var.cost_tags
-
-  source = "./modules/eks_tags"
-  autoscaling_group_name = aws_eks_node_group.workspace_node_group.resources[0].autoscaling_groups[0].name
-  tag_key = each.key
-  tag_value = each.value
-
-  depends_on = [ aws_eks_node_group.workspace_node_group ]
-} */
 
 data "aws_iam_policy_document" "eks_nodegroup_iam_assume_policy" {
   statement {

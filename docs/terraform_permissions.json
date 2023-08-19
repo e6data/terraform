@@ -39,7 +39,11 @@
                 "ec2:ModifySubnetAttribute",
                 "ec2:CreateVpcEndpoint",
                 "ec2:DeleteVpcEndpoints",
-                "ec2:ModifyVpcEndpoint"
+                "ec2:ModifyVpcEndpoint",
+                "ec2:CreateLaunchTemplate",
+                "ec2:DeleteLaunchTemplate",
+                "ec2:ModifyLaunchTemplate",
+                "ec2:CreateLaunchTemplateVersion"
             ],
             "Resource": [
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:internet-gateway/*",
@@ -49,8 +53,48 @@
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:elastic-ip/*",
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:route-table/*",
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:security-group/*",
-                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:vpc-endpoint/*"
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:vpc-endpoint/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:launch-template/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:instance/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:volume/*"
             ]
+        },
+        {
+            "Sid": "readOnly",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeAvailabilityZones",
+                "ec2:DescribeInternetGateways",
+                "ec2:DescribeNatGateways",
+                "ec2:DescribeRegions",
+                "ec2:DescribeRouteTables",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeTags",
+                "ec2:DescribeVpcAttribute",
+                "ec2:DescribeVpcs",
+                "ec2:DescribeAddressesAttribute",
+                "ec2:DescribeAddresses",
+                "ec2:MoveAddressToVpc",
+                "ec2:DescribeAccountAttributes",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSecurityGroupRules",
+                "ec2:DescribeVpcClassicLink",
+                "ec2:DescribeVpcClassicLinkDnsSupport",
+                "ec2:DescribeNetworkInterfaces",
+                "autoscaling:CreateOrUpdateTags",
+                "autoscaling:DeleteTags",
+                "autoscaling:DescribeTags",
+                "autoscaling:CreateAutoScalingGroup",
+                "autoscaling:UpdateAutoScalingGroup",
+                "autoscaling:DeleteAutoScalingGroup",
+                "ec2:DescribeVpcEndpoints",
+                "ec2:DescribePrefixLists",
+                "ec2:DescribeLaunchTemplates",
+                "ec2:GetLaunchTemplateData",
+                "ec2:DescribeLaunchTemplateVersions",
+                "ec2:RunInstances"
+            ],
+            "Resource": "*"
         },
         {
             "Sid": "iam",
@@ -108,36 +152,6 @@
             "Resource": "*"
         },
         {
-            "Sid": "readOnly",
-            "Effect": "Allow",
-            "Action": [
-                "ec2:DescribeAvailabilityZones",
-                "ec2:DescribeInternetGateways",
-                "ec2:DescribeNatGateways",
-                "ec2:DescribeRegions",
-                "ec2:DescribeRouteTables",
-                "ec2:DescribeSubnets",
-                "ec2:DescribeTags",
-                "ec2:DescribeVpcAttribute",
-                "ec2:DescribeVpcs",
-                "ec2:DescribeAddressesAttribute",
-                "ec2:DescribeAddresses",
-                "ec2:MoveAddressToVpc",
-                "ec2:DescribeAccountAttributes",
-                "ec2:DescribeSecurityGroups",
-                "ec2:DescribeSecurityGroupRules",
-                "ec2:DescribeVpcClassicLink",
-                "ec2:DescribeVpcClassicLinkDnsSupport",
-                "ec2:DescribeNetworkInterfaces",
-                "autoscaling:CreateOrUpdateTags",
-                "autoscaling:DeleteTags",
-                "autoscaling:DescribeTags",
-                "ec2:DescribeVpcEndpoints",
-                "ec2:DescribePrefixLists"
-            ],
-            "Resource": "*"
-        },
-        {
             "Sid": "s3",
             "Effect": "Allow",
             "Action": [
@@ -150,25 +164,25 @@
             "Effect": "Allow",
             "Action": [
                 "eks:CreateCluster",
-				"eks:DescribeCluster",
-				"eks:DeleteCluster",
-				"eks:CreateNodegroup",
-				"eks:DescribeNodegroup",
-				"eks:DeleteNodegroup",
-				"eks:UpdateNodegroupConfig",
-				"eks:TagResource",
-				"eks:UpdateClusterConfig",
-				"eks:UpdateNodegroupVersion",
-				"eks:UpdateClusterVersion",
-				"eks:DescribeUpdate",
-				"eks:AccessKubernetesApi",
-				"eks:UpdateAddon",
-				"eks:UntagResource"
+                "eks:DescribeCluster",
+                "eks:DeleteCluster",
+                "eks:CreateNodegroup",
+                "eks:DescribeNodegroup",
+                "eks:DeleteNodegroup",
+                "eks:UpdateNodegroupConfig",
+                "eks:TagResource",
+                "eks:UpdateClusterConfig",
+                "eks:UpdateNodegroupVersion",
+                "eks:UpdateClusterVersion",
+                "eks:DescribeUpdate",
+                "eks:AccessKubernetesApi",
+                "eks:UpdateAddon",
+                "eks:UntagResource"
             ],
             "Resource": [
                 "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:cluster/e6data-*",
                 "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:nodegroup/e6data-*"
-            ]    
+            ]
         }
     ]
 }
