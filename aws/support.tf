@@ -50,7 +50,7 @@ data "aws_eks_cluster_auth" "current" {
 }
 
 provider "kubernetes" {
-  alias                  = "eks_e6data"
+  alias                  = "e6data"
   host                   = data.aws_eks_cluster.current.endpoint
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.current.certificate_authority[0].data)
   exec {
@@ -61,7 +61,7 @@ provider "kubernetes" {
 }
 
 provider "helm" {
-  alias                    = "eks_e6data"
+  alias                    = "e6data"
   kubernetes {
     host                   = data.aws_eks_cluster.current.endpoint
     cluster_ca_certificate = base64decode(data.aws_eks_cluster.current.certificate_authority[0].data)
