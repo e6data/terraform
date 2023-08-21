@@ -16,6 +16,8 @@ module "eks" {
 
   vpc_id = module.network.vpc_id
   capacity_type = var.eks_capacity_type
+
+  depends_on = [ module.network ]
 }
 
 provider "kubernetes" {

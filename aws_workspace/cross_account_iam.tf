@@ -22,8 +22,6 @@ data "aws_iam_policy_document" "iam_s3ReadWriteAccess_doc" {
     ]
     resources = ["${module.e6data_s3_bucket.arn}/*"]
   }
-
-  depends_on = [ module.e6data_s3_bucket ]
 }
 
 data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {

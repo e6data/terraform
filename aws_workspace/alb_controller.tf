@@ -203,6 +203,8 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
         "arn:aws:elasticloadbalancing:*:*:listener/app/*/*", 
         "arn:aws:elasticloadbalancing:*:*:listener-rule/net/*/*",
         "arn:aws:elasticloadbalancing:*:*:listener-rule/app/*/*", 
+        "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+        "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
     ]
   }
   
@@ -247,6 +249,8 @@ module "alb_controller_oidc" {
 
   kubernetes_namespace = var.alb_ingress_controller_namespace
   kubernetes_service_account_name = var.alb_ingress_controller_service_account_name
+
+  depends_on = [ module.eks, aws_eks_node_group.workspace_node_group ]
 }
 
 resource "aws_ec2_tag" "subnet_cluster_tag" {

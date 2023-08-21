@@ -2,12 +2,9 @@ resource "aws_s3_bucket" "my_protected_bucket" {
   bucket = var.bucket_name
   force_destroy = true
 
-  tags = merge(
-    {
+  tags = {
       Name = var.bucket_name
-    },
-    var.cost_tags
-  )  
+    }
 }
 
 resource "aws_s3_bucket_versioning" "my_protected_bucket_versioning" {

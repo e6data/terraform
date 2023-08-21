@@ -14,6 +14,8 @@ resource "helm_release" "e6data_workspace_deployment" {
   lifecycle {
     ignore_changes = [ values ]
   }
+
+  depends_on = [ module.eks , aws_eks_node_group.workspace_node_group , module.autoscaler_deployment ]
 }
 
 data "kubernetes_config_map_v1" "aws_auth_read" {
