@@ -11,6 +11,12 @@ resource "null_resource" "waiting" {
   provisioner "local-exec" {
     command = "sleep 10"
   }
+
+  triggers = {
+    bucket = aws_s3_bucket.my_protected_bucket.bucket
+  }
+
+  depends_on = [aws_s3_bucket.my_protected_bucket]
 }
 
 resource "aws_s3_bucket_versioning" "my_protected_bucket_versioning" {
@@ -53,7 +59,7 @@ resource "aws_s3_bucket_logging" "my_protected_bucket_logging" {
   target_bucket = aws_s3_bucket.my_protected_bucket.id
   target_prefix = "bucket-logs/"
 
-  depends_on = [ aws_s3_bucket.my_protected_bucket, null_resource.waiting ]
+  depends_on = [ null_resource.waiting ]
 }
 
 # Resource to avoid error "AccessControlListNotSupported: The bucket does not allow ACLs"
