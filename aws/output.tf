@@ -15,7 +15,7 @@ output "cross_account_role_arn" {
 }
 
 output "kubernetes_cluster_name" {
-  value = module.eks.cluster_name
+  value = var.eks_cluster_name
 }
 
 output "eks_nodegroup_name" {
