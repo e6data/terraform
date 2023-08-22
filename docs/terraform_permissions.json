@@ -46,17 +46,17 @@
                 "ec2:CreateLaunchTemplateVersion"
             ],
             "Resource": [
-                "arn:aws:ec2:us-east-1:245069423449:internet-gateway/*",
-                "arn:aws:ec2:us-east-1:245069423449:vpc/*",
-                "arn:aws:ec2:us-east-1:245069423449:subnet/*",
-                "arn:aws:ec2:us-east-1:245069423449:natgateway/*",
-                "arn:aws:ec2:us-east-1:245069423449:elastic-ip/*",
-                "arn:aws:ec2:us-east-1:245069423449:route-table/*",
-                "arn:aws:ec2:us-east-1:245069423449:security-group/*",
-                "arn:aws:ec2:us-east-1:245069423449:vpc-endpoint/*",
-                "arn:aws:ec2:us-east-1:245069423449:launch-template/*",
-                "arn:aws:ec2:us-east-1:245069423449:instance/*",
-                "arn:aws:ec2:us-east-1:245069423449:volume/*"
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:internet-gateway/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:vpc/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:subnet/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:natgateway/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:elastic-ip/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:route-table/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:security-group/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:vpc-endpoint/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:launch-template/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:instance/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:volume/*"
             ]
         },
         {
@@ -127,7 +127,7 @@
             "Effect": "Allow",
             "Action": "iam:PassRole",
             "Resource": [
-                "arn:aws:iam::245069423449:role/e6data-*"
+                "arn:aws:iam::<AWS_ACCOUNT_ID>:role/e6data-*"
             ]
         },
         {
@@ -181,8 +181,8 @@
                 "eks:UntagResource"
             ],
             "Resource": [
-                "arn:aws:eks:us-east-1:245069423449:cluster/e6data-*",
-                "arn:aws:eks:us-east-1:245069423449:nodegroup/e6data-*"
+                "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:cluster/e6data-*",
+                "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:nodegroup/e6data-*"
             ]
         }
     ]
