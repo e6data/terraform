@@ -44,7 +44,7 @@ variable "eks_capacity_type" {
 variable "eks_nodegroup_instance_types" {
   description = "Instance type for nodegroup"
   type        = list(string)
-  default = ["c7g.16xlarge"]
+  default = ["c6g.8xlarge","c6g.12xlarge","c6g.16xlarge", "r6g.8xlarge","r6g.12xlarge","r6g.16xlarge"]
 }
 
 variable "max_instances_in_eks_nodegroup" {
