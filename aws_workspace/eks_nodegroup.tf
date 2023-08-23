@@ -65,6 +65,11 @@ resource "aws_eks_node_group" "workspace_node_group" {
     max_unavailable = 2
   }
 
+  labels = {
+    "app" = "e6data"
+    "e6data-workspace-name" = var.workspace_name
+  }
+
   tags = {
     "Name" = local.e6data_workspace_name
     "k8s.io/cluster-autoscaler/enabled" =  "true"
@@ -72,7 +77,7 @@ resource "aws_eks_node_group" "workspace_node_group" {
   }
 
   lifecycle {
-    ignore_changes = [scaling_config[0].desired_size, scaling_config[0].min_size, labels, update_config ]
+    ignore_changes = [scaling_config[0].desired_size, scaling_config[0].min_size, update_config ]
   }
 
   depends_on = [ aws_iam_role.eks_nodegroup_iam_role ,module.eks]
