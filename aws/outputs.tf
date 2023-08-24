@@ -19,7 +19,7 @@ output "sts_external_id" {
 }
 
 output "kubernetes_cluster_name" {
-  value = module.eks.cluster_name
+  value = var.eks_cluster_name
 }
 
 output "kubernetes_namespace" {
