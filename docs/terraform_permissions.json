@@ -113,7 +113,8 @@
                 "iam:GetOpenIDConnectProvider",
                 "iam:DeleteOpenIDConnectProvider",
                 "iam:DeletePolicyVersion",
-                "iam:UpdateAssumeRolePolicy"
+                "iam:UpdateAssumeRolePolicy",
+                "iam:CreatePolicyVersion"
             ],
             "Resource": [
                 "arn:aws:iam::<AWS_ACCOUNT_ID>:role/e6data-*",
