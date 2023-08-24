@@ -29,8 +29,19 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
     sid = "describeEKSCluster" 
     effect = "Allow"
     
-    actions = ["eks:DescribeCluster"]
+    actions = [
+      "eks:DescribeCluster",
+      "eks:ListNodegroups"  
+    ]
     resources = [module.eks.eks_cluster_arn]
+  }
+
+  statement {
+    sid = "descriEKSNodegroup" 
+    effect = "Allow"
+    
+    actions = ["eks:DescribeNodegroup"]
+    resources = [module.eks.eks_cluster_arn, aws_eks_node_group.workspace_node_group.arn]
   }
 }
 
