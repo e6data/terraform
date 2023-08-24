@@ -47,19 +47,19 @@
                 "ec2:RunInstances"
             ],
             "Resource": [
-                "arn:aws:ec2:us-east-1:352772674564:internet-gateway/*",
-                "arn:aws:ec2:us-east-1:352772674564:vpc/*",
-                "arn:aws:ec2:us-east-1:352772674564:subnet/*",
-                "arn:aws:ec2:us-east-1:352772674564:natgateway/*",
-                "arn:aws:ec2:us-east-1:352772674564:elastic-ip/*",
-                "arn:aws:ec2:us-east-1:352772674564:route-table/*",
-                "arn:aws:ec2:us-east-1:352772674564:security-group/*",
-                "arn:aws:ec2:us-east-1:352772674564:vpc-endpoint/*",
-                "arn:aws:ec2:us-east-1:352772674564:launch-template/*",
-                "arn:aws:ec2:us-east-1:352772674564:instance/*",
-                "arn:aws:ec2:us-east-1:352772674564:volume/*",
-                "arn:aws:ec2:us-east-1:352772674564:network-interface/*",
-                "arn:aws:ec2:us-east-1::image/*"
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:internet-gateway/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:vpc/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:subnet/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:natgateway/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:elastic-ip/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:route-table/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:security-group/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:vpc-endpoint/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:launch-template/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:instance/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:volume/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:network-interface/*",
+                "arn:aws:ec2:<AWS_REGION>::image/*"
             ]
         },
         {
