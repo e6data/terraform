@@ -44,6 +44,7 @@
                 "ec2:DeleteLaunchTemplate",
                 "ec2:ModifyLaunchTemplate",
                 "ec2:CreateLaunchTemplateVersion",
+                "autoscaling:UpdateAutoScalingGroup",
                 "ec2:RunInstances"
             ],
             "Resource": [
@@ -59,6 +60,7 @@
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:instance/*",
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:volume/*",
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:network-interface/*",
+                "arn:aws:autoscaling:<AWS_REGION>:<AWS_ACCOUNT_ID>:autoScalingGroup:*:autoScalingGroupName/eks-*",
                 "arn:aws:ec2:<AWS_REGION>::image/*"
             ]
         },
@@ -89,8 +91,7 @@
                 "ec2:DescribePrefixLists",
                 "ec2:DescribeLaunchTemplates",
                 "ec2:GetLaunchTemplateData",
-                "ec2:DescribeLaunchTemplateVersions",
-                "autoscaling:UpdateAutoScalingGroup"
+                "ec2:DescribeLaunchTemplateVersions"
             ],
             "Resource": "*"
         },
