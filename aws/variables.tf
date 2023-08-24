@@ -74,6 +74,12 @@ variable "e6data_cross_oidc_role_arn" {
   default = [ "arn:aws:iam::298655976287:root" ]
 }
 
+variable "e6data_cross_account_external_id" {
+  type        = string
+  description = "External ID of the cross account role to assume"
+  default = "783562"
+}
+
 variable "bucket_names" {
   type        = list(string)
   description = "List of bucket names to be queried by e6data engine"

@@ -94,7 +94,6 @@ variable "autoscaler_helm_chart_version" {
   description = "Autoscaler helm chart version"
 }
 
-
 variable "workspace_name" {
   description = "Name of e6data workspace to be created"
   type        = string
@@ -150,6 +149,12 @@ variable "e6data_cross_oidc_role_arn" {
   type        = list(string)
   description = "ARN of the cross account role to assume"
   default = [ "arn:aws:iam::298655976287:root" ]
+}
+
+variable "e6data_cross_account_external_id" {
+  type        = string
+  description = "External ID of the cross account role to assume"
+  default = "783562"
 }
 
 variable "bucket_names" {

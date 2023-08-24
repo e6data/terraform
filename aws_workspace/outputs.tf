@@ -14,16 +14,12 @@ output "cross_account_role_arn" {
   value = aws_iam_role.e6data_cross_account_role.arn
 }
 
+output "sts_external_id" {
+  value = var.e6data_cross_account_external_id
+}
+
 output "kubernetes_cluster_name" {
   value = module.eks.cluster_name
-}
-
-output "eks_nodegroup_name" {
-  value = aws_eks_node_group.workspace_node_group.node_group_name
-}
-
-output "eks_nodegroup_max_instances" {
-  value = var.max_instances_in_eks_nodegroup
 }
 
 output "kubernetes_namespace" {
