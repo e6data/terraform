@@ -66,6 +66,12 @@ data "aws_iam_policy_document" "assume_role_policy" {
       identifiers = var.e6data_cross_oidc_role_arn
       type        = "AWS"
     }
+
+    condition {
+      test     = "StringEquals"
+      variable = "sts:ExternalId"
+      values   = [var.e6data_cross_account_external_id]
+    }
   }
 }
 
