@@ -15,7 +15,7 @@ output "cross_account_role_arn" {
 }
 
 output "sts_external_id" {
-  value = var.sts_external_id
+  value = var.e6data_cross_account_external_id
 }
 
 output "kubernetes_cluster_name" {
