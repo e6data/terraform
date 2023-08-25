@@ -43,7 +43,10 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
     effect = "Allow"
     
     actions = ["eks:DescribeNodegroup"]
-    resources = [aws_eks_node_group.workspace_node_group.arn]
+    resources = [
+      data.aws_eks_cluster.current.arn,
+      "arn:aws:eks:${var.aws_region}:${data.aws_caller_identity.current.account_id}:nodegroup/${var.eks_cluster_name}/*/*"
+    ]
   }
 }
 
