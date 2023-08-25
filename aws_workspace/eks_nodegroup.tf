@@ -73,7 +73,7 @@ resource "aws_eks_node_group" "workspace_node_group" {
   tags = merge({
     "Name" = local.e6data_workspace_name
     "k8s.io/cluster-autoscaler/enabled" =  "true"
-    "k8s.io/cluster-autoscaler/${var.eks_cluster_name}" = "owned"
+    "k8s.io/cluster-autoscaler/${module.eks.cluster_name}" = "owned"
   }, var.cost_tags )
 
   lifecycle {
