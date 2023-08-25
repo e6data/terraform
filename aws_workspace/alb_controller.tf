@@ -229,7 +229,7 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
 }
 
 resource "aws_iam_policy" "alb_controller_policy" {
-  name = "e6data-${module.eks.cluster_name}-alb-controller-policy"
+  name = "${module.eks.cluster_name}-alb-controller-policy"
   description = "EKS cluster ALB controller policy for cluster ${module.eks.cluster_name}"
   policy      = data.aws_iam_policy_document.alb_controller_access_doc.json
 }
