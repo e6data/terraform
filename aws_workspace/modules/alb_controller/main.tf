@@ -48,4 +48,9 @@ resource "helm_release" "alb_controller_release" {
     name = "vpcId"
     value = var.vpc_id
   }
+
+  set {
+    name = "nodeSelector.e6data-workspace-name"
+    value = "default"
+  }
 }

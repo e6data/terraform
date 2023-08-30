@@ -77,6 +77,11 @@ resource "helm_release" "autoscaler_deployment" {
     name = "extraArgs.ignore-daemonsets-utilization"
     value = "true"
   }
+
+  set {
+    name = "nodeSelector.e6data-workspace-name"
+    value = "default"
+  }
   
   depends_on = [null_resource.waiting]
 }
