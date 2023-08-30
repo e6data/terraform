@@ -70,6 +70,12 @@ resource "aws_eks_node_group" "workspace_node_group" {
     "e6data-workspace-name" = var.workspace_name
   }
 
+  taint {
+    key    = "e6data-workspace-name"
+    value  = var.workspace_name
+    effect = "NO_SCHEDULE"
+  }
+
   tags = merge({
     "Name" = local.e6data_workspace_name
     "k8s.io/cluster-autoscaler/enabled" =  "true"
