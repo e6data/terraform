@@ -48,7 +48,7 @@ resource "aws_eks_node_group" "default_node_group" {
   subnet_ids      = module.network.private_subnet_ids
   capacity_type   = var.eks_capacity_type
   force_update_version = true
-  instance_types = ["t3-medium"]
+  instance_types = ["t3.medium"]
   launch_template {
     id      = aws_launch_template.default_nodegroup_launch_template.id
     version = aws_launch_template.default_nodegroup_launch_template.latest_version
