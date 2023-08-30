@@ -14,7 +14,10 @@ resource "aws_launch_template" "nodegroup_launch_template" {
     resource_type = "instance"
 
     tags = merge(
-      { Name = local.e6data_workspace_name},
+      { 
+        Name = local.e6data_workspace_name
+        "k8s.io/cluster-autoscaler/node-template/taint/e6data-workspace-name" = "${var.workspace_name}:true:NoSchedule"
+      },
       var.cost_tags
     )  
   }
@@ -23,7 +26,9 @@ resource "aws_launch_template" "nodegroup_launch_template" {
     resource_type = "volume"
 
     tags = merge(
-      { Name = local.e6data_workspace_name},
+      { 
+        Name = local.e6data_workspace_name
+      },
       var.cost_tags
     )  
   }
@@ -32,7 +37,7 @@ resource "aws_launch_template" "nodegroup_launch_template" {
     http_endpoint               = "enabled"
     http_tokens                 = "required"
     http_put_response_hop_limit = 1
-    instance_metadata_tags      = "enabled"
+    instance_metadata_tags      = "disabled"
   }
 
   lifecycle {
@@ -56,8 +61,8 @@ resource "aws_eks_node_group" "workspace_node_group" {
   }
 
   scaling_config {
-    min_size     = var.min_desired_instances_in_eks_nodegroup
-    desired_size = var.min_desired_instances_in_eks_nodegroup
+    min_size     = var.min_instances_in_eks_nodegroup
+    desired_size = var.desired_instances_in_eks_nodegroup
     max_size     = var.max_instances_in_eks_nodegroup
   }
 
@@ -83,7 +88,7 @@ resource "aws_eks_node_group" "workspace_node_group" {
   }, var.cost_tags )
 
   lifecycle {
-    ignore_changes = [scaling_config[0].desired_size, scaling_config[0].min_size,  update_config, tags ]
+    ignore_changes = [scaling_config[0].desired_size, scaling_config[0].min_size,  update_config , tags]
     create_before_destroy = true
   }
 
@@ -106,7 +111,7 @@ resource "aws_iam_role" "eks_nodegroup_iam_role" {
   assume_role_policy = data.aws_iam_policy_document.eks_nodegroup_iam_assume_policy.json
 }
 
-resource "null_resource" "nodegroup_asgd" {
+resource "null_resource" "nodegroup_asg_update" {
 
   provisioner "local-exec" {
     interpreter = ["/bin/sh", "-c"]
@@ -120,4 +125,16 @@ EOF
   }
 
   depends_on = [aws_eks_node_group.workspace_node_group]
+}
+
+resource "aws_autoscaling_group_tag" "autoscaler_tag" {
+
+  autoscaling_group_name = aws_eks_node_group.workspace_node_group.resources[0].autoscaling_groups[0].name
+  
+  tag {
+    key                 = "k8s.io/cluster-autoscaler/node-template/taint/e6data-workspace-name"
+    value               = "${var.workspace_name}:true:NoSchedule"
+    propagate_at_launch = true
+  }
+
 }

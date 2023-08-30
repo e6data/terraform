@@ -11,6 +11,8 @@ helm_chart_version              = "1.0.2" ### e6data workspace Helm chart versio
 
 # Kubernetes Variables
 kube_version                    = "1.27" ### The Kubernetes cluster version. Version 1.24 or higher is required.
+min_instances_in_eks_nodegroup  = 0 ### The minimum number of instances that should be created in the EKS nodegroup.
+desired_instances_in_eks_nodegroup = 0 ### The desired number of instances that should be created in the EKS nodegroup.
 max_instances_in_eks_nodegroup  = 20 ### The maximum number of instances that can be allowed in the EKS nodegroup. A minimum of 3 is required.
 eks_disk_size                   = 100 ### Disk size for the disks in the node group. A minimum of 100 GB is required.
 eks_capacity_type               = "SPOT" ### Options: ON_DEMAND or SPOT. The type of instances that should be created.
