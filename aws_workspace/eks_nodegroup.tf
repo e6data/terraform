@@ -83,7 +83,7 @@ resource "aws_eks_node_group" "workspace_node_group" {
   }, var.cost_tags )
 
   lifecycle {
-    ignore_changes = [scaling_config[0].desired_size, scaling_config[0].min_size,  update_config ]
+    ignore_changes = [scaling_config[0].desired_size, scaling_config[0].min_size,  update_config, tags ]
     create_before_destroy = true
   }
 
