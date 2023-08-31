@@ -45,6 +45,8 @@
                 "ec2:ModifyLaunchTemplate",
                 "ec2:CreateLaunchTemplateVersion",
                 "autoscaling:UpdateAutoScalingGroup",
+                "autoscaling:CreateOrUpdateTags",
+				"autoscaling:DeleteTags",
                 "ec2:RunInstances"
             ],
             "Resource": [
