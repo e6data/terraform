@@ -136,5 +136,4 @@ resource "aws_autoscaling_group_tag" "autoscaler_tag" {
     value               = "${var.workspace_name}:true:NoSchedule"
     propagate_at_launch = true
   }
-
 }

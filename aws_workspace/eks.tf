@@ -7,15 +7,7 @@ module "eks" {
   subnet_ids       = module.network.subnet_ids
   private_subnet_ids = module.network.private_subnet_ids
 
-  min_size = var.min_desired_instances_in_eks_nodegroup
-  desired_size = var.min_desired_instances_in_eks_nodegroup
-  max_size = var.max_instances_in_eks_nodegroup
-  
-  instance_type = var.eks_nodegroup_instance_types
-  disk_size = var.eks_disk_size
-
   vpc_id = module.network.vpc_id
-  capacity_type = var.eks_capacity_type
 
   depends_on = [ module.network ]
 }

@@ -19,32 +19,6 @@ variable "subnet_ids" {
   description = "Subnet ids for eks cluster"
 }
 
-variable "min_size" {
-  type        = number
-  description = "EKS Worker nodes minimum nodes"
-}
-
-variable "desired_size" {
-  type        = number
-  description = "EKS Worker nodes desired count"
-}
-
-variable "max_size" {
-  type        = number
-  description = "EKS Worker nodes maximum nodes"
-}
-
-variable "disk_size" {
-  type        = number
-  description = "Disk size in GBs"
-}
-
-variable "instance_type" {
-  type        = list(string)
-  description = "EKS Worker node EC2 instance type"
-  default     = ["m5.large"]
-}
-
 variable "vpc_id" {
   type        = string
   description = "vpc id of e6x"
@@ -71,12 +45,6 @@ variable "iam_eks_node_policy_arn" {
     "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess",
     "arn:aws:iam::aws:policy/AmazonElasticFileSystemClientFullAccess"
   ]
-}
-
-variable "capacity_type" {
-  type = string
-  description = "Instance type to use in EKS : spot/on-demand"
-  default = "SPOT"
 }
 
 variable "private_subnet_ids" {
