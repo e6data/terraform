@@ -46,7 +46,7 @@
                 "ec2:CreateLaunchTemplateVersion",
                 "autoscaling:UpdateAutoScalingGroup",
                 "autoscaling:CreateOrUpdateTags",
-				"autoscaling:DeleteTags",
+                "autoscaling:DeleteTags",
                 "ec2:RunInstances"
             ],
             "Resource": [
@@ -117,12 +117,14 @@
                 "iam:DeleteOpenIDConnectProvider",
                 "iam:DeletePolicyVersion",
                 "iam:UpdateAssumeRolePolicy",
-                "iam:CreatePolicyVersion"
+                "iam:CreatePolicyVersion",
+                "iam:CreateServiceLinkedRole"
             ],
             "Resource": [
                 "arn:aws:iam::<AWS_ACCOUNT_ID>:role/e6data-*",
                 "arn:aws:iam::<AWS_ACCOUNT_ID>:oidc-provider/*",
-                "arn:aws:iam::<AWS_ACCOUNT_ID>:policy/e6data-*"
+                "arn:aws:iam::<AWS_ACCOUNT_ID>:policy/e6data-*",
+                "arn:aws:iam::<AWS_ACCOUNT_ID>:role/aws-service-role/eks-nodegroup.amazonaws.com/AWSServiceRoleForAmazonEKSNodegroup"
             ]
         },
         {
@@ -150,8 +152,7 @@
                 "iam:ListRoleTags",
                 "iam:ListInstanceProfileTags",
                 "iam:TagOpenIDConnectProvider",
-                "iam:UntagOpenIDConnectProvider",
-                "iam:CreateServiceLinkedRole"
+                "iam:UntagOpenIDConnectProvider"
             ],
             "Resource": "*"
         },
