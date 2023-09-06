@@ -1,0 +1,144 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ec2",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateTags",
+                "ec2:DeleteTags",
+                "ec2:CreateLaunchTemplate",
+                "ec2:DeleteLaunchTemplate",
+                "ec2:ModifyLaunchTemplate",
+                "ec2:CreateLaunchTemplateVersion",
+                "autoscaling:UpdateAutoScalingGroup",
+                "autoscaling:CreateOrUpdateTags",
+                "autoscaling:DeleteTags",
+                "ec2:RunInstances"
+            ],
+            "Resource": [
+                "arn:aws:ec2:us-east-1:352772674564:launch-template/*",
+                "arn:aws:ec2:us-east-1:352772674564:instance/*",
+                "arn:aws:ec2:us-east-1:352772674564:volume/*",
+                "arn:aws:ec2:us-east-1:352772674564:network-interface/*",
+                "arn:aws:autoscaling:us-east-1:352772674564:autoScalingGroup:*:autoScalingGroupName/eks-*",
+                "arn:aws:ec2:us-east-1::image/*",
+                "arn:aws:ec2:us-east-1:352772674564:security-group/*",
+                "arn:aws:ec2:us-east-1:352772674564:subnet/*"
+            ]
+        },
+        {
+            "Sid": "readOnly",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeAvailabilityZones",
+                "ec2:DescribeRegions",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeTags",
+                "ec2:DescribeAddressesAttribute",
+                "ec2:DescribeAddresses",
+                "ec2:DescribeAccountAttributes",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSecurityGroupRules",
+                "ec2:DescribeNetworkInterfaces",
+                "autoscaling:DescribeTags",
+                "ec2:DescribePrefixLists",
+                "ec2:DescribeLaunchTemplates",
+                "ec2:GetLaunchTemplateData",
+                "ec2:DescribeLaunchTemplateVersions"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "iam",
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetPolicyVersion",
+                "iam:DeletePolicy",
+                "iam:CreateRole",
+                "iam:DeleteRole",
+                "iam:AttachRolePolicy",
+                "iam:CreateOpenIDConnectProvider",
+                "iam:CreatePolicy",
+                "iam:ListInstanceProfilesForRole",
+                "iam:DetachRolePolicy",
+                "iam:ListPolicyVersions",
+                "iam:ListAttachedRolePolicies",
+                "iam:ListRolePolicies",
+                "iam:GetOpenIDConnectProvider",
+                "iam:DeleteOpenIDConnectProvider",
+                "iam:DeletePolicyVersion",
+                "iam:UpdateAssumeRolePolicy",
+                "iam:CreatePolicyVersion",
+                "iam:CreateServiceLinkedRole"
+            ],
+            "Resource": [
+                "arn:aws:iam::352772674564:role/e6data-*",
+                "arn:aws:iam::352772674564:role/<YOUR_EKS_CLUSTER_ROLE>",
+                "arn:aws:iam::352772674564:oidc-provider/*",
+                "arn:aws:iam::352772674564:policy/e6data-*",
+                "arn:aws:iam::352772674564:role/aws-service-role/eks-nodegroup.amazonaws.com/AWSServiceRoleForAmazonEKSNodegroup"
+            ]
+        },
+        {
+            "Sid": "passRole",
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": [
+                "arn:aws:iam::352772674564:role/e6data-*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor3",
+            "Effect": "Allow",
+            "Action": [
+                "iam:ListRoles",
+                "iam:GetPolicy",
+                "iam:GetRole",
+                "iam:TagRole",
+                "iam:UntagRole",
+                "iam:TagPolicy",
+                "iam:UntagPolicy",
+                "iam:TagInstanceProfile",
+                "iam:UntagInstanceProfile",
+                "iam:ListPolicyTags",
+                "iam:ListRoleTags",
+                "iam:ListInstanceProfileTags",
+                "iam:TagOpenIDConnectProvider",
+                "iam:UntagOpenIDConnectProvider"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "s3",
+            "Effect": "Allow",
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": "arn:aws:s3:::e6data-*"
+        },
+        {
+            "Sid": "eks",
+            "Effect": "Allow",
+            "Action": [
+                "eks:DescribeCluster",
+                "eks:CreateNodegroup",
+                "eks:DescribeNodegroup",
+                "eks:DeleteNodegroup",
+                "eks:UpdateNodegroupConfig",
+                "eks:TagResource",
+                "eks:UpdateClusterConfig",
+                "eks:UpdateNodegroupVersion",
+                "eks:UpdateClusterVersion",
+                "eks:DescribeUpdate",
+                "eks:AccessKubernetesApi",
+                "eks:UpdateAddon",
+                "eks:UntagResource"
+            ],
+            "Resource": [
+                "arn:aws:eks:us-east-1:352772674564:cluster/<YOUR_EKS_CLSUTER_NAME>",
+                "arn:aws:eks:us-east-1:352772674564:nodegroup/<YOUR_EKS_CLSUTER_NAME>/e6data-*"
+            ]
+        }
+    ]
+}
