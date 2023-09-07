@@ -2,8 +2,8 @@ locals {
   e6data_workspace_name = "e6data-workspace-${var.workspace_name}"
   bucket_names_with_full_path = [for bucket_name in var.bucket_names : "arn:aws:s3:::${bucket_name}/*"]
   bucket_names_with_arn = [for bucket_name in var.bucket_names : "arn:aws:s3:::${bucket_name}"]
-
   oidc_tls_suffix = replace(data.aws_eks_cluster.current.identity[0].oidc[0].issuer, "https://", "")
+  current_time         = formatdate("YYYYMMDDhhmmss", timestamp())
 
   helm_values_file =yamlencode({
     cloud = {
