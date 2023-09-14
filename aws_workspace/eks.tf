@@ -4,7 +4,7 @@ module "eks" {
   kube_version     = var.kube_version
   cluster_log_types = var.cluster_log_types
 
-  subnet_ids       = module.network.subnet_ids
+  subnet_ids       = module.network.private_subnet_ids
   private_subnet_ids = module.network.private_subnet_ids
 
   vpc_id = module.network.vpc_id

@@ -33,10 +33,17 @@ bucket_names                    = ["*"] ### List of bucket names that the e6data
 kubernetes_namespace            = "namespace" ### Value of the Kubernetes namespace to deploy the e6data workspace.
 
 # Cost Tags
-cost_tags = {}
+cost_tags = {
+  Team = "PLT"
+  Operation = "PLT-QA"
+  Environment = "Dev"
+  App = "e6data"
+  User = "karan@e6x.io"
+  permanent = "true"
+}
 
 # AWS Command Line Variable
-aws_command_line_path           = "aws"  ### Specify the path to the AWS Command Line Interface executable. Run "which aws" command to get the exact path.
+aws_command_line_path           = "/usr/local/bin/aws"  ### Specify the path to the AWS Command Line Interface executable. Run "which aws" command to get the exact path.
 
 # Autoscaler Variables
 autoscaler_namespace            = "kube-system"          ### Namespace to deploy the cluster autoscaler
