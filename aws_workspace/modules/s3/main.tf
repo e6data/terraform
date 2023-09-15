@@ -78,7 +78,7 @@ resource "aws_s3_bucket_acl" "my_protected_bucket_acl" {
   depends_on = [aws_s3_bucket_ownership_controls.s3_bucket_acl_ownership, null_resource.waiting ]
 }
 
-resource "aws_s3_bucket_lifecycle_configuration" "delete_cached_results" {
+resource "aws_s3_bucket_lifecycle_configuration" "delete_cached_results_lifecycle_rule" {
   rule {
     id      = "ExpirecacheObjects"
     status  = "Enabled"
