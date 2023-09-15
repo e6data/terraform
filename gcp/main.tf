@@ -1,11 +1,11 @@
 # # Create GKE nodepool for workspace
 resource "google_container_node_pool" "workspace" {
-  name             = local.e6data_workspace_name
+  name        = local.e6data_workspace_name
   /* location         = var.kubernetes_cluster_location */
   cluster          = data.google_container_cluster.gke_cluster.id
-  initial_node_count = 2
+  initial_node_count = 0
   autoscaling {
-    total_min_node_count = 2
+    total_min_node_count = 0
     total_max_node_count = var.max_instances_in_nodegroup
     location_policy = "ANY"
   }
@@ -15,6 +15,17 @@ resource "google_container_node_pool" "workspace" {
     workload_metadata_config {
       mode = "GKE_METADATA"
     }
+
+    labels = {
+      e6data-workspace-name                   = var.workspace_name
+      app                                     = "e6data"
+    }
+
+    taint = [{
+      key    = "e6data-workspace-name"
+      value  = var.workspace_name
+      effect = "NO_SCHEDULE"
+    }]
   }
 }
 
