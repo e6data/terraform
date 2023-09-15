@@ -113,4 +113,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "example_lifecycle" {
   }
 
   bucket = aws_s3_bucket.my_protected_bucket.id
+
+  depends_on = [ aws_s3_bucket.my_protected_bucket, null_resource.waiting ]
+
 }
