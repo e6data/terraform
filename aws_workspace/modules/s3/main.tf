@@ -78,3 +78,39 @@ resource "aws_s3_bucket_acl" "my_protected_bucket_acl" {
   depends_on = [aws_s3_bucket_ownership_controls.s3_bucket_acl_ownership, null_resource.waiting ]
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "example_lifecycle" {
+  rule {
+    id      = "ExpirecacheObjects"
+    status  = "Enabled"
+    filter {
+      prefix = "cached-query-results/"
+    }
+
+    expiration {
+      days = 1
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 1
+    }
+
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 1
+    }
+  }
+
+  rule {
+    id     = "DeleteExpiredDeleteMarkers"
+    status = "Enabled"
+
+    filter {
+      prefix = "cached-query-results/"
+    }
+    
+    expiration {
+      expired_object_delete_marker = true
+    }
+  }
+
+  bucket = aws_s3_bucket.my_protected_bucket.id
+}
