@@ -142,6 +142,7 @@
                 "iam:ListRoles",
                 "iam:GetPolicy",
                 "iam:GetRole",
+                "iam:GetRolePolicy",
                 "iam:TagRole",
                 "iam:UntagRole",
                 "iam:TagPolicy",
