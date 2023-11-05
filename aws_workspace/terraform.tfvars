@@ -5,7 +5,7 @@ aws_region                      = "us-east-1" ### AWS region of the EKS cluster.
 workspace_name                  = "workspace" ### Name of the e6data workspace to be created.
 # Note: The variable workspace_name should meet the following criteria:
 # a) Accepts only lowercase alphanumeric characters.
-# b) Must have a minimum of 3 characters.
+# b) Must have a minimum of 3 characters and maximum of 35 characters
 
 helm_chart_version              = "1.0.3" ### e6data workspace Helm chart version to be used.
 
