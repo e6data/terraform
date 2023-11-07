@@ -5,8 +5,8 @@ This repo contains the Terraform scripts used to deploy e6data in a  Kubernetes 
 Please navigate to the instructions to deploy in different cloud providers using the links below:
 
 - Amazon Web Services (AWS)
-  - [Deploy an e6data Workspace in an existing EKS Cluster](aws/README.md)
-  - [Create a new EKS Cluster with prerequisites for e6data](eks/README.md) (optional, if EKS cluster is not present)
+  - [Deploy an e6data Workspace in an existing EKS Cluster](e6data_with_existing_eks/README.md)
+  - [Create a new EKS Cluster with prerequisites for e6data](e6data_with_new_eks/README.md) (optional, if EKS cluster is not present)
 - [Google Cloud Platform (GCP)](gcp/README.md)
 
 Additional information about the components created by these scripts and required permissions can be found in the e6data Documentation:
