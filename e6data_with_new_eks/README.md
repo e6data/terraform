@@ -5,7 +5,7 @@ This terraform script broadly consists of two parts:
 2. e6data workspace
 
 ## **Terraform Setup**
-The steps are alreaady mentioned in the [terraform_setup.md](../docs/terraform_setup.md) file.
+The steps are already mentioned in the [terraform_setup.md](../docs/terraform_setup.md) file.
 
 The permissions required for the terraform user are mentioned in the [terraform_permissions.json](../docs/terraform_permissions.json) file.
 
