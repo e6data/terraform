@@ -260,6 +260,13 @@ resource "aws_ec2_tag" "subnet_cluster_tag" {
   value       = "1"
 }
 
+resource "aws_ec2_tag" "private_subnet_cluster_tag" {
+  count    =    length(module.network.private_subnet_ids)
+  resource_id = module.network.private_subnet_ids[count.index]
+  key         = "kubernetes.io/role/internal-elb"
+  value       = "1"
+}
+
 data "aws_elb_service_account" "main" {}
 
 module "aws_ingress_controller" {
