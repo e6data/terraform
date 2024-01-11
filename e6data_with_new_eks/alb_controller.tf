@@ -323,7 +323,7 @@ resource "aws_lb" "lb" {
 }
 
 resource "kubernetes_ingress_v1" "default_ingress" {
-  provider = kubernetes.engine
+  provider = kubernetes.e6data
 
   metadata {
     name = "dummy-ingress"
