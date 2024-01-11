@@ -321,3 +321,41 @@ resource "aws_lb" "lb" {
     ignore_changes = [tags, tags_all]
   }
 }
+
+resource "kubernetes_ingress_v1" "default_ingress" {
+  provider = kubernetes.engine
+
+  metadata {
+    name = "dummy-ingress"
+    namespace = var.kubernetes_namespace
+    annotations = {
+    "alb.ingress.kubernetes.io/scheme" = "internet-facing"
+    "alb.ingress.kubernetes.io/group.name" = var.workspace_name
+    // "alb.ingress.kubernetes.io/security-groups" = var.security_group_id
+    // "alb.ingress.kubernetes.io/ssl-redirect" = "443"
+    "alb.ingress.kubernetes.io/certificate-arn" = "arn:aws:acm:us-east-1:245069423449:certificate/266d7b1e-806f-4bc8-832d-cddcce3351b7"
+    "alb.ingress.kubernetes.io/listen-ports" = "[{\"HTTPS\":443}]"
+    "alb.ingress.kubernetes.io/healthcheck-path" = "/health"
+    "alb.ingress.kubernetes.io/target-type" = "instance"
+    }
+  }
+
+  spec {
+    ingress_class_name = "alb"
+    rule {
+      host = "dummy-ingress.abc.io"
+      http {
+        path {
+          backend {
+            service {
+              name = "dummy-ingress"
+              port {
+                number = 80
+              }
+            }
+          }
+        }  
+      }
+    }
+  }
+}  
