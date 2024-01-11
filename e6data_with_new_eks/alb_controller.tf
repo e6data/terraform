@@ -333,7 +333,7 @@ resource "kubernetes_ingress_v1" "default_ingress" {
     "alb.ingress.kubernetes.io/group.name" = var.workspace_name
     // "alb.ingress.kubernetes.io/security-groups" = var.security_group_id
     // "alb.ingress.kubernetes.io/ssl-redirect" = "443"
-    "alb.ingress.kubernetes.io/certificate-arn" = "arn:aws:acm:us-east-1:245069423449:certificate/266d7b1e-806f-4bc8-832d-cddcce3351b7"
+    "alb.ingress.kubernetes.io/certificate-arn" = "arn:aws:acm:us-east-1:245069423449:certificate/002959e7-1d83-44de-a525-a63851e398c0"
     "alb.ingress.kubernetes.io/listen-ports" = "[{\"HTTPS\":443}]"
     "alb.ingress.kubernetes.io/healthcheck-path" = "/health"
     "alb.ingress.kubernetes.io/target-type" = "instance"
