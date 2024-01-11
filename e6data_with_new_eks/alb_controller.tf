@@ -288,3 +288,36 @@ module "aws_ingress_controller" {
 
   depends_on = [ module.alb_controller_oidc, module.autoscaler_deployment, aws_eks_node_group.workspace_node_group]
 }
+
+module "lb_sec_grp" {
+  source = "./modules/security_group"
+
+  service_ports  = [443]
+  sec_grp_name   = "demotest loadbalancer sec grp"
+  vpc_id         = module.network.vpc_id
+  cidr_block     = ["0.0.0.0/0"]
+}
+
+resource "aws_lb" "lb" {
+  name               = "e6data-${var.workspace_name}-alb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [module.lb_sec_grp.id]
+  subnets            = module.network.public_subnet_ids
+  idle_timeout       = "1200"
+
+  enable_deletion_protection = true
+
+  tags = {
+    "ingress.k8s.aws/stack" = var.workspace_name
+    "ingress.k8s.aws/resource" = "LoadBalancer"
+    "elbv2.k8s.aws/cluster"    = module.eks.cluster_name
+    "alb.ingress.kubernetes.io/group.name" = var.workspace_name
+    "alb.ingress.kubernetes.io/scheme" = "internet-facing"
+    # "alb.ingress.kubernetes.io/target-type" = "ip"
+  }
+
+  lifecycle {
+    ignore_changes = [tags, tags_all]
+  }
+}
