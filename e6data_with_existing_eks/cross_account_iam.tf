@@ -302,6 +302,6 @@ data "aws_iam_policy_document" "assume_role_policy" {
 
 resource "aws_iam_role" "e6data_cross_account_role" {
   name = "${local.e6data_workspace_name}-cross-account-role"
-  managed_policy_arns = [aws_iam_policy.e6data_s3_read_write_policy.arn, aws_iam_policy.e6data_cross_account_eks_policy.arn, aws_iam_policy.e6data_connectivity_v2_policy]
+  managed_policy_arns = [aws_iam_policy.e6data_s3_read_write_policy.arn, aws_iam_policy.e6data_cross_account_eks_policy.arn, aws_iam_policy.e6data_connectivity_v2_policy.arn]
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
