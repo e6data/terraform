@@ -60,6 +60,8 @@ data "aws_iam_policy_document" "connectivity_v2" {
       "wafv2:GetWebACL",
       "wafv2:DisassociateWebACL",
       "ec2:DescribeSecurityGroups",
+      "ec2:DescribeInstances",
+      "servicequotas:GetServiceQuota"
     ]
   }
 
