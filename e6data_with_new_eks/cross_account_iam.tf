@@ -58,6 +58,7 @@ data "aws_iam_policy_document" "connectivity_v2" {
       "ec2:CreateSecurityGroup",
       "ec2:DescribeRouteTables",
       "wafv2:GetWebACL",
+      "wafv2:GetWebACLForResource",
       "wafv2:DisassociateWebACL",
       "ec2:DescribeSecurityGroups",
       "ec2:DescribeInstances",
