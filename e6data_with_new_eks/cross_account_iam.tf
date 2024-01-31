@@ -103,7 +103,7 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
     condition {
       test = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-      values = ["true"]
+      values = ["false"]
     }
   }
 
@@ -115,7 +115,7 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
 
     condition {
       test = "StringEquals"
-      variable = "ec2:ResourceTag/elbv2.k8s.aws/cluster"
+      variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
       values = ["false"]
     }
   }
@@ -123,12 +123,25 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
   statement {
     sid = "AllowCreateELB"
     effect = "Allow"
-    actions = ["elasticloadbalancing:CreateLoadBalancer", "elasticloadbalancing:DeleteLoadBalancer"]
+    actions = ["elasticloadbalancing:CreateLoadBalancer"]
     resources = ["*"]
 
     condition {
       test = "Null"
-      variable = "ec2:ResourceTag/elbv2.k8s.aws/cluster"
+      variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
+      values = ["false"]
+    }
+  }
+
+  statement {
+    sid = "AllowDeleteELB"
+    effect = "Allow"
+    actions = ["elasticloadbalancing:DeleteLoadBalancer"]
+    resources = ["*"]
+
+    condition {
+      test = "Null"
+      variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
       values = ["false"]
     }
   }
