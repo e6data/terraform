@@ -45,10 +45,11 @@ resource "aws_eks_node_group" "default_node_group" {
   version         = var.kube_version
   node_group_name = "${local.e6data_workspace_name}-default-${element(split(".", var.kube_version),1)}"
   node_role_arn   = aws_iam_role.eks_nodegroup_iam_role.arn
+  ami_type        = "AL2_ARM_64"
   subnet_ids      = module.network.private_subnet_ids
   capacity_type   = var.eks_capacity_type
   force_update_version = true
-  instance_types = ["t3.medium"]
+  instance_types = ["t4g.medium"]
   launch_template {
     id      = aws_launch_template.default_nodegroup_launch_template.id
     version = aws_launch_template.default_nodegroup_launch_template.latest_version
