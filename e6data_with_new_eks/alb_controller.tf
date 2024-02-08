@@ -250,7 +250,7 @@ module "alb_controller_oidc" {
   kubernetes_namespace = var.alb_ingress_controller_namespace
   kubernetes_service_account_name = var.alb_ingress_controller_service_account_name
 
-  depends_on = [ module.eks, aws_eks_node_group.workspace_node_group ]
+  depends_on = [ module.eks, aws_eks_node_group.default_node_group ]
 }
 
 resource "aws_ec2_tag" "subnet_cluster_tag" {
@@ -286,5 +286,5 @@ module "aws_ingress_controller" {
   region = var.aws_region
   vpc_id = module.network.vpc_id
 
-  depends_on = [ module.alb_controller_oidc, module.autoscaler_deployment, aws_eks_node_group.workspace_node_group]
+  depends_on = [ module.alb_controller_oidc, module.autoscaler_deployment, aws_eks_node_group.default_node_group]
 }

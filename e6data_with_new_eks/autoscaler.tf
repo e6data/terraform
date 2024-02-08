@@ -68,7 +68,7 @@ module "autoscaler_oidc" {
   kubernetes_namespace = var.autoscaler_namespace
   kubernetes_service_account_name = var.autoscaler_service_account_name
 
-  depends_on = [aws_iam_policy.cluster_autoscaler, aws_eks_node_group.workspace_node_group]
+  depends_on = [aws_iam_policy.cluster_autoscaler, aws_eks_node_group.default_node_group]
 }
 
 
@@ -89,5 +89,5 @@ module "autoscaler_deployment" {
   cluster_name = module.eks.cluster_name
   region = var.aws_region
   
-  depends_on = [module.eks, module.autoscaler_oidc, aws_eks_node_group.workspace_node_group]
+  depends_on = [module.eks, module.autoscaler_oidc, aws_eks_node_group.default_node_group]
 }
