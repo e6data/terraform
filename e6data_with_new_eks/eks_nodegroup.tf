@@ -1,6 +1,6 @@
 # Create EKS node group for workspace
 resource "aws_launch_template" "nodegroup_launch_template" {
-  name = "${local.e6data_workspace_name}-nodegroup-launch-template-${element(split(".", var.kube_version),1)}"
+  name_prefix = "${local.e6data_workspace_name}-"
 
   block_device_mappings {
     device_name = "/dev/xvda"
@@ -48,7 +48,7 @@ resource "aws_launch_template" "nodegroup_launch_template" {
 resource "aws_eks_node_group" "workspace_node_group" {
   cluster_name    = module.eks.cluster_name
   version         = var.kube_version
-  node_group_name = "${local.e6data_workspace_name}-${element(split(".", var.kube_version),1)}"
+  node_group_name_prefix = "${local.e6data_workspace_name}-"
   node_role_arn   = aws_iam_role.eks_nodegroup_iam_role.arn
   ami_type        = "AL2_ARM_64"
   subnet_ids      = module.network.private_subnet_ids
