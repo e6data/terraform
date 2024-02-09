@@ -2,7 +2,7 @@ resource "aws_subnet" "private" {
   
   for_each = local.private_subnets
 
-  vpc_id            = aws_vpc.vpc.id
+  vpc_id            = data.aws_vpc.vpc.id
   availability_zone = each.value.az
   cidr_block = each.value.cidr
 
@@ -16,12 +16,10 @@ resource "aws_subnet" "private" {
   lifecycle {
     ignore_changes = [tags]
   }
-
-  depends_on = [ aws_vpc.vpc ]
 }
 
 resource "aws_route_table" "private_route_table" {
-  vpc_id = aws_vpc.vpc.id
+  vpc_id = data.aws_vpc.vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"

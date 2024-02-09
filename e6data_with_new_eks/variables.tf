@@ -24,9 +24,9 @@ variable "cluster_log_types" {
   default     = ["scheduler", "controllerManager", "authenticator", "audit"]
 }
 
-variable "cidr_block" {
+variable "vpc_id" {
   type        = string
-  description = "Base CIDR block which will be divided into subnet CIDR blocks (e.g. `10.0.0.0/16`)"
+  description = "VPC ID to create e6data resources"
 }
 
 variable "excluded_az" {
