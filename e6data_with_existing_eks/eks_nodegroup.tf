@@ -47,7 +47,7 @@ resource "aws_launch_template" "nodegroup_launch_template" {
 resource "aws_eks_node_group" "workspace_node_group" {
   cluster_name    = data.aws_eks_cluster.current.name
   version         = var.kube_version
-  node_group_name_prefix = "${local.e6data_workspace_name}-"
+  node_group_name = "${local.e6data_workspace_name}-${element(split(".", var.kube_version),1)}"
   node_role_arn   = aws_iam_role.eks_nodegroup_iam_role.arn
   ami_type        = "AL2_ARM_64"
   subnet_ids      = data.aws_eks_cluster.current.vpc_config[0].subnet_ids
