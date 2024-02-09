@@ -19,8 +19,8 @@ eks_capacity_type               = "SPOT" ### Options: ON_DEMAND or SPOT. The typ
 eks_nodegroup_instance_types    = ["r7g.8xlarge","r7g.12xlarge","r7g.16xlarge", "r6g.8xlarge","r6g.12xlarge","r6g.16xlarge"]
 
 # Network Variables
-cidr_block                      = "10.200.0.0/16"
-excluded_az                     = ["us-east-1e"]
+vpc_id                          = "vpc-0fe0a4e9ab2ce3a8b"
+excluded_az                     = ["us-east-1d","us-east-1e","us-east-1f"]
 
 # EKS Cluster Variables
 cluster_name                    = "ekscluster"            ### The name of the Kubernetes cluster to be created for the e6data workspace.
