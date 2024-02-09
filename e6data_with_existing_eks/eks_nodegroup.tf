@@ -1,6 +1,6 @@
 # Create EKS node group for workspace
 resource "aws_launch_template" "nodegroup_launch_template" {
-  name_prefix = "${local.e6data_workspace_name}-"
+  name = "${local.e6data_workspace_name}-nodegroup-launch-template-${element(split(".", var.kube_version),1)}"
 
   block_device_mappings {
     device_name = "/dev/xvda"
