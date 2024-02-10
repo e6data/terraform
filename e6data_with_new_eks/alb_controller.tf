@@ -205,6 +205,7 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
         "arn:aws:elasticloadbalancing:*:*:listener-rule/app/*/*", 
         "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
         "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+        "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*"
     ]
   }
   
