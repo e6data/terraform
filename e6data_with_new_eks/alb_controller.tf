@@ -131,7 +131,7 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
 
   statement {
     actions = [
-        # "elasticloadbalancing:CreateLoadBalancer",
+        "elasticloadbalancing:CreateLoadBalancer",
         "elasticloadbalancing:CreateTargetGroup"
     ]
     resources = ["*"]
@@ -179,7 +179,7 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
         "elasticloadbalancing:SetIpAddressType",
         "elasticloadbalancing:SetSecurityGroups",
         "elasticloadbalancing:SetSubnets",
-        # "elasticloadbalancing:DeleteLoadBalancer",
+        "elasticloadbalancing:DeleteLoadBalancer",
         "elasticloadbalancing:ModifyLoadBalancerAttributes",
         "elasticloadbalancing:ModifyTargetGroup",
         "elasticloadbalancing:ModifyTargetGroupAttributes",
