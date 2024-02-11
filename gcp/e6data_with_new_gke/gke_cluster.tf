@@ -1,8 +1,3 @@
-# locals {
-#   # Hack to work around https://github.com/hashicorp/terraform/issues/15605 and https://github.com/hashicorp/terraform/issues/16380
-#   encryption_key = var.gke_encryption_state == "DECRYPTED" ? "" : google_kms_crypto_key.crypto_key.id 
-# }
-
 provider "kubernetes" {
   alias                  = "gke_e6data"
 
@@ -27,6 +22,7 @@ module "gke_e6data" {
   network            = module.network.network_self_link
   subnetwork         = module.network.subnetwork_self_link
   gke_version        = var.gke_version
+  default_nodepool_instance_type = var.default_nodepool_instance_type
 
   initial_node_count             = var.gke_e6data_initial_node_count
   daily_maintenance_window_start = var.daily_maintenance_window_start
@@ -40,6 +36,6 @@ module "gke_e6data" {
 
   dns_cache_enabled    = var.gke_dns_cache_enabled
 
-  oauth_scopes = var.oauth_scopes
+  # oauth_scopes = var.oauth_scopes
   
 }

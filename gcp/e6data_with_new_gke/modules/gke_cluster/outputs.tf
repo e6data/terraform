@@ -17,3 +17,7 @@ output "gke_cluster_cluster_ca_certificate" {
 output "gke_cluster_id" {
   value = google_container_cluster.gke_cluster.id
 }
+
+output "google_client_config_access_token" {
+  value = data.google_client_config.default.access_token
+}

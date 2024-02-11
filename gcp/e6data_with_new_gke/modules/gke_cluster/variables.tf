@@ -60,8 +60,12 @@ variable "dns_cache_enabled" {
   default     = false
 }
 
-variable "oauth_scopes" {
-  description = "oauth scopes for gke cluster"
-  type        = list(string)
-}
+# variable "oauth_scopes" {
+#   description = "oauth scopes for gke cluster"
+#   type        = list(string)
+# }
 
+variable "default_nodepool_instance_type" {
+  type        = string
+  description = "the GKE instance type for default nodepool"
+}

@@ -23,7 +23,7 @@ variable "cluster_name" {
 variable "platform_sa_email" {
   description = "Platform service account email"
   type = string
-  default = "e6-customer-prod-xpopt@e6data-analytics.iam.gserviceaccount.com"
+  default = "e6-customer-dev-3s2et@e6data-analytics.iam.gserviceaccount.com"
 }
 
 
@@ -118,7 +118,7 @@ variable "gke_dns_cache_enabled" {
 variable "control_plane_user" {
   description = "Control plane user to be added to e6data workspace"
   type = list(string)
-  default = [ "106303122587621488869" ]
+  default = [ "112892618221467749441" ]
 }
 
 variable "max_instances_in_nodegroup" {
@@ -148,8 +148,13 @@ variable "helm_chart_version" {
   default = "1.0.1"
 }
 
-variable "oauth_scopes" {
-  description = "oauth scopes for gke cluster"
-  type        = list(string)
-}
+# variable "oauth_scopes" {
+#   description = "oauth scopes for gke cluster"
+#   type        = list(string)
+# }
 
+// default nodepool variables
+variable "default_nodepool_instance_type" {
+  type        = string
+  description = "the GKE instance type for default nodepool"
+}

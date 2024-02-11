@@ -1,10 +1,10 @@
 env = "dev"
-workspace_name="harshith"
+workspace_name="harshith-yo"
 gcp_region = "us-central1"
-cluster_name="harshith"
+cluster_name="harshith-yo"
 gcp_project_id="numeric-datum-351807"
-kubernetes_namespace="harshith"
-
+kubernetes_namespace="harshith-yo"
+default_nodepool_instance_type="e2-medium"
 ######## GCP NETWORK VARIABLES ############
 gke_subnet_ip_cidr_range           = "10.100.0.0/18"  # Subnet IP Range
 
@@ -39,5 +39,5 @@ gke_dns_cache_enabled           = true
 ######## GKE-APPS VARIABLES ########
 gke_e6data_initial_node_count     = 1
 gke_e6data_max_pods_per_node      = 64
-gke_e6data_instance_type          = "e2-medium"
+gke_e6data_instance_type          = "c2-standard-30"
 max_instances_in_nodegroup        = 50

@@ -35,12 +35,6 @@ resource "google_container_cluster" "gke_cluster" {
 
   }
 
-  # Support to encrypt the etcd data in GKE cluster
-  # database_encryption {
-  #   state    = var.gke_encryption_state
-  #   key_name = var.gke_encryption_key
-  # }
-
   master_authorized_networks_config {
     cidr_blocks {
       cidr_block   = "0.0.0.0/0"
@@ -64,7 +58,7 @@ resource "google_container_cluster" "gke_cluster" {
 
 data "google_client_config" "default" {}
 
-resource "google_container_node_pool" "gke_cluster-nodepool" {
+resource "google_container_node_pool" "default_gke_cluster_nodepool" {
   name              = "${var.cluster_name}-node-pool"
   location          = var.region
   cluster           = google_container_cluster.gke_cluster.name
@@ -73,12 +67,10 @@ resource "google_container_node_pool" "gke_cluster-nodepool" {
   max_pods_per_node = 64
 
   node_config {
-    oauth_scopes = tolist(var.oauth_scopes)
-
     disk_size_gb = 100
 
     spot = false
-    machine_type = "e2-medium"
+    machine_type = var.default_nodepool_instance_type
 
     workload_metadata_config {
       mode = "GKE_METADATA"
