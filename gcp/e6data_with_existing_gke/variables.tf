@@ -36,7 +36,7 @@ variable "kubernetes_cluster_zone" {
 variable "platform_sa_email" {
   description = "Platform service account email"
   type = string
-  default = "e6-customer-prod-xpopt@e6data-analytics.iam.gserviceaccount.com"
+  default = "e6-customer-dev-3s2et@e6data-analytics.iam.gserviceaccount.com"
 }
 
 variable "nodegroup_instance_type" {
@@ -53,5 +53,5 @@ variable "helm_chart_version" {
 variable "control_plane_user" {
   description = "Control plane user to be added to e6data workspace"
   type = list(string)
-  default = [ "106303122587621488869" ]
+  default = [ "112892618221467749441" ]
 }
