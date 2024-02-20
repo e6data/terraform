@@ -1,24 +1,50 @@
 locals {
   e6data_workspace_name = "e6data-workspace-${var.workspace_name}"
-  workspace_role_name = replace(var.workspace_name, "-", "_")
-  workspace_write_role_name = "e6data_${local.workspace_role_name}_write"
-  workspace_read_role_name = "e6data_${local.workspace_role_name}_read"
-  cluster_viewer_role_name = "e6data_${local.workspace_role_name}_cluster_viewer"
-  workload_role_name = "e6data_${local.workspace_role_name}_workload_identity_user"
+  bucket_names_with_full_path = [for bucket_name in var.bucket_names : "arn:aws:s3:::${bucket_name}/*"]
+  bucket_names_with_arn = [for bucket_name in var.bucket_names : "arn:aws:s3:::${bucket_name}"]
 
-  kubernetes_cluster_location = var.gcp_region
+  oidc_tls_suffix = replace(module.eks.eks_oidc_tls, "https://", "")
 
   helm_values_file =yamlencode({
     cloud = {
-      type = "GCP"
-      oidc_value = google_service_account.workspace_sa.email
-      control_plane_user = var.control_plane_user
+      type = "AWS"
+      oidc_value = aws_iam_role.e6data_engine_role.arn
+      control_plane_user = ["e6data-${var.workspace_name}-user"]
     }
   })
-   
+
+  mapUsers = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapUsers"], "")
+  mapRoles = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapRoles"], "")
+  mapAccounts = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapAccounts"], "")
+
+  mapRoles2 = yamldecode(local.mapRoles)
+
+  myroles = [{
+    "rolearn"=  aws_iam_role.e6data_cross_account_role.arn,
+    "username"= "e6data-${var.workspace_name}-user"
+  }]
+
+  totalRoles = concat(local.mapRoles2, local.myroles)
+  totalRoles2 = yamlencode(local.totalRoles)
+
+  mapData = {
+     mapUsers = local.mapUsers == "" ? "" : local.mapUsers
+     mapRoles = local.totalRoles2
+     mapAccounts = local.mapAccounts == "" ? "" : local.mapAccounts
+  }
+
+  map2 = { for k, v in local.mapData : k => v if v != "" }
+
+  map3 = { for k, v in local.map2 : k =>  replace(v, "\"", "") }
 }
 
-data "google_project" "current" {
+data "aws_caller_identity" "current" {
 }
 
-data "google_client_config" "default" {}
+# data "aws_eks_cluster" "current" {
+#   name = module.eks.cluster_name
+# }
+
+data "aws_eks_cluster_auth" "current" {
+  name = module.eks.cluster_name
+}

@@ -6,6 +6,6 @@ module "network" {
 
   workspace_name = var.workspace_name
 
-  vpc_id              = var.vpc_id
+  cidr_block          = var.cidr_block
   excluded_az         = var.excluded_az
 }

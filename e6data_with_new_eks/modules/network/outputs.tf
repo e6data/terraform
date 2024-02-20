@@ -25,10 +25,10 @@ output "subnet_ids" {
 
 output "vpc_id" {
   description = "The vpc ID"
-  value = data.aws_vpc.vpc.id
+  value = aws_vpc.vpc.id
 }
 
 output "vpc_cidr" {
   description = "The vpc CIDR"
-  value = data.aws_vpc.vpc.cidr_block
+  value = aws_vpc.vpc.cidr_block
 }
