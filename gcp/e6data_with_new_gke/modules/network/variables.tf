@@ -24,11 +24,6 @@ variable "cloud_nat_ports_per_vm" {
   type        = number
 }
 
-variable "tcp_transitory_idle_timeout_sec" {
-  description = "The TCP transitory idle timeout in seconds"
-  type        = number
-}
-
 variable "cloud_nat_log_config" {
   description = "The configuration for the cloud NAT logs"
   type        = map

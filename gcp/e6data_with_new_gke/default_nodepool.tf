@@ -9,7 +9,7 @@ resource "google_container_node_pool" "default_gke_cluster_nodepool" {
   node_config {
     disk_size_gb = 30
 
-    spot = false
+    spot         = var.spot_enabled
     machine_type = var.default_nodepool_instance_type
 
     workload_metadata_config {

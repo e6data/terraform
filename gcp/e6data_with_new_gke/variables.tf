@@ -59,12 +59,6 @@ variable "cloud_nat_ports_per_vm" {
   default     = 0
 }
 
-variable "tcp_transitory_idle_timeout_sec" {
-  description = "The TCP transitory idle timeout in seconds"
-  type        = number
-  default     = 30
-}
-
 variable "cloud_nat_log_config" {
   description = "The configuration for the cloud NAT logs"
   type        = map
@@ -129,3 +123,7 @@ variable "default_nodepool_instance_type" {
   description = "the GKE instance type for default nodepool"
 }
 
+variable "spot_enabled" {
+  type        = bool
+  description = "Enable spot instances in node pools"
+}

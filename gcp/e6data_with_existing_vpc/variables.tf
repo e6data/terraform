@@ -61,16 +61,19 @@ variable "vpc_flow_logs_config" {
 variable "cloud_nat_ports_per_vm" {
   description = "The number of ports allocated per VM"
   type        = number
+  default     = 0
 }
 
 variable "tcp_transitory_idle_timeout_sec" {
   description = "The TCP transitory idle timeout in seconds"
   type        = number
+  default     = 30
 }
 
 variable "cloud_nat_log_config" {
   description = "The configuration for the cloud NAT logs"
   type        = map
+  default     = null
 }
 
 variable "gke_e6data_master_ipv4_cidr_block" {
@@ -100,11 +103,15 @@ variable "control_plane_user" {
   default = [ "112892618221467749441" ]
 }
 
+variable "spot_enabled" {
+  type        = bool
+  description = "Enable spot instances in node pools"
+}
+
 variable "max_instances_in_nodegroup" {
   description = "Maximum number of instances in nodegroup"
   type = number
 }
-
 
 variable "gke_e6data_max_pods_per_node" {
   type        = string
@@ -131,4 +138,3 @@ variable "default_nodepool_instance_type" {
   type        = string
   description = "the GKE instance type for default nodepool"
 }
-

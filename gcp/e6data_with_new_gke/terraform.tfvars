@@ -19,6 +19,7 @@ gke_e6data_master_ipv4_cidr_block   = "10.103.4.0/28"
 gke_version                         = "1.26"                          # The version of GKE to use
 gke_encryption_state                = "DECRYPTED"                     # The encryption state for GKE (It is recommended to use encryption)
 gke_dns_cache_enabled               = true                            # The status of the NodeLocal DNSCache addon.
+spot_enabled                        = true                            # A boolean that represents whether the underlying node VMs are spot.
 
 # GKE Cluster variables
 cluster_name                        = "gkecluster"                   # The name of the GKE cluster
@@ -31,11 +32,6 @@ max_instances_in_nodegroup          = 50                              # The maxi
 
 # Kubernetes Namespace
 kubernetes_namespace                = "namespace"                   # The namespace to use for Kubernetes resources
-
-######### NAT CONFIGURATION ###################
-cloud_nat_ports_per_vm              = "0"                             # The number of ports per VM for Cloud NAT
-tcp_transitory_idle_timeout_sec     = "30"                            # The TCP transitory idle timeout in seconds
-cloud_nat_log_config                = null                            # The log configuration for Cloud NAT
 
 # Cost Labels
 cost_labels                         = {}                              # Cost labels for tracking costs
