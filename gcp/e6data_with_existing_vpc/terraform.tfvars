@@ -1,6 +1,6 @@
 # GCP Variables
 gcp_region                          = "us-central1"                   # The region where the e6data resources will be created
-gcp_project_id                      = "numeric-datum-351807"          # The ID of the GCP project
+gcp_project_id                      = "<gcp_project_id>"          # The ID of the GCP project
 
 # e6data Workspace Variables
 workspace_name                      = "workspace"                   # The name of the e6data workspace
