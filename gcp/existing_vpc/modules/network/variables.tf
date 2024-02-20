@@ -1,3 +1,8 @@
+variable "vpc_name" {
+  description = "vpc name to deploy resources"
+  type        = string
+}
+
 variable "workspace_name" {
   description = "value of the component name"
     type        = string

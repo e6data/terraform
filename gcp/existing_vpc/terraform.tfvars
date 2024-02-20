@@ -8,6 +8,7 @@ workspace_name                      = "workspace"                   # The name o
 helm_chart_version                  = "1.0.7" ### e6data workspace Helm chart version to be used.
 
 # Network Variables
+vpc_name                            = "existing-vpc"                  # The name of the VPC
 gke_subnet_ip_cidr_range            = "10.100.0.0/18"                 # The subnet IP range for GKE
 
 gke_e6data_master_ipv4_cidr_block   = "10.103.4.0/28" 
@@ -16,9 +17,9 @@ gke_e6data_master_ipv4_cidr_block   = "10.103.4.0/28"
 # This range must not overlap with any other ranges in use within the cluster's network, and it must be a /28 subnet
 
 # Kubernetes Variables
-gke_version                         = "1.26"                          # The version of GKE to use
+gke_version                         = "1.26"                          # The version of GKE to use                
 gke_encryption_state                = "DECRYPTED"                     # The encryption state for GKE (It is recommended to use encryption)
-gke_dns_cache_enabled               = true                            # The status of the NodeLocal DNSCache addon.
+gke_dns_cache_enabled                   = true                            # The status of the NodeLocal DNSCache addon.
 
 # GKE Cluster variables
 cluster_name                        = "gkecluster"                   # The name of the GKE cluster
@@ -31,11 +32,6 @@ max_instances_in_nodegroup          = 50                              # The maxi
 
 # Kubernetes Namespace
 kubernetes_namespace                = "namespace"                   # The namespace to use for Kubernetes resources
-
-######### NAT CONFIGURATION ###################
-cloud_nat_ports_per_vm              = "0"                             # The number of ports per VM for Cloud NAT
-tcp_transitory_idle_timeout_sec     = "30"                            # The TCP transitory idle timeout in seconds
-cloud_nat_log_config                = null                            # The log configuration for Cloud NAT
 
 # Cost Labels
 cost_labels                         = {}                              # Cost labels for tracking costs

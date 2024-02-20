@@ -1,6 +1,7 @@
 module "network" {
     source = "./modules/network"
 
+    vpc_name = var.vpc_name
     workspace_name = var.workspace_name
     gcp_region = var.gcp_region
 

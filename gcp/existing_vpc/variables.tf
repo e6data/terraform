@@ -26,6 +26,11 @@ variable "cost_labels" {
 }
 
 ########### NETWORK VARIABLES ###############
+variable "vpc_name" {
+  description = "vpc name to deploy resources"
+  type        = string
+}
+
 variable "workspace_name" {
   description = "value of the component name"
     type        = string
@@ -56,19 +61,16 @@ variable "vpc_flow_logs_config" {
 variable "cloud_nat_ports_per_vm" {
   description = "The number of ports allocated per VM"
   type        = number
-  default     = 0
 }
 
 variable "tcp_transitory_idle_timeout_sec" {
   description = "The TCP transitory idle timeout in seconds"
   type        = number
-  default     = 30
 }
 
 variable "cloud_nat_log_config" {
   description = "The configuration for the cloud NAT logs"
   type        = map
-  default     = null
 }
 
 variable "gke_e6data_master_ipv4_cidr_block" {
@@ -102,6 +104,7 @@ variable "max_instances_in_nodegroup" {
   description = "Maximum number of instances in nodegroup"
   type = number
 }
+
 
 variable "gke_e6data_max_pods_per_node" {
   type        = string

@@ -1,13 +1,12 @@
-resource "google_compute_network" "network" {
-  name                    = "e6data-${var.workspace_name}-network"
-  auto_create_subnetworks = false
+data "google_compute_network" "network" {
+  name = var.vpc_name
 }
 
 resource "google_compute_subnetwork" "subnetwork" {
   name          = "e6data-${var.workspace_name}-subnetwork"
   ip_cidr_range = var.gke_subnet_ip_cidr_range
   region        = var.gcp_region
-  network       = google_compute_network.network.name
+  network       = data.google_compute_network.network.name
 
   private_ip_google_access = true
 
@@ -27,7 +26,7 @@ resource "google_compute_subnetwork" "subnetwork" {
 resource "google_compute_router" "router" {
   name    = "e6data-${var.workspace_name}-router"
   region  = var.gcp_region
-  network = google_compute_network.network.name
+  network = data.google_compute_network.network.name
 }
 
 resource "google_compute_router_nat" "nat" {
