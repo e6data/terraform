@@ -1,5 +1,5 @@
 resource "google_container_node_pool" "default_gke_cluster_nodepool" {
-  name              = "e6data-${module.gke_e6data.gke_cluster_name}-default-node-pool"
+  name_prefix       = "e6data-default"
   location          = var.gcp_region
   cluster           = module.gke_e6data.gke_cluster_name
   node_count        = 2

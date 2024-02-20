@@ -52,6 +52,7 @@ resource "google_container_cluster" "gke_cluster" {
   }
 
   lifecycle {
+    create_before_destroy = true
     ignore_changes = [node_version, resource_labels]
   }
 

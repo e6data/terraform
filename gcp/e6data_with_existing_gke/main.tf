@@ -1,6 +1,6 @@
 # # Create GKE nodepool for workspace
 resource "google_container_node_pool" "workspace" {
-  name        = local.e6data_workspace_name
+  name_prefix      = "${local.e6data_workspace_name}"
   /* location         = var.kubernetes_cluster_location */
   cluster          = data.google_container_cluster.gke_cluster.id
   initial_node_count = 0
@@ -27,6 +27,7 @@ resource "google_container_node_pool" "workspace" {
       effect = "NO_SCHEDULE"
     }]
   }
+
 }
 
 # # Create GCS bucket for workspace

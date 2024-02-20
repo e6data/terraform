@@ -1,5 +1,6 @@
 locals {
-  e6data_workspace_name = "e6data-workspace-${var.workspace_name}"
+  short_workspace_name = substr(var.workspace_name, 0, 4)
+  e6data_workspace_name = "e6data-${local.short_workspace_name}"
   workspace_role_name = replace(var.workspace_name, "-", "_")
   workspace_write_role_name = "e6data_${local.workspace_role_name}_write"
   workspace_read_role_name = "e6data_${local.workspace_role_name}_read"

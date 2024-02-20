@@ -1,5 +1,5 @@
 resource "google_container_node_pool" "default_gke_cluster_nodepool" {
-  name              = "e6data-${module.gke_e6data.gke_cluster_name}-default-node-pool"
+  name_prefix       = "e6data-default"
   location          = var.gcp_region
   cluster           = module.gke_e6data.gke_cluster_name
   node_count        = 2
@@ -15,6 +15,7 @@ resource "google_container_node_pool" "default_gke_cluster_nodepool" {
     workload_metadata_config {
       mode = "GKE_METADATA"
     }
+
     labels = {
         "app" = "e6data"
         "e6data-workspace-name" = "default"
@@ -34,6 +35,7 @@ resource "google_container_node_pool" "default_gke_cluster_nodepool" {
   }
 
   lifecycle {
-    ignore_changes = [node_count, autoscaling, node_config[0].labels, version]
+    create_before_destroy = true
+    ignore_changes = [node_count, autoscaling, node_config[0].labels]
   }
 }

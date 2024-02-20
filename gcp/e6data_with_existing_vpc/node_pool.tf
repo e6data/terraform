@@ -1,8 +1,10 @@
 # # Create GKE nodepool for workspace
 resource "google_container_node_pool" "workspace" {
-  name             = local.e6data_workspace_name
+  name_prefix      = "${local.e6data_workspace_name}"
   location         = var.gcp_region
   cluster          = module.gke_e6data.gke_cluster_id
+  version           = var.gke_version
+
   initial_node_count = 0
   autoscaling {
     total_min_node_count = 0
@@ -26,6 +28,10 @@ resource "google_container_node_pool" "workspace" {
       value  = var.workspace_name
       effect = "NO_SCHEDULE"
     }]
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
