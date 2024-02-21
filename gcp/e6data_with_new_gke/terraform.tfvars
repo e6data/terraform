@@ -1,6 +1,6 @@
 # GCP Variables
 gcp_region                          = "us-central1"                   # The region where the e6data resources will be created
-gcp_project_id                      = "<gcp_project_id>"          # The ID of the GCP project
+gcp_project_id                      = "<GCP_PROJECT_ID>"          # The ID of the GCP project
 
 # e6data Workspace Variables
 workspace_name                      = "workspace"                   # The name of the e6data workspace
@@ -23,15 +23,17 @@ spot_enabled                        = true                            # A boolea
 
 # GKE Cluster variables
 cluster_name                        = "gkecluster"                   # The name of the GKE cluster
-default_nodepool_instance_type      = "e2-medium"                     # The default instance type for the node pool
+default_nodepool_instance_type      = "e2-standard-2"                     # The default instance type for the node pool
 
 gke_e6data_initial_node_count       = 1                               # The initial number of nodes in the GKE cluster
 gke_e6data_max_pods_per_node        = 64                              # The maximum number of pods per node in the GKE cluster
 gke_e6data_instance_type            = "c2-standard-30"                # The instance type for the GKE nodes
-max_instances_in_nodegroup          = 50                              # The maximum number of instances in a node group
+max_instances_in_nodepool          = 50                              # The maximum number of instances in a node group
 
 # Kubernetes Namespace
 kubernetes_namespace                = "namespace"                   # The namespace to use for Kubernetes resources
 
 # Cost Labels
 cost_labels                         = {}                              # Cost labels for tracking costs
+
+buckets                             = ["*"]                           ### List of bucket names that the e6data engine queries and therefore, require read access to. Default is ["*"] which means all buckets, it is advisable to change this.

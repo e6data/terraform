@@ -108,8 +108,8 @@ variable "spot_enabled" {
   description = "Enable spot instances in node pools"
 }
 
-variable "max_instances_in_nodegroup" {
-  description = "Maximum number of instances in nodegroup"
+variable "max_instances_in_nodepool" {
+  description = "Maximum number of instances in nodepool"
   type = number
 }
 
@@ -137,4 +137,10 @@ variable "helm_chart_version" {
 variable "default_nodepool_instance_type" {
   type        = string
   description = "the GKE instance type for default nodepool"
+}
+
+variable "buckets" {
+  description = "List of bucket names to grant permissions to the e6data engine. Use ['*'] to grant permissions to all buckets."
+  type        = list(string)
+  default     = ["*"]
 }

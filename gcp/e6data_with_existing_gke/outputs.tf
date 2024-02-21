@@ -23,7 +23,7 @@ output "gke_nodepool_name" {
 }
 
 output "gke_nodepool_max_instances" {
-  value = var.max_instances_in_nodegroup
+  value = var.max_instances_in_nodepool
 }
 
 output "kubernetes_namespace" {

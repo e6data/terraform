@@ -8,10 +8,11 @@ resource "google_container_node_pool" "workspace" {
   initial_node_count = 0
   autoscaling {
     total_min_node_count = 0
-    total_max_node_count = var.max_instances_in_nodegroup
+    total_max_node_count = var.max_instances_in_nodepool
     location_policy = "ANY"
   }
   node_config {
+    disk_size_gb = 100
     spot         = var.spot_enabled
     machine_type = var.gke_e6data_instance_type
     workload_metadata_config {
@@ -96,8 +97,9 @@ resource "google_project_iam_binding" "workspace_write_binding" {
   depends_on = [ google_project_iam_custom_role.workspace_write_role, google_storage_bucket.workspace_bucket, google_service_account.workspace_sa ]
 }
 
-# Create IAM policy binding for workspace service account and GCS bucket read access
-resource "google_project_iam_binding" "workspace_read_binding" {
+# Assign the custom role to either all buckets or specific buckets based on the value of the 'buckets' variable
+resource "google_project_iam_binding" "workspace_read_project_binding" {
+  count   = contains(var.buckets, "*") ? 1 : 0
   project = var.gcp_project_id
   role    = google_project_iam_custom_role.workspace_read_role.name
 
@@ -106,6 +108,13 @@ resource "google_project_iam_binding" "workspace_read_binding" {
   ]
 
   depends_on = [ google_project_iam_custom_role.workspace_read_role, google_storage_bucket.workspace_bucket, google_service_account.workspace_sa ]
+}
+
+resource "google_storage_bucket_iam_member" "workspace_read_bucket_binding" {
+  count   = contains(var.buckets, "*") ? 0 : length(var.buckets)
+  bucket  = var.buckets[count.index]
+  role    = google_project_iam_custom_role.workspace_read_role.name
+  member  = "serviceAccount:${google_service_account.workspace_sa.email}"
 }
 
 resource "google_project_iam_binding" "platform_gcs_read_binding" {

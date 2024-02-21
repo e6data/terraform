@@ -18,8 +18,8 @@ variable "cluster_name" {
   type = string
 }
 
-variable "max_instances_in_nodegroup" {
-  description = "Maximum number of instances in nodegroup"
+variable "max_instances_in_nodepool" {
+  description = "Maximum number of instances in nodepool"
   type = number
 }
 
@@ -39,8 +39,8 @@ variable "platform_sa_email" {
   default = "e6-customer-dev-3s2et@e6data-analytics.iam.gserviceaccount.com"
 }
 
-variable "nodegroup_instance_type" {
-  description = "Instance type for nodegroup"
+variable "nodepool_instance_type" {
+  description = "Instance type for nodepool"
   type = string
 }
 
@@ -54,4 +54,10 @@ variable "control_plane_user" {
   description = "Control plane user to be added to e6data workspace"
   type = list(string)
   default = [ "112892618221467749441" ]
+}
+
+variable "buckets" {
+  description = "List of bucket names to grant permissions to the e6data engine. Use ['*'] to grant permissions to all buckets."
+  type        = list(string)
+  default     = ["*"]
 }
