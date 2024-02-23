@@ -17,14 +17,14 @@ provider "google" {
   project = var.gcp_project_id
   region  = var.gcp_region
   credentials = "/home/ec2-user/e6-infra-internal/terraform-gcp/values/gcp_sa.json"
-  default_labels = var.cost_labels
+  # default_labels = var.cost_labels
 }
 
 provider "google-beta" {
   project = var.gcp_project_id
   region  = var.gcp_region
   credentials = "/home/ec2-user/e6-infra-internal/terraform-gcp/values/gcp_sa.json"
-  default_labels = var.cost_labels
+  # default_labels = var.cost_labels
 }
 
 # Uncomment this block if storing Terraform state is required & update the bucket name.
