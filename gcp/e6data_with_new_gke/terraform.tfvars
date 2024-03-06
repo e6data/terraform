@@ -34,13 +34,6 @@ max_instances_in_nodepool          = 50                              # The maxim
 kubernetes_namespace                = "namespace"                   # The namespace to use for Kubernetes resources
 
 # Cost Labels
-cost_labels = {
-  team = "plt"
-  operation = "poc"
-  environment = "dev"
-  app = "e6data"
-  user = "plat"
-  permanent = "true"
-}                            # Cost labels for tracking costs
+cost_labels = {}                            # Cost labels for tracking costs
 
 buckets                             = ["*"]                           ### List of bucket names that the e6data engine queries and therefore, require read access to. Default is ["*"] which means all buckets, it is advisable to change this.
