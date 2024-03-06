@@ -21,11 +21,11 @@ resource "google_container_node_pool" "workspace" {
       app                                     = "e6data"
     }
 
-    taint = [{
+    taint {
       key    = "e6data-workspace-name"
       value  = var.workspace_name
       effect = "NO_SCHEDULE"
-    }]
+    }
   }
 
 }
@@ -137,7 +137,11 @@ resource "google_project_iam_custom_role" "e6dataclusterViewer" {
     "container.clusters.get",
     "container.clusters.list",
     "resourcemanager.projects.get",
-    "container.roleBindings.get"
+    "container.roleBindings.get",
+    "container.roleBindings.get",
+    "container.backendConfigs.create",
+    "container.backendConfigs.delete",
+    "container.backendConfigs.get"
   ]
   stage        = "GA"
   project      = var.gcp_project_id

@@ -2,16 +2,16 @@ terraform {
   required_providers {
     google = {
       source = "hashicorp/google"
-      version = "4.72.0"
+      version = "5.17.0"
     }
   }
 }
 
 # Comment out this block if storing Terraform state is required.
-
 provider "google" {
     project = var.gcp_project_id
     region = var.gcp_region
+    default_labels = var.cost_labels
     /* credentials = "{{GOOGLE_CLOUD_KEYFILE_JSON}}" */
     # access_token = "{{ gcp_access_token }}"
 }

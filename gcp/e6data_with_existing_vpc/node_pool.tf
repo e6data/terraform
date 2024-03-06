@@ -1,16 +1,17 @@
 # # Create GKE nodepool for workspace
 resource "google_container_node_pool" "workspace" {
-  name_prefix      = "${local.e6data_workspace_name}"
-  location         = var.gcp_region
-  cluster          = module.gke_e6data.gke_cluster_id
-  version           = var.gke_version
-
-  initial_node_count = 0
+  name_prefix         = "${local.e6data_workspace_name}"
+  location            = var.gcp_region
+  cluster             = module.gke_e6data.gke_cluster_id
+  version             = var.gke_version
+  initial_node_count  = 0
+  
   autoscaling {
     total_min_node_count = 0
     total_max_node_count = var.max_instances_in_nodepool
     location_policy = "ANY"
   }
+
   node_config {
     disk_size_gb = 100
     spot         = var.spot_enabled
@@ -19,22 +20,24 @@ resource "google_container_node_pool" "workspace" {
       mode = "GKE_METADATA"
     }
 
-    labels = {
-      e6data-workspace-name                   = var.workspace_name
-      app                                     = "e6data"
-    }
-
-    taint = [{
+    taint {
       key    = "e6data-workspace-name"
       value  = var.workspace_name
       effect = "NO_SCHEDULE"
-    }]
+    }
+
+    labels = {
+      e6data-workspace-name = var.workspace_name
+      app                   = "e6data"
+    }
   }
 
   lifecycle {
     create_before_destroy = true
   }
 }
+
+
 
 # # Create GCS bucket for workspace
 resource "google_storage_bucket" "workspace_bucket" {
@@ -143,7 +146,10 @@ resource "google_project_iam_custom_role" "e6dataclusterViewer" {
     "container.clusters.get",
     "container.clusters.list",
     "resourcemanager.projects.get",
-    "container.roleBindings.get"
+    "container.roleBindings.get",
+    "container.backendConfigs.create",
+    "container.backendConfigs.delete",
+    "container.backendConfigs.get"
   ]
   stage        = "GA"
   project      = var.gcp_project_id
