@@ -61,3 +61,8 @@ variable "buckets" {
   type        = list(string)
   default     = ["*"]
 }
+
+variable "cost_labels" {
+  type = map(string)
+  description = "cost labels"
+}

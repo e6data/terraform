@@ -8,7 +8,7 @@ workspace_name                      = "workspace"                   # The name o
 helm_chart_version                  = "1.0.7" ### e6data workspace Helm chart version to be used.
 
 # Network Variables
-vpc_name                            = "harshith-vpc"                  # The name of the VPC
+vpc_name                            = "vpc"                  # The name of the VPC
 gke_subnet_ip_cidr_range            = "10.100.0.0/18"                 # The subnet IP range for GKE
 
 gke_e6data_master_ipv4_cidr_block   = "10.103.4.0/28" 

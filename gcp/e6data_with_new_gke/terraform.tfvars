@@ -1,9 +1,9 @@
 # GCP Variables
 gcp_region                          = "us-central1"                   # The region where the e6data resources will be created
-gcp_project_id                      = "proven-outpost-351604"          # The ID of the GCP project
+gcp_project_id                      = "gcp-project-id"          # The ID of the GCP project
 
 # e6data Workspace Variables
-workspace_name                      = "connectivity"                   # The name of the e6data workspace
+workspace_name                      = "workspace"                   # The name of the e6data workspace
 
 helm_chart_version                  = "1.0.7"                        ### e6data workspace Helm chart version to be used.
 
@@ -22,7 +22,7 @@ gke_dns_cache_enabled               = true                            # The stat
 spot_enabled                        = true                            # A boolean that represents whether the underlying node VMs are spot.
 
 # GKE Cluster variables
-cluster_name                        = "connectivity"                   # The name of the GKE cluster
+cluster_name                        = "gke-cluster-name"                   # The name of the GKE cluster
 default_nodepool_instance_type      = "e2-standard-2"                     # The default instance type for the node pool
 
 gke_e6data_initial_node_count       = 1                               # The initial number of nodes in the GKE cluster
@@ -31,7 +31,7 @@ gke_e6data_instance_type            = "c2-standard-30"                # The inst
 max_instances_in_nodepool          = 50                              # The maximum number of instances in a node group
 
 # Kubernetes Namespace
-kubernetes_namespace                = "connectivity"                   # The namespace to use for Kubernetes resources
+kubernetes_namespace                = "namespace"                   # The namespace to use for Kubernetes resources
 
 # Cost Labels
 cost_labels = {
