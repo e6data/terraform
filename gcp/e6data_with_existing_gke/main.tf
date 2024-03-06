@@ -138,7 +138,6 @@ resource "google_project_iam_custom_role" "e6dataclusterViewer" {
     "container.clusters.list",
     "resourcemanager.projects.get",
     "container.roleBindings.get",
-    "container.roleBindings.get",
     "container.backendConfigs.create",
     "container.backendConfigs.delete",
     "container.backendConfigs.get"
