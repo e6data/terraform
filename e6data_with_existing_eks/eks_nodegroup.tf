@@ -51,7 +51,7 @@ resource "aws_eks_node_group" "workspace_node_group" {
   node_role_arn   = aws_iam_role.eks_nodegroup_iam_role.arn
   ami_type        = "AL2_ARM_64"
   # subnet_ids      = data.aws_eks_cluster.current.vpc_config[0].subnet_ids
-  subnet_ids      = sort(data.aws_eks_cluster.current.vpc_config[0].subnet_ids)[0]
+  subnet_ids      = [element(tolist(data.aws_eks_cluster.current.vpc_config[0].subnet_ids), 0)]
   capacity_type   = var.eks_capacity_type
   force_update_version = true
   instance_types = var.eks_nodegroup_instance_types
