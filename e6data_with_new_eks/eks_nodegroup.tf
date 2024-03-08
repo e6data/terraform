@@ -51,7 +51,7 @@ resource "aws_eks_node_group" "workspace_node_group" {
   node_group_name = "${local.e6data_workspace_name}-${element(split(".", var.kube_version),1)}"
   node_role_arn   = aws_iam_role.eks_nodegroup_iam_role.arn
   ami_type        = "AL2_ARM_64"
-  subnet_ids      = module.network.private_subnet_ids
+  subnet_ids      = element(module.network.private_subnet_ids, 0)
   capacity_type   = var.eks_capacity_type
   force_update_version = true
   instance_types = var.eks_nodegroup_instance_types
