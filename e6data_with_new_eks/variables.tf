@@ -121,6 +121,7 @@ variable "eks_disk_size" {
 variable "eks_capacity_type" {
   description = "Instance lifecycle for e6data nodegroup"
   type        = string
+  default     = "ON_DEMAND"
 }
 
 variable "eks_nodegroup_instance_types" {
