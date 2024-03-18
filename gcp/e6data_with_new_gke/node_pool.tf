@@ -63,6 +63,7 @@ resource "google_project_iam_custom_role" "workspace_write_role" {
     "storage.objects.delete",
     "storage.objects.get",
     "storage.objects.list",
+    "container.deployments.get"
   ]
 }
 
