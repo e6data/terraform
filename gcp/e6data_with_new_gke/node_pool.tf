@@ -62,8 +62,7 @@ resource "google_project_iam_custom_role" "workspace_write_role" {
     "storage.objects.create",
     "storage.objects.delete",
     "storage.objects.get",
-    "storage.objects.list",
-    "container.deployments.get"
+    "storage.objects.list"
   ]
 }
 
@@ -152,7 +151,9 @@ resource "google_project_iam_custom_role" "e6dataclusterViewer" {
     "container.roleBindings.get",
     "container.backendConfigs.create",
     "container.backendConfigs.delete",
-    "container.backendConfigs.get"
+    "container.backendConfigs.get",
+    "container.deployments.get",
+    "container.secrets.create"
   ]
   stage        = "GA"
   project      = var.gcp_project_id
