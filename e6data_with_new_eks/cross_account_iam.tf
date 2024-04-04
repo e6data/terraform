@@ -63,7 +63,11 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
       "elasticloadbalancing:DescribeLoadBalancers",
       "elasticloadbalancing:SetWebACL"
     ]
-
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceVpc"
+      values   = [module.network.vpc_id]
+    }
     resources = ["*"]
   }
 
@@ -82,6 +86,12 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
       test = "Null"
       variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
       values = ["false"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceVpc"
+      values   = [module.network.vpc_id]
     }
   }
 
@@ -105,6 +115,12 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
       values = ["false"]
     }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceVpc"
+      values   = [module.network.vpc_id]
+    }
   }
 
   statement {
@@ -117,6 +133,11 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
       test = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
       values = ["false"]
+    }
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceVpc"
+      values   = [module.network.vpc_id]
     }
   }
 
@@ -131,6 +152,11 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
       variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
       values = ["false"]
     }
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceVpc"
+      values   = [module.network.vpc_id]
+    }
   }
 
   statement {
@@ -143,6 +169,11 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
       test = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
       values = ["false"]
+    }
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceVpc"
+      values   = [module.network.vpc_id]
     }
   }
 
@@ -160,6 +191,11 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
       "arn:aws:elasticloadbalancing:*:*:listener-rule/net/*/*",
       "arn:aws:elasticloadbalancing:*:*:listener-rule/app/*/*"
     ]
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceVpc"
+      values   = [module.network.vpc_id]
+    }
   }
 
   statement {
@@ -187,6 +223,12 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
       test     = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
       values   = ["false"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceVpc"
+      values   = [module.network.vpc_id]
     }
   }
 
@@ -216,6 +258,12 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
       test     = "Null"
       variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
       values   = ["false"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceVpc"
+      values   = [module.network.vpc_id]
     }
   }
 
