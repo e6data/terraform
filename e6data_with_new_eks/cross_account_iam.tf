@@ -70,7 +70,7 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
       "elasticloadbalancing:SetWebACL",
       "wafv2:DisassociateWebACL"
     ]
-    resources = ["arn:aws:elasticloadbalancing:*:*:loadbalancer/app/e6data-*/*"]
+    resources = ["arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:loadbalancer/app/e6data-*/*"]
   }
 
   statement {
@@ -108,10 +108,10 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
     ]
 
     resources = [
-      "arn:aws:elasticloadbalancing:*:*:listener/net/e6data-*/*",
-      "arn:aws:elasticloadbalancing:*:*:listener/app/e6data-*/*",
-      "arn:aws:elasticloadbalancing:*:*:listener-rule/net/e6data-*/*",
-      "arn:aws:elasticloadbalancing:*:*:listener-rule/app/e6data-*/*"
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:listener/net/e6data-*/*",
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:listener/app/e6data-*/*",
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:listener-rule/net/e6data-*/*",
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:listener-rule/app/e6data-*/*"
     ]
   }
 
@@ -120,9 +120,9 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
     effect = "Allow"
 
     resources = [
-      "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/e6data-*/*",
-      "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/e6data-*/*",
-      "arn:aws:elasticloadbalancing:*:*:targetgroup/e6data-*/*"
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:loadbalancer/net/e6data-*/*",
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:loadbalancer/app/e6data-*/*",
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:targetgroup/e6data-*/*"
     ]
 
     actions = [
@@ -148,9 +148,9 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
     effect = "Allow"
 
     resources = [
-      "arn:aws:elasticloadbalancing:*:*:targetgroup/e6data-*/*",
-      "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/e6data-*/*",
-      "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/e6data-*/*"
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:targetgroup/e6data-*/*",
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:loadbalancer/net/e6data-*/*",
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:loadbalancer/app/e6data-*/*"
     ]
 
     actions = ["elasticloadbalancing:AddTags"]
