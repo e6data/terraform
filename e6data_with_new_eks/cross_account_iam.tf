@@ -53,10 +53,10 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
     
     actions = [
       "ec2:DescribeRouteTables",
-      "acm:DescribeCertificate"
+      "acm:DescribeCertificate",
       "elasticloadbalancing:DescribeLoadBalancers",
       "wafv2:GetWebACL",
-      "wafv2:GetWebACLForResource"
+      "wafv2:GetWebACLForResource",
       "ec2:DescribeInstances",
       "servicequotas:GetServiceQuota"
     ]
