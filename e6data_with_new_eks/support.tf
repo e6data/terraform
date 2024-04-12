@@ -41,8 +41,10 @@ locals {
 }
 
 resource "random_string" "random" {
-  length           = 4
+  length           = 5
   special          = false
+  lower            = true
+  upper            = false
 }
 
 data "aws_caller_identity" "current" {
