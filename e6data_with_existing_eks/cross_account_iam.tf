@@ -44,82 +44,35 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
     
     actions = ["eks:DescribeNodegroup"]
     resources = [
-      data.aws_eks_cluster.current.arn,
+      data.aws_eks_cluster.current.arn, 
       "arn:aws:eks:${var.aws_region}:${data.aws_caller_identity.current.account_id}:nodegroup/${var.eks_cluster_name}/*/*"
     ]
   }
 
   statement {
-    sid = "DescribeEC2ActionsandWAF2" 
+    sid = "PermissionsForAllResources" 
     effect = "Allow"
     
     actions = [
-      "ec2:CreateSecurityGroup",
       "ec2:DescribeRouteTables",
-      "wafv2:GetWebACL",
-      "wafv2:DisassociateWebACL",
-      "wafv2:GetWebACLForResource",
-      "ec2:DescribeSecurityGroups",
-      "ec2:DescribeInstances",
-      "servicequotas:GetServiceQuota",
+      "acm:DescribeCertificate",
       "elasticloadbalancing:DescribeLoadBalancers",
-      "elasticloadbalancing:SetWebACL"
+      "wafv2:GetWebACL",
+      "wafv2:GetWebACLForResource",
+      "ec2:DescribeInstances",
+      "servicequotas:GetServiceQuota"
     ]
-
     resources = ["*"]
   }
 
   statement {
-    sid = "CreateTagsForSecurityGroup"
-    effect = "Allow"
-    actions = ["ec2:CreateTags"]
-    resources = ["arn:aws:ec2:${var.aws_region}:${data.aws_caller_identity.current.account_id}:security-group/*"]
-    condition {
-      test = "StringEquals"
-      variable = "ec2:CreateAction"
-      values = ["CreateSecurityGroup"]
-    }
-
-    condition {
-      test = "Null"
-      variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
-      values = ["false"]
-    }
-  }
-
-  statement {
-    sid = "ManageSecurityGroup"
+    sid = "AllowSetWebACLforELB"
     effect = "Allow"
     actions = [
-      "ec2:CreateTags",
-      "ec2:DeleteTags"
+      "elasticloadbalancing:SetWebACL",
+      "wafv2:DisassociateWebACL"
     ]
-    resources = ["arn:aws:ec2:${var.aws_region}:${data.aws_caller_identity.current.account_id}:security-group/*"]
-
-    condition {
-      test = "Null"
-      variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
-      values = ["true"]
-    }
-
-    condition {
-      test = "Null"
-      variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-      values = ["false"]
-    }
-  }
-
-  statement {
-    sid = "DeleteSecurityGroup"
-    effect = "Allow"
-    actions = ["ec2:DeleteSecurityGroup"]
-    resources = ["*"]
-
-    condition {
-      test = "Null"
-      variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-      values = ["false"]
-    }
+    resources = ["arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:loadbalancer/app/e6data-*/*"]
   }
 
   statement {
@@ -129,9 +82,9 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
     resources = ["*"]
 
     condition {
-      test = "Null"
-      variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
-      values = ["false"]
+      test     = "StringEquals"
+      variable = "aws:RequestTag/app"
+      values   = ["e6data"]
     }
   }
 
@@ -142,9 +95,9 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
     resources = ["*"]
 
     condition {
-      test = "Null"
-      variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-      values = ["false"]
+      test     = "StringEquals"
+      variable = "aws:ResourceTag/app"
+      values   = ["e6data"]
     }
   }
 
@@ -157,10 +110,10 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
     ]
 
     resources = [
-      "arn:aws:elasticloadbalancing:*:*:listener/net/*/*",
-      "arn:aws:elasticloadbalancing:*:*:listener/app/*/*",
-      "arn:aws:elasticloadbalancing:*:*:listener-rule/net/*/*",
-      "arn:aws:elasticloadbalancing:*:*:listener-rule/app/*/*"
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:listener/net/e6data-*/*",
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:listener/app/e6data-*/*",
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:listener-rule/net/e6data-*/*",
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:listener-rule/app/e6data-*/*"
     ]
   }
 
@@ -169,9 +122,9 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
     effect = "Allow"
 
     resources = [
-      "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
-      "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*",
-      "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:loadbalancer/net/e6data-*/*",
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:loadbalancer/app/e6data-*/*",
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:targetgroup/e6data-*/*"
     ]
 
     actions = [
@@ -197,22 +150,12 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
     effect = "Allow"
 
     resources = [
-      "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
-      "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
-      "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*",
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:targetgroup/e6data-*/*",
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:loadbalancer/net/e6data-*/*",
+      "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_caller_identity.current.account_id}:loadbalancer/app/e6data-*/*"
     ]
 
     actions = ["elasticloadbalancing:AddTags"]
-
-    condition {
-      test     = "StringEquals"
-      variable = "elasticloadbalancing:CreateAction"
-
-      values = [
-        "CreateTargetGroup",
-        "CreateLoadBalancer",
-      ]
-    }
 
     condition {
       test     = "Null"
