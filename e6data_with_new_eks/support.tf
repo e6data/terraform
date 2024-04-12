@@ -40,6 +40,11 @@ locals {
   map3 = { for k, v in local.map2 : k =>  replace(v, "\"", "") }
 }
 
+resource "random_string" "random" {
+  length           = 4
+  special          = false
+}
+
 data "aws_caller_identity" "current" {
 }
 
