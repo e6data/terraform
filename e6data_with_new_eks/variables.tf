@@ -184,3 +184,15 @@ variable "alb_controller_helm_chart_version" {
   type        = string
   description = "ALB Ingress Controller helm chart version"
 }
+
+variable "public_access_cidrs" {
+  type = list(string)
+  description = "public access cidrs"
+  default = ["44.194.151.209/32"]
+}
+
+variable "endpoint_private_access" {
+  type = bool
+  default = true
+  description = "To enable private access to the eks cluster"
+}

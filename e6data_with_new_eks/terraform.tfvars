@@ -25,6 +25,10 @@ excluded_az                     = ["us-east-1e"]
 cluster_name                    = "ekscluster"            ### The name of the Kubernetes cluster to be created for the e6data workspace.
 cluster_log_types               = ["scheduler", "controllerManager","authenticator", "audit"] ### List of the desired control plane logging to enable.
 
+public_access_cidrs             = ["44.194.151.209/32"]   
+###Indicates which CIDR blocks can access the Amazon EKS public API server endpoint when enabled. The default value is set to the CIDR of e6data(i.e.,44.194.151.209/32)
+###Please include the IP address of the EC2 instance or the CIDR range of the local network from which Terraform is being executed.This is to allow the terraform scripts to access Kubernetes components(serviceaccounts,configmaps..etc).
+
 # Data Bucket names
 bucket_names                    = ["*"] ### List of bucket names that the e6data engine queries and therefore, require read access to. Default is ["*"] which means all buckets, it is advisable to change this.
 
