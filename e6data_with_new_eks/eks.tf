@@ -6,7 +6,8 @@ module "eks" {
 
   subnet_ids       = module.network.subnet_ids
   private_subnet_ids = module.network.private_subnet_ids
-
+  public_access_cidrs = var.public_access_cidrs
+  endpoint_private_access = var.endpoint_private_access
   vpc_id = module.network.vpc_id
 
   depends_on = [ module.network ]
