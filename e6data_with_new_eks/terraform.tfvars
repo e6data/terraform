@@ -25,7 +25,7 @@ excluded_az                     = ["us-east-1e"]
 cluster_name                    = "ekscluster"            ### The name of the Kubernetes cluster to be created for the e6data workspace.
 cluster_log_types               = ["scheduler", "controllerManager","authenticator", "audit"] ### List of the desired control plane logging to enable.
 
-public_access_cidrs             = ["44.194.151.209/32"]   
+public_access_cidrs             = ["0.0.0.0/0"]   
 ###Indicates which CIDR blocks can access the Amazon EKS public API server endpoint when enabled. The default value is set to the CIDR of e6data(i.e.,44.194.151.209/32)
 ###Please include the IP address of the EC2 instance or the CIDR range of the local network from which Terraform is being executed.This is to allow the terraform scripts to access Kubernetes components(serviceaccounts,configmaps..etc).
 
@@ -36,18 +36,24 @@ bucket_names                    = ["*"] ### List of bucket names that the e6data
 kubernetes_namespace            = "namespace" ### Value of the Kubernetes namespace to deploy the e6data workspace.
 
 # Cost Tags
-cost_tags = {}
+cost_tags = {
+  Team = "PLT"
+  Operation = "Product"
+  Environment = "Dev"
+  App = "e6data"
+  User = "dev@e6x.io"
+  permanent = "true"
+}
 
 # AWS Command Line Variable
 aws_command_line_path           = "aws"  ### Specify the path to the AWS Command Line Interface executable. Run "which aws" command to get the exact path.
-
-# Autoscaler Variables
-autoscaler_namespace            = "kube-system"          ### Namespace to deploy the cluster autoscaler
-autoscaler_service_account_name = "cluster-autoscaler"   ### Service account name for the cluster autoscaler
-autoscaler_helm_chart_name      = "autoscaler"           ### Name of the cluster autoscaler Helm chart
-autoscaler_helm_chart_version   = "9.26.0"               ### Version of the cluster autoscaler Helm chart
 
 # ALB Ingress Controller Variables
 alb_ingress_controller_namespace = "kube-system"
 alb_ingress_controller_service_account_name = "alb-ingress-controller"
 alb_controller_helm_chart_version = "1.6.1"
+
+# Karpenter Variables
+karpenter_namespace            = "kube-system"          ### Namespace to deploy the cluster autoscaler
+karpenter_service_account_name = "karpenter"   ### Service account name for the cluster autoscaler
+karpenter_release_version   = "0.36.0"               ### Version of the cluster autoscaler Helm chart

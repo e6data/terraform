@@ -287,5 +287,5 @@ module "aws_ingress_controller" {
   region = var.aws_region
   vpc_id = module.network.vpc_id
 
-  depends_on = [ module.alb_controller_oidc, module.autoscaler_deployment, aws_eks_node_group.default_node_group]
+  depends_on = [ module.alb_controller_oidc, aws_eks_node_group.default_node_group]
 }

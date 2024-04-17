@@ -73,27 +73,6 @@ variable "aws_command_line_path" {
   type        = string
 }
 
-# Autoscaler variables
-variable "autoscaler_namespace" {
-  type        = string
-  description = "Autoscaler namespace"
-}
-
-variable "autoscaler_service_account_name" {
-  type        = string
-  description = "Autoscaler service account name"
-}
-
-variable "autoscaler_helm_chart_name" {
-  type        = string
-  description = "Autoscaler helm chart name"
-}
-
-variable "autoscaler_helm_chart_version" {
-  type        = string
-  description = "Autoscaler helm chart version"
-}
-
 variable "workspace_name" {
   description = "Name of e6data workspace to be created"
   type        = string
@@ -195,4 +174,31 @@ variable "endpoint_private_access" {
   type = bool
   default = true
   description = "To enable private access to the eks cluster"
+}
+
+### Karpenter Variables
+variable "karpenter_eks_node_policy_arn" {
+  type        = list(string)
+  description = "List of Policies to attach to the Karpenter node role"
+  default = [
+    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  ]
+}
+
+variable "karpenter_namespace" {
+  description = "Namespace to deploy the Karpenter cluster autoscaler"
+  type        = string
+}
+
+variable "karpenter_service_account_name" {
+  description = "Service account name for the Karpenter cluster autoscaler"
+  type        = string
+}
+
+variable "karpenter_release_version" {
+  description = "Version of the Karpenter cluster autoscaler Helm chart"
+  type        = string
 }

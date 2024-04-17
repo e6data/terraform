@@ -15,7 +15,7 @@ resource "helm_release" "e6data_workspace_deployment" {
     ignore_changes = [ values ]
   }
 
-  depends_on = [ module.eks , aws_eks_node_group.workspace_node_group , module.autoscaler_deployment ]
+  depends_on = [ module.eks ]
 }
 
 data "kubernetes_config_map_v1" "aws_auth_read" {
@@ -25,7 +25,7 @@ data "kubernetes_config_map_v1" "aws_auth_read" {
     name = "aws-auth"
     namespace = "kube-system"
   }
-  depends_on = [aws_eks_node_group.workspace_node_group]  
+  depends_on = [module.eks]  
 }
 
 resource "kubernetes_config_map_v1_data" "aws_auth_update" {
@@ -40,5 +40,5 @@ resource "kubernetes_config_map_v1_data" "aws_auth_update" {
   lifecycle {
     ignore_changes = [ data ]    
   }
-  depends_on = [aws_eks_node_group.workspace_node_group]  
+  depends_on = [module.eks]  
 }

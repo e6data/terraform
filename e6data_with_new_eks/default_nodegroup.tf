@@ -86,7 +86,7 @@ resource "aws_eks_node_group" "default_node_group" {
   depends_on = [ aws_iam_role.eks_nodegroup_iam_role ,module.eks]
 }
 
-/* data "aws_iam_policy_document" "eks_nodegroup_iam_assume_policy" {
+data "aws_iam_policy_document" "eks_nodegroup_iam_assume_policy" {
   statement {
     actions = ["sts:AssumeRole"]
     principals {
@@ -94,13 +94,13 @@ resource "aws_eks_node_group" "default_node_group" {
       identifiers = ["ec2.amazonaws.com"]
     }
   }
-} */
+}
 
-/* resource "aws_iam_role" "eks_nodegroup_iam_role" {
+resource "aws_iam_role" "eks_nodegroup_iam_role" {
   name = local.e6data_workspace_name
   managed_policy_arns = var.eks_nodegroup_iam_policy_arn
   assume_role_policy = data.aws_iam_policy_document.eks_nodegroup_iam_assume_policy.json
-} */
+}
 
 resource "null_resource" "default_nodegroup_asgd" {
 
