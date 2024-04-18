@@ -27,7 +27,7 @@ locals {
   }]
 
   myroles2 = [{
-    "rolearn"=  aws_iam_role.e6data_cross_account_role.arn,
+    "rolearn"=  aws_iam_role.karpenter_node_role.arn,
     "username"= "system:node:{{EC2PrivateDNSName}}"
   }]
 

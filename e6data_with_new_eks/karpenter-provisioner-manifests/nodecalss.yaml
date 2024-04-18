@@ -4,13 +4,13 @@ metadata:
   name: e6data-nodeclass-${workspace_name}
 spec:
   amiFamily: AL2
-  role: "${karpenter_node_role_arn}"
+  role: "${karpenter_node_role_name}"
   subnetSelectorTerms:
     - tags:
-        karpenter.sh/discovery: ${cluster_name}
+        karpenter.sh/discovery: e6data-${cluster_name}
   securityGroupSelectorTerms:
     - tags:
-        karpenter.sh/discovery: ${cluster_name}
+        karpenter.sh/discovery: e6data-${cluster_name}
   tags:
     App: "e6data"
     Environment: "Dev"
