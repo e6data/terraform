@@ -160,7 +160,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     actions = [
       "iam:AddRoleToInstanceProfile",
       "iam:RemoveRoleFromInstanceProfile",
-      "iam:DeleteInstanceProfile",
+      "iam:DeleteInstanceProfile", ### TODO: why is it here?
     ]
 
     condition {
@@ -228,7 +228,7 @@ module "karpeneter_deployment" {
   namespace = module.karpenter_oidc.kubernetes_namespace
   eks_cluster_name = module.eks.cluster_name
   eks_endpoint = module.eks.eks_endpoint
-  service_account_name = var.karpenter_service_account_name
+  service_account_name = module.karpenter_oidc.service_account_name
   controller_role_arn = module.karpenter_oidc.oidc_role_arn
 
   controller_memory_limits = "1Gi"
@@ -239,16 +239,16 @@ module "karpeneter_deployment" {
   depends_on = [module.eks, module.karpenter_oidc, aws_eks_node_group.default_node_group]
 }
 
-data "kubectl_path_documents" "provisioner_manifests" {
-  pattern = "./karpenter-provisioner-manifests/*.yaml"
-  vars = {
-    cluster_name = var.cluster_name
-    workspace_name = var.workspace_name
-    karpenter_node_role_name = aws_iam_role.karpenter_node_role.name
-  }
-}
+# data "kubectl_path_documents" "provisioner_manifests" {
+#   pattern = "./karpenter-provisioner-manifests/*.yaml"
+#   vars = {
+#     cluster_name = var.cluster_name
+#     workspace_name = var.workspace_name
+#     karpenter_node_role_name = aws_iam_role.karpenter_node_role.name
+#   }
+# }
 
-resource "kubectl_manifest" "provisioners" {
-  for_each  = data.kubectl_path_documents.provisioner_manifests.manifests
-  yaml_body = each.value
-}
+# resource "kubectl_manifest" "provisioners" {
+#   for_each  = data.kubectl_path_documents.provisioner_manifests.manifests
+#   yaml_body = each.value
+# }
