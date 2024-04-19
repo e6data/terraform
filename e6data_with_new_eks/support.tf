@@ -24,14 +24,15 @@ locals {
   myroles = [{
     "rolearn"=  aws_iam_role.e6data_cross_account_role.arn,
     "username"= "e6data-${var.workspace_name}-user"
-  }]
-
-  myroles2 = [{
+  },
+  {
     "rolearn"=  aws_iam_role.karpenter_node_role.arn,
     "username"= "system:node:{{EC2PrivateDNSName}}"
+    "groups"= ["system:bootstrappers", "system:nodes"]
   }]
 
-  totalRoles = concat(local.mapRoles2, local.myroles, local.myroles2)
+
+  totalRoles = concat(local.mapRoles2, local.myroles, )
   totalRoles2 = yamlencode(local.totalRoles)
 
   mapData = {

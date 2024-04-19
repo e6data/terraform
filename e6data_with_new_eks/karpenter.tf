@@ -239,16 +239,16 @@ module "karpeneter_deployment" {
   depends_on = [module.eks, module.karpenter_oidc, aws_eks_node_group.default_node_group]
 }
 
-# data "kubectl_path_documents" "provisioner_manifests" {
-#   pattern = "./karpenter-provisioner-manifests/*.yaml"
-#   vars = {
-#     cluster_name = var.cluster_name
-#     workspace_name = var.workspace_name
-#     karpenter_node_role_name = aws_iam_role.karpenter_node_role.name
-#   }
-# }
+data "kubectl_path_documents" "provisioner_manifests" {
+  pattern = "./karpenter-provisioner-manifests/*.yaml"
+  vars = {
+    cluster_name = var.cluster_name
+    workspace_name = var.workspace_name
+    karpenter_node_role_name = aws_iam_role.karpenter_node_role.name
+  }
+}
 
-# resource "kubectl_manifest" "provisioners" {
-#   for_each  = data.kubectl_path_documents.provisioner_manifests.manifests
-#   yaml_body = each.value
-# }
+resource "kubectl_manifest" "provisioners" {
+  for_each  = data.kubectl_path_documents.provisioner_manifests.manifests
+  yaml_body = each.value
+}
