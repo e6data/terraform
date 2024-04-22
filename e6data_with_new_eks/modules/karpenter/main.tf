@@ -31,6 +31,11 @@ resource "helm_release" "karpenter_release" {
   }
 
   set {
+    name  = "settings.interruptionQueue"
+    value = var.interruption_queue_name
+  }
+
+  set {
     name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
     value = var.controller_role_arn
   }

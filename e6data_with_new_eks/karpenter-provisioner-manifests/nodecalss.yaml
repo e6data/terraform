@@ -1,7 +1,7 @@
 apiVersion: karpenter.k8s.aws/v1beta1
 kind: EC2NodeClass
 metadata:
-  name: e6data-nodeclass-${workspace_name}
+  name: ${nodeclass_name}
 spec:
   amiFamily: AL2
   role: "${karpenter_node_role_name}"
@@ -10,15 +10,10 @@ spec:
         karpenter.sh/discovery: e6data-${cluster_name}
   securityGroupSelectorTerms:
     - tags:
-        karpenter.sh/discovery: e6data-${cluster_name}
-  tags:
-    App: "e6data"
-    Environment: "Dev"
-    Operation: "POC"
-    Team: "PLT"
-    User: "harshith@e6x.io"
+        aws:eks:cluster-name: e6data-${cluster_name}
+  tags: ${tags}
   blockDeviceMappings:
     - deviceName: /dev/xvda
       ebs:
-        volumeSize: 200Gi
+        volumeSize: ${volume_size}
         volumeType: gp3

@@ -54,6 +54,13 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     resources = ["*"]
     sid       = "Karpenter"
   }
+  
+  statement {
+    actions = ["sqs:DeleteMessage","sqs:GetQueueUrl","sqs:ReceiveMessage"]
+    effect = "Allow"
+    resources = ["${aws_sqs_queue.node_interruption_queue.arn}"]
+    sid = "AllowInterruptionQueueActions"
+  }
 
   statement {
     actions = ["ec2:TerminateInstances"]
@@ -230,7 +237,8 @@ module "karpeneter_deployment" {
   eks_endpoint = module.eks.eks_endpoint
   service_account_name = module.karpenter_oidc.service_account_name
   controller_role_arn = module.karpenter_oidc.oidc_role_arn
-
+  interruption_queue_name = aws_sqs_queue.node_interruption_queue.name
+   
   controller_memory_limits = "1Gi"
   controller_cpu_limits    = "1"
   controller_memory_requests = "1Gi"
@@ -242,13 +250,17 @@ module "karpeneter_deployment" {
 data "kubectl_path_documents" "provisioner_manifests" {
   pattern = "./karpenter-provisioner-manifests/*.yaml"
   vars = {
-    cluster_name = var.cluster_name
-    workspace_name = var.workspace_name
+    cluster_name           = var.cluster_name
+    workspace_name         = var.workspace_name
     karpenter_node_role_name = aws_iam_role.karpenter_node_role.name
-  }
+    volume_size            = var.eks_disk_size
+    nodeclass_name         = local.e6data_nodeclass_name
+    nodepool_name          = local.e6data_nodepool_name
+    tags                   = jsonencode(var.cost_tags)
+  } 
 }
 
 resource "kubectl_manifest" "provisioners" {
-  for_each  = data.kubectl_path_documents.provisioner_manifests.manifests
-  yaml_body = each.value
+  count     = 2
+  yaml_body = values(data.kubectl_path_documents.provisioner_manifests.manifests)[count.index]
 }

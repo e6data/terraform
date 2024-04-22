@@ -3,6 +3,11 @@ variable "eks_cluster_name" {
   description = "EKS cluster name"
 }
 
+variable "interruption_queue_name" {
+  type = string
+  description = "EKS cluster name"
+}
+
 variable "eks_endpoint" {
   type = string
   description = "EKS cluster name"
