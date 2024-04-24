@@ -67,6 +67,6 @@ data "aws_caller_identity" "current" {
 #   name = module.eks.cluster_name
 # }
 
-data "aws_eks_cluster_auth" "current" {
-  name = module.eks.cluster_name
-}
+# data "aws_eks_cluster_auth" "current" {
+#   name = module.eks.cluster_name
+# }

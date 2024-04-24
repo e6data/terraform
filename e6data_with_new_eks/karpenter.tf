@@ -244,7 +244,7 @@ module "karpeneter_deployment" {
   controller_memory_requests = "1Gi"
   controller_cpu_requests    = "1"
 
-  depends_on = [module.eks, module.karpenter_oidc, aws_eks_node_group.default_node_group]
+  depends_on = [module.eks, module.karpenter_oidc, aws_eks_node_group.default_node_group, aws_sqs_queue.node_interruption_queue]
 }
 
 data "kubectl_path_documents" "provisioner_manifests" {
@@ -263,4 +263,6 @@ data "kubectl_path_documents" "provisioner_manifests" {
 resource "kubectl_manifest" "provisioners" {
   count     = 2
   yaml_body = values(data.kubectl_path_documents.provisioner_manifests.manifests)[count.index]
+
+  depends_on = [ module.karpeneter_deployment ]
 }

@@ -22,7 +22,6 @@ terraform {
     }
   } 
 }
-
 terraform {
   required_providers {
     kubectl = {

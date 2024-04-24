@@ -1,5 +1,5 @@
 resource "aws_sqs_queue" "node_interruption_queue" {
-  name                      = "${local.short_workspace_name}-spot-interruption-queue"
+  name                      = "e6data-${local.short_workspace_name}-spot-interruption-queue"
   sqs_managed_sse_enabled = true
   message_retention_seconds = 300
 }
@@ -25,7 +25,7 @@ resource "aws_sqs_queue_policy" "sqs_access_policy" {
 }
 
 resource "aws_cloudwatch_event_rule" "spot_interruption_warning_handler" {
-  name        = "e6data-capture-spot-interruption-warning"
+  name        = "e6data-${local.short_workspace_name}-capture-spot-interruption-warning"
   description = "Capture spot interruption warning for karpenter"
 
   event_pattern = jsonencode({
@@ -35,7 +35,7 @@ resource "aws_cloudwatch_event_rule" "spot_interruption_warning_handler" {
 }
 
 resource "aws_cloudwatch_event_rule" "aws_health_event_handler" {
-  name        = "e6data-capture-aws-health-event"
+  name        = "e6data-${local.short_workspace_name}-capture-aws-health-event"
   description = "Capture AWS Health events for karpenter"
 
   event_pattern = jsonencode({
@@ -45,7 +45,7 @@ resource "aws_cloudwatch_event_rule" "aws_health_event_handler" {
 }
 
 resource "aws_cloudwatch_event_rule" "ec2_rebalance_recommendation_handler" {
-  name        = "e6data-capture-ec2-rebalance-recommendation"
+  name        = "e6data-${local.short_workspace_name}-capture-ec2-rebalance-recommendation"
   description = "Capture EC2 instance rebalance recommendation for karpenter"
 
   event_pattern = jsonencode({
@@ -55,7 +55,7 @@ resource "aws_cloudwatch_event_rule" "ec2_rebalance_recommendation_handler" {
 }
 
 resource "aws_cloudwatch_event_rule" "ec2_state_change_notification_handler" {
-  name        = "e6data-capture-ec2-state-change-notification"
+  name        = "e6data-${local.short_workspace_name}-capture-ec2-state-change-notification"
   description = "Capture EC2 instance state change notification for karpenter"
 
   event_pattern = jsonencode({
