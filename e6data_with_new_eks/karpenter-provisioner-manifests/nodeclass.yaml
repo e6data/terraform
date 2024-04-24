@@ -15,5 +15,5 @@ spec:
   blockDeviceMappings:
     - deviceName: /dev/xvda
       ebs:
-        volumeSize: ${volume_size}
+        volumeSize: ${volume_size}Gi
         volumeType: gp3
