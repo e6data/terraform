@@ -60,3 +60,4 @@ karpenter_release_version   = "0.36.0"               ### Version of the karpente
 
 # Local nvme Provisioner Variables
 local_volume_provisioner_release_version = "2.0.0"
+local_volume_provisioner_namespace = "kube-system"

@@ -16,11 +16,11 @@ resource "null_resource" "waiting" {
 }
 
 resource "helm_release" "local_volume_provisioner_release" {
-  name = "local-static-provisioner"
-  chart = "local-static-provisioner"
+  name = "e6data-local-static-provisioner"
+  chart = "e6data-local-static-provisioner"
   repository = "https://kubernetes-sigs.github.io/sig-storage-local-static-provisioner"
   version = var.local_volume_provisioner_release_version
-  namespace = "kube-system"
+  namespace = var.namespace
   timeout = 600
 
   set {
@@ -50,6 +50,11 @@ resource "helm_release" "local_volume_provisioner_release" {
   set {
     name  = "classes[0].volumeMode"
     value = "Filesystem"
+  }
+
+  set {
+    name  = "classes[0].name"
+    value = "e6data-fast-disks"
   }
 
   set {

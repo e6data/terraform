@@ -208,3 +208,8 @@ variable "local_volume_provisioner_release_version" {
   description = "Version of the local volume provisioner release"
   default     = "2.0.0"
 }
+
+variable "local_volume_provisioner_namespace" {
+  type        = string
+  description = "local_volume_provisioner namespace"
+}

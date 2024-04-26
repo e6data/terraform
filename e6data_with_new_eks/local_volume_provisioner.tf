@@ -6,5 +6,6 @@ module "local_nvme_provisioner_deployment" {
   source = "./modules/local_volume_provisioner"
 
   workspace_name = var.workspace_name
+  namespace      = var.local_volume_provisioner_namespace
   local_volume_provisioner_release_version = var.local_volume_provisioner_release_version
 }
