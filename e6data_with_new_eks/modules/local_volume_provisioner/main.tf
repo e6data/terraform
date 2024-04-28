@@ -17,7 +17,7 @@ resource "null_resource" "waiting" {
 
 resource "helm_release" "local_volume_provisioner_release" {
   name = "e6data-local-static-provisioner"
-  chart = "e6data-local-static-provisioner"
+  chart = "local-static-provisioner"
   repository = "https://kubernetes-sigs.github.io/sig-storage-local-static-provisioner"
   version = var.local_volume_provisioner_release_version
   namespace = var.namespace
@@ -35,6 +35,21 @@ resource "helm_release" "local_volume_provisioner_release" {
   set {
     name  = "nameOverride"
     value = "e6data-${var.workspace_name}"
+  }
+
+  set {
+    name = "tolerations[0].key"
+    value = "e6data-workspace-name"
+  }
+
+  set {
+    name = "tolerations[0].operator"
+    value = "Equal"
+  }
+
+  set {
+    name = "tolerations[0].value"
+    value = "${var.workspace_name}"
   }
 
   set {
