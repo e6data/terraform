@@ -57,7 +57,3 @@ alb_controller_helm_chart_version = "1.6.1"
 karpenter_namespace            = "kube-system"          ### Namespace to deploy the karpenter
 karpenter_service_account_name = "karpenter"   ### Service account name for the karpenter
 karpenter_release_version   = "0.36.0"               ### Version of the karpenter Helm chart
-
-# Local nvme Provisioner Variables
-local_volume_provisioner_release_version = "2.0.0"
-local_volume_provisioner_namespace = "kube-system"
