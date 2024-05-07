@@ -109,23 +109,6 @@ variable "eks_nodegroup_instance_types" {
   default = ["c7g.16xlarge"]
 }
 
-variable "max_instances_in_eks_nodegroup" {
-  description = "Maximum number of instances in nodegroup"
-  type        = number
-}
-
-variable "min_instances_in_eks_nodegroup" {
-  description = "Minimum number of instances in nodegroup"
-  type        = number
-  default     = 0
-}
-
-variable "desired_instances_in_eks_nodegroup" {
-  description = "Minimum number of instances in nodegroup"
-  type        = number
-  default     = 0
-}
-
 variable "kubernetes_namespace" {
   description = "value of kubernetes namespace to deploy e6data workspace"
   type        = string
@@ -201,4 +184,9 @@ variable "karpenter_service_account_name" {
 variable "karpenter_release_version" {
   description = "Version of the Karpenter cluster autoscaler Helm chart"
   type        = string
+}
+
+variable "nodepool_instance_family" {
+  type = list(string)
+  description = "Instance family for nodepool"
 }
