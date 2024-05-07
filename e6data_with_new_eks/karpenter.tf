@@ -247,6 +247,11 @@ module "karpeneter_deployment" {
   depends_on = [module.eks, module.karpenter_oidc, aws_eks_node_group.default_node_group, aws_sqs_queue.node_interruption_queue]
 }
 
+data "aws_availability_zones" "available" {
+  state = "available"
+  exclude_names = var.excluded_az
+}
+
 data "kubectl_path_documents" "provisioner_manifests" {
   pattern = "./karpenter-provisioner-manifests/*.yaml"
   vars = {
