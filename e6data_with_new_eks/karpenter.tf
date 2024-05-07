@@ -253,6 +253,7 @@ data "kubectl_path_documents" "provisioner_manifests" {
     cluster_name           = var.cluster_name
     workspace_name         = var.workspace_name
     available_zones        = data.aws_availability_zones.available.*.names
+    cluster_name           = module.eks.cluster_name
     karpenter_node_role_name = aws_iam_role.karpenter_node_role.name
     volume_size            = var.eks_disk_size
     nodeclass_name         = local.e6data_nodeclass_name

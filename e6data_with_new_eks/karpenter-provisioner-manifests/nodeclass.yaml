@@ -10,10 +10,10 @@ spec:
   role: "${karpenter_node_role_name}"
   subnetSelectorTerms:
     - tags:
-        karpenter.sh/discovery: e6data-${cluster_name}
+        karpenter.sh/discovery: ${cluster_name}
   securityGroupSelectorTerms:
     - tags:
-        aws:eks:cluster-name: e6data-${cluster_name}
+        aws:eks:cluster-name: ${cluster_name}
   tags: ${tags}
   blockDeviceMappings:
     - deviceName: /dev/xvda
