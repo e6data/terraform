@@ -2,12 +2,15 @@ apiVersion: karpenter.sh/v1beta1
 kind: NodePool
 metadata:
   name: ${nodepool_name}
+  labels:
+    app: e6data
+    e6data-workspace-name: ${workspace_name}
 spec:
   template:
     metadata:
       labels:
         app: e6data
-        e6data-workspace-name: ${workspace_name}
+        e6data-workspace-name: ${workspace_name}  
     spec:
       requirements:
         - key: topology.kubernetes.io/zone
