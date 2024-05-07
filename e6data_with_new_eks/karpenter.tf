@@ -247,11 +247,19 @@ module "karpeneter_deployment" {
   depends_on = [module.eks, module.karpenter_oidc, aws_eks_node_group.default_node_group, aws_sqs_queue.node_interruption_queue]
 }
 
+data "aws_availability_zones" "available" {
+  state = "available"
+  exclude_names = var.excluded_az
+}
+
 data "kubectl_path_documents" "provisioner_manifests" {
   pattern = "./karpenter-provisioner-manifests/*.yaml"
   vars = {
     cluster_name           = var.cluster_name
     workspace_name         = var.workspace_name
+    available_zones        = jsonencode(data.aws_availability_zones.available.names)
+    cluster_name           = module.eks.cluster_name
+    instance_family        = jsonencode(var.nodepool_instance_family)
     karpenter_node_role_name = aws_iam_role.karpenter_node_role.name
     volume_size            = var.eks_disk_size
     nodeclass_name         = local.e6data_nodeclass_name

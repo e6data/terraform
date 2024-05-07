@@ -91,7 +91,6 @@ variable "eks_nodegroup_iam_policy_arn" {
   ]
 }
 
-
 variable "eks_disk_size" {
   description = "disk size for the disks in node group"
   type        = number
@@ -101,29 +100,6 @@ variable "eks_capacity_type" {
   description = "Instance lifecycle for e6data nodegroup"
   type        = string
   default     = "ON_DEMAND"
-}
-
-variable "eks_nodegroup_instance_types" {
-  description = "Instance type for nodegroup"
-  type        = list(string)
-  default = ["c7g.16xlarge"]
-}
-
-variable "max_instances_in_eks_nodegroup" {
-  description = "Maximum number of instances in nodegroup"
-  type        = number
-}
-
-variable "min_instances_in_eks_nodegroup" {
-  description = "Minimum number of instances in nodegroup"
-  type        = number
-  default     = 0
-}
-
-variable "desired_instances_in_eks_nodegroup" {
-  description = "Minimum number of instances in nodegroup"
-  type        = number
-  default     = 0
 }
 
 variable "kubernetes_namespace" {
@@ -201,4 +177,9 @@ variable "karpenter_service_account_name" {
 variable "karpenter_release_version" {
   description = "Version of the Karpenter cluster autoscaler Helm chart"
   type        = string
+}
+
+variable "nodepool_instance_family" {
+  type = list(string)
+  description = "Instance family for nodepool"
 }

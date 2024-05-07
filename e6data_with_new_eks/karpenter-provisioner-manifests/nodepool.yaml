@@ -2,22 +2,25 @@ apiVersion: karpenter.sh/v1beta1
 kind: NodePool
 metadata:
   name: ${nodepool_name}
+  labels:
+    app: e6data
+    e6data-workspace-name: ${workspace_name}
 spec:
   template:
     metadata:
       labels:
         app: e6data
-        e6data-workspace-name: ${workspace_name}
+        e6data-workspace-name: ${workspace_name}  
     spec:
       requirements:
         - key: "karpenter.k8s.aws/instance-family"
           operator: In
-          values: ["c7g", "c6g", "r6g", "r7g"]
+          values: ${instance_family}
         - key: topology.kubernetes.io/zone
           operator: In
-          values: ["us-east-1b","us-east-1c","us-east-1d","us-east-1a","us-east-1e"]
+          values: ${available_zones}
       nodeClassRef:
-        name: e6data-nodeclass-${workspace_name}
+        name: ${nodeclass_name}
       taints:
         - key: "e6data-workspace-name"
           value: ${workspace_name}
