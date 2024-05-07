@@ -257,7 +257,7 @@ data "kubectl_path_documents" "provisioner_manifests" {
   vars = {
     cluster_name           = var.cluster_name
     workspace_name         = var.workspace_name
-    available_zones        = data.aws_availability_zones.available.names
+    available_zones        = jsonencode(data.aws_availability_zones.available.names)
     cluster_name           = module.eks.cluster_name
     instance_family        = jsonencode(var.nodepool_instance_family)
     karpenter_node_role_name = aws_iam_role.karpenter_node_role.name
