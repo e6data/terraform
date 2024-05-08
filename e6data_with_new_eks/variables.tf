@@ -102,11 +102,6 @@ variable "eks_capacity_type" {
   default     = "ON_DEMAND"
 }
 
-variable "kubernetes_namespace" {
-  description = "value of kubernetes namespace to deploy e6data workspace"
-  type        = string
-}
-
 variable "e6data_cross_oidc_role_arn" {
   type        = list(string)
   description = "ARN of the cross account role to assume"

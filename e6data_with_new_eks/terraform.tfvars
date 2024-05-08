@@ -51,6 +51,5 @@ alb_ingress_controller_service_account_name = "alb-ingress-controller"
 alb_controller_helm_chart_version = "1.6.1"
 
 # Karpenter Variables
-karpenter_namespace            = "kube-system"          ### Namespace to deploy the karpenter
 karpenter_service_account_name = "karpenter"   ### Service account name for the karpenter
 karpenter_release_version   = "0.36.0"               ### Version of the karpenter Helm chart

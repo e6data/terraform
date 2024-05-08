@@ -216,7 +216,7 @@ module "karpenter_oidc" {
 
   oidc_role_name = "${module.eks.cluster_name}-karpenter"
 
-  kubernetes_namespace = var.karpenter_namespace
+  kubernetes_namespace = var.kubernetes_namespace
   kubernetes_service_account_name = var.karpenter_service_account_name
 
   depends_on = [aws_iam_policy.karpenter_controller_policy, aws_eks_node_group.default_node_group]
