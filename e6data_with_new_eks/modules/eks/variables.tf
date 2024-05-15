@@ -33,20 +33,6 @@ variable "iam_eks_cluster_policy_arn" {
   ]
 }
 
-variable "iam_eks_node_policy_arn" {
-  type        = list(string)
-  description = "List of Policies to attach to the EKS node role"
-  default = [
-    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
-    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
-    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
-    "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
-    "arn:aws:iam::aws:policy/AmazonEKSServicePolicy",
-    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess",
-    "arn:aws:iam::aws:policy/AmazonElasticFileSystemClientFullAccess"
-  ]
-}
-
 variable "private_subnet_ids" {
   type = list(string)
   description = "private subnet IDs"
