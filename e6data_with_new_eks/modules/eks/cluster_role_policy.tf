@@ -24,9 +24,3 @@ data "aws_iam_policy_document" "iam_eks_node_assume_policy" {
     }
   }
 }
-
-resource "aws_iam_role" "iam_eks_node_role" {
-  name = "e6data-${var.cluster_name}-node-role"
-  managed_policy_arns = var.iam_eks_node_policy_arn
-  assume_role_policy = data.aws_iam_policy_document.iam_eks_node_assume_policy.json
-}
