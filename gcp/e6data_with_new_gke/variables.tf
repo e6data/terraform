@@ -17,7 +17,7 @@ variable "cluster_name" {
 variable "platform_sa_email" {
   description = "Platform service account email"
   type = string
-  default = "e6-customer-dev-3s2et@e6data-analytics.iam.gserviceaccount.com"
+  default = "e6-customer-beta-8uwl3@e6data-analytics.iam.gserviceaccount.com"
 }
 
 variable "cost_labels" {
@@ -89,7 +89,7 @@ variable "gke_dns_cache_enabled" {
 variable "control_plane_user" {
   description = "Control plane user to be added to e6data workspace"
   type = list(string)
-  default = [ "112892618221467749441" ]
+  default = [ "110954230975627803940" ]
 }
 
 variable "max_instances_in_nodepool" {
