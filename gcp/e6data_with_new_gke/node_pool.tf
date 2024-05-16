@@ -188,3 +188,25 @@ resource "google_project_iam_binding" "workspace_ksa_mapping" {
     "serviceAccount:${var.gcp_project_id}.svc.id.goog[${var.kubernetes_namespace}/${var.workspace_name}]",
   ]
 }
+
+resource "google_project_iam_custom_role" "targetpoolAccess" {
+  role_id      = local.target_pool_role_name
+  title        = "e6data-${var.workspace_name}-targetpoolAccess"
+  description  = "gcp targetpool access"
+  permissions  = [
+    "compute.instances.get",
+    "compute.targetPools.get",
+    "compute.targetPools.list"
+  ]
+  stage        = "GA"
+  project      = var.gcp_project_id
+}
+
+# Create IAM policy binding for targetpool access and Kubernetes cluster
+resource "google_project_iam_binding" "targetpool_ksa_mapping" {
+  project = var.gcp_project_id
+  role = google_project_iam_custom_role.targetpoolAccess.name
+  members = [
+    "serviceAccount:${var.platform_sa_email}",
+  ]
+}
