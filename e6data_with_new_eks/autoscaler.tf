@@ -7,7 +7,6 @@ data "aws_iam_policy_document" "cluster_autoscaler" {
     actions = [
       "autoscaling:DescribeAutoScalingGroups",
       "autoscaling:DescribeAutoScalingInstances",
-      "autoscaling:DescribeLaunchConfigurations",
       "autoscaling:DescribeScalingActivities",
       "autoscaling:DescribeTags",
       "ec2:DescribeInstanceTypes",
@@ -29,7 +28,11 @@ data "aws_iam_policy_document" "cluster_autoscaler" {
       # "ec2:GetInstanceTypesFromInstanceRequirements"
     ]
 
-    resources = ["*"]
+    # resources = ["*"]
+    resources = [
+      "arn:aws:autoscaling:${var.aws_region}:${data.aws_caller_identity.current.account_id}:autoScalingGroup:*:autoScalingGroupName/${aws_eks_node_group.workspace_node_group.resources[0].autoscaling_groups[0].name}",
+      "arn:aws:autoscaling:${var.aws_region}:${data.aws_caller_identity.current.account_id}:autoScalingGroup:*:autoScalingGroupName/${aws_eks_node_group.default_node_group.resources[0].autoscaling_groups[0].name}"
+    ]
 
     # condition {
     #   test     = "StringEquals"
@@ -37,11 +40,11 @@ data "aws_iam_policy_document" "cluster_autoscaler" {
     #   values   = ["owned"]
     # }
 
-    condition {
-      test     = "StringEquals"
-      variable = "autoscaling:ResourceTag/k8s.io/cluster-autoscaler/enabled"
-      values   = ["true"]
-    }
+    # condition {
+    #   test     = "StringEquals"
+    #   variable = "autoscaling:ResourceTag/k8s.io/cluster-autoscaler/enabled"
+    #   values   = ["true"]
+    # }
   }
 }
 
