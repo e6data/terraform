@@ -24,8 +24,6 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
         "ec2:DescribeInstances",
         "ec2:DescribeNetworkInterfaces",
         "ec2:DescribeTags",
-        "ec2:GetCoipPoolUsage",
-        "ec2:DescribeCoipPools",
         "elasticloadbalancing:DescribeLoadBalancers",
         "elasticloadbalancing:DescribeLoadBalancerAttributes",
         "elasticloadbalancing:DescribeListeners",
@@ -42,23 +40,10 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
 
   statement {
     actions = [
-        "cognito-idp:DescribeUserPoolClient",
         "acm:ListCertificates",
         "acm:DescribeCertificate",
-        "iam:ListServerCertificates",
-        "iam:GetServerCertificate",
-        "waf-regional:GetWebACL",
-        "waf-regional:GetWebACLForResource",
-        "waf-regional:AssociateWebACL",
-        "waf-regional:DisassociateWebACL",
-        "wafv2:GetWebACL",
-        "wafv2:GetWebACLForResource",
-        "wafv2:AssociateWebACL",
-        "wafv2:DisassociateWebACL",
-        "shield:GetSubscriptionState",
-        "shield:DescribeProtection",
-        "shield:CreateProtection",
-        "shield:DeleteProtection"
+        # "iam:ListServerCertificates",
+        # "iam:GetServerCertificate",
     ]
     resources = ["*"]
   }
@@ -69,7 +54,9 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
         "ec2:RevokeSecurityGroupIngress"
     ]
     resources = ["*"]
+
   }
+
 
   statement {
     actions = [
@@ -78,6 +65,7 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
     ]
     resources = ["*"]
   }
+
 
   statement {
     actions = [
@@ -90,9 +78,9 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
       values = ["CreateSecurityGroup"]
     }
     condition {
-        test = "Null"
-        variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
-        values = ["false"]
+      test     = "StringEquals"
+      variable = "aws:RequestTag/app"
+      values   = ["e6data"]
     }
   }
 
@@ -108,10 +96,22 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
       values = ["true"]
     }
 
+     condition {
+      test     = "StringEquals"
+      variable = "aws:RequestTag/app"
+      values   = ["e6data"]
+    }
+
     condition {
       test = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
       values = ["false"]
+    }
+
+     condition {
+      test     = "StringEquals"
+      variable = "aws:ResourceTag/app"
+      values   = ["e6data"]
     }
   }
 
@@ -127,6 +127,12 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
       values = ["true"]
     }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:ResourceTag/app"
+      values   = ["e6data"]
+    }
   }
 
   statement {
@@ -139,6 +145,12 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
         test = "Null"
         variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
         values = ["false"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:RequestTag/app"
+      values   = ["e6data"]
     }
   }
 
@@ -162,6 +174,18 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
         variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
         values = ["false"]
     }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:RequestTag/app"
+      values   = ["e6data"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:ResourceTag/app"
+      values   = ["e6data"]
+    }
   }
 
   statement {
@@ -172,6 +196,18 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
         "elasticloadbalancing:DeleteRule"
     ]
     resources = ["*"]
+
+     condition {
+      test     = "StringEquals"
+      variable = "aws:RequestTag/app"
+      values   = ["e6data"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:ResourceTag/app"
+      values   = ["e6data"]
+    }
   }
 
   statement {
@@ -191,6 +227,12 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
         variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
         values = ["false"]
     }
+
+     condition {
+      test     = "StringEquals"
+      variable = "aws:ResourceTag/app"
+      values   = ["e6data"]
+    }
   }
 
   statement {
@@ -207,6 +249,18 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
         "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
         "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*"
     ]
+
+     condition {
+      test     = "StringEquals"
+      variable = "aws:RequestTag/app"
+      values   = ["e6data"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:ResourceTag/app"
+      values   = ["e6data"]
+    }
   }
   
   statement {
@@ -215,6 +269,12 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
         "elasticloadbalancing:DeregisterTargets"
     ]
     resources = ["arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"]
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:ResourceTag/app"
+      values   = ["e6data"]
+    }
   }
 
   statement {
@@ -226,6 +286,13 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
         "elasticloadbalancing:ModifyRule"
     ]
     resources = ["*"]
+
+     condition {
+      test     = "StringEquals"
+      variable = "aws:ResourceTag/app"
+      values   = ["e6data"]
+    }
+
   }
 }
 
@@ -286,6 +353,7 @@ module "aws_ingress_controller" {
 
   region = var.aws_region
   vpc_id = module.network.vpc_id
+  cost_tags = var.cost_tags
 
   depends_on = [ module.alb_controller_oidc, module.autoscaler_deployment, aws_eks_node_group.default_node_group]
 }

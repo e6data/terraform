@@ -28,3 +28,8 @@ variable "vpc_id" {
   type        = string
   description = "VPC ID"
 }
+
+variable "cost_tags" {
+  type        = map(string)
+  description = "Cost tags"
+}

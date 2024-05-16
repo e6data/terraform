@@ -68,4 +68,18 @@ resource "helm_release" "alb_controller_release" {
     name = "nodeSelector.e6data-workspace-name"
     value = "default"
   }
+
+  # dynamic "set" {
+  #   for_each = var.cost_tags
+  #   content {
+  #     name = "defaultTags.${set.key}"
+  #     value = set.value
+  #   }
+    
+  # }
+
+  set {
+    name = "defaultTags.app"
+    value = "e6data"
+  }
 }
