@@ -24,19 +24,18 @@ data "aws_iam_policy_document" "cluster_autoscaler" {
     actions = [
       "autoscaling:SetDesiredCapacity",
       "autoscaling:TerminateInstanceInAutoScalingGroup",
-      "autoscaling:UpdateAutoScalingGroup",
-      "eks:DescribeNodegroup",
-      "ec2:GetInstanceTypesFromInstanceRequirements",
-      "eks:DescribeNodegroup"
+      # "autoscaling:UpdateAutoScalingGroup",
+      # "eks:DescribeNodegroup",
+      # "ec2:GetInstanceTypesFromInstanceRequirements"
     ]
 
     resources = ["*"]
 
-    condition {
-      test     = "StringEquals"
-      variable = "autoscaling:ResourceTag/kubernetes.io/cluster/${module.eks.cluster_name}"
-      values   = ["owned"]
-    }
+    # condition {
+    #   test     = "StringEquals"
+    #   variable = "autoscaling:ResourceTag/kubernetes.io/cluster/${module.eks.cluster_name}"
+    #   values   = ["owned"]
+    # }
 
     condition {
       test     = "StringEquals"
