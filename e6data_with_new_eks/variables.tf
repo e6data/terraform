@@ -195,12 +195,10 @@ variable "endpoint_private_access" {
   description = "To enable private access to the eks cluster"
 }
 
-
-## Security group 
+## EKS Security Group
 variable "ingress_rules" {
-  description = "List of ingress rules for EKS cluster"
+  description = "List of ingress rules"
   type = list(object({
-    description = string
     from_port   = number
     to_port     = number
     protocol    = string
@@ -208,49 +206,47 @@ variable "ingress_rules" {
     cidr_blocks = list(string)
   }))
   default = [
-  {
-    description = "Allow ALL Inbound Traffic from self"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    self        = true
-    cidr_blocks = []
-  }
-]
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      self        = true
+      cidr_blocks = []
+    }
+  ]
 }
 
 variable "egress_rules" {
-  description = "List of egress rules for EKS cluster"
+  description = "List of egress rules"
   type = list(object({
-    description = string
     from_port   = number
     to_port     = number
     protocol    = string
+    self        = bool
     cidr_blocks = list(string)
   }))
   default = [
-  {
-    description = "Allow UDP 53 to self"
-    from_port   = 53
-    to_port     = 53
-    protocol    = "udp"
-    self        = true
-    cidr_blocks = []
-  },
-  {
-    description = "Allow TCP 443 to 0.0.0.0/0"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  },
-  {
-    description = "Allow TCP 0-65535 to self"
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    self        = true
-    cidr_blocks = []
-  }
-]
+    {
+      from_port   = 53
+      to_port     = 53
+      protocol    = "udp"
+      self        = true
+      cidr_blocks = []
+      security_groups = []
+    },
+    {
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      self        = false
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      from_port   = 0
+      to_port     = 65535
+      protocol    = "tcp"
+      self        = true
+      cidr_blocks = []
+    }
+  ]
 }
