@@ -11,6 +11,8 @@ resource "aws_launch_template" "default_nodegroup_launch_template" {
     }
   }
 
+  vpc_security_group_ids = [module.security_group.security_group_id]
+
   tag_specifications {
     resource_type = "instance"
 

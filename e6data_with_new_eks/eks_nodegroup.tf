@@ -11,6 +11,8 @@ resource "aws_launch_template" "nodegroup_launch_template" {
       volume_size = var.eks_disk_size
     }
   }
+  
+  vpc_security_group_ids = [module.security_group.security_group_id]
 
   tag_specifications {
     resource_type = "instance"
