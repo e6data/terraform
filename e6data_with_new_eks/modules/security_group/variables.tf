@@ -22,15 +22,6 @@ variable "ingress_rules" {
     self        = bool
     cidr_blocks = list(string)
   }))
-  default = [
-    {
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      self        = true
-      cidr_blocks = []
-    }
-  ]
 }
 
 variable "egress_rules" {
@@ -42,28 +33,4 @@ variable "egress_rules" {
     self        = bool
     cidr_blocks = list(string)
   }))
-  default = [
-    {
-      from_port   = 53
-      to_port     = 53
-      protocol    = "udp"
-      self        = true
-      cidr_blocks = []
-      security_groups = []
-    },
-    {
-      from_port   = 443
-      to_port     = 443
-      protocol    = "tcp"
-      self        = false
-      cidr_blocks = ["0.0.0.0/0"]
-    },
-    {
-      from_port   = 0
-      to_port     = 65535
-      protocol    = "tcp"
-      self        = true
-      cidr_blocks = []
-    }
-  ]
 }
