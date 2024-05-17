@@ -154,28 +154,6 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
   
     statement {
       actions = [
-          "elasticloadbalancing:AddTags"
-      ]
-      resources = [
-          "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
-          "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*", 
-          "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"
-      ]
-      condition {
-          test = "Null"
-          variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
-          values = ["true"]
-      }
-  
-      condition {
-        test     = "StringEquals"
-        variable = "aws:RequestTag/app"
-        values   = ["e6data"]
-      }
-    }
-
-    statement {
-      actions = [
           "elasticloadbalancing:RemoveTags"
       ]
       resources = [
@@ -267,6 +245,27 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
        condition {
         test     = "StringEquals"
         variable = "aws:RequestTag/app"
+        values   = ["e6data"]
+      }
+    }
+
+    statement {
+      actions = [
+          "elasticloadbalancing:AddTags"
+      ]
+      resources = [
+          "arn:aws:elasticloadbalancing:*:*:listener/net/*/*",
+          "arn:aws:elasticloadbalancing:*:*:listener/app/*/*", 
+          "arn:aws:elasticloadbalancing:*:*:listener-rule/net/*/*",
+          "arn:aws:elasticloadbalancing:*:*:listener-rule/app/*/*", 
+          "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+          "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+          "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*"
+      ]
+  
+       condition {
+        test     = "StringEquals"
+        variable = "aws:ResourceTag/app"
         values   = ["e6data"]
       }
     }
