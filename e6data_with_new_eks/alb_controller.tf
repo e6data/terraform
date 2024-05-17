@@ -127,12 +127,6 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
       ]
       resources = ["*"]
       condition {
-        test = "StringEquals"
-        variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-        values = ["true"]
-      }
-  
-      condition {
         test     = "StringEquals"
         variable = "aws:ResourceTag/app"
         values   = ["e6data"]
