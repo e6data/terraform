@@ -56,6 +56,13 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
     }
 
     statement {
+      actions = [
+          "ec2:AuthorizeSecurityGroupIngress",
+      ]
+      resources = ["*"]
+    }
+
+    statement {
       actions =[
           "ec2:DeleteSecurityGroup"
       ]
@@ -89,15 +96,10 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
           "ec2:CreateTags"
       ]
       resources = ["arn:aws:ec2:*:*:security-group/*"]
-      condition {
-        test = "Null"
-        variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
-        values = ["true"]
-      }
   
        condition {
         test     = "StringEquals"
-        variable = "aws:RequestTag/app"
+        variable = "aws:ResourceTag/app"
         values   = ["e6data"]
       }
      }
@@ -107,11 +109,6 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
           "ec2:DeleteTags"
       ]
       resources = ["arn:aws:ec2:*:*:security-group/*"]  
-      condition {
-        test = "Null"
-        variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-        values = ["false"]
-      }
   
        condition {
         test     = "StringEquals"
@@ -122,7 +119,6 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
 
     statement {
       actions = [
-          "ec2:AuthorizeSecurityGroupIngress",
           "ec2:RevokeSecurityGroupIngress"
       ]
       resources = ["*"]
@@ -139,11 +135,6 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
           "elasticloadbalancing:CreateTargetGroup"
       ]
       resources = ["*"]
-      condition {
-          test = "Null"
-          variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
-          values = ["false"]
-      }
   
       condition {
         test     = "StringEquals"
@@ -161,12 +152,6 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
           "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*", 
           "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"
       ]
-
-      condition {
-          test = "Null"
-          variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-          values = ["false"]
-      }
   
       condition {
         test     = "StringEquals"
@@ -215,11 +200,6 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
           "elasticloadbalancing:DeleteTargetGroup"
       ]
       resources = ["*"]
-      condition {
-          test = "Null"
-          variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-          values = ["false"]
-      }
   
        condition {
         test     = "StringEquals"
