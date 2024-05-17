@@ -191,9 +191,7 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
   statement {
     actions = [
         "elasticloadbalancing:CreateListener",
-        "elasticloadbalancing:DeleteListener",
-        "elasticloadbalancing:CreateRule",
-        "elasticloadbalancing:DeleteRule"
+        "elasticloadbalancing:CreateRule"
     ]
     resources = ["*"]
 
@@ -202,6 +200,14 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
       variable = "aws:RequestTag/app"
       values   = ["e6data"]
     }
+  }
+
+  statement {
+    actions = [
+        "elasticloadbalancing:DeleteListener",
+        "elasticloadbalancing:DeleteRule"
+    ]
+    resources = ["*"]
 
     condition {
       test     = "StringEquals"
