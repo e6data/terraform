@@ -67,8 +67,6 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
       }
     }
 
-    }
-
     statement {
       actions =[
           "ec2:DeleteSecurityGroup"
