@@ -57,9 +57,16 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
 
     statement {
       actions = [
-          "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:AuthorizeSecurityGroupIngress",
       ]
       resources = ["*"]
+       condition {
+        test     = "StringEquals"
+        variable = "aws:ResourceTag/app"
+        values   = ["e6data"]
+      }
+    }
+
     }
 
     statement {
