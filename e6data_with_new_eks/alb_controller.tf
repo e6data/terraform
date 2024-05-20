@@ -85,11 +85,6 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
       ]
       resources = ["arn:aws:ec2:*:*:security-group/*"]
       condition {
-        test = "StringEquals"
-        variable = "ec2:CreateAction"
-        values = ["CreateSecurityGroup"]
-      }
-      condition {
         test     = "StringEquals"
         variable = "aws:RequestTag/app"
         values   = ["e6data"]
