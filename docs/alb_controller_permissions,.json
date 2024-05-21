@@ -1,0 +1,271 @@
+{
+    "Statement": [
+        {
+            "Action": "iam:CreateServiceLinkedRole",
+            "Condition": {
+                "StringEquals": {
+                    "iam:AWSServiceName": "elasticloadbalancing.amazonaws.com"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Action": [
+                "elasticloadbalancing:DescribeTargetHealth",
+                "elasticloadbalancing:DescribeTargetGroups",
+                "elasticloadbalancing:DescribeTargetGroupAttributes",
+                "elasticloadbalancing:DescribeTags",
+                "elasticloadbalancing:DescribeSSLPolicies",
+                "elasticloadbalancing:DescribeRules",
+                "elasticloadbalancing:DescribeLoadBalancers",
+                "elasticloadbalancing:DescribeLoadBalancerAttributes",
+                "elasticloadbalancing:DescribeListeners",
+                "elasticloadbalancing:DescribeListenerCertificates",
+                "ec2:DescribeVpcs",
+                "ec2:DescribeVpcPeeringConnections",
+                "ec2:DescribeTags",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeInternetGateways",
+                "ec2:DescribeInstances",
+                "ec2:DescribeAvailabilityZones",
+                "ec2:DescribeAddresses",
+                "ec2:DescribeAccountAttributes"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Action": [
+                "acm:ListCertificates",
+                "acm:DescribeCertificate"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Action": "ec2:CreateSecurityGroup",
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Action": "ec2:AuthorizeSecurityGroupIngress",
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/app": "e6data"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Action": "ec2:DeleteSecurityGroup",
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/app": "e6data"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": "arn:aws:ec2:*:*:security-group/*"
+        },
+        {
+            "Action": "ec2:CreateTags",
+            "Condition": {
+                "StringEquals": {
+                    "aws:RequestTag/app": "e6data",
+                    "ec2:CreateAction": "CreateSecurityGroup"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": "arn:aws:ec2:*:*:security-group/*"
+        },
+        {
+            "Action": "ec2:CreateTags",
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/app": "e6data"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": "arn:aws:ec2:*:*:security-group/*"
+        },
+        {
+            "Action": "ec2:DeleteTags",
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/app": "e6data"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": "arn:aws:ec2:*:*:security-group/*"
+        },
+        {
+            "Action": "ec2:RevokeSecurityGroupIngress",
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/app": "e6data"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Action": [
+                "elasticloadbalancing:CreateTargetGroup",
+                "elasticloadbalancing:CreateLoadBalancer"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:RequestTag/app": "e6data"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Action": "elasticloadbalancing:RemoveTags",
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/app": "e6data"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+                "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+                "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*"
+            ]
+        },
+        {
+            "Action": [
+                "elasticloadbalancing:CreateRule",
+                "elasticloadbalancing:CreateListener"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:RequestTag/app": "e6data"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Action": [
+                "elasticloadbalancing:DeleteRule",
+                "elasticloadbalancing:DeleteListener"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/app": "e6data"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Action": [
+                "elasticloadbalancing:SetSubnets",
+                "elasticloadbalancing:SetSecurityGroups",
+                "elasticloadbalancing:SetIpAddressType",
+                "elasticloadbalancing:ModifyTargetGroupAttributes",
+                "elasticloadbalancing:ModifyTargetGroup",
+                "elasticloadbalancing:ModifyLoadBalancerAttributes",
+                "elasticloadbalancing:DeleteTargetGroup",
+                "elasticloadbalancing:DeleteLoadBalancer"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/app": "e6data"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Action": "elasticloadbalancing:AddTags",
+            "Condition": {
+                "StringEquals": {
+                    "aws:RequestTag/app": "e6data"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+                "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+                "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*",
+                "arn:aws:elasticloadbalancing:*:*:listener/net/*/*",
+                "arn:aws:elasticloadbalancing:*:*:listener/app/*/*",
+                "arn:aws:elasticloadbalancing:*:*:listener-rule/net/*/*",
+                "arn:aws:elasticloadbalancing:*:*:listener-rule/app/*/*"
+            ]
+        },
+        {
+            "Action": "elasticloadbalancing:AddTags",
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/app": "e6data"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+                "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+                "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*",
+                "arn:aws:elasticloadbalancing:*:*:listener/net/*/*",
+                "arn:aws:elasticloadbalancing:*:*:listener/app/*/*",
+                "arn:aws:elasticloadbalancing:*:*:listener-rule/net/*/*",
+                "arn:aws:elasticloadbalancing:*:*:listener-rule/app/*/*"
+            ]
+        },
+        {
+            "Action": "elasticloadbalancing:RemoveTags",
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/app": "e6data"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+                "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+                "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*",
+                "arn:aws:elasticloadbalancing:*:*:listener/net/*/*",
+                "arn:aws:elasticloadbalancing:*:*:listener/app/*/*",
+                "arn:aws:elasticloadbalancing:*:*:listener-rule/net/*/*",
+                "arn:aws:elasticloadbalancing:*:*:listener-rule/app/*/*"
+            ]
+        },
+        {
+            "Action": [
+                "elasticloadbalancing:RegisterTargets",
+                "elasticloadbalancing:DeregisterTargets"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/app": "e6data"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"
+        },
+        {
+            "Action": [
+                "elasticloadbalancing:SetWebAcl",
+                "elasticloadbalancing:RemoveListenerCertificates",
+                "elasticloadbalancing:ModifyRule",
+                "elasticloadbalancing:ModifyListener",
+                "elasticloadbalancing:AddListenerCertificates"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/app": "e6data"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": "*"
+        }
+    ],
+    "Version": "2012-10-17"
+}
