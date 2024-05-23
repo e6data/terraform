@@ -34,7 +34,6 @@ spec:
             mdadm --create /dev/md0 --level=0 --name=md0 --raid-devices=$num_drives "$${nvme_drives[@]}"
             mkfs.ext4 /dev/md0
             mount_location="/tmp"
-            mkdir -p $mount_location
             mount /dev/md0 $mount_location
             mdadm --detail --scan >> /etc/mdadm.conf 
             echo /dev/md0 $mount_location ext4 defaults,noatime 0 2 >> /etc/fstab
@@ -44,7 +43,6 @@ spec:
             do
                 mkfs.ext4 -F $disk
                 mount_location="/tmp"
-                mkdir -p $mount_location
                 mount $disk $mount_location
                 echo $disk $mount_location ext4 defaults,noatime 0 2 >> /etc/fstab 
             done
