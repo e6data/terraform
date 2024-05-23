@@ -68,4 +68,9 @@ resource "helm_release" "alb_controller_release" {
     name = "nodeSelector.e6data-workspace-name"
     value = "default"
   }
+
+  set {
+    name = "defaultTags.app"
+    value = "e6data"
+  }
 }

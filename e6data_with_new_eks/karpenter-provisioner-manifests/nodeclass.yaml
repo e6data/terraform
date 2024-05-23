@@ -33,8 +33,7 @@ spec:
             yum install mdadm -y
             mdadm --create /dev/md0 --level=0 --name=md0 --raid-devices=$num_drives "$${nvme_drives[@]}"
             mkfs.ext4 /dev/md0
-            uuid=$(blkid -o value -s UUID /dev/md0)
-            mount_location="/mnt/fast-disks/$uuid"
+            mount_location="/tmp"
             mkdir -p $mount_location
             mount /dev/md0 $mount_location
             mdadm --detail --scan >> /etc/mdadm.conf 
@@ -44,8 +43,7 @@ spec:
             for disk in "$${nvme_drives[@]}"
             do
                 mkfs.ext4 -F $disk
-                uuid=$(blkid -o value -s UUID $disk)
-                mount_location="/mnt/fast-disks/$uuid"
+                mount_location="/tmp"
                 mkdir -p $mount_location
                 mount $disk $mount_location
                 echo $disk $mount_location ext4 defaults,noatime 0 2 >> /etc/fstab 

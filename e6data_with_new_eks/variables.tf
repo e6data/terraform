@@ -52,8 +52,7 @@ variable "iam_eks_node_policy_arn" {
     "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
     "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
     "arn:aws:iam::aws:policy/AmazonEKSServicePolicy",
-    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess",
-    "arn:aws:iam::aws:policy/AmazonElasticFileSystemClientFullAccess"
+    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
   ]
 }
 
@@ -99,7 +98,7 @@ variable "eks_disk_size" {
 variable "eks_capacity_type" {
   description = "Instance lifecycle for e6data nodegroup"
   type        = string
-  default     = "ON_DEMAND"
+  default     = "SPOT"
 }
 
 variable "kubernetes_namespace" {

@@ -72,7 +72,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     condition {
       test     = "StringLike"
       variable = "ec2:ResourceTag/karpenter.sh/nodepool"
-      values   = ["*"]
+      values   = [local.e6data_nodepool_name]
     }
   }
 
@@ -113,7 +113,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     condition {
       test     = "StringLike"
       variable = "aws:RequestTag/karpenter.k8s.aws/ec2nodeclass"
-      values   = ["*"]
+      values   = [local.e6data_nodeclass_name]
     }
   }
 
@@ -150,13 +150,13 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     condition {
       test     = "StringLike"
       variable = "aws:ResourceTag/karpenter.k8s.aws/ec2nodeclass"
-      values   = ["*"]
+      values   = [local.e6data_nodeclass_name]
     }
 
     condition {
       test     = "StringLike"
       variable = "aws:RequestTag/karpenter.k8s.aws/ec2nodeclass"
-      values   = ["*"]
+      values   = [local.e6data_nodeclass_name]
     }
   }
 
@@ -167,7 +167,6 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     actions = [
       "iam:AddRoleToInstanceProfile",
       "iam:RemoveRoleFromInstanceProfile",
-      "iam:DeleteInstanceProfile", ### TODO: why is it here?
     ]
 
     condition {
@@ -185,7 +184,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     condition {
       test     = "StringLike"
       variable = "aws:ResourceTag/karpenter.k8s.aws/ec2nodeclass"
-      values   = ["*"]
+      values   = [local.e6data_nodeclass_name]
     }
   }
 

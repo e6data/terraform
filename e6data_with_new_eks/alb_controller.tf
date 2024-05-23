@@ -366,7 +366,6 @@ data "aws_iam_policy_document" "alb_controller_access_doc" {
   
     region = var.aws_region
     vpc_id = module.network.vpc_id
-    cost_tags = var.cost_tags
   
-    depends_on = [ module.alb_controller_oidc, module.autoscaler_deployment, aws_eks_node_group.default_node_group]
+    depends_on = [ module.alb_controller_oidc, aws_eks_node_group.default_node_group]
   }
