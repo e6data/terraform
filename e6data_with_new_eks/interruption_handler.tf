@@ -1,3 +1,4 @@
+#https://karpenter.sh/docs/reference/cloudformation/#interruption-handling
 # Create an SQS queue to handle node interruption messages for Karpenter
 resource "aws_sqs_queue" "node_interruption_queue" {
   name                      = "e6data-${local.short_workspace_name}-spot-interruption-queue"

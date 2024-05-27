@@ -1,5 +1,5 @@
 resource "aws_ec2_tag" "karpenter_subnet_cluster_tag" {
-  count    =    length(module.network.private_subnet_ids)
+  count    =    length(module.network.subnet_ids)
   resource_id = module.network.subnet_ids[count.index]
   key         = "karpenter.sh/discovery"
   value       = module.eks.cluster_name
@@ -55,7 +55,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       values   = ["owned"]
     }
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "aws:ResourceTag/karpenter.sh/nodepool"
       values   = [local.e6data_nodepool_name]
     }
@@ -85,7 +85,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       values   = ["owned"]
     }
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "aws:RequestTag/karpenter.sh/nodepool"
       values   = [local.e6data_nodepool_name]
     }
@@ -122,7 +122,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       ]
     }
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "aws:RequestTag/karpenter.sh/nodepool"
       values   = [local.e6data_nodepool_name]
     }
@@ -145,7 +145,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       values   = ["owned"]
     }
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "aws:ResourceTag/karpenter.sh/nodepool"
       values   = [local.e6data_nodepool_name]
     }
@@ -170,7 +170,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       values   = ["owned"]
     }
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "aws:ResourceTag/karpenter.sh/nodepool"
       values   = [local.e6data_nodepool_name]
     }
@@ -269,7 +269,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     }
 
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "aws:RequestTag/karpenter.k8s.aws/ec2nodeclass"
       values   = [local.e6data_nodeclass_name]
     }
@@ -306,13 +306,13 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     }
 
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "aws:ResourceTag/karpenter.k8s.aws/ec2nodeclass"
       values   = [local.e6data_nodeclass_name]
     }
 
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "aws:RequestTag/karpenter.k8s.aws/ec2nodeclass"
       values   = [local.e6data_nodeclass_name]
     }
@@ -341,7 +341,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     }
 
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "aws:ResourceTag/karpenter.k8s.aws/ec2nodeclass"
       values   = [local.e6data_nodeclass_name]
     }
