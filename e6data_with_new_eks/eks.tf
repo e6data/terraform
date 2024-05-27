@@ -14,6 +14,12 @@ module "eks" {
   depends_on = [ module.network ]
 }
 
+resource "aws_ec2_tag" "cluster_primary_security_group" {
+  resource_id = module.eks.cluster_primary_security_group_id
+  key         = "app" 
+  value       = "e6data"
+}
+
 provider "kubernetes" {
   alias                  = "e6data"
   host                   = module.eks.eks_endpoint
