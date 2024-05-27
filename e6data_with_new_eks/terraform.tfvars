@@ -2,7 +2,7 @@
 aws_region                      = "us-east-1" ### AWS region of the EKS cluster.
 
 # e6data Workspace Variables
-workspace_name                  = "workspace" ### Name of the e6data workspace to be created.
+workspace_name                  = "finale" ### Name of the e6data workspace to be created.
 # Note: The variable workspace_name should meet the following criteria:
 # a) Accepts only lowercase alphanumeric characters.
 # b) Must have a minimum of 3 characters.
@@ -19,7 +19,7 @@ cidr_block                      = "10.200.0.0/16"
 excluded_az                     = ["us-east-1e"]
 
 # EKS Cluster Variables
-cluster_name                    = "ekscluster"            ### The name of the Kubernetes cluster to be created for the e6data workspace.
+cluster_name                    = "finale"            ### The name of the Kubernetes cluster to be created for the e6data workspace.
 cluster_log_types               = ["scheduler", "controllerManager","authenticator", "audit"] ### List of the desired control plane logging to enable.
 
 public_access_cidrs             = ["0.0.0.0/0"]   
@@ -30,15 +30,15 @@ public_access_cidrs             = ["0.0.0.0/0"]
 bucket_names                    = ["*"] ### List of bucket names that the e6data engine queries and therefore, require read access to. Default is ["*"] which means all buckets, it is advisable to change this.
 
 # Kubernetes Namespace
-kubernetes_namespace            = "namespace" ### Value of the Kubernetes namespace to deploy the e6data workspace.
+kubernetes_namespace            = "finale" ### Value of the Kubernetes namespace to deploy the e6data workspace.
 
 # Cost Tags
 cost_tags = {
   Team = "PLT"
-  Operation = "Product"
+  Operation = "POC"
   Environment = "Dev"
   App = "e6data"
-  User = "dev@e6x.io"
+  User = "harshith@e6x.io"
   permanent = "true"
 }
 
@@ -66,6 +66,7 @@ karpenter_release_version   = "0.36.0"               ### Version of the karpente
 #   }
 # ]
 
+##Additonal egress rule to allow hive metastore port
 additional_egress_rules = [
   {
     from_port   = 9083
