@@ -34,28 +34,6 @@ variable "excluded_az" {
   description = "AZ where EKS doesnt have capacity"
 }
 
-variable "iam_eks_cluster_policy_arn" {
-  type        = list(string)
-  description = "List of Policies to attach to the EKS cluster role"
-  default = [
-    "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
-    "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
-  ]
-}
-
-variable "iam_eks_node_policy_arn" {
-  type        = list(string)
-  description = "List of Policies to attach to the EKS node role"
-  default = [
-    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
-    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
-    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
-    "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
-    "arn:aws:iam::aws:policy/AmazonEKSServicePolicy",
-    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
-  ]
-}
-
 variable "cost_tags" {
   type = map(string)
   description = "cost tags"
@@ -182,6 +160,7 @@ variable "nodepool_instance_family" {
   type = list(string)
   description = "Instance family for nodepool"
 }
+
 
 ## EKS Security Group
 variable "ingress_rules" {
