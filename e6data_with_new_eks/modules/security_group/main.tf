@@ -28,10 +28,6 @@ resource "aws_security_group" "allow_ports" {
       cidr_blocks      = egress.value.cidr_blocks
     }
   }
-
-  tags = {
-      Name = var.sec_grp_name
-    }
   
   lifecycle {
     ignore_changes = [ingress]
