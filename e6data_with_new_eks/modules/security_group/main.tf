@@ -3,20 +3,25 @@ resource "aws_security_group" "allow_ports" {
   vpc_id      = var.vpc_id
 
   dynamic "ingress" {
-    for_each = var.service_ports
+    for_each = concat(var.ingress_rules, var.additional_ingress_rules)
     content {
-      from_port   = ingress.value
-      to_port     = ingress.value
-      protocol    = "tcp"
-      cidr_blocks = var.cidr_block
+      from_port        = ingress.value.from_port
+      to_port          = ingress.value.to_port
+      protocol         = ingress.value.protocol
+      self             = ingress.value.self
+      cidr_blocks      = ingress.value.cidr_blocks
     }
   }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+  dynamic "egress" {
+    for_each = concat(var.egress_rules, var.additional_egress_rules)
+    content {
+      from_port        = egress.value.from_port
+      to_port          = egress.value.to_port
+      protocol         = egress.value.protocol
+      self             = egress.value.self
+      cidr_blocks      = egress.value.cidr_blocks
+    }
   }
 
   tags = {

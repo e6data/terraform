@@ -4,6 +4,7 @@ module "eks" {
   kube_version     = var.kube_version
   cluster_log_types = var.cluster_log_types
 
+  security_group_ids = [module.security_group.security_group_id]
   subnet_ids       = module.network.subnet_ids
   private_subnet_ids = module.network.private_subnet_ids
   public_access_cidrs = var.public_access_cidrs
@@ -11,6 +12,12 @@ module "eks" {
   vpc_id = module.network.vpc_id
 
   depends_on = [ module.network ]
+}
+
+resource "aws_ec2_tag" "cluster_primary_security_group" {
+  resource_id = module.eks.cluster_primary_security_group_id
+  key         = "app" 
+  value       = "e6data"
 }
 
 provider "kubernetes" {
