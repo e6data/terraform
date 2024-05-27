@@ -54,3 +54,24 @@ alb_controller_helm_chart_version = "1.6.1"
 karpenter_namespace            = "kube-system"          ### Namespace to deploy the karpenter
 karpenter_service_account_name = "karpenter"   ### Service account name for the karpenter
 karpenter_release_version   = "0.36.0"               ### Version of the karpenter Helm chart
+
+#### Additional ingress/egress rules for the EKS Security Group
+# additional_ingress_rules = [
+#   {
+#     from_port   = 22
+#     to_port     = 22
+#     protocol    = "tcp"
+#     self        = false
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+# ]
+
+additional_egress_rules = [
+  {
+    from_port   = 9083
+    to_port     = 9083
+    protocol    = "tcp"
+    self        = false
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+]
