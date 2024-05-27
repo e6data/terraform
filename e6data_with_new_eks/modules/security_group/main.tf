@@ -2,6 +2,11 @@ resource "aws_security_group" "allow_ports" {
   name        = var.sec_grp_name
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name = var.sec_grp_name
+    app  = "e6data"
+  }
+
   dynamic "ingress" {
     for_each = concat(var.ingress_rules, var.additional_ingress_rules)
     content {
