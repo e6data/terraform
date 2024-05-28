@@ -26,6 +26,6 @@ spec:
           value: ${workspace_name}
           effect: NoSchedule  
   limits:
-    cpu: 100000
+    cpu: ${nodepool_cpu_limits}
   disruption:
     consolidationPolicy: WhenUnderutilized

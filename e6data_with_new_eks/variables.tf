@@ -161,6 +161,11 @@ variable "nodepool_instance_family" {
   description = "Instance family for nodepool"
 }
 
+variable "nodepool_cpu_limits" {
+  type = number
+  description = "CPU limits for nodepool"
+  default = 100000
+}
 
 ## EKS Security Group
 variable "ingress_rules" {
