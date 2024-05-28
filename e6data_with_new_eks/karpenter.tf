@@ -1,3 +1,5 @@
+# This resource adds a tag to each subnet in the network module
+# to enable Karpenter to discover the EKS cluster.
 resource "aws_ec2_tag" "karpenter_subnet_cluster_tag" {
   count    =    length(module.network.subnet_ids)
   resource_id = module.network.subnet_ids[count.index]
@@ -404,11 +406,6 @@ module "karpeneter_deployment" {
   service_account_name = module.karpenter_oidc.service_account_name
   controller_role_arn = module.karpenter_oidc.oidc_role_arn
   interruption_queue_name = aws_sqs_queue.node_interruption_queue.name
-   
-  controller_memory_limits = "1Gi"
-  controller_cpu_limits    = "1"
-  controller_memory_requests = "1Gi"
-  controller_cpu_requests    = "1"
 
   depends_on = [module.eks, module.karpenter_oidc, aws_eks_node_group.default_node_group, aws_sqs_queue.node_interruption_queue]
 }
@@ -418,6 +415,7 @@ data "aws_availability_zones" "available" {
   exclude_names = var.excluded_az
 }
 
+# Data source to fetch and template Karpenter provisioner manifests
 data "kubectl_path_documents" "provisioner_manifests" {
   pattern = "./karpenter-provisioner-manifests/*.yaml"
   vars = {

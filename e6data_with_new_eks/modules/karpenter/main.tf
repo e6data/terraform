@@ -48,24 +48,4 @@ resource "helm_release" "karpenter_release" {
     name = "serviceAccount.name"
     value = var.service_account_name
   }
-
-  set {
-    name  = "controller.resources.limits.memory"
-    value = var.controller_memory_limits
-  }
-
-  set {
-    name  = "controller.resources.requests.cpu"
-    value = var.controller_cpu_requests
-  }
-
-  set {
-    name  = "controller.resources.requests.memory"
-    value = var.controller_memory_requests
-  }
-
-  set {
-    name  = "controller.resources.limits.cpu"
-    value = var.controller_cpu_limits
-  }
 }
