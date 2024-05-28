@@ -6,6 +6,7 @@
             "Effect": "Allow",
             "Action": [
                 "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:AuthorizeSecurityGroupEgress",                
                 "ec2:DeleteSubnet",
                 "ec2:DeleteVpcEndpoints",
                 "eks:UpdateClusterConfig",
