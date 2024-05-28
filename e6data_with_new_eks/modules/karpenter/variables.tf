@@ -28,30 +28,6 @@ variable "karpenter_release_version" {
   description = "Version of the karpenter helm release"
 }
 
-variable "controller_memory_limits" {
-  description = "Memory limits for the controller"
-  type        = string
-  default     = "1Gi"
-}
-
-variable "controller_cpu_limits" {
-  description = "CPU limits for the controller"
-  type        = string
-  default     = "1"
-}
-
-variable "controller_memory_requests" {
-  description = "Memory requests for the controller"
-  type        = string
-  default     = "1Gi"
-}
-
-variable "controller_cpu_requests" {
-  description = "CPU requests for the controller"
-  type        = string
-  default     = "1"
-}
-
 variable "controller_role_arn" {
   description = "ARN of the IAM role associated with the Karpenter controller"
   type        = string
