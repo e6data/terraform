@@ -28,4 +28,5 @@ spec:
   limits:
     cpu: ${nodepool_cpu_limits}
   disruption:
-    consolidationPolicy: WhenUnderutilized
+    consolidationPolicy: WhenEmpty
+    consolidateAfter: 30s
