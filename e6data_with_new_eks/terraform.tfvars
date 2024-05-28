@@ -34,12 +34,7 @@ kubernetes_namespace            = "namespace" ### Value of the Kubernetes namesp
 
 # Cost Tags
 cost_tags = {
-  Team = "PLT"
-  Operation = "Product"
-  Environment = "Dev"
-  App = "e6data"
-  User = "dev@e6x.io"
-  permanent = "true"
+  app = "e6data"
 }
 
 # AWS Command Line Variable
