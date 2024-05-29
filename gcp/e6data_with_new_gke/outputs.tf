@@ -18,14 +18,6 @@ output "kubernetes_cluster_name" {
   value = var.cluster_name
 }
 
-output "gke_nodepool_name" {
-  value = local.e6data_workspace_name
-}
-
-output "gke_nodepool_max_instances" {
-  value = var.max_instances_in_nodepool
-}
-
 output "kubernetes_namespace" {
   value = var.kubernetes_namespace
 }
