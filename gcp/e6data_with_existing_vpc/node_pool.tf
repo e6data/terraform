@@ -149,7 +149,8 @@ resource "google_project_iam_custom_role" "e6dataclusterViewer" {
     "container.roleBindings.get",
     "container.backendConfigs.create",
     "container.backendConfigs.delete",
-    "container.backendConfigs.get"
+    "container.backendConfigs.get",
+    "container.backendConfigs.update"
   ]
   stage        = "GA"
   project      = var.gcp_project_id

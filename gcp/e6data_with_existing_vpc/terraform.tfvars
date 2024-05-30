@@ -1,11 +1,11 @@
 # GCP Variables
 gcp_region                          = "us-central1"                   # The region where the e6data resources will be created
-gcp_project_id                      = "numeric-datum-351807"          # The ID of the GCP project
+gcp_project_id                      = "project-1"          # The ID of the GCP project
 
 # e6data Workspace Variables
 workspace_name                      = "workspace"                   # The name of the e6data workspace
 
-helm_chart_version                  = "1.0.7" ### e6data workspace Helm chart version to be used.
+helm_chart_version                  = "2.0.4"              ### e6data workspace Helm chart version to be used.
 
 # Network Variables
 vpc_name                            = "vpc"                  # The name of the VPC
@@ -17,7 +17,7 @@ gke_e6data_master_ipv4_cidr_block   = "10.103.4.0/28"
 # This range must not overlap with any other ranges in use within the cluster's network, and it must be a /28 subnet
 
 # Kubernetes Variables
-gke_version                         = "1.27.7-gke.1121002"                          # The version of GKE to use                
+gke_version                         = "1.28.8"                          # The version of GKE to use                
 gke_encryption_state                = "DECRYPTED"                     # The encryption state for GKE (It is recommended to use encryption)
 gke_dns_cache_enabled               = true                            # The status of the NodeLocal DNSCache addon.
 spot_enabled                        = true                            # A boolean that represents whether the underlying node VMs are spot.
