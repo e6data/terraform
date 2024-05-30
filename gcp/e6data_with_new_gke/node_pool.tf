@@ -56,7 +56,6 @@ resource "google_project_iam_custom_role" "workspace_write_role" {
   description = "Custom e6data workspace role for GCS write access "
 
   permissions = [
-    "storage.objects.setIamPolicy",
     "storage.objects.getIamPolicy",
     "storage.objects.update",
     "storage.objects.create",
@@ -65,9 +64,6 @@ resource "google_project_iam_custom_role" "workspace_write_role" {
     "storage.objects.list"
   ]
 }
-
-
-
 
 # # Create IAM role for workspace read access on GCS buckets
 resource "google_project_iam_custom_role" "workspace_read_role" {
@@ -147,12 +143,15 @@ resource "google_project_iam_custom_role" "e6dataclusterViewer" {
   permissions  = [
     "container.clusters.get",
     "container.clusters.list",
-    "resourcemanager.projects.get",
     "container.roleBindings.get",
     "container.backendConfigs.create",
     "container.backendConfigs.delete",
     "container.backendConfigs.get",
-    "container.backendConfigs.update"
+    "container.backendConfigs.update",
+    "resourcemanager.projects.get",
+    "compute.globalAddresses.create",
+    "compute.globalAddresses.get",
+    "compute.sslCertificates.get"
   ]
   stage        = "GA"
   project      = var.gcp_project_id
