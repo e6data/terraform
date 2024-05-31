@@ -5,7 +5,7 @@ gcp_project_id                      = "numeric-datum-351807"          # The ID o
 # e6data Workspace Variables
 workspace_name                      = "workspace"                   # The name of the e6data workspace
 
-helm_chart_version                  = "2.0.4"                        ### e6data workspace Helm chart version to be used.
+helm_chart_version                  = "2.0.5"                        ### e6data workspace Helm chart version to be used.
 
 # Network Variables
 gke_subnet_ip_cidr_range            = "10.100.0.0/18"                 # The subnet IP range for GKE

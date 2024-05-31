@@ -5,7 +5,7 @@ gcp_project_id                      = "project-1"          # The ID of the GCP p
 # e6data Workspace Variables
 workspace_name                      = "workspace"                   # The name of the e6data workspace
 
-helm_chart_version                  = "2.0.4"              ### e6data workspace Helm chart version to be used.
+helm_chart_version                  = "2.0.5"              ### e6data workspace Helm chart version to be used.
 
 # Network Variables
 vpc_name                            = "vpc"                  # The name of the VPC
