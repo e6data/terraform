@@ -1,3 +1,21 @@
+data "aws_iam_policy_document" "karpenter_node_trust_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+##The karpenter node role includes several AWS managed policies, which are designed to provide permissions for specific uses needed by the nodes to work with EC2 and other AWS resources.
+resource "aws_iam_role" "karpenter_node_role" {
+  name = "e6data-${var.workspace_name}-KarpenterNodeRole"
+  managed_policy_arns = var.karpenter_eks_node_policy_arn
+  assume_role_policy = data.aws_iam_policy_document.karpenter_node_trust_policy.json
+}
+
 data "aws_availability_zones" "available" {
   state = "available"
   exclude_names = var.excluded_az
@@ -18,12 +36,12 @@ data "kubectl_path_documents" "provisioner_manifests" {
     tags                   = jsonencode(var.cost_tags)
     nodepool_cpu_limits    = var.nodepool_cpu_limits
   }
-  depends_on = [data.aws_availability_zones.available, aws_iam_role.karpenter_node_role, module.eks] 
+  depends_on = [data.aws_availability_zones.available, aws_iam_role.karpenter_node_role] 
 }
 
 resource "kubectl_manifest" "provisioners" {
   count     = 2
   yaml_body = values(data.kubectl_path_documents.provisioner_manifests.manifests)[count.index]
 
-  depends_on = [ module.karpeneter_deployment ]
+  depends_on = [ data.kubectl_path_documents.provisioner_manifests ]
 }

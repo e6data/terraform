@@ -55,6 +55,23 @@ variable "aws_command_line_path" {
   type        = string
 }
 
+variable "excluded_az" {
+  type        = list(string)
+  description = "AZ where EKS doesnt have capacity"
+}
+
+### Karpenter Variables
+variable "karpenter_eks_node_policy_arn" {
+  type        = list(string)
+  description = "List of Policies to attach to the Karpenter node role"
+  default = [
+    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  ]
+}
+
 variable "nodepool_instance_family" {
   type = list(string)
   description = "Instance family for nodepool"
@@ -66,7 +83,3 @@ variable "nodepool_cpu_limits" {
   default = 100000
 }
 
-variable "excluded_az" {
-  type        = list(string)
-  description = "AZ where EKS doesnt have capacity"
-}

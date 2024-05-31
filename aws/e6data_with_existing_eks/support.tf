@@ -16,6 +16,10 @@ locals {
       oidc_value = aws_iam_role.e6data_engine_role.arn
       control_plane_user = ["e6data-${var.workspace_name}-user"]
     }
+    karpenter = {
+      nodepool = local.e6data_nodepool_name
+      nodeclass = local.e6data_nodeclass_name
+    }
   })
 
   mapUsers = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapUsers"], "")
@@ -27,6 +31,11 @@ locals {
   myroles = [{
     "rolearn"=  aws_iam_role.e6data_cross_account_role.arn,
     "username"= "e6data-${var.workspace_name}-user"
+  },
+  {
+    "rolearn"=  aws_iam_role.karpenter_node_role.arn,
+    "username"= "system:node:{{EC2PrivateDNSName}}"
+    "groups"= ["system:bootstrappers", "system:nodes"]
   }]
 
   totalRoles = concat(local.mapRoles2, local.myroles)
