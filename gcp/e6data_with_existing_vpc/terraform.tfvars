@@ -8,7 +8,7 @@ workspace_name                      = "workspace"                   # The name o
 # a) Accepts only lowercase alphanumeric characters.
 # b) Must have a minimum of 3 characters.
 
-helm_chart_version                  = "2.0.4"              ### e6data workspace Helm chart version to be used.
+helm_chart_version                  = "2.0.5"              ### e6data workspace Helm chart version to be used.
 
 # Network Variables
 vpc_name                            = "vpc"                  # The name of the VPC
