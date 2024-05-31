@@ -81,6 +81,17 @@ provider "kubernetes" {
   }
 }
 
+provider "kubectl" {
+  host                   = data.aws_eks_cluster.current.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.current.certificate_authority[0].data)
+  load_config_file       = false
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    args        = ["eks", "get-token", "--cluster-name", var.eks_cluster_name]
+    command     = var.aws_command_line_path
+  }
+}
+
 provider "helm" {
   alias                    = "eks_e6data"
   kubernetes {
