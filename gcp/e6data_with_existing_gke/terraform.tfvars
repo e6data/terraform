@@ -8,6 +8,8 @@ kubernetes_cluster_zone = ""
 max_instances_in_nodepool = 60
 nodepool_instance_type = "c2-standard-30"
 
+helm_chart_version                  = "2.0.5"                        ### e6data workspace Helm chart version to be used.
+
 kubernetes_namespace = "namespace1"
 
 cost_labels = {}                            # Cost labels for tracking costs
