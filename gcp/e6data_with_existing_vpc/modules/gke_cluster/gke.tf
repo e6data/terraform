@@ -1,7 +1,7 @@
 ## Private & Regional Cluster
 resource "google_container_cluster" "gke_cluster" {
 
-  name               = var.cluster_name
+  name               = "e6data-${var.cluster_name}"
   location           = var.region
   min_master_version = var.gke_version
   monitoring_service = "monitoring.googleapis.com/kubernetes"
