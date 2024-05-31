@@ -10,7 +10,7 @@ nodepool_instance_type = "c2-standard-30"
 
 kubernetes_namespace = "namespace1"
 
-helm_chart_version                  = "2.0.4"              ### e6data workspace Helm chart version to be used.
+helm_chart_version                  = "2.0.5"              ### e6data workspace Helm chart version to be used.
 
 cost_labels = {}                            # Cost labels for tracking costs
 
