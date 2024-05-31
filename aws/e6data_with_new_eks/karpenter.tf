@@ -419,7 +419,6 @@ data "aws_availability_zones" "available" {
 data "kubectl_path_documents" "provisioner_manifests" {
   pattern = "./karpenter-provisioner-manifests/*.yaml"
   vars = {
-    cluster_name           = var.cluster_name
     workspace_name         = var.workspace_name
     available_zones        = jsonencode(data.aws_availability_zones.available.names)
     cluster_name           = module.eks.cluster_name

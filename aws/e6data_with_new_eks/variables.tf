@@ -69,7 +69,7 @@ variable "eks_nodegroup_iam_policy_arn" {
 }
 
 variable "eks_disk_size" {
-  description = "disk size for the disks in node group"
+  description = "disk size for the disks in node pool"
   type        = number
 }
 
