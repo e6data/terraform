@@ -18,7 +18,7 @@ eks_disk_size                   = 100 ### Disk size for the disks in the node gr
 bucket_names                    = ["*"] ### List of bucket names that the e6data engine queries and therefore, require read access to. Default is ["*"] which means all buckets, it is advisable to change this.
 
 kubernetes_namespace            = "e6data" ### Value of the Kubernetes namespace to deploy the e6data workspace.
-helm_chart_version              = "1.0.8" ### e6data workspace Helm chart version to be used.
+helm_chart_version              = "2.0.5" ### e6data workspace Helm chart version to be used.
 
 
 ### Below are the tags which will be applied to all the resources created by this Terraform script.
