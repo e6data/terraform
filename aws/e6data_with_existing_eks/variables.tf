@@ -13,56 +13,9 @@ variable "eks_cluster_name" {
   type        = string
 }
 
-variable "kube_version" {
-  type        = string
-  description = "kubernetes master version"
-}
-
-variable "eks_nodegroup_iam_policy_arn" {
-  type        = list(string)
-  description = "List of Policies to attach to the EKS node role"
-  default = [
-    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
-    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
-    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
-    "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
-    "arn:aws:iam::aws:policy/AmazonEKSServicePolicy",
-    "arn:aws:iam::aws:policy/AmazonElasticFileSystemClientFullAccess"
-  ]
-}
-
 variable "eks_disk_size" {
-  description = "disk size for the disks in node group"
+  description = "disk size for the disks in nodepool"
   type        = number
-}
-
-variable "eks_capacity_type" {
-  description = "Instance lifecycle for e6data nodegroup"
-  type        = string
-  default     = "ON_DEMAND"
-}
-
-variable "eks_nodegroup_instance_types" {
-  description = "Instance type for nodegroup"
-  type        = list(string)
-  default = ["r7g.8xlarge","r7g.12xlarge","r7g.16xlarge", "r6g.8xlarge","r6g.12xlarge","r6g.16xlarge"]
-}
-
-variable "max_instances_in_eks_nodegroup" {
-  description = "Maximum number of instances in nodegroup"
-  type        = number
-}
-
-variable "min_instances_in_eks_nodegroup" {
-  description = "Minimum number of instances in nodegroup"
-  type        = number
-  default     = 0
-}
-
-variable "desired_instances_in_eks_nodegroup" {
-  description = "Minimum number of instances in nodegroup"
-  type        = number
-  default     = 0
 }
 
 variable "kubernetes_namespace" {
@@ -100,4 +53,20 @@ variable "helm_chart_version" {
 variable "aws_command_line_path" {
   description = "local aws installation bin path"
   type        = string
+}
+
+variable "nodepool_instance_family" {
+  type = list(string)
+  description = "Instance family for nodepool"
+}
+
+variable "nodepool_cpu_limits" {
+  type = number
+  description = "CPU limits for nodepool"
+  default = 100000
+}
+
+variable "excluded_az" {
+  type        = list(string)
+  description = "AZ where EKS doesnt have capacity"
 }

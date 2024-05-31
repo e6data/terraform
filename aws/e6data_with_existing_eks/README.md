@@ -46,8 +46,6 @@ Please update the values of these variables in the `terraform.tfvars` file to ma
 | aws_region                     | AWS region of the EKS cluster.                                                                        |
 | workspace_name                 | Name of the e6data workspace to be created.                                                           |
 | eks_cluster_name               | The name of the Kubernetes cluster to deploy e6data workspace.                                        |
-| kube_version                   | The Kubernetes cluster version. Version 1.24 or higher is required.                                   |
-| max_instances_in_eks_nodegroup | The maximum number of instances that can be allowed in the EKS nodegroup. A minimum of 3 is required. |
 | eks_disk_size                  | Disk size for the disks in the node group. A minimum of 100 GB is required.                           |
 | eks_capacity_type              | Options: ON_DEMAND or SPOT. The type of instances that should be created.                              |
 | bucket_names                   | List of bucket names that the e6data engine queries and require read access to.                       |
