@@ -10,6 +10,8 @@ nodepool_instance_type = "c2-standard-30"
 
 kubernetes_namespace = "namespace1"
 
+helm_chart_version                  = "2.0.4"              ### e6data workspace Helm chart version to be used.
+
 cost_labels = {}                            # Cost labels for tracking costs
 
 buckets = ["*"]   ### List of bucket names that the e6data engine queries and therefore, require read access to. Default is ["*"] which means all buckets, it is advisable to change this.
