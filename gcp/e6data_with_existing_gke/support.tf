@@ -6,6 +6,7 @@ locals {
   workspace_read_role_name = "e6data_${local.workspace_role_name}_read"
   cluster_viewer_role_name = "e6data_${local.workspace_role_name}_cluster_viewer"
   workload_role_name = "e6data_${local.workspace_role_name}_workload_identity_user"
+  target_pool_role_name = "e6data_${local.workspace_role_name}_targetpool_read"
 
   kubernetes_cluster_location = var.kubernetes_cluster_zone != "" ? var.kubernetes_cluster_zone : var.gcp_region
 
