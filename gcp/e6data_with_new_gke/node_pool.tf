@@ -56,7 +56,6 @@ resource "google_project_iam_custom_role" "workspace_write_role" {
   description = "Custom e6data workspace role for GCS write access "
 
   permissions = [
-    "storage.objects.setIamPolicy",
     "storage.objects.getIamPolicy",
     "storage.objects.update",
     "storage.objects.create",
@@ -65,9 +64,6 @@ resource "google_project_iam_custom_role" "workspace_write_role" {
     "storage.objects.list"
   ]
 }
-
-
-
 
 # # Create IAM role for workspace read access on GCS buckets
 resource "google_project_iam_custom_role" "workspace_read_role" {
@@ -81,7 +77,6 @@ resource "google_project_iam_custom_role" "workspace_read_role" {
     "storage.objects.list",
   ]
 }
-
 
 # Assign the custom role to either all buckets or specific buckets based on the value of the 'buckets' variable
 resource "google_project_iam_binding" "workspace_read_project_binding" {
@@ -102,7 +97,6 @@ resource "google_storage_bucket_iam_member" "workspace_read_bucket_binding" {
   role    = google_project_iam_custom_role.workspace_read_role.name
   member  = "serviceAccount:${google_service_account.workspace_sa.email}"
 }
-
 
 # # Create IAM policy binding for workspace service account and GCS bucket write access
 resource "google_project_iam_binding" "workspace_write_binding" {
@@ -139,7 +133,6 @@ resource "google_project_iam_binding" "platform_gcs_read_binding" {
   depends_on = [ google_project_iam_custom_role.workspace_write_role, google_storage_bucket.workspace_bucket ]
 }
 
-
 resource "google_project_iam_custom_role" "e6dataclusterViewer" {
   role_id      = local.cluster_viewer_role_name
   title        = "e6data-${var.workspace_name}-clusterViewer"
@@ -147,12 +140,16 @@ resource "google_project_iam_custom_role" "e6dataclusterViewer" {
   permissions  = [
     "container.clusters.get",
     "container.clusters.list",
-    "resourcemanager.projects.get",
     "container.roleBindings.get",
+    "container.backendConfigs.get",
     "container.backendConfigs.create",
     "container.backendConfigs.delete",
-    "container.backendConfigs.get",
-    "container.backendConfigs.update"
+    "container.backendConfigs.update",
+    "resourcemanager.projects.get",
+    "compute.globalAddresses.create",
+    "compute.globalAddresses.delete",
+    "compute.globalAddresses.get",
+    "compute.sslCertificates.get"
   ]
   stage        = "GA"
   project      = var.gcp_project_id
@@ -167,15 +164,40 @@ resource "google_project_iam_binding" "platform_ksa_mapping" {
   ]
 }
 
+resource "google_project_iam_custom_role" "GlobalAddressCreate" {
+  role_id      = "${local.cluster_viewer_role_name}_global_address_create"
+  title        = "e6data-${var.workspace_name}-GlobalAddressCreate"
+  description  = "Global address create access"
+  permissions  = [
+    "compute.globalAddresses.create"
+  ]
+  stage        = "GA"
+  project      = var.gcp_project_id
+}
+
+# Create IAM policy binding for Platform Service and Kubernetes cluster
+resource "google_project_iam_binding" "global_address_create_mapping" {
+  project = var.gcp_project_id
+  role = google_project_iam_custom_role.GlobalAddressCreate.name
+  members = [
+    "serviceAccount:${var.platform_sa_email}",
+  ]
+  condition {
+    title       = "Global Address Create Access"
+    description = "Global Address Create Access"
+    expression  = "resource.name.startsWith(\"e6data\")"
+  }
+}
+
 resource "google_project_iam_custom_role" "workloadIdentityUser" {
   role_id      = local.workload_role_name
   title        = "e6data ${var.workspace_name} workloadIdentityUser Access"
   description  = "e6data custom workload identity user role"
   permissions  = [
     "iam.serviceAccounts.get",
+    "iam.serviceAccounts.list",
     "iam.serviceAccounts.getAccessToken",
-    "iam.serviceAccounts.getOpenIdToken",
-    "iam.serviceAccounts.list"
+    "iam.serviceAccounts.getOpenIdToken"
   ]
   stage        = "GA"
   project      = var.gcp_project_id

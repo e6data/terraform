@@ -50,7 +50,6 @@ resource "google_project_iam_custom_role" "workspace_write_role" {
   description = "Custom e6data workspace role for GCS write access "
 
   permissions = [
-    "storage.objects.setIamPolicy",
     "storage.objects.getIamPolicy",
     "storage.objects.update",
     "storage.objects.create",
@@ -136,12 +135,16 @@ resource "google_project_iam_custom_role" "e6dataclusterViewer" {
   permissions  = [
     "container.clusters.get",
     "container.clusters.list",
-    "resourcemanager.projects.get",
     "container.roleBindings.get",
+    "container.backendConfigs.get",
     "container.backendConfigs.create",
     "container.backendConfigs.delete",
-    "container.backendConfigs.get",
-    "container.backendConfigs.update"
+    "container.backendConfigs.update",
+    "resourcemanager.projects.get",
+    "compute.globalAddresses.create",
+    "compute.globalAddresses.delete",
+    "compute.globalAddresses.get",
+    "compute.sslCertificates.get"
   ]
   stage        = "GA"
   project      = var.gcp_project_id
@@ -161,7 +164,7 @@ resource "google_project_iam_custom_role" "workloadIdentityUser" {
   title        = "e6data ${var.workspace_name} workloadIdentityUser Access"
   description  = "e6data custom workload identity user role"
   permissions  = [
-     "iam.serviceAccounts.get",
+    "iam.serviceAccounts.get",
     "iam.serviceAccounts.getAccessToken",
     "iam.serviceAccounts.getOpenIdToken",
     "iam.serviceAccounts.list"
@@ -176,5 +179,52 @@ resource "google_project_iam_binding" "workspace_ksa_mapping" {
   role = google_project_iam_custom_role.workloadIdentityUser.name
   members = [
     "serviceAccount:${var.gcp_project_id}.svc.id.goog[${var.kubernetes_namespace}/${var.workspace_name}]",
+  ]
+}
+
+resource "google_project_iam_custom_role" "GlobalAddressCreate" {
+  role_id      = "${local.cluster_viewer_role_name}_global_address_create"
+  title        = "e6data-${var.workspace_name}-GlobalAddressCreate"
+  description  = "Global address create access"
+  permissions  = [
+    "compute.globalAddresses.create"
+  ]
+  stage        = "GA"
+  project      = var.gcp_project_id
+}
+
+# Create IAM policy binding for Platform Service and Kubernetes cluster
+resource "google_project_iam_binding" "global_address_create_mapping" {
+  project = var.gcp_project_id
+  role = google_project_iam_custom_role.GlobalAddressCreate.name
+  members = [
+    "serviceAccount:${var.platform_sa_email}",
+  ]
+  condition {
+    title       = "Global Address Create Access"
+    description = "Global Address Create Access"
+    expression  = "resource.name.startsWith(\"e6data\")"
+  }
+}
+
+resource "google_project_iam_custom_role" "targetpoolAccess" {
+  role_id      = local.target_pool_role_name
+  title        = "e6data-${var.workspace_name}-targetpoolAccess"
+  description  = "gcp targetpool access"
+  permissions  = [
+    "compute.instances.get",
+    "compute.targetPools.get",
+    "compute.targetPools.list"
+  ]
+  stage        = "GA"
+  project      = var.gcp_project_id
+}
+
+# Create IAM policy binding for targetpool access and Kubernetes cluster
+resource "google_project_iam_binding" "targetpool_ksa_mapping" {
+  project = var.gcp_project_id
+  role = google_project_iam_custom_role.targetpoolAccess.name
+  members = [
+    "serviceAccount:${var.platform_sa_email}",
   ]
 }

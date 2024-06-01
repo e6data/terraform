@@ -4,6 +4,9 @@ gcp_project_id                      = "project-1"          # The ID of the GCP p
 
 # e6data Workspace Variables
 workspace_name                      = "workspace"                   # The name of the e6data workspace
+# Note: The variable workspace_name should meet the following criteria:
+# a) Accepts only lowercase alphanumeric characters.
+# b) Must have a minimum of 3 characters.
 
 helm_chart_version                  = "2.0.5"              ### e6data workspace Helm chart version to be used.
 
@@ -36,5 +39,6 @@ kubernetes_namespace                = "namespace"                   # The namesp
 
 # Cost Labels
 cost_labels                         = {}                              # Cost labels for tracking costs
+# Note: The variable cost_labels only accepts lowercase letters ([a-z]), numeric characters ([0-9]), underscores (_) and dashes (-).
 
 buckets                             = ["*"]                           ### List of bucket names that the e6data engine queries and therefore, require read access to. Default is ["*"] which means all buckets, it is advisable to change this.
