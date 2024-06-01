@@ -15,7 +15,7 @@ output "gcp_project_id" {
 }
 
 output "kubernetes_cluster_name" {
-  value = var.cluster_name
+  value = module.gke_e6data.cluster_name
 }
 
 output "kubernetes_namespace" {
