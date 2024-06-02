@@ -29,5 +29,7 @@ module "gke_e6data" {
 
   gke_encryption_state = var.gke_encryption_state
   cost_labels          = var.cost_labels
+  deletion_protection  = var.deletion_protection
+  authorized_networks  = var.authorized_networks
    
 }

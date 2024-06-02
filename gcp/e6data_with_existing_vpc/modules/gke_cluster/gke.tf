@@ -9,11 +9,14 @@ resource "google_container_cluster" "gke_cluster" {
   network            = var.network
   subnetwork         = var.subnetwork
   initial_node_count = var.initial_node_count
+  deletion_protection = var.deletion_protection
 
   vertical_pod_autoscaling{
     enabled = true
   }
 
+# Workloads are being configured to utilize the Workload Identity provider instead of directly relying on the service account of the worker node.
+# https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity?source=post_page-----d11a230f8e49--------------------------------
   workload_identity_config {
   workload_pool = "${data.google_client_config.default.project}.svc.id.goog"
   }
@@ -45,9 +48,12 @@ resource "google_container_cluster" "gke_cluster" {
   resource_labels = var.cost_labels
 
   master_authorized_networks_config {
-    cidr_blocks {
-      cidr_block   = "0.0.0.0/0"
-      display_name = "Disabled"
+  dynamic "cidr_blocks" {
+      for_each = var.authorized_networks
+      content {
+        cidr_block = cidr_blocks.key
+        display_name = cidr_blocks.value
+      }
     }
   }
 

@@ -144,3 +144,14 @@ variable "buckets" {
   type        = list(string)
   default     = ["*"]
 }
+
+variable "deletion_protection" {
+  type        = bool
+  description = "Whether or not to allow Terraform to destroy the cluster. Unless this field is set to false in Terraform state, a terraform destroy or terraform apply that would delete the cluster will fail."
+  default =  false
+}
+
+variable "authorized_networks" {
+  type = map(string)
+  description = "authorized_networks"
+}

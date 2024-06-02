@@ -21,12 +21,6 @@ resource "google_container_node_pool" "default_gke_cluster_nodepool" {
     }
   }
 
-
-  management {
-    auto_repair  = true
-    auto_upgrade = true
-  }
-
   autoscaling {
     total_min_node_count = 2
     total_max_node_count = 3

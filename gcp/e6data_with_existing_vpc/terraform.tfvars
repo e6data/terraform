@@ -1,5 +1,9 @@
 # GCP Variables
-gcp_region                          = "us-central1"                   # The region where the e6data resources will be created
+gcp_region                          = "us-central1"
+#The location (region or zone) in which the cluster master will be created, as well as the default node location.
+#If you specify a zone (such as us-central1-a), the cluster will be a zonal cluster with a single cluster master. 
+#If you specify a region (such as us-west1), the cluster will be a regional cluster with multiple masters spread across zones in the region, and with default node locations in those zones as well
+
 gcp_project_id                      = "gcp-project-id"          # The ID of the GCP project
 
 # e6data Workspace Variables
@@ -33,6 +37,10 @@ gke_e6data_initial_node_count       = 1                               # The init
 gke_e6data_max_pods_per_node        = 64                              # The maximum number of pods per node in the GKE cluster
 gke_e6data_instance_type            = "c2-standard-30"                # The instance type for the GKE nodes
 max_instances_in_nodepool          = 50                              # The maximum number of instances in a node group
+
+authorized_networks= {                                                  #External networks that can access the Kubernetes cluster master through HTTPS.
+  "44.194.151.209/32": "e6data"                                         #The default value is set to the CIDR of e6data(i.e.,44.194.151.209/32)
+}
 
 # Kubernetes Namespace
 kubernetes_namespace                = "namespace"                   # The namespace to use for Kubernetes resources
