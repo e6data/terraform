@@ -26,3 +26,15 @@ output "kubernetes_cluster_name" {
 output "kubernetes_namespace" {
   value = var.kubernetes_namespace
 }
+
+output "e6data_karpenter_node_role" {
+  value = aws_iam_role.karpenter_node_role.name
+}
+
+output "e6data_nodepool_name" {
+  value = local.e6data_nodepool_name
+}
+
+output "e6data_nodeclass_name" {
+  value = local.e6data_nodeclass_name
+}
