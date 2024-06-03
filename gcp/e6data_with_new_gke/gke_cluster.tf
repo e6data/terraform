@@ -18,7 +18,7 @@ provider "helm" {
 module "gke_e6data" {
   source             = "./modules/gke_cluster"
   cluster_name       = var.cluster_name
-  region             = var.gcp_region
+  region             = local.kubernetes_cluster_location
   network            = module.network.network_self_link
   subnetwork         = module.network.subnetwork_self_link
   gke_version        = var.gke_version
