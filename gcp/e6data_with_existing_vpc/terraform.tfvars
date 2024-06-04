@@ -31,6 +31,7 @@ spot_enabled                        = true                            # A boolea
 
 # GKE Cluster variables
 cluster_name                        = "gkecluster"                   # The name of the GKE cluster
+kubernetes_cluster_zone             = ""
 default_nodepool_instance_type      = "e2-standard-2"                     # The default instance type for the node pool
 
 gke_e6data_initial_node_count       = 1                               # The initial number of nodes in the GKE cluster
