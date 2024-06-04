@@ -1,7 +1,7 @@
 # # Create GKE nodepool for workspace
 resource "google_container_node_pool" "workspace" {
   name_prefix      = "${local.e6data_workspace_name}"
-  location         = var.gcp_region
+  location         = local.kubernetes_cluster_location
   cluster          = module.gke_e6data.gke_cluster_id
   version           = var.gke_version
 
