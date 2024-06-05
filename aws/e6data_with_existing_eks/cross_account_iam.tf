@@ -1,12 +1,12 @@
 data "aws_iam_policy_document" "iam_s3ReadWriteAccess_doc" {
   statement {
-    sid = "ListBucket"
-    actions = ["s3:ListBucket"]
+    sid       = "ListBucket"
+    actions   = ["s3:ListBucket"]
     resources = [module.e6data_s3_bucket.arn]
   }
 
   statement {
-    sid = "ReadWriteE6dataBucket"
+    sid    = "ReadWriteE6dataBucket"
     effect = "Allow"
 
     actions = [
@@ -23,36 +23,36 @@ data "aws_iam_policy_document" "iam_s3ReadWriteAccess_doc" {
     resources = ["${module.e6data_s3_bucket.arn}/*"]
   }
 
-  depends_on = [ module.e6data_s3_bucket ]
+  depends_on = [module.e6data_s3_bucket]
 }
 
 data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
   statement {
-    sid = "describeEKSCluster" 
+    sid    = "describeEKSCluster"
     effect = "Allow"
-    
+
     actions = [
       "eks:DescribeCluster",
-      "eks:ListNodegroups"  
+      "eks:ListNodegroups"
     ]
     resources = [data.aws_eks_cluster.current.arn]
   }
 
   statement {
-    sid = "descriEKSNodegroup" 
+    sid    = "descriEKSNodegroup"
     effect = "Allow"
-    
+
     actions = ["eks:DescribeNodegroup"]
     resources = [
-      data.aws_eks_cluster.current.arn, 
+      data.aws_eks_cluster.current.arn,
       "arn:aws:eks:${var.aws_region}:${data.aws_caller_identity.current.account_id}:nodegroup/${var.eks_cluster_name}/*/*"
     ]
   }
 
   statement {
-    sid = "PermissionsForAllResources" 
+    sid    = "PermissionsForAllResources"
     effect = "Allow"
-    
+
     actions = [
       "ec2:DescribeRouteTables",
       "acm:DescribeCertificate",
@@ -67,7 +67,7 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
   }
 
   statement {
-    sid = "AllowSetWebACLforELB"
+    sid    = "AllowSetWebACLforELB"
     effect = "Allow"
     actions = [
       "elasticloadbalancing:SetWebACL",
@@ -77,9 +77,9 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
   }
 
   statement {
-    sid = "AllowCreateELB"
-    effect = "Allow"
-    actions = ["elasticloadbalancing:CreateLoadBalancer"]
+    sid       = "AllowCreateELB"
+    effect    = "Allow"
+    actions   = ["elasticloadbalancing:CreateLoadBalancer"]
     resources = ["*"]
 
     condition {
@@ -90,9 +90,9 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
   }
 
   statement {
-    sid = "AllowDeleteELB"
-    effect = "Allow"
-    actions = ["elasticloadbalancing:DeleteLoadBalancer"]
+    sid       = "AllowDeleteELB"
+    effect    = "Allow"
+    actions   = ["elasticloadbalancing:DeleteLoadBalancer"]
     resources = ["*"]
 
     condition {
@@ -103,7 +103,7 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
   }
 
   statement {
-    sid = "ManageELBTags"
+    sid    = "ManageELBTags"
     effect = "Allow"
     actions = [
       "elasticloadbalancing:AddTags",
@@ -238,7 +238,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
 }
 
 resource "aws_iam_role" "e6data_cross_account_role" {
-  name = "${local.e6data_workspace_name}-cross-account-role"
+  name                = "${local.e6data_workspace_name}-cross-account-role"
   managed_policy_arns = [aws_iam_policy.e6data_s3_read_write_policy.arn, aws_iam_policy.e6data_cross_account_eks_policy.arn]
-  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
+  assume_role_policy  = data.aws_iam_policy_document.assume_role_policy.json
 }
