@@ -166,7 +166,7 @@ resource "google_project_iam_custom_role" "GlobalAddress" {
   title        = "e6data-${var.workspace_name}-GlobalAddress"
   description  = "Global address create access"
   permissions  = [
-    "compute.globalAddresses.create"
+    "compute.globalAddresses.create",
     "compute.globalAddresses.delete",
     "compute.globalAddresses.get"
   ]
@@ -179,7 +179,7 @@ resource "google_project_iam_custom_role" "security_policy" {
   title        = "e6data-${var.workspace_name}-security_policy"
   description  = "Global address access"
   permissions  = [
-    "compute.securityPolicies.create"
+    "compute.securityPolicies.create",
     "compute.securityPolicies.get",
     "compute.securityPolicies.delete",
     "compute.securityPolicies.update"
@@ -198,7 +198,7 @@ resource "google_project_iam_binding" "global_address_create_mapping" {
   condition {
     title       = "Global Address write Access"
     description = "Global Address write Access"
-    expression  = "resource.name.startsWith(\"projects/_/global/globalAddresses/e6data\")"
+    expression  = "resource.name.startsWith(\"projects/${var.gcp_project_id}/global/addresses/e6data\")"
   }
 }
 
@@ -211,7 +211,7 @@ resource "google_project_iam_binding" "security_policy_create_mapping" {
   condition {
     title       = "security_policy write Access"
     description = "security_policy write Access"
-    expression  = "resource.name.startsWith(\"projects/_/global/securityPolicies/e6data\")"
+    expression  = "resource.name.startsWith(\"projects/${var.gcp_project_id}/global/securityPolicies/e6data\")"
   }
 }
 
