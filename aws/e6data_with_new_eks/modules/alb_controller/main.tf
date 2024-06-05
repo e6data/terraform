@@ -1,12 +1,12 @@
 terraform {
-    required_providers {
-        helm = {
-            source = "hashicorp/helm"
-        }
-        kubernetes = {
-            source = "hashicorp/kubernetes"
-        }
+  required_providers {
+    helm = {
+      source = "hashicorp/helm"
     }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+    }
+  }
 }
 
 resource "null_resource" "waiting" {
@@ -16,13 +16,13 @@ resource "null_resource" "waiting" {
 }
 
 resource "helm_release" "alb_controller_release" {
-  name = "aws-load-balancer-controller"
+  name       = "aws-load-balancer-controller"
   repository = "https://aws.github.io/eks-charts"
-  chart = "aws-load-balancer-controller"
-  
-  version = var.alb_ingress_controller_version
+  chart      = "aws-load-balancer-controller"
+
+  version   = var.alb_ingress_controller_version
   namespace = var.namespace
-  timeout = 600
+  timeout   = 600
 
   set {
     name  = "clusterName"
@@ -35,42 +35,42 @@ resource "helm_release" "alb_controller_release" {
   }
 
   set {
-    name = "serviceAccount.name"
+    name  = "serviceAccount.name"
     value = var.eks_service_account_name
   }
 
   set {
-    name = "region"
+    name  = "region"
     value = var.region
   }
 
   set {
-    name = "vpcId"
+    name  = "vpcId"
     value = var.vpc_id
   }
 
   set {
-    name = "enableWaf"
+    name  = "enableWaf"
     value = false
   }
 
   set {
-    name = "enableShield"
+    name  = "enableShield"
     value = false
   }
 
   set {
-    name = "enableWafv2"
+    name  = "enableWafv2"
     value = false
   }
 
   set {
-    name = "nodeSelector.e6data-workspace-name"
+    name  = "nodeSelector.e6data-workspace-name"
     value = "default"
   }
 
   set {
-    name = "defaultTags.app"
+    name  = "defaultTags.app"
     value = "e6data"
   }
 }
