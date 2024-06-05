@@ -1,0 +1,32 @@
+apiVersion: karpenter.sh/v1beta1
+kind: NodePool
+metadata:
+  name: ${nodepool_name}
+  labels:
+    app: e6data
+    e6data-workspace-name: ${workspace_name}
+spec:
+  template:
+    metadata:
+      labels:
+        app: e6data
+        e6data-workspace-name: ${workspace_name}  
+    spec:
+      requirements:
+        - key: "karpenter.k8s.aws/instance-family"
+          operator: In
+          values: ${instance_family}
+        - key: topology.kubernetes.io/zone
+          operator: In
+          values: ${available_zones}
+      nodeClassRef:
+        name: ${nodeclass_name}
+      taints:
+        - key: "e6data-workspace-name"
+          value: ${workspace_name}
+          effect: NoSchedule  
+  limits:
+    cpu: ${nodepool_cpu_limits}
+  disruption:
+    consolidationPolicy: WhenEmpty
+    consolidateAfter: 30s
