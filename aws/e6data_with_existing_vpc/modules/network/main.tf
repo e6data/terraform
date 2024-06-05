@@ -52,7 +52,7 @@ locals {
       cidr = cidrsubnet(
         data.aws_vpc.vpc.cidr_block,
         8,
-        152 + index
+        200 + index
       )
     } 
   }
