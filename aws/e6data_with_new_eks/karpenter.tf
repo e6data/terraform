@@ -1,7 +1,7 @@
 # This resource adds a tag to each subnet in the network module
 # to enable Karpenter to discover the EKS cluster.
 resource "aws_ec2_tag" "karpenter_subnet_cluster_tag" {
-  count    =    length(module.network.subnet_ids)
+  count       = length(module.network.subnet_ids)
   resource_id = module.network.subnet_ids[count.index]
   key         = "karpenter.sh/discovery"
   value       = module.eks.cluster_name
@@ -20,9 +20,9 @@ data "aws_iam_policy_document" "karpenter_node_trust_policy" {
 
 ##The karpenter node role includes several AWS managed policies, which are designed to provide permissions for specific uses needed by the nodes to work with EC2 and other AWS resources.
 resource "aws_iam_role" "karpenter_node_role" {
-  name = "e6data-${var.cluster_name}-KarpenterNodeRole"
+  name                = "e6data-${var.cluster_name}-KarpenterNodeRole"
   managed_policy_arns = var.karpenter_eks_node_policy_arn
-  assume_role_policy = data.aws_iam_policy_document.karpenter_node_trust_policy.json
+  assume_role_policy  = data.aws_iam_policy_document.karpenter_node_trust_policy.json
 }
 
 # Grants Karpenter controller scoped permissions to manage EC2 resources, including creation, tagging, and deletion, with conditions to limit actions to specific cluster and nodepool tags.
@@ -32,16 +32,16 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       "ec2:RunInstances",
       "ec2:CreateFleet"
     ]
-    sid       = "AllowScopedEC2InstanceAccessActions"
-    effect    = "Allow"
+    sid    = "AllowScopedEC2InstanceAccessActions"
+    effect = "Allow"
     resources = [
       "arn:aws:ec2:${var.aws_region}::image/*",
       "arn:aws:ec2:${var.aws_region}::snapshot/*",
       "arn:aws:ec2:${var.aws_region}:*:security-group/*",
       "arn:aws:ec2:${var.aws_region}:*:subnet/*"
-    ]      
+    ]
   }
-  
+
   statement {
     actions = [
       "ec2:RunInstances",
@@ -70,7 +70,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       "ec2:CreateLaunchTemplate"
     ]
 
-    effect    = "Allow"
+    effect = "Allow"
     resources = [
       "arn:aws:ec2:${var.aws_region}:*:fleet/*",
       "arn:aws:ec2:${var.aws_region}:*:instance/*",
@@ -80,7 +80,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       "arn:aws:ec2:${var.aws_region}:*:spot-instances-request/*"
     ]
 
-    sid       = "AllowScopedEC2InstanceActionsWithTags"
+    sid = "AllowScopedEC2InstanceActionsWithTags"
     condition {
       test     = "StringEquals"
       variable = "aws:RequestTag/kubernetes.io/cluster/${module.eks.cluster_name}"
@@ -98,7 +98,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       "ec2:CreateTags"
     ]
 
-    effect    = "Allow"
+    effect = "Allow"
     resources = [
       "arn:aws:ec2:${var.aws_region}:*:fleet/*",
       "arn:aws:ec2:${var.aws_region}:*:instance/*",
@@ -108,14 +108,14 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       "arn:aws:ec2:${var.aws_region}:*:spot-instances-request/*"
     ]
 
-    sid       = "AllowScopedResourceCreationTagging"
+    sid = "AllowScopedResourceCreationTagging"
     condition {
       test     = "StringEquals"
       variable = "aws:RequestTag/kubernetes.io/cluster/${module.eks.cluster_name}"
       values   = ["owned"]
     }
     condition {
-      test = "StringEquals"
+      test     = "StringEquals"
       variable = "ec2:CreateAction"
       values = [
         "RunInstances",
@@ -135,12 +135,12 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       "ec2:CreateTags"
     ]
 
-    effect    = "Allow"
+    effect = "Allow"
     resources = [
       "arn:aws:ec2:${var.aws_region}:*:instance/*"
     ]
 
-    sid       = "AllowScopedResourceTagging"
+    sid = "AllowScopedResourceTagging"
     condition {
       test     = "StringEquals"
       variable = "aws:ResourceTag/kubernetes.io/cluster/${module.eks.cluster_name}"
@@ -159,13 +159,13 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       "ec2:DeleteLaunchTemplate"
     ]
 
-    effect    = "Allow"
+    effect = "Allow"
     resources = [
       "arn:aws:ec2:${var.aws_region}:*:instance/*",
       "arn:aws:ec2:${var.aws_region}:*:launch-template/*"
     ]
 
-    sid       = "AllowScopedDeletion"
+    sid = "AllowScopedDeletion"
     condition {
       test     = "StringEquals"
       variable = "aws:ResourceTag/kubernetes.io/cluster/${module.eks.cluster_name}"
@@ -194,7 +194,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     effect    = "Allow"
     resources = ["*"]
 
-    sid       = "AllowRegionalReadActions"
+    sid = "AllowRegionalReadActions"
     condition {
       test     = "StringEquals"
       variable = "aws:RequestedRegion"
@@ -210,7 +210,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     effect    = "Allow"
     resources = ["arn:aws:ssm:${var.aws_region}::parameter/aws/service/*"]
 
-    sid       = "AllowSSMReadActions"
+    sid = "AllowSSMReadActions"
   }
 
   statement {
@@ -221,7 +221,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     effect    = "Allow"
     resources = ["*"]
 
-    sid       = "AllowPricingReadActions"
+    sid = "AllowPricingReadActions"
   }
 
   statement {
@@ -234,17 +234,17 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     effect    = "Allow"
     resources = ["${aws_sqs_queue.node_interruption_queue.arn}"]
 
-    sid       = "AllowInterruptionQueueActions"
+    sid = "AllowInterruptionQueueActions"
   }
 
   statement {
     actions = ["iam:PassRole"]
-    
-    effect = "Allow"
+
+    effect    = "Allow"
     resources = ["${aws_iam_role.karpenter_node_role.arn}"]
-    sid = "AllowPassingInstanceRole"
+    sid       = "AllowPassingInstanceRole"
     condition {
-      test = "StringEquals"
+      test     = "StringEquals"
       variable = "iam:PassedToService"
       values = [
         "ec2.amazonaws.com"
@@ -256,7 +256,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     sid       = "AllowScopedInstanceProfileCreationActions"
     effect    = "Allow"
     resources = ["*"]
-    actions = ["iam:CreateInstanceProfile"]
+    actions   = ["iam:CreateInstanceProfile"]
 
     condition {
       test     = "StringEquals"
@@ -281,7 +281,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     sid       = "AllowScopedInstanceProfileTagActions"
     effect    = "Allow"
     resources = ["*"]
-    actions = ["iam:TagInstanceProfile"]
+    actions   = ["iam:TagInstanceProfile"]
 
     condition {
       test     = "StringEquals"
@@ -351,22 +351,22 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
 
   statement {
     actions = ["eks:DescribeCluster"]
-    
-    effect = "Allow"
+
+    effect    = "Allow"
     resources = ["arn:aws:eks:${var.aws_region}:${data.aws_caller_identity.current.account_id}:cluster/${module.eks.cluster_name}"]
-    sid = "EKSClusterEndpointLookup"
+    sid       = "EKSClusterEndpointLookup"
   }
 
   statement {
     sid       = "AllowInstanceProfileReadActions"
     effect    = "Allow"
     resources = ["*"]
-    actions = ["iam:GetInstanceProfile"]
+    actions   = ["iam:GetInstanceProfile"]
   }
 }
 
 resource "aws_iam_policy" "karpenter_controller_policy" {
-  name = "${module.eks.cluster_name}-karpenter-controller-policy"
+  name        = "${module.eks.cluster_name}-karpenter-controller-policy"
   description = "karpenter policy for cluster ${module.eks.cluster_name}"
   policy      = data.aws_iam_policy_document.karpenter_controller_policy_document.json
 }
@@ -378,13 +378,13 @@ module "karpenter_oidc" {
     kubernetes = kubernetes.e6data
   }
 
-  tls_url = module.eks.eks_oidc_tls
-  policy_arn = [aws_iam_policy.karpenter_controller_policy.arn]
+  tls_url      = module.eks.eks_oidc_tls
+  policy_arn   = [aws_iam_policy.karpenter_controller_policy.arn]
   eks_oidc_arn = module.eks.oidc_arn
 
   oidc_role_name = "${module.eks.cluster_name}-karpenter"
 
-  kubernetes_namespace = var.karpenter_namespace
+  kubernetes_namespace            = var.karpenter_namespace
   kubernetes_service_account_name = var.karpenter_service_account_name
 
   depends_on = [aws_iam_policy.karpenter_controller_policy, aws_eks_node_group.default_node_group]
@@ -399,19 +399,19 @@ module "karpeneter_deployment" {
   source = "./modules/karpenter"
 
   karpenter_release_version = var.karpenter_release_version
-  
-  namespace = module.karpenter_oidc.kubernetes_namespace
-  eks_cluster_name = module.eks.cluster_name
-  eks_endpoint = module.eks.eks_endpoint
-  service_account_name = module.karpenter_oidc.service_account_name
-  controller_role_arn = module.karpenter_oidc.oidc_role_arn
+
+  namespace               = module.karpenter_oidc.kubernetes_namespace
+  eks_cluster_name        = module.eks.cluster_name
+  eks_endpoint            = module.eks.eks_endpoint
+  service_account_name    = module.karpenter_oidc.service_account_name
+  controller_role_arn     = module.karpenter_oidc.oidc_role_arn
   interruption_queue_name = aws_sqs_queue.node_interruption_queue.name
 
   depends_on = [module.eks, module.karpenter_oidc, aws_eks_node_group.default_node_group, aws_sqs_queue.node_interruption_queue]
 }
 
 data "aws_availability_zones" "available" {
-  state = "available"
+  state         = "available"
   exclude_names = var.excluded_az
 }
 
@@ -419,23 +419,23 @@ data "aws_availability_zones" "available" {
 data "kubectl_path_documents" "provisioner_manifests" {
   pattern = "./karpenter-provisioner-manifests/*.yaml"
   vars = {
-    workspace_name         = var.workspace_name
-    available_zones        = jsonencode(data.aws_availability_zones.available.names)
-    cluster_name           = module.eks.cluster_name
-    instance_family        = jsonencode(var.nodepool_instance_family)
+    workspace_name           = var.workspace_name
+    available_zones          = jsonencode(data.aws_availability_zones.available.names)
+    cluster_name             = module.eks.cluster_name
+    instance_family          = jsonencode(var.nodepool_instance_family)
     karpenter_node_role_name = aws_iam_role.karpenter_node_role.name
-    volume_size            = var.eks_disk_size
-    nodeclass_name         = local.e6data_nodeclass_name
-    nodepool_name          = local.e6data_nodepool_name
-    tags                   = jsonencode(var.cost_tags)
-    nodepool_cpu_limits    = var.nodepool_cpu_limits
+    volume_size              = var.eks_disk_size
+    nodeclass_name           = local.e6data_nodeclass_name
+    nodepool_name            = local.e6data_nodepool_name
+    tags                     = jsonencode(var.cost_tags)
+    nodepool_cpu_limits      = var.nodepool_cpu_limits
   }
-  depends_on = [data.aws_availability_zones.available, aws_iam_role.karpenter_node_role, module.eks] 
+  depends_on = [data.aws_availability_zones.available, aws_iam_role.karpenter_node_role, module.eks]
 }
 
 resource "kubectl_manifest" "provisioners" {
   count     = 2
   yaml_body = values(data.kubectl_path_documents.provisioner_manifests.manifests)[count.index]
 
-  depends_on = [ module.karpeneter_deployment ]
+  depends_on = [module.karpeneter_deployment]
 }

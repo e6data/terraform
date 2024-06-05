@@ -1,22 +1,22 @@
 module "eks" {
-  source = "./modules/eks"
-  cluster_name     = var.cluster_name
-  kube_version     = var.kube_version
+  source            = "./modules/eks"
+  cluster_name      = var.cluster_name
+  kube_version      = var.kube_version
   cluster_log_types = var.cluster_log_types
 
-  security_group_ids = [module.security_group.security_group_id]
-  subnet_ids       = module.network.subnet_ids
-  private_subnet_ids = module.network.private_subnet_ids
-  public_access_cidrs = var.public_access_cidrs
+  security_group_ids      = [module.security_group.security_group_id]
+  subnet_ids              = module.network.subnet_ids
+  private_subnet_ids      = module.network.private_subnet_ids
+  public_access_cidrs     = var.public_access_cidrs
   endpoint_private_access = var.endpoint_private_access
-  vpc_id = module.network.vpc_id
+  vpc_id                  = module.network.vpc_id
 
-  depends_on = [ module.network ]
+  depends_on = [module.network]
 }
 
 resource "aws_ec2_tag" "cluster_primary_security_group" {
   resource_id = module.eks.cluster_primary_security_group_id
-  key         = "app" 
+  key         = "app"
   value       = "e6data"
 }
 
@@ -43,7 +43,7 @@ provider "kubectl" {
 }
 
 provider "helm" {
-  alias          = "e6data"
+  alias = "e6data"
   kubernetes {
     host                   = module.eks.eks_endpoint
     cluster_ca_certificate = base64decode(module.eks.eks_certificate_data)

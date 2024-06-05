@@ -19,7 +19,7 @@ data "aws_internet_gateway" "ig" {
 }
 
 data "aws_availability_zones" "available" {
-  state = "available"
+  state         = "available"
   exclude_names = var.excluded_az
 }
 
@@ -34,7 +34,7 @@ locals {
   )
 
   public_subnets = {
-    for index, subnet in data.aws_availability_zones.available.names : index => 
+    for index, subnet in data.aws_availability_zones.available.names : index =>
     {
       az = data.aws_availability_zones.available.names[index]
       cidr = cidrsubnet(
@@ -42,11 +42,11 @@ locals {
         8,
         150 + index
       )
-    } 
+    }
   }
 
   private_subnets = {
-    for index, subnet in data.aws_availability_zones.available.names : index => 
+    for index, subnet in data.aws_availability_zones.available.names : index =>
     {
       az = data.aws_availability_zones.available.names[index]
       cidr = cidrsubnet(
@@ -54,17 +54,17 @@ locals {
         8,
         200 + index
       )
-    } 
+    }
   }
 }
 
 resource "aws_vpc_endpoint" "s3_endpoint" {
-  vpc_id       = data.aws_vpc.vpc.id
-  service_name = "com.amazonaws.${var.region}.s3"
+  vpc_id          = data.aws_vpc.vpc.id
+  service_name    = "com.amazonaws.${var.region}.s3"
   route_table_ids = [aws_route_table.private_route_table.id, aws_route_table.public_route_table.id, data.aws_vpc.vpc.main_route_table_id]
   tags = {
     Name = "${var.env}-${var.workspace_name}-gw-endpoint"
   }
 
-  depends_on = [ aws_route_table.private_route_table, aws_route_table.public_route_table ]
+  depends_on = [aws_route_table.private_route_table, aws_route_table.public_route_table]
 }

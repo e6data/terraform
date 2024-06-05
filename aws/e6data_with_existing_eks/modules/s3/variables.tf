@@ -4,6 +4,6 @@ variable "bucket_name" {
 }
 
 variable "cost_tags" {
-  type = map(string)
+  type        = map(string)
   description = "Tags for isolation and cost management"
 }

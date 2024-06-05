@@ -11,13 +11,13 @@ data "aws_iam_policy_document" "karpenter_node_trust_policy" {
 
 ##The karpenter node role includes several AWS managed policies, which are designed to provide permissions for specific uses needed by the nodes to work with EC2 and other AWS resources.
 resource "aws_iam_role" "karpenter_node_role" {
-  name = "e6data-${var.workspace_name}-KarpenterNodeRole"
+  name                = "e6data-${var.workspace_name}-KarpenterNodeRole"
   managed_policy_arns = var.karpenter_eks_node_policy_arn
-  assume_role_policy = data.aws_iam_policy_document.karpenter_node_trust_policy.json
+  assume_role_policy  = data.aws_iam_policy_document.karpenter_node_trust_policy.json
 }
 
 data "aws_availability_zones" "available" {
-  state = "available"
+  state         = "available"
   exclude_names = var.excluded_az
 }
 
@@ -25,23 +25,23 @@ data "aws_availability_zones" "available" {
 data "kubectl_path_documents" "provisioner_manifests" {
   pattern = "./karpenter-provisioner-manifests/*.yaml"
   vars = {
-    workspace_name         = var.workspace_name
-    available_zones        = jsonencode(data.aws_availability_zones.available.names)
-    cluster_name           = var.eks_cluster_name
-    instance_family        = jsonencode(var.nodepool_instance_family)
+    workspace_name           = var.workspace_name
+    available_zones          = jsonencode(data.aws_availability_zones.available.names)
+    cluster_name             = var.eks_cluster_name
+    instance_family          = jsonencode(var.nodepool_instance_family)
     karpenter_node_role_name = aws_iam_role.karpenter_node_role.name
-    volume_size            = var.eks_disk_size
-    nodeclass_name         = local.e6data_nodeclass_name
-    nodepool_name          = local.e6data_nodepool_name
-    tags                   = jsonencode(var.cost_tags)
-    nodepool_cpu_limits    = var.nodepool_cpu_limits
+    volume_size              = var.eks_disk_size
+    nodeclass_name           = local.e6data_nodeclass_name
+    nodepool_name            = local.e6data_nodepool_name
+    tags                     = jsonencode(var.cost_tags)
+    nodepool_cpu_limits      = var.nodepool_cpu_limits
   }
-  depends_on = [data.aws_availability_zones.available, aws_iam_role.karpenter_node_role] 
+  depends_on = [data.aws_availability_zones.available, aws_iam_role.karpenter_node_role]
 }
 
 resource "kubectl_manifest" "provisioners" {
   count     = 2
   yaml_body = values(data.kubectl_path_documents.provisioner_manifests.manifests)[count.index]
 
-  depends_on = [ data.kubectl_path_documents.provisioner_manifests ]
+  depends_on = [data.kubectl_path_documents.provisioner_manifests]
 }

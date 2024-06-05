@@ -15,18 +15,18 @@ resource "aws_launch_template" "default_nodegroup_launch_template" {
     resource_type = "instance"
 
     tags = merge(
-      { Name = "${local.e6data_workspace_name}-default"},
+      { Name = "${local.e6data_workspace_name}-default" },
       var.cost_tags
-    )  
+    )
   }
 
   tag_specifications {
     resource_type = "volume"
 
     tags = merge(
-      { Name = "${local.e6data_workspace_name}-default"},
+      { Name = "${local.e6data_workspace_name}-default" },
       var.cost_tags
-    )  
+    )
   }
 
   metadata_options {
@@ -42,16 +42,16 @@ resource "aws_launch_template" "default_nodegroup_launch_template" {
 }
 
 resource "aws_eks_node_group" "default_node_group" {
-  cluster_name    = module.eks.cluster_name
-  version         = var.kube_version
+  cluster_name = module.eks.cluster_name
+  version      = var.kube_version
   # node_group_name = "${local.e6data_workspace_name}-default-${element(split(".", var.kube_version),1)}"
   node_group_name_prefix = "${local.e6data_workspace_name}-default-ng-"
-  node_role_arn   = aws_iam_role.eks_nodegroup_iam_role.arn
-  ami_type        = "AL2_ARM_64"
-  subnet_ids      = module.network.private_subnet_ids
-  capacity_type   = var.eks_capacity_type
-  force_update_version = true
-  instance_types = ["t4g.medium"]
+  node_role_arn          = aws_iam_role.eks_nodegroup_iam_role.arn
+  ami_type               = "AL2_ARM_64"
+  subnet_ids             = module.network.private_subnet_ids
+  capacity_type          = var.eks_capacity_type
+  force_update_version   = true
+  instance_types         = ["t4g.medium"]
   launch_template {
     id      = aws_launch_template.default_nodegroup_launch_template.id
     version = aws_launch_template.default_nodegroup_launch_template.latest_version
@@ -68,20 +68,20 @@ resource "aws_eks_node_group" "default_node_group" {
   }
 
   labels = {
-    "app" = "e6data"
+    "app"                   = "e6data"
     "e6data-workspace-name" = "default"
   }
 
   tags = merge({
     "Name" = "${local.e6data_workspace_name}-default"
-  }, var.cost_tags )
+  }, var.cost_tags)
 
   lifecycle {
-    ignore_changes = [scaling_config[0].desired_size, scaling_config[0].min_size,  update_config , tags]
+    ignore_changes        = [scaling_config[0].desired_size, scaling_config[0].min_size, update_config, tags]
     create_before_destroy = true
   }
 
-  depends_on = [ aws_iam_role.eks_nodegroup_iam_role ,module.eks]
+  depends_on = [aws_iam_role.eks_nodegroup_iam_role, module.eks]
 }
 
 data "aws_iam_policy_document" "eks_nodegroup_iam_assume_policy" {
@@ -95,16 +95,16 @@ data "aws_iam_policy_document" "eks_nodegroup_iam_assume_policy" {
 }
 
 resource "aws_iam_role" "eks_nodegroup_iam_role" {
-  name = local.e6data_workspace_name
+  name                = local.e6data_workspace_name
   managed_policy_arns = var.eks_nodegroup_iam_policy_arn
-  assume_role_policy = data.aws_iam_policy_document.eks_nodegroup_iam_assume_policy.json
+  assume_role_policy  = data.aws_iam_policy_document.eks_nodegroup_iam_assume_policy.json
 }
 
 resource "null_resource" "default_nodegroup_asgd" {
 
   provisioner "local-exec" {
     interpreter = ["/bin/sh", "-c"]
-    command = <<EOF
+    command     = <<EOF
 set -e
 
 ${var.aws_command_line_path} autoscaling update-auto-scaling-group \

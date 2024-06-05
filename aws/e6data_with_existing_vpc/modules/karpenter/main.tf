@@ -1,12 +1,12 @@
 terraform {
-    required_providers {
-        helm = {
-            source = "hashicorp/helm"
-        }
-        kubernetes = {
-            source = "hashicorp/kubernetes"
-        }
+  required_providers {
+    helm = {
+      source = "hashicorp/helm"
     }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+    }
+  }
 }
 
 resource "null_resource" "waiting" {
@@ -16,14 +16,14 @@ resource "null_resource" "waiting" {
 }
 
 resource "helm_release" "karpenter_release" {
-  name = "karpenter"
+  name  = "karpenter"
   chart = "karpenter"
 
   repository = "oci://public.ecr.aws/karpenter"
 
-  version = var.karpenter_release_version
+  version   = var.karpenter_release_version
   namespace = var.namespace
-  timeout = 600
+  timeout   = 600
 
   set {
     name  = "settings.clusterName"
@@ -41,11 +41,11 @@ resource "helm_release" "karpenter_release" {
   }
 
   set {
-    name = "serviceAccount.create"
+    name  = "serviceAccount.create"
     value = false
   }
   set {
-    name = "serviceAccount.name"
+    name  = "serviceAccount.name"
     value = var.service_account_name
   }
 }

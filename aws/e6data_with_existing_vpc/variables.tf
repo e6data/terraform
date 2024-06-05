@@ -1,5 +1,5 @@
 variable "aws_region" {
-  type       = string
+  type        = string
   description = "AWS region"
 }
 
@@ -35,14 +35,14 @@ variable "excluded_az" {
 }
 
 variable "cost_tags" {
-  type = map(string)
+  type        = map(string)
   description = "cost tags"
 }
 
 variable "app" {
   type        = string
   description = "tag prefix to be added"
-  default = "e6data"
+  default     = "e6data"
 }
 
 variable "aws_command_line_path" {
@@ -87,13 +87,13 @@ variable "kubernetes_namespace" {
 variable "e6data_cross_oidc_role_arn" {
   type        = list(string)
   description = "ARN of the cross account role to assume"
-  default = [ "arn:aws:iam::298655976287:root" ]
+  default     = ["arn:aws:iam::298655976287:root"]
 }
 
 variable "e6data_cross_account_external_id" {
   type        = string
   description = "External ID of the cross account role to assume"
-  default = "783562"
+  default     = "783562"
 }
 
 variable "bucket_names" {
@@ -118,14 +118,14 @@ variable "alb_controller_helm_chart_version" {
 }
 
 variable "public_access_cidrs" {
-  type = list(string)
+  type        = list(string)
   description = "public access cidrs"
-  default = ["44.194.151.209/32"]
+  default     = ["44.194.151.209/32"]
 }
 
 variable "endpoint_private_access" {
-  type = bool
-  default = true
+  type        = bool
+  default     = true
   description = "To enable private access to the eks cluster"
 }
 
@@ -157,14 +157,14 @@ variable "karpenter_release_version" {
 }
 
 variable "nodepool_instance_family" {
-  type = list(string)
+  type        = list(string)
   description = "Instance family for nodepool"
 }
 
 variable "nodepool_cpu_limits" {
-  type = number
+  type        = number
   description = "CPU limits for nodepool"
-  default = 100000
+  default     = 100000
 }
 
 ## EKS Security Group
@@ -199,11 +199,11 @@ variable "egress_rules" {
   }))
   default = [
     {
-      from_port   = 53
-      to_port     = 53
-      protocol    = "udp"
-      self        = true
-      cidr_blocks = []
+      from_port       = 53
+      to_port         = 53
+      protocol        = "udp"
+      self            = true
+      cidr_blocks     = []
       security_groups = []
     },
     {
