@@ -48,21 +48,21 @@ variable "iam_eks_node_policy_arn" {
 }
 
 variable "private_subnet_ids" {
-  type = list(string)
+  type        = list(string)
   description = "private subnet IDs"
 }
 
 variable "public_access_cidrs" {
-  type = list(string)
+  type        = list(string)
   description = "public access cidrs"
 }
 
 variable "endpoint_private_access" {
-  type = bool
+  type        = bool
   description = "whether to enable private access to the eks cluster"
 }
 
 variable "security_group_ids" {
-  type = list(string)
+  type        = list(string)
   description = "security group to attach to the eks cluster and worker nodes"
 }
