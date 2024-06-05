@@ -1,20 +1,20 @@
 variable "eks_cluster_name" {
-  type = string
+  type        = string
   description = "EKS cluster name"
 }
 
 variable "interruption_queue_name" {
-  type = string
+  type        = string
   description = "EKS cluster name"
 }
 
 variable "eks_endpoint" {
-  type = string
+  type        = string
   description = "EKS cluster name"
 }
 
 variable "service_account_name" {
-  type = string
+  type        = string
   description = "service_account_name for the karpenter"
 }
 

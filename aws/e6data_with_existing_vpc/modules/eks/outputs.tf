@@ -12,22 +12,22 @@ output "eks_oidc_tls" {
 
 output "oidc_arn" {
   description = "arn of oidc for other service accounts to refer to"
-  value = aws_iam_openid_connect_provider.oidc_provider.arn
+  value       = aws_iam_openid_connect_provider.oidc_provider.arn
 }
 
 output "cluster_name" {
   description = "EKS Cluster Name"
-  value = aws_eks_cluster.eks.name
+  value       = aws_eks_cluster.eks.name
 }
 
 output "cluster_version" {
   description = "EKS Cluster Version"
-  value = aws_eks_cluster.eks.version
+  value       = aws_eks_cluster.eks.version
 }
 
 output "eks_cluster_arn" {
   description = "EKS Cluster arn"
-  value = aws_eks_cluster.eks.arn  
+  value       = aws_eks_cluster.eks.arn
 }
 
 output "cluster_primary_security_group_id" {

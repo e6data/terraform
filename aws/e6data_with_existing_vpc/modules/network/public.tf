@@ -3,13 +3,13 @@ resource "aws_subnet" "public" {
 
   vpc_id            = data.aws_vpc.vpc.id
   availability_zone = each.value.az
-  cidr_block = each.value.cidr
+  cidr_block        = each.value.cidr
 
   map_public_ip_on_launch = true
 
   tags = {
     Name = format("%s-%s-public-subnet-%s", var.env, var.workspace_name, each.value.az)
-    type = "public" 
+    type = "public"
   }
 
   lifecycle {
@@ -24,7 +24,7 @@ resource "aws_route_table" "public_route_table" {
   route {
     cidr_block = "0.0.0.0/0"
     # gateway_id = aws_internet_gateway.ig.id
-    gateway_id = data.aws_internet_gateway.ig.internet_gateway_id    
+    gateway_id = data.aws_internet_gateway.ig.internet_gateway_id
   }
 
   tags = {
