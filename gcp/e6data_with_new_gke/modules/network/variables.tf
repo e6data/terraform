@@ -1,6 +1,6 @@
 variable "workspace_name" {
   description = "value of the component name"
-    type        = string
+  type        = string
 }
 
 variable "gcp_region" {
@@ -14,9 +14,9 @@ variable "gke_subnet_ip_cidr_range" {
 }
 
 variable "vpc_flow_logs_config" {
-  type         = list(map(any))
-  description  = "Subnet VPC Flow Logs configuration"
-  default      = []
+  type        = list(map(any))
+  description = "Subnet VPC Flow Logs configuration"
+  default     = []
 }
 
 variable "cloud_nat_ports_per_vm" {
@@ -26,5 +26,5 @@ variable "cloud_nat_ports_per_vm" {
 
 variable "cloud_nat_log_config" {
   description = "The configuration for the cloud NAT logs"
-  type        = map
+  type        = map(any)
 }

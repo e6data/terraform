@@ -17,19 +17,19 @@ resource "google_container_node_pool" "default_gke_cluster_nodepool" {
     }
 
     labels = {
-        "app" = "e6data"
-        "e6data-workspace-name" = "default"
+      "app"                   = "e6data"
+      "e6data-workspace-name" = "default"
     }
   }
 
   autoscaling {
     total_min_node_count = 1
     total_max_node_count = 3
-    location_policy = "ANY"
+    location_policy      = "ANY"
   }
 
   lifecycle {
     create_before_destroy = true
-    ignore_changes = [node_count, autoscaling, node_config[0].labels]
+    ignore_changes        = [node_count, autoscaling, node_config[0].labels]
   }
 }

@@ -6,34 +6,34 @@ variable "gcp_project_id" {
 
 variable "kubernetes_namespace" {
   description = "Kubernetes namespace to deploy e6data workspaces"
-  type = string
+  type        = string
 }
 
 variable "kubernetes_cluster_zone" {
   description = "Kubernetes cluster zone (Only required for zonal clusters)"
-  type = string
+  type        = string
 }
 
 variable "cluster_name" {
   description = "Kubernetes cluster name"
-  type = string
+  type        = string
 }
 
 variable "platform_sa_email" {
   description = "Platform service account email"
-  type = string
-  default = "e6-customer-prod-y0j6l@e6data-analytics.iam.gserviceaccount.com"
+  type        = string
+  default     = "e6-customer-prod-y0j6l@e6data-analytics.iam.gserviceaccount.com"
 }
 
 variable "cost_labels" {
-  type = map(string)
+  type        = map(string)
   description = "cost labels"
 }
 
 ########### NETWORK VARIABLES ###############
 variable "workspace_name" {
   description = "value of the component name"
-    type        = string
+  type        = string
 }
 
 variable "gcp_region" {
@@ -47,13 +47,13 @@ variable "gke_subnet_ip_cidr_range" {
 }
 
 variable "vpc_flow_logs_config" {
-  type         = list(map(any))
-  description  = "Subnet VPC Flow Logs configuration"
-  default      = [
+  type        = list(map(any))
+  description = "Subnet VPC Flow Logs configuration"
+  default = [
     {
-      aggregation_interval            = "INTERVAL_1_MIN"          
-      flow_sampling                   = 0.5                          
-      metadata                        = "INCLUDE_ALL_METADATA"   
+      aggregation_interval = "INTERVAL_1_MIN"
+      flow_sampling        = 0.5
+      metadata             = "INCLUDE_ALL_METADATA"
     }
   ]
 }
@@ -66,7 +66,7 @@ variable "cloud_nat_ports_per_vm" {
 
 variable "cloud_nat_log_config" {
   description = "The configuration for the cloud NAT logs"
-  type        = map
+  type        = map(any)
   default     = null
 }
 
@@ -93,13 +93,13 @@ variable "gke_dns_cache_enabled" {
 
 variable "control_plane_user" {
   description = "Control plane user to be added to e6data workspace"
-  type = list(string)
-  default = [ "107317529457865758669" ]
+  type        = list(string)
+  default     = ["107317529457865758669"]
 }
 
 variable "max_instances_in_nodepool" {
   description = "Maximum number of instances in nodepool"
-  type = number
+  type        = number
 }
 
 variable "gke_e6data_max_pods_per_node" {
@@ -119,7 +119,7 @@ variable "gke_e6data_initial_node_count" {
 
 variable "helm_chart_version" {
   description = "Version of e6data workspace helm chart to deploy"
-  type = string
+  type        = string
 }
 
 // default nodepool variables
@@ -142,11 +142,11 @@ variable "buckets" {
 variable "deletion_protection" {
   type        = bool
   description = "Whether or not to allow Terraform to destroy the cluster. Unless this field is set to false in Terraform state, a terraform destroy or terraform apply that would delete the cluster will fail."
-  default =  false
+  default     = false
 }
 
 
 variable "authorized_networks" {
-  type = map(string)
+  type        = map(string)
   description = "authorized_networks"
 }
