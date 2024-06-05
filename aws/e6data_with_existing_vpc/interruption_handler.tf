@@ -2,7 +2,7 @@
 # Create an SQS queue to handle node interruption messages for Karpenter
 resource "aws_sqs_queue" "node_interruption_queue" {
   name                      = "e6data-${local.short_workspace_name}-spot-interruption-queue"
-  sqs_managed_sse_enabled = true
+  sqs_managed_sse_enabled   = true
   message_retention_seconds = 300
 }
 
@@ -17,7 +17,7 @@ data "aws_iam_policy_document" "sqs_access_policy_doc" {
       identifiers = ["events.amazonaws.com", "sqs.amazonaws.com"]
     }
 
-    actions = ["sqs:SendMessage"]
+    actions   = ["sqs:SendMessage"]
     resources = [aws_sqs_queue.node_interruption_queue.arn]
   }
 }
@@ -34,8 +34,8 @@ resource "aws_cloudwatch_event_rule" "spot_interruption_warning_handler" {
   description = "Capture spot interruption warning for karpenter"
 
   event_pattern = jsonencode({
-    "source": ["aws.ec2"],
-    "detail-type": ["EC2 Spot Instance Interruption Warning"]
+    "source" : ["aws.ec2"],
+    "detail-type" : ["EC2 Spot Instance Interruption Warning"]
   })
 }
 
@@ -46,8 +46,8 @@ resource "aws_cloudwatch_event_rule" "aws_health_event_handler" {
   description = "Capture AWS Health events for karpenter"
 
   event_pattern = jsonencode({
-    "source": ["aws.health"],
-    "detail-type": ["AWS Health Event"]
+    "source" : ["aws.health"],
+    "detail-type" : ["AWS Health Event"]
   })
 }
 
@@ -57,8 +57,8 @@ resource "aws_cloudwatch_event_rule" "ec2_rebalance_recommendation_handler" {
   description = "Capture EC2 instance rebalance recommendation for karpenter"
 
   event_pattern = jsonencode({
-    "source": ["aws.ec2"],
-    "detail-type": ["EC2 Instance Rebalance Recommendation"]
+    "source" : ["aws.ec2"],
+    "detail-type" : ["EC2 Instance Rebalance Recommendation"]
   })
 }
 
@@ -69,8 +69,8 @@ resource "aws_cloudwatch_event_rule" "ec2_state_change_notification_handler" {
   description = "Capture EC2 instance state change notification for karpenter"
 
   event_pattern = jsonencode({
-    "source": ["aws.ec2"],
-    "detail-type": ["EC2 Instance State-change Notification"]
+    "source" : ["aws.ec2"],
+    "detail-type" : ["EC2 Instance State-change Notification"]
   })
 }
 
