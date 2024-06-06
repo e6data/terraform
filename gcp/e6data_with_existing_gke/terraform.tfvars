@@ -12,6 +12,7 @@ cluster_name = "gke-cluster-name"
 kubernetes_cluster_zone = ""
 max_instances_in_nodepool = 60
 nodepool_instance_type = "c2-standard-30"
+spot_enabled                        = true                            # A boolean that represents whether the underlying node VMs are spot.
 
 kubernetes_namespace = "namespace1"
 
