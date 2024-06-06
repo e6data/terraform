@@ -66,3 +66,8 @@ variable "cost_labels" {
   type        = map(string)
   description = "cost labels"
 }
+
+variable "spot_enabled" {
+  type        = bool
+  description = "Enable spot instances in node pools"
+}

@@ -24,20 +24,20 @@ variable "kubernetes_namespace" {
 }
 
 variable "cost_tags" {
-  type = map(string)
+  type        = map(string)
   description = "e6data specific tags for isaolation and cost management"
 }
 
 variable "e6data_cross_oidc_role_arn" {
   type        = list(string)
   description = "ARN of the cross account role to assume"
-  default = [ "arn:aws:iam::298655976287:root" ]
+  default     = ["arn:aws:iam::298655976287:root"]
 }
 
 variable "e6data_cross_account_external_id" {
   type        = string
   description = "External ID of the cross account role to assume"
-  default = "783562"
+  default     = "783562"
 }
 
 variable "bucket_names" {
@@ -73,13 +73,13 @@ variable "karpenter_eks_node_policy_arn" {
 }
 
 variable "nodepool_instance_family" {
-  type = list(string)
+  type        = list(string)
   description = "Instance family for nodepool"
 }
 
 variable "nodepool_cpu_limits" {
-  type = number
+  type        = number
   description = "CPU limits for nodepool"
-  default = 100000
+  default     = 100000
 }
 

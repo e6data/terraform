@@ -146,22 +146,68 @@ resource "google_project_iam_custom_role" "e6dataclusterViewer" {
     "container.backendConfigs.delete",
     "container.backendConfigs.update",
     "resourcemanager.projects.get",
-    "compute.globalAddresses.create",
-    "compute.globalAddresses.delete",
-    "compute.globalAddresses.get",
     "compute.sslCertificates.get"
   ]
   stage   = "GA"
   project = var.gcp_project_id
+  role = google_project_iam_custom_role.e6dataclusterViewer.name
+  members = [
+    "serviceAccount:${var.platform_sa_email}",
+  ]
+}
+
+resource "google_project_iam_custom_role" "GlobalAddress" {
+  role_id      = "${local.cluster_viewer_role_name}_global_address_create"
+  title        = "e6data-${var.workspace_name}-GlobalAddress"
+  description  = "Global address create access"
+  permissions  = [
+    "compute.globalAddresses.create",
+    "compute.globalAddresses.delete",
+    "compute.globalAddresses.get"
+  ]
+  stage        = "GA"
+  project      = var.gcp_project_id
+}
+
+resource "google_project_iam_custom_role" "security_policy" {
+  role_id      = "${local.cluster_viewer_role_name}_security_policy"
+  title        = "e6data-${var.workspace_name}-security_policy"
+  description  = "Global address access"
+  permissions  = [
+    "compute.securityPolicies.create",
+    "compute.securityPolicies.get",
+    "compute.securityPolicies.delete",
+    "compute.securityPolicies.update"
+  ]
+  stage        = "GA"
+  project      = var.gcp_project_id
 }
 
 # Create IAM policy binding for Platform Service and Kubernetes cluster
 resource "google_project_iam_binding" "platform_ksa_mapping" {
   project = var.gcp_project_id
-  role    = google_project_iam_custom_role.e6dataclusterViewer.name
+  role = google_project_iam_custom_role.GlobalAddress.name
   members = [
     "serviceAccount:${var.platform_sa_email}",
   ]
+  condition {
+    title       = "Global Address write Access"
+    description = "Global Address write Access"
+    expression  = "resource.name.startsWith(\"projects/${var.gcp_project_id}/global/addresses/e6data\")"
+  }
+}
+
+resource "google_project_iam_binding" "security_policy_create_mapping" {
+  project = var.gcp_project_id
+  role = google_project_iam_custom_role.security_policy.name
+  members = [
+    "serviceAccount:${var.platform_sa_email}",
+  ]
+  condition {
+    title       = "security_policy write Access"
+    description = "security_policy write Access"
+    expression  = "resource.name.startsWith(\"projects/${var.gcp_project_id}/global/securityPolicies/e6data\")"
+  }
 }
 
 resource "google_project_iam_custom_role" "workloadIdentityUser" {
