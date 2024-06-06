@@ -41,7 +41,7 @@ variable "dns_cache_enabled" {
 }
 
 variable "cost_labels" {
-  type = map(string)
+  type        = map(string)
   description = "cost labels"
 }
 
@@ -51,6 +51,6 @@ variable "deletion_protection" {
 }
 
 variable "authorized_networks" {
-  type = map(string)
+  type        = map(string)
   description = "authorized_networks"
 }

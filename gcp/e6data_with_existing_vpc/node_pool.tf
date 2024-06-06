@@ -9,7 +9,7 @@ resource "google_container_node_pool" "workspace" {
   autoscaling {
     total_min_node_count = 0
     total_max_node_count = var.max_instances_in_nodepool
-    location_policy = "ANY"
+    location_policy      = "ANY"
   }
   node_config {
     disk_size_gb = 100
@@ -46,7 +46,7 @@ resource "google_storage_bucket" "workspace_bucket" {
 resource "google_service_account" "workspace_sa" {
   account_id   = local.e6data_workspace_name
   display_name = local.e6data_workspace_name
-  description = "Service account for e6data workspace access"
+  description  = "Service account for e6data workspace access"
 }
 
 # # Create IAM role for workspace write access on GCS bucket
@@ -88,14 +88,14 @@ resource "google_project_iam_binding" "workspace_read_project_binding" {
     "serviceAccount:${google_service_account.workspace_sa.email}",
   ]
 
-  depends_on = [ google_project_iam_custom_role.workspace_read_role, google_storage_bucket.workspace_bucket, google_service_account.workspace_sa ]
+  depends_on = [google_project_iam_custom_role.workspace_read_role, google_storage_bucket.workspace_bucket, google_service_account.workspace_sa]
 }
 
 resource "google_storage_bucket_iam_member" "workspace_read_bucket_binding" {
-  count   = contains(var.buckets, "*") ? 0 : length(var.buckets)
-  bucket  = var.buckets[count.index]
-  role    = google_project_iam_custom_role.workspace_read_role.name
-  member  = "serviceAccount:${google_service_account.workspace_sa.email}"
+  count  = contains(var.buckets, "*") ? 0 : length(var.buckets)
+  bucket = var.buckets[count.index]
+  role   = google_project_iam_custom_role.workspace_read_role.name
+  member = "serviceAccount:${google_service_account.workspace_sa.email}"
 }
 
 # # Create IAM policy binding for workspace service account and GCS bucket write access
@@ -113,7 +113,7 @@ resource "google_project_iam_binding" "workspace_write_binding" {
     expression  = "resource.name.startsWith(\"projects/_/buckets/${local.e6data_workspace_name}/\")"
   }
 
-  depends_on = [ google_project_iam_custom_role.workspace_write_role, google_storage_bucket.workspace_bucket, google_service_account.workspace_sa ]
+  depends_on = [google_project_iam_custom_role.workspace_write_role, google_storage_bucket.workspace_bucket, google_service_account.workspace_sa]
 }
 
 resource "google_project_iam_binding" "platform_gcs_read_binding" {
@@ -130,14 +130,14 @@ resource "google_project_iam_binding" "platform_gcs_read_binding" {
     expression  = "resource.name.startsWith(\"projects/_/buckets/${local.e6data_workspace_name}/\")"
   }
 
-  depends_on = [ google_project_iam_custom_role.workspace_write_role, google_storage_bucket.workspace_bucket ]
+  depends_on = [google_project_iam_custom_role.workspace_write_role, google_storage_bucket.workspace_bucket]
 }
 
 resource "google_project_iam_custom_role" "e6dataclusterViewer" {
-  role_id      = local.cluster_viewer_role_name
-  title        = "e6data-${var.workspace_name}-clusterViewer"
-  description  = "kubernetes container clusterViewer access"
-  permissions  = [
+  role_id     = local.cluster_viewer_role_name
+  title       = "e6data-${var.workspace_name}-clusterViewer"
+  description = "kubernetes container clusterViewer access"
+  permissions = [
     "container.clusters.get",
     "container.clusters.list",
     "container.roleBindings.get",
@@ -148,12 +148,7 @@ resource "google_project_iam_custom_role" "e6dataclusterViewer" {
     "resourcemanager.projects.get",
     "compute.sslCertificates.get"
   ]
-  stage        = "GA"
-  project      = var.gcp_project_id
-}
-
-# Create IAM policy binding for Platform Service and Kubernetes cluster
-resource "google_project_iam_binding" "platform_ksa_mapping" {
+  stage   = "GA"
   project = var.gcp_project_id
   role = google_project_iam_custom_role.e6dataclusterViewer.name
   members = [
@@ -189,7 +184,7 @@ resource "google_project_iam_custom_role" "security_policy" {
 }
 
 # Create IAM policy binding for Platform Service and Kubernetes cluster
-resource "google_project_iam_binding" "global_address_create_mapping" {
+resource "google_project_iam_binding" "platform_ksa_mapping" {
   project = var.gcp_project_id
   role = google_project_iam_custom_role.GlobalAddress.name
   members = [
@@ -216,45 +211,45 @@ resource "google_project_iam_binding" "security_policy_create_mapping" {
 }
 
 resource "google_project_iam_custom_role" "workloadIdentityUser" {
-  role_id      = local.workload_role_name
-  title        = "e6data ${var.workspace_name} workloadIdentityUser Access"
-  description  = "e6data custom workload identity user role"
-  permissions  = [
+  role_id     = local.workload_role_name
+  title       = "e6data ${var.workspace_name} workloadIdentityUser Access"
+  description = "e6data custom workload identity user role"
+  permissions = [
     "iam.serviceAccounts.get",
     "iam.serviceAccounts.list",
     "iam.serviceAccounts.getAccessToken",
     "iam.serviceAccounts.getOpenIdToken"
   ]
-  stage        = "GA"
-  project      = var.gcp_project_id
+  stage   = "GA"
+  project = var.gcp_project_id
 }
 
 # Create IAM policy binding for workspace service account and Kubernetes cluster
 resource "google_project_iam_binding" "workspace_ksa_mapping" {
   project = var.gcp_project_id
-  role = google_project_iam_custom_role.workloadIdentityUser.name
+  role    = google_project_iam_custom_role.workloadIdentityUser.name
   members = [
     "serviceAccount:${var.gcp_project_id}.svc.id.goog[${var.kubernetes_namespace}/${var.workspace_name}]",
   ]
 }
 
 resource "google_project_iam_custom_role" "targetpoolAccess" {
-  role_id      = local.target_pool_role_name
-  title        = "e6data-${var.workspace_name}-targetpoolAccess"
-  description  = "gcp targetpool access"
-  permissions  = [
+  role_id     = local.target_pool_role_name
+  title       = "e6data-${var.workspace_name}-targetpoolAccess"
+  description = "gcp targetpool access"
+  permissions = [
     "compute.instances.get",
     "compute.targetPools.get",
     "compute.targetPools.list"
   ]
-  stage        = "GA"
-  project      = var.gcp_project_id
+  stage   = "GA"
+  project = var.gcp_project_id
 }
 
 # Create IAM policy binding for targetpool access and Kubernetes cluster
 resource "google_project_iam_binding" "targetpool_ksa_mapping" {
   project = var.gcp_project_id
-  role = google_project_iam_custom_role.targetpoolAccess.name
+  role    = google_project_iam_custom_role.targetpoolAccess.name
   members = [
     "serviceAccount:${var.platform_sa_email}",
   ]
