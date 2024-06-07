@@ -146,7 +146,9 @@ resource "google_project_iam_custom_role" "e6dataclusterViewer" {
     "container.backendConfigs.delete",
     "container.backendConfigs.update",
     "resourcemanager.projects.get",
-    "compute.sslCertificates.get"
+    "compute.sslCertificates.get",
+    "compute.forwardingRules.list",
+    "compute.regionBackendServices.get"
   ]
   stage        = "GA"
   project      = var.gcp_project_id
@@ -168,7 +170,8 @@ resource "google_project_iam_custom_role" "GlobalAddress" {
   permissions  = [
     "compute.globalAddresses.create",
     "compute.globalAddresses.delete",
-    "compute.globalAddresses.get"
+    "compute.globalAddresses.get",
+    "compute.globalAddresses.setLabels"
   ]
   stage        = "GA"
   project      = var.gcp_project_id
