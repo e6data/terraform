@@ -1,7 +1,7 @@
 # # Create GKE nodepool for workspace
 resource "google_container_node_pool" "workspace" {
   name_prefix = local.e6data_workspace_name
-  location    = local.kubernetes_cluster_location
+  location    = var.gcp_region
   cluster     = module.gke_e6data.gke_cluster_id
   version     = var.gke_version
 
@@ -146,47 +146,55 @@ resource "google_project_iam_custom_role" "e6dataclusterViewer" {
     "container.backendConfigs.delete",
     "container.backendConfigs.update",
     "resourcemanager.projects.get",
-    "compute.sslCertificates.get"
+    "compute.sslCertificates.get",
+    "compute.forwardingRules.list",
+    "compute.regionBackendServices.get"
   ]
   stage   = "GA"
   project = var.gcp_project_id
-  role = google_project_iam_custom_role.e6dataclusterViewer.name
+}
+
+# Create IAM policy binding for Platform Service and Kubernetes cluster
+resource "google_project_iam_binding" "platform_ksa_mapping" {
+  project = var.gcp_project_id
+  role    = google_project_iam_custom_role.e6dataclusterViewer.name
   members = [
     "serviceAccount:${var.platform_sa_email}",
   ]
 }
 
 resource "google_project_iam_custom_role" "GlobalAddress" {
-  role_id      = "${local.cluster_viewer_role_name}_global_address_create"
-  title        = "e6data-${var.workspace_name}-GlobalAddress"
-  description  = "Global address create access"
-  permissions  = [
+  role_id     = "${local.cluster_viewer_role_name}_global_address_create"
+  title       = "e6data-${var.workspace_name}-GlobalAddress"
+  description = "Global address create access"
+  permissions = [
     "compute.globalAddresses.create",
     "compute.globalAddresses.delete",
-    "compute.globalAddresses.get"
+    "compute.globalAddresses.get",
+    "compute.globalAddresses.setLabels"
   ]
-  stage        = "GA"
-  project      = var.gcp_project_id
+  stage   = "GA"
+  project = var.gcp_project_id
 }
 
 resource "google_project_iam_custom_role" "security_policy" {
-  role_id      = "${local.cluster_viewer_role_name}_security_policy"
-  title        = "e6data-${var.workspace_name}-security_policy"
-  description  = "Global address access"
-  permissions  = [
+  role_id     = "${local.cluster_viewer_role_name}_security_policy"
+  title       = "e6data-${var.workspace_name}-security_policy"
+  description = "Global address access"
+  permissions = [
     "compute.securityPolicies.create",
     "compute.securityPolicies.get",
     "compute.securityPolicies.delete",
     "compute.securityPolicies.update"
   ]
-  stage        = "GA"
-  project      = var.gcp_project_id
+  stage   = "GA"
+  project = var.gcp_project_id
 }
 
 # Create IAM policy binding for Platform Service and Kubernetes cluster
-resource "google_project_iam_binding" "platform_ksa_mapping" {
+resource "google_project_iam_binding" "global_address_create_mapping" {
   project = var.gcp_project_id
-  role = google_project_iam_custom_role.GlobalAddress.name
+  role    = google_project_iam_custom_role.GlobalAddress.name
   members = [
     "serviceAccount:${var.platform_sa_email}",
   ]
@@ -199,7 +207,7 @@ resource "google_project_iam_binding" "platform_ksa_mapping" {
 
 resource "google_project_iam_binding" "security_policy_create_mapping" {
   project = var.gcp_project_id
-  role = google_project_iam_custom_role.security_policy.name
+  role    = google_project_iam_custom_role.security_policy.name
   members = [
     "serviceAccount:${var.platform_sa_email}",
   ]
