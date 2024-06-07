@@ -3,20 +3,20 @@ resource "aws_subnet" "public" {
 
   vpc_id            = aws_vpc.vpc.id
   availability_zone = each.value.az
-  cidr_block = each.value.cidr
+  cidr_block        = each.value.cidr
 
   map_public_ip_on_launch = true
 
   tags = {
     Name = format("%s-%s-public-subnet-%s", var.env, var.workspace_name, each.value.az)
-    type = "public" 
+    type = "public"
   }
 
   lifecycle {
     ignore_changes = [tags]
   }
 
-  depends_on = [ aws_vpc.vpc ]
+  depends_on = [aws_vpc.vpc]
 }
 
 resource "aws_route_table" "public_route_table" {
