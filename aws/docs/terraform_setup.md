@@ -31,7 +31,7 @@ Clone the e6data workspace repository to your machine:
 ```Shell
 git clone https://github.com/e6x-labs/terraform.git
 
-cd terraform/aws_workspace
+cd terraform/
 ```
 
 ### **2. Configure Variables**
