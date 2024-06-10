@@ -166,7 +166,8 @@ resource "google_project_iam_custom_role" "GlobalAddress" {
   permissions = [
     "compute.globalAddresses.create",
     "compute.globalAddresses.delete",
-    "compute.globalAddresses.get"
+    "compute.globalAddresses.get",
+    "compute.globalAddresses.setLabels"
   ]
   stage   = "GA"
   project = var.gcp_project_id
