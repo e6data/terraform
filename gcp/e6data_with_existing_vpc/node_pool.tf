@@ -146,6 +146,7 @@ resource "google_project_iam_custom_role" "e6dataclusterViewer" {
     "container.backendConfigs.delete",
     "container.backendConfigs.update",
     "resourcemanager.projects.get",
+    "compute.projects.get",
     "compute.sslCertificates.get",
     "compute.forwardingRules.list",
     "compute.regionBackendServices.get"
