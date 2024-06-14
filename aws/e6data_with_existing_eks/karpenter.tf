@@ -33,8 +33,15 @@ data "kubectl_path_documents" "provisioner_manifests" {
     volume_size              = var.eks_disk_size
     nodeclass_name           = local.e6data_nodeclass_name
     nodepool_name            = local.e6data_nodepool_name
-    tags                     = jsonencode(var.cost_tags)
-    nodepool_cpu_limits      = var.nodepool_cpu_limits
+    tags = jsonencode(
+      merge(
+        var.cost_tags,
+        {
+          "Name" = local.e6data_workspace_name
+        }
+      )
+    )
+    nodepool_cpu_limits = var.nodepool_cpu_limits
   }
   depends_on = [data.aws_availability_zones.available, aws_iam_role.karpenter_node_role]
 }
