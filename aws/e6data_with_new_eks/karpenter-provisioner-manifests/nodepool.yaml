@@ -21,7 +21,8 @@ spec:
           values: ${available_zones}
         - key: "karpenter.k8s.aws/instance-size"
           operator: NotIn
-          values: "metal"          
+          values:
+          - metal         
       nodeClassRef:
         name: ${nodeclass_name}
       taints:
