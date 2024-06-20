@@ -19,6 +19,9 @@ spec:
         - key: topology.kubernetes.io/zone
           operator: In
           values: ${available_zones}
+        - key: "karpenter.k8s.aws/instance-size"
+          operator: NotIn
+          values: "metal"          
       nodeClassRef:
         name: ${nodeclass_name}
       taints:
