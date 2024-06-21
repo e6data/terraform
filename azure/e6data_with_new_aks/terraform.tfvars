@@ -12,12 +12,7 @@ engine_namespaces       = ["perf", "dev", "tmp"]
 node_label_key = "agentpool"
 
 cost_tags = {
-  Team        = "PERF"
-  Operation   = "PERF-QA"
-  Environment = "Dev"
-  App         = "e6data"
-  User        = "perf@e6x.io"
-  permanent   = "true"
+  App = "e6data"
 }
 
 container_names = ["ci", "devcore", "regression"]
