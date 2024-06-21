@@ -1,6 +1,6 @@
 output "cluster_name" {
   description = "AKS Cluster Name"
-  value = azurerm_kubernetes_cluster.aks_engine.id
+  value       = azurerm_kubernetes_cluster.aks_engine.id
 }
 
 output "host" {

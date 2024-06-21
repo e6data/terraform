@@ -242,71 +242,71 @@ variable "tmp_workspace_name" {
 }
 
 ### Dev Nodepool variables
-variable "dev_workspace_name" {
+variable "workspace_name" {
   type        = string
   description = "Name of dev workspace"
 }
 
-variable "dev_vm_size" {
+variable "vm_size" {
   type        = string
   description = "The VM size for the dev AKS node pool.(for example Standard_DS2_v2)"
 }
 
-variable "dev_min_size" {
+variable "min_size" {
   type        = number
   description = "The minimum number of nodes in the dev AKS node pool."
 }
 
-variable "dev_max_size" {
+variable "max_size" {
   type        = number
   description = "The maximum number of nodes in the dev AKS node pool."
 }
 
-variable "dev_zones" {
+variable "zones" {
   type        = list(string)
   description = "Specifies a list of Availability Zones in which the dev Cluster Node Pool should be located"
   default     = ["1", "2", "3"]
 }
 
-variable "dev_priority" {
+variable "priority" {
   type        = string
   description = "Regular/Spot"
   default     = "Spot"
 }
 
-variable "dev_spot_max_price" {
+variable "spot_max_price" {
   type        = number
   description = "maximum Spot price"
   default     = -1
 }
 
-variable "dev_spot_eviction_policy" {
+variable "spot_eviction_policy" {
   type        = string
   description = "Deallocate/Delete"
   default     = "Deallocate"
 }
 
-variable "dev_kubernetes_namespace" {
+variable "kubernetes_namespace" {
   type        = string
   description = "dev kubernetes namespace"
 }
 
-variable "dev_helm_chart_version" {
+variable "helm_chart_version" {
   type        = string
   description = "dev helm chart version"
 }
 
-variable "dev_alias" {
+variable "alias" {
   type        = string
   description = "e6data domain name for dev environment"
 }
 
-variable "dev_domain" {
+variable "domain" {
   type        = string
   description = "e6data base domain name for dev environment"
 }
 
-variable "dev_enable_auto_scaling" {
+variable "enable_auto_scaling" {
   type        = bool
   description = "enable autoscaling in dev nodepool."
 }
@@ -387,7 +387,7 @@ variable "acr_rg" {
   description = "acr resource group"
 }
 
-variable "dev_monitoring_v3_map" {
+variable "monitoring_v3_map" {
   type = map(object({
     type                                    = string
     helm_chart_name                         = string

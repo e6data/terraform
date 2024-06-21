@@ -1,5 +1,5 @@
 variable "region" {
-  type       = string
+  type        = string
   description = "AZURE region"
 }
 
@@ -26,7 +26,7 @@ variable "resource_group_name" {
 variable "admin_group_object_ids" {
   type        = list(string)
   description = "AAD groups to have admin access to the aks cluster"
-  default = ["c436c2ee-18b7-4130-acc4-d7a01fe6ee7e"]
+  default     = ["c436c2ee-18b7-4130-acc4-d7a01fe6ee7e"]
 }
 
 variable "aci_subnet_name" {
@@ -40,7 +40,7 @@ variable "aks_subnet_id" {
 }
 
 variable "tags" {
-  type = map(string)
+  type        = map(string)
   description = "cost tags"
 }
 

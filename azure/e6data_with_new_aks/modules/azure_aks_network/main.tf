@@ -10,7 +10,7 @@ resource "azurerm_subnet" "aks" {
   name                 = format("%s-subnet-%s", var.env, "aks")
   resource_group_name  = azurerm_virtual_network.vnet.resource_group_name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = [cidrsubnet(azurerm_virtual_network.vnet.address_space[0],ceil(log(4, 2)),0 )]
+  address_prefixes     = [cidrsubnet(azurerm_virtual_network.vnet.address_space[0], ceil(log(4, 2)), 0)]
 }
 
 # Create AKS subnet to be used by nodes and pods
@@ -26,7 +26,7 @@ resource "azurerm_subnet" "aci" {
   name                 = format("%s-subnet-%s", var.env, "aci")
   resource_group_name  = azurerm_virtual_network.vnet.resource_group_name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = [cidrsubnet(azurerm_virtual_network.vnet.address_space[0],ceil(log(4, 2)),1)]
+  address_prefixes     = [cidrsubnet(azurerm_virtual_network.vnet.address_space[0], ceil(log(4, 2)), 1)]
 
   # Designate subnet to be used by ACI
   delegation {

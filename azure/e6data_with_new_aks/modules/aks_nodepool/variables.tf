@@ -1,5 +1,5 @@
 variable "aks_cluster_name" {
-  type = string
+  type        = string
   description = "The name of the AKS cluster"
 }
 
@@ -32,7 +32,7 @@ variable "max_number_of_nodes" {
 variable "zones" {
   type        = list(string)
   description = "Specifies a list of Availability Zones in which this Kubernetes Cluster Node Pool should be located"
-  default     = ["1","2","3"]
+  default     = ["1", "2", "3"]
 }
 
 variable "kube_version" {
@@ -65,6 +65,6 @@ variable "vnet_subnet_id" {
 }
 
 variable "tags" {
-  type = map(string)
+  type        = map(string)
   description = "cost tags"
 }
