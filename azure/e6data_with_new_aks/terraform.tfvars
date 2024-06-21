@@ -1,4 +1,4 @@
-subscription_id         = "244ad77a-91e4-4a8e-9193-835d79ac55e2"
+subscription_id         = ""
 region                  = "eastus"
 data_storage_account    = "e6dataengine"
 data_resource_group     = "e6data-common"
@@ -7,7 +7,7 @@ kube_version            = "1.27.9"
 private_cluster_enabled = "false"
 resource_group_name     = "e6data-common"
 admin_group_object_ids  = ["c436c2ee-18b7-4130-acc4-d7a01fe6ee7e"]
-engine_namespaces       = ["perf", "dev", "tmp"]
+engine_namespaces       = ["e6data"]
 node_label_key          = "agentpool"
 
 cost_tags = {
