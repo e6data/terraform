@@ -95,7 +95,7 @@ data "aws_iam_policy_document" "eks_nodegroup_iam_assume_policy" {
 }
 
 resource "aws_iam_role" "eks_nodegroup_iam_role" {
-  name                = local.e6data_workspace_name
+  name                = "${local.e6data_workspace_name}-${random_string.random.result}"
   managed_policy_arns = var.eks_nodegroup_iam_policy_arn
   assume_role_policy  = data.aws_iam_policy_document.eks_nodegroup_iam_assume_policy.json
 }

@@ -11,7 +11,7 @@ data "aws_iam_policy_document" "karpenter_node_trust_policy" {
 
 ##The karpenter node role includes several AWS managed policies, which are designed to provide permissions for specific uses needed by the nodes to work with EC2 and other AWS resources.
 resource "aws_iam_role" "karpenter_node_role" {
-  name                = "e6data-${var.workspace_name}-KarpenterNodeRole"
+  name                = "e6data-${var.workspace_name}-KarpenterNodeRole-${random_string.random.result}"
   managed_policy_arns = var.karpenter_eks_node_policy_arn
   assume_role_policy  = data.aws_iam_policy_document.karpenter_node_trust_policy.json
 }
