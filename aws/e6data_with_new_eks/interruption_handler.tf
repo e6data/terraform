@@ -1,7 +1,7 @@
 #https://karpenter.sh/docs/reference/cloudformation/#interruption-handling
 # Create an SQS queue to handle node interruption messages for Karpenter
 resource "aws_sqs_queue" "node_interruption_queue" {
-  name                      = "e6data-${local.short_workspace_name}-spot-interruption-queue"
+  name                      = "e6data-${local.short_workspace_name}-queue-${random_string.random.result}"
   sqs_managed_sse_enabled   = true
   message_retention_seconds = 300
 }
@@ -30,7 +30,7 @@ resource "aws_sqs_queue_policy" "sqs_access_policy" {
 #EC2 Spot Instance Interruption warning informs Karpenter that a Spot instance being used is about to be reclaimed by AWS.
 
 resource "aws_cloudwatch_event_rule" "spot_interruption_warning_handler" {
-  name        = "e6data-${local.short_workspace_name}-capture-spot-interruption-warning"
+  name        = "e6data-${local.short_workspace_name}-spot-warning-${random_string.random.result}"
   description = "Capture spot interruption warning for karpenter"
 
   event_pattern = jsonencode({
@@ -42,7 +42,7 @@ resource "aws_cloudwatch_event_rule" "spot_interruption_warning_handler" {
 ##The ScheduledChangeRule is captured by Karpenter, which sends AWS health events to KarpenterInterruptionQueue. 
 ##This allows Karpenter to manage nodes proactively, ensuring graceful handling of interruptions by draining affected nodes and rescheduling pods for high availability and minimal disruptions.
 resource "aws_cloudwatch_event_rule" "aws_health_event_handler" {
-  name        = "e6data-${local.short_workspace_name}-capture-aws-health-event"
+  name        = "e6data-${local.short_workspace_name}-health-${random_string.random.result}"
   description = "Capture AWS Health events for karpenter"
 
   event_pattern = jsonencode({
@@ -53,7 +53,7 @@ resource "aws_cloudwatch_event_rule" "aws_health_event_handler" {
 
 #An EC2 Instance Rebalance Recommendation signal informs Karpenter that a Spot instance is at a heightened risk of being interrupted, allowing new instances to be acquired or workloads to be rebalanced.
 resource "aws_cloudwatch_event_rule" "ec2_rebalance_recommendation_handler" {
-  name        = "e6data-${local.short_workspace_name}-capture-ec2-rebalance-recommendation"
+  name        = "e6data-${local.short_workspace_name}-rebalance-${random_string.random.result}"
   description = "Capture EC2 instance rebalance recommendation for karpenter"
 
   event_pattern = jsonencode({
@@ -65,7 +65,7 @@ resource "aws_cloudwatch_event_rule" "ec2_rebalance_recommendation_handler" {
 #The InstanceStateChangeRule is observed by Karpenter, which monitors EC2 instance state changes (e.g., pending, running, stopping, stopped, shutting-down, terminated) and sends these events to the KarpenterInterruptionQueue. 
 #This enables Karpenter to track instance states and perform necessary actions, such as draining and rescheduling pods.
 resource "aws_cloudwatch_event_rule" "ec2_state_change_notification_handler" {
-  name        = "e6data-${local.short_workspace_name}-capture-ec2-state-change-notification"
+  name        = "e6data-${local.short_workspace_name}-state-${random_string.random.result}"
   description = "Capture EC2 instance state change notification for karpenter"
 
   event_pattern = jsonencode({
