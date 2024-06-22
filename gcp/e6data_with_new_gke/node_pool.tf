@@ -44,8 +44,8 @@ resource "google_storage_bucket" "workspace_bucket" {
 
 # # Create service account for workspace
 resource "google_service_account" "workspace_sa" {
-  account_id   = "${local.e6data_workspace_name}-${random_string.random.result}"
-  display_name = "${local.e6data_workspace_name}-${random_string.random.result}"
+  account_id   = local.e6data_workspace_name
+  display_name = local.e6data_workspace_name
   description  = "Service account for e6data workspace access"
 }
 
