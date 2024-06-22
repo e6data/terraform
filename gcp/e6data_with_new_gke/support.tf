@@ -10,8 +10,6 @@ locals {
   security_policy_role_name = "e6data_${local.workspace_role_name}_security_policy"
   global_address_role_name  = "e6data_${local.workspace_role_name}_globaladdress_policy"
 
-  kubernetes_cluster_location = var.kubernetes_cluster_zone != "" ? var.kubernetes_cluster_zone : var.gcp_region
-
   helm_values_file = yamlencode({
     cloud = {
       type               = "GCP"
