@@ -145,3 +145,8 @@ variable "authorized_networks" {
   type        = map(string)
   description = "authorized_networks"
 }
+
+variable "kubernetes_cluster_zone" {
+  description = "Kubernetes cluster zone (Only required for zonal clusters)"
+  type        = string
+}

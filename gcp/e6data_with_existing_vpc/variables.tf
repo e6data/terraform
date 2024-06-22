@@ -9,6 +9,11 @@ variable "kubernetes_namespace" {
   type        = string
 }
 
+variable "kubernetes_cluster_zone" {
+  description = "Kubernetes cluster zone (Only required for zonal clusters)"
+  type        = string
+}
+
 variable "cluster_name" {
   description = "Kubernetes cluster name"
   type        = string

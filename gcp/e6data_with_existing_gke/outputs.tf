@@ -21,3 +21,7 @@ output "kubernetes_cluster_name" {
 output "kubernetes_namespace" {
   value = var.kubernetes_namespace
 }
+
+output "kubernetes_cluster_zone" {
+  value = var.kubernetes_cluster_zone
+}
