@@ -67,7 +67,7 @@ resource "google_project_iam_custom_role" "workspace_write_role" {
 
 # # Create IAM role for workspace read access on GCS buckets
 resource "google_project_iam_custom_role" "workspace_read_role" {
-  role_id     = "{local.workspace_read_role_name}_${random_string.random.result}"
+  role_id     = "${local.workspace_read_role_name}_${random_string.random.result}"
   title       = "e6data ${var.workspace_name} Workspace Read Access"
   description = "Custom e6data workspace role for GCS read access"
 
