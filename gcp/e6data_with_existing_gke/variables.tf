@@ -28,11 +28,6 @@ variable "kubernetes_namespace" {
   type        = string
 }
 
-variable "kubernetes_cluster_zone" {
-  description = "Kubernetes cluster zone (Only required for zonal clusters)"
-  type        = string
-}
-
 variable "platform_sa_email" {
   description = "Platform service account email"
   type        = string
