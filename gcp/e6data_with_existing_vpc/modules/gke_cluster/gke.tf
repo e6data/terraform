@@ -22,7 +22,8 @@ resource "google_container_cluster" "gke_cluster" {
   }
 
   database_encryption {
-    state = var.gke_encryption_state
+    state    = var.gke_encryption_state
+    key_name = var.gke_encryption_key
   }
 
   private_cluster_config {
@@ -58,7 +59,8 @@ resource "google_container_cluster" "gke_cluster" {
   }
 
   lifecycle {
-    ignore_changes = [node_version, resource_labels]
+    create_before_destroy = true
+    ignore_changes        = [node_version, resource_labels]
   }
 
   remove_default_node_pool = true

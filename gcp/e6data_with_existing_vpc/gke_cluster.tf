@@ -18,7 +18,7 @@ provider "helm" {
 module "gke_e6data" {
   source       = "./modules/gke_cluster"
   cluster_name = var.cluster_name
-  region       = var.gcp_region
+  region       = local.kubernetes_cluster_location
   network      = module.network.network_self_link
   subnetwork   = module.network.subnetwork_self_link
   gke_version  = var.gke_version
@@ -28,6 +28,7 @@ module "gke_e6data" {
   master_ipv4_cidr_block = var.gke_e6data_master_ipv4_cidr_block
 
   gke_encryption_state = var.gke_encryption_state
+  gke_encryption_key   = google_kms_crypto_key.crypto_key.id
   cost_labels          = var.cost_labels
   deletion_protection  = var.deletion_protection
   authorized_networks  = var.authorized_networks

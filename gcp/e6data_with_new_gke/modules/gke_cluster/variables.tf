@@ -54,3 +54,8 @@ variable "authorized_networks" {
   type        = map(string)
   description = "authorized_networks"
 }
+
+variable "gke_encryption_key" {
+  type        = string
+  description = "gke cluster encryption key"
+}
