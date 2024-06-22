@@ -22,7 +22,8 @@ resource "google_container_cluster" "gke_cluster" {
   }
 
   database_encryption {
-    state = var.gke_encryption_state
+    state    = var.gke_encryption_state
+    key_name = var.gke_encryption_key
   }
 
   private_cluster_config {
