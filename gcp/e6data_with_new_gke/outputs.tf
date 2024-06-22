@@ -7,7 +7,7 @@ output "region" {
 }
 
 output "workspace_gcs_bucket_name" {
-  value = local.e6data_workspace_name
+  value = google_storage_bucket.workspace_bucket.name
 }
 
 output "gcp_project_id" {
