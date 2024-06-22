@@ -110,7 +110,7 @@ resource "google_project_iam_binding" "workspace_write_binding" {
   condition {
     title       = "Workspace Write Access"
     description = "Write access to e6data workspace GCS bucket"
-    expression  = "resource.name.startsWith(\"projects/_/buckets/"${local.e6data_workspace_name}-${random_string.random.result}"/\")"
+    expression  = "resource.name.startsWith(\"projects/_/buckets/${local.e6data_workspace_name}-${random_string.random.result}/\")"
   }
 
   depends_on = [google_project_iam_custom_role.workspace_write_role, google_storage_bucket.workspace_bucket, google_service_account.workspace_sa]
@@ -127,7 +127,7 @@ resource "google_project_iam_binding" "platform_gcs_read_binding" {
   condition {
     title       = "Workspace Read Access"
     description = "Read access to e6data workspace GCS bucket"
-    expression  = "resource.name.startsWith(\"projects/_/buckets/"${local.e6data_workspace_name}-${random_string.random.result}"/\")"
+    expression  = "resource.name.startsWith(\"projects/_/buckets/${local.e6data_workspace_name}-${random_string.random.result}/\")"
   }
 
   depends_on = [google_project_iam_custom_role.workspace_write_role, google_storage_bucket.workspace_bucket]
