@@ -41,7 +41,7 @@ provider "kubernetes" {
       "--tenant-id",
       data.azurerm_client_config.current.tenant_id,
       "--server-id",
-      "",
+      "6dae42f8-4368-4678-94ff-3960e28e3630",
       "|",
       "jq",
       ".status.token"
@@ -66,7 +66,7 @@ provider "helm" {
         "--tenant-id",
         data.azurerm_client_config.current.tenant_id,
         "--server-id",
-        "",
+        "6dae42f8-4368-4678-94ff-3960e28e3630",
         "|",
         "jq",
         ".status.token"
