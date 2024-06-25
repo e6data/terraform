@@ -15,6 +15,10 @@ resource "google_container_cluster" "gke_cluster" {
     enabled = false
   }
 
+  cluster_autoscaling {
+    enabled = false
+  }
+
   # Workloads are being configured to utilize the Workload Identity provider instead of directly relying on the service account of the worker node.
   # https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity?source=post_page-----d11a230f8e49--------------------------------
   workload_identity_config {
