@@ -11,7 +11,7 @@ aks_resource_group_name                 =   "aks-poc"              #The name of 
 aks_cluster_name                        =   "connect-poc"          #The name of the Kubernetes cluster to deploy e6data workspace.
 
 cidr_block                              =   ["10.210.0.0/16"]
-kube_version                            =   "1.26.6"               #Version of Kubernetes used for the Agents.
+kube_version                            =   "1.28"               #Version of Kubernetes used for the Agents.
 kubernetes_namespace                    =   "raaj"                 #Value of the Kubernetes namespace to deploy the e6data workspace.
 
 vnet_name                               =   "akspocvnet596"         #The name of the vnet where this Node Pool should exist.
@@ -52,37 +52,37 @@ cost_tags = {
 
 
 # container_names = ["ci", "devcore", "regression"]
-# 
+
 # env             = "e6engine"
 
-# ###Default Node pool variables
-# default_node_pool_min_size       = 1
-# default_node_pool_max_size       = 20
-# default_node_pool_vm_size        = "Standard_B2s"
-# default_node_pool_node_count     = 1
-# default_node_pool_name           = "default"
-# scale_down_unneeded              = "1m"
-# scale_down_unready               = "1m"
-# scale_down_utilization_threshold = "0.2"
-# scale_down_delay_after_add       = "1m"
+###Default Node pool variables
+default_node_pool_min_size       = 1
+default_node_pool_max_size       = 20
+default_node_pool_vm_size        = "Standard_B2s"
+default_node_pool_node_count     = 1
+default_node_pool_name           = "default"
+scale_down_unneeded              = "1m"
+scale_down_unready               = "1m"
+scale_down_utilization_threshold = "0.2"
+scale_down_delay_after_add       = "1m"
 
 
 # workspace_name       = "dev"
 # vm_size              = "Standard_D32plds_v5"
-# enable_auto_scaling  = true
-# min_size             = 0
-# max_size             = 200
+enable_auto_scaling  = true
+min_size             = 0
+max_size             = 200
 # zones                = ["1", "2", "3"]
 # priority             = "Spot"
 # spot_max_price       = -1
-# spot_eviction_policy = "Deallocate"
+spot_eviction_policy = "Deallocate"
 # kubernetes_namespace = "dev"
 # helm_chart_version   = "2.0.7"
 
-# ###blob full access
+###blob full access
 # e6data_blob_full_access_secret_expiration_time = "7200h"
 
-# # azure container registry variables
+# azure container registry variables
 # acr_name = "e6labs"
 # acr_rg   = "e6data-common"
 
