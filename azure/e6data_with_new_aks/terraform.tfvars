@@ -1,8 +1,8 @@
 
 
-prefix                                 = "e6data"
+prefix                                  = "e6data"
 
-region                                 = "eastus"
+region                                  = "eastus"
 
 workspace_name                          =   "e6dataworkspace"                  #Name of the e6data workspace to be created.
 
@@ -10,6 +10,7 @@ subscription_id                         =   "244ad77a-91e4-4a8e-9193-835d79ac55e
 aks_resource_group_name                 =   "aks-poc"              #The name of the resource group in which aks cluster is present.
 aks_cluster_name                        =   "connect-poc"          #The name of the Kubernetes cluster to deploy e6data workspace.
 
+cidr_block                              =   ["10.210.0.0/16"]
 kube_version                            =   "1.26.6"               #Version of Kubernetes used for the Agents.
 kubernetes_namespace                    =   "raaj"                 #Value of the Kubernetes namespace to deploy the e6data workspace.
 
@@ -51,7 +52,7 @@ cost_tags = {
 
 
 # container_names = ["ci", "devcore", "regression"]
-# cidr_block      = ["10.210.0.0/16"]
+# 
 # env             = "e6engine"
 
 # ###Default Node pool variables
