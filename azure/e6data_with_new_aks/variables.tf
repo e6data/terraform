@@ -104,11 +104,6 @@ variable "priority" {
   default     = "Spot"
 }
 
-variable "spot_max_price" {
-  type        = number
-  description = "Regular/Spot"
-  default     = -1
-}
 
 variable "eviction_policy" {
   type        = string
