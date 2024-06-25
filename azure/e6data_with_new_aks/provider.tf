@@ -1,10 +1,10 @@
 terraform {
-  backend "azurerm" {
-    resource_group_name  = "e6data-common"
-    storage_account_name = "e6dataengine"
-    container_name       = "terraform"
-    key                  = "engine.terraform.tfstate"
-  }
+  # backend "azurerm" {
+  #   resource_group_name  = "e6data-common"
+  #   storage_account_name = "e6dataengine"
+  #   container_name       = "terraform"
+  #   key                  = "<>.terraform.tfstate"
+  # }
 
   required_providers {
     azurerm = {
@@ -20,4 +20,5 @@ terraform {
 
 provider "azurerm" {
   features {}
+  subscription_id   = var.subscription_id
 }

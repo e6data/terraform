@@ -11,7 +11,7 @@ data "azurerm_client_config" "current" {}
 
 # Retrieve information about the resource group of the aks
 data "azurerm_resource_group" "aks_resource_group" {
-  name = var.resource_group_name
+  name = var.aks_resource_group_name
 }
 
 data "azuread_service_principal" "e6data_service_principal" {
@@ -20,6 +20,7 @@ data "azuread_service_principal" "e6data_service_principal" {
 
 
 locals {
+
   short_workspace_name      = substr(var.workspace_name, 0, 4)
   e6data_workspace_name     = "e6data-${local.short_workspace_name}"
   workspace_role_name       = replace(var.workspace_name, "-", "_")
@@ -38,7 +39,31 @@ locals {
       control_plane_user = [data.azuread_service_principal.e6data_service_principal.object_id]
     }
   })
-  
+
+  default_tags = {
+    app          = "e6data"
+  }
+
+  all_containers = data.azurerm_storage_account.data_storage_account.id
+
+  node_labels = merge(
+    {
+      "app" = "e6data"
+      "e6data-workspace-name" = var.workspace_name
+    },
+    var.priority == "Spot" ? {
+      "kubernetes.azure.com/scalesetpriority" = "spot"
+    } : {}
+  )
+
+  node_taints = concat(
+    ["e6data-workspace-name=${var.workspace_name}:NoSchedule"],
+    var.priority == "Spot" ? ["kubernetes.azure.com/scalesetpriority=spot:NoSchedule"] : []
+  )
+
+  blob_storage_container_path = "https://${azurerm_storage_account.e6data_storage_account.name}.blob.core.windows.net/${azurerm_storage_container.e6data_blobs.name}"
+
+
 }
 
 resource "random_string" "random" {

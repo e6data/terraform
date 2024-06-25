@@ -1,10 +1,10 @@
 module "aks_e6data" {
   source                  = "./modules/aks_cluster"
   region                  = var.region
-  cluster_name            = "${var.prefix}-${var.cluster_name}"
+  cluster_name            = "${var.prefix}-${var.aks_cluster_name}"
   kube_version            = var.kube_version
   private_cluster_enabled = var.private_cluster_enabled
-  resource_group_name     = var.resource_group_name
+  resource_group_name     = data.azurerm_resource_group.aks_resource_group.name
   aks_subnet_id           = module.network.aks_subnet_id
   aci_subnet_name         = module.network.aci_subnet_name
   tags                    = var.cost_tags
@@ -78,14 +78,13 @@ provider "helm" {
 
 
 resource "kubernetes_namespace" "engine_namespace" {
-  provider = kubernetes.engine
-  for_each = var.engine_namespaces
+  provider = kubernetes.e6data
 
   metadata {
     annotations = {
-      name = each.key
+      name = var.kubernetes_namespace
     }
-    name = each.key
+    name = var.kubernetes_namespace
   }
 
   depends_on = [module.aks_e6data]
