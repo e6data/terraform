@@ -38,13 +38,15 @@ cost_tags = {
   App = "e6data"
 }
 
+private_cluster_enabled = "false"
+
 # ##############################################
 
 # data_storage_account    = "e6dataengine"
 # data_resource_group     = "e6data-common"
 # cluster_name            = "engine"
 # kube_version            = "1.27.9"
-# private_cluster_enabled = "false"
+
 # resource_group_name     = "e6data-common"
 # admin_group_object_ids  = ["c436c2ee-18b7-4130-acc4-d7a01fe6ee7e"]
 # engine_namespaces       = ["e6data"]
