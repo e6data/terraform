@@ -3,11 +3,12 @@ variable "cidr_block" {
   description = "Base CIDR block which will be divided into subnet CIDR blocks (e.g. `10.0.0.0/16`)"
 }
 
-variable "env" {
+variable "prefix" {
   type        = string
   description = "tag prefix to be added"
-  default     = "dev"
+  default     = "e6data"
 }
+
 
 variable "resource_group_name" {
   type        = string

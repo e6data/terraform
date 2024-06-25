@@ -1,7 +1,7 @@
 module "aks_engine" {
   source                  = "./modules/aks_cluster"
   region                  = var.region
-  cluster_name            = var.cluster_name
+  cluster_name            = "${var.prefix}-${var.cluster_name}"
   kube_version            = var.kube_version
   private_cluster_enabled = var.private_cluster_enabled
   resource_group_name     = var.resource_group_name

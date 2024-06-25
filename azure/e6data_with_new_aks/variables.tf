@@ -4,6 +4,11 @@ variable "subscription_id" {
   default     = "2b69ff5f-bcfa-4f86-a43c-c06ca182c584"
 }
 
+variable "prefix" {
+  type        = string
+  description = "AZURE resource name prefix"
+}
+
 variable "region" {
   type        = string
   description = "AZURE region"

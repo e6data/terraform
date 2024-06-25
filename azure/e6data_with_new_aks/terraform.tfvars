@@ -1,5 +1,11 @@
 subscription_id         = ""
+
+
+prefix                  = "e6data"
+
+
 region                  = "eastus"
+
 data_storage_account    = "e6dataengine"
 data_resource_group     = "e6data-common"
 cluster_name            = "engine"
