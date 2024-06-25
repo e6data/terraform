@@ -13,7 +13,7 @@ resource azurerm_storage_account "e6data_storage_account" {
 # Create containers
 module "containers" {
   source               = "./modules/azure_containers"
-  storage_account_name = data.azurerm_storage_account.e6data_storage_account.name
+  storage_account_name = azurerm_storage_account.e6data_storage_account.name
   container_name       = "${var.prefix}-${var.workspace_name}-${random_string.random.result}"
 }
 

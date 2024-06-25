@@ -18,6 +18,10 @@ data "azuread_service_principal" "e6data_service_principal" {
   display_name = "AK-TEST"
 }
 
+data "azurerm_storage_account" "data_storage_account" {
+  name                = var.data_storage_account_name
+  resource_group_name = var.data_resource_group_name
+}
 
 locals {
 
@@ -61,8 +65,7 @@ locals {
     var.priority == "Spot" ? ["kubernetes.azure.com/scalesetpriority=spot:NoSchedule"] : []
   )
 
-  blob_storage_container_path = "https://${azurerm_storage_account.e6data_storage_account.name}.blob.core.windows.net/${azurerm_storage_container.e6data_blobs.name}"
-
+  blob_storage_container_path = "https://${azurerm_storage_account.e6data_storage_account.name}.blob.core.windows.net/${module.containers.container_name}"
 
 }
 

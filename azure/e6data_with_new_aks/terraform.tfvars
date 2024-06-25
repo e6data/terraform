@@ -4,15 +4,15 @@ prefix                                  = "e6data"
 
 region                                  = "eastus"
 
-workspace_name                          =   "e6dataworkspace"                  #Name of the e6data workspace to be created.
+workspace_name                          =   "e6workspace"                  #Name of the e6data workspace to be created.
 
 subscription_id                         =   "244ad77a-91e4-4a8e-9193-835d79ac55e2"  #subscription id where the eks cluster is present
-aks_resource_group_name                 =   "aks-poc"              #The name of the resource group in which aks cluster is present.
-aks_cluster_name                        =   "connect-poc"          #The name of the Kubernetes cluster to deploy e6data workspace.
+aks_resource_group_name                 =   "platform"              #The name of the resource group in which aks cluster is present.
+aks_cluster_name                        =   "platform"          #The name of the Kubernetes cluster to deploy e6data workspace.
 
 cidr_block                              =   ["10.210.0.0/16"]
 kube_version                            =   "1.28"               #Version of Kubernetes used for the Agents.
-kubernetes_namespace                    =   "raaj"                 #Value of the Kubernetes namespace to deploy the e6data workspace.
+kubernetes_namespace                    =   "platform"                 #Value of the Kubernetes namespace to deploy the e6data workspace.
 
 vnet_name                               =   "akspocvnet596"         #The name of the vnet where this Node Pool should exist.
 subnet_name                             =   "default"               #The name of the Subnet where this Node Pool should exist.
@@ -27,7 +27,7 @@ eviction_policy                         =   "Deallocate"            #The Evictio
 
 e6data_app_secret_expiration_time       =   "2400h"                 # A relative duration for which the password is valid until, for example 240h (10 days) or 2400h30m
 
-data_storage_account_name               =   "e6tpcdsdata"           #Name of the storage account where the data is present that the e6data engine queries and therefore, require read access to
+data_storage_account_name               =   "e6dataengine"           #Name of the storage account where the data is present that the e6data engine queries and therefore, require read access to
 data_resource_group_name                =   "e6data-common"         #Name of the resource group where data storage account is present
 list_of_containers                      =   ["*"]                   #Containers in the storage account where the data is present that the e6data engine queries and therefore, require read access to.Default is ["*"] which means all containers, it is advisable to change this.
 
