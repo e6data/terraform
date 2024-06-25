@@ -1,4 +1,4 @@
-module "aks_engine" {
+module "aks_e6data" {
   source                  = "./modules/aks_cluster"
   region                  = var.region
   cluster_name            = "${var.prefix}-${var.cluster_name}"
@@ -26,9 +26,9 @@ module "aks_engine" {
 }
 
 provider "kubernetes" {
-  alias                  = "engine"
-  host                   = module.aks_engine.host
-  cluster_ca_certificate = base64decode(module.aks_engine.cluster_ca_certificate)
+  alias                  = "e6data"
+  host                   = module.aks_e6data.host
+  cluster_ca_certificate = base64decode(module.aks_e6data.cluster_ca_certificate)
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
     command     = "kubelogin"
@@ -50,10 +50,10 @@ provider "kubernetes" {
 }
 
 provider "helm" {
-  alias = "engine"
+  alias = "e6data"
   kubernetes {
-    host                   = module.aks_engine.host
-    cluster_ca_certificate = base64decode(module.aks_engine.cluster_ca_certificate)
+    host                   = module.aks_e6data.host
+    cluster_ca_certificate = base64decode(module.aks_e6data.cluster_ca_certificate)
     exec {
       api_version = "client.authentication.k8s.io/v1beta1"
       command     = "kubelogin"
@@ -75,6 +75,8 @@ provider "helm" {
   }
 }
 
+
+
 resource "kubernetes_namespace" "engine_namespace" {
   provider = kubernetes.engine
   for_each = var.engine_namespaces
@@ -86,5 +88,5 @@ resource "kubernetes_namespace" "engine_namespace" {
     name = each.key
   }
 
-  depends_on = [module.aks_engine]
+  depends_on = [module.aks_e6data]
 }
