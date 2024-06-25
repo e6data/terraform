@@ -12,7 +12,7 @@ resource "google_container_cluster" "gke_cluster" {
   deletion_protection = var.deletion_protection
 
   vertical_pod_autoscaling {
-    enabled = true
+    enabled = false
   }
 
   # Workloads are being configured to utilize the Workload Identity provider instead of directly relying on the service account of the worker node.
@@ -22,7 +22,8 @@ resource "google_container_cluster" "gke_cluster" {
   }
 
   database_encryption {
-    state = var.gke_encryption_state
+    state    = var.gke_encryption_state
+    key_name = var.gke_encryption_key
   }
 
   private_cluster_config {

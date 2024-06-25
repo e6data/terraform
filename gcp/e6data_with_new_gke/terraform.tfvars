@@ -1,8 +1,6 @@
 # GCP Variables
 gcp_region = "us-central1"
-#The location (region or zone) in which the cluster master will be created, as well as the default node location.
-#If you specify a zone (such as us-central1-a), the cluster will be a zonal cluster with a single cluster master. 
-#If you specify a region (such as us-west1), the cluster will be a regional cluster with multiple masters spread across zones in the region, and with default node locations in those zones as well
+#The region in which the cluster master will be created, as well as the default node location. 
 
 gcp_project_id = "gcp-project-id" # The ID of the GCP project
 
@@ -24,14 +22,14 @@ gke_e6data_master_ipv4_cidr_block = "10.103.4.0/28"
 
 # Kubernetes Variables
 gke_version           = "1.28"      # The version of GKE to use                
-gke_encryption_state  = "DECRYPTED" # The encryption state for GKE (It is recommended to use encryption)
+gke_encryption_state  = "ENCRYPTED" # The encryption state for GKE (It is recommended to use encryption)
 gke_dns_cache_enabled = true        # The status of the NodeLocal DNSCache addon.
 spot_enabled          = false       # A boolean that represents whether the underlying node VMs are spot.
 
 # GKE Cluster variables
 cluster_name                   = "gke-cluster-name" # The name of the GKE cluster
-kubernetes_cluster_zone        = ""
-default_nodepool_instance_type = "e2-standard-2" # The default instance type for the node pool
+kubernetes_cluster_zone        = ""                 #If you specify a zone (such as us-central1-a), the cluster will be a zonal cluster with a single cluster master.
+default_nodepool_instance_type = "e2-standard-2"    # The default instance type for the node pool
 
 gke_e6data_initial_node_count = 1                # The initial number of nodes in the GKE cluster
 gke_e6data_max_pods_per_node  = 64               # The maximum number of pods per node in the GKE cluster

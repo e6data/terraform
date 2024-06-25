@@ -28,6 +28,7 @@ module "gke_e6data" {
   master_ipv4_cidr_block = var.gke_e6data_master_ipv4_cidr_block
 
   gke_encryption_state = var.gke_encryption_state
+  gke_encryption_key   = google_kms_crypto_key.crypto_key.id
   cost_labels          = var.cost_labels
   deletion_protection  = var.deletion_protection
   authorized_networks  = var.authorized_networks

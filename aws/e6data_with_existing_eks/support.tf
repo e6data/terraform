@@ -5,8 +5,8 @@ locals {
   bucket_names_with_full_path = [for bucket_name in var.bucket_names : "arn:aws:s3:::${bucket_name}/*"]
   bucket_names_with_arn       = [for bucket_name in var.bucket_names : "arn:aws:s3:::${bucket_name}"]
 
-  e6data_nodepool_name  = "e6data-nodepool-${local.short_workspace_name}"
-  e6data_nodeclass_name = "e6data-nodeclass-${local.short_workspace_name}"
+  e6data_nodepool_name  = "e6data-nodepool-${local.short_workspace_name}-${random_string.random.result}"
+  e6data_nodeclass_name = "e6data-nodeclass-${local.short_workspace_name}-${random_string.random.result}"
 
   oidc_tls_suffix = replace(data.aws_eks_cluster.current.identity[0].oidc[0].issuer, "https://", "")
 
