@@ -2,7 +2,7 @@ resource "google_container_node_pool" "default_gke_cluster_nodepool" {
   name_prefix       = "e6data-default"
   location          = local.kubernetes_cluster_location
   cluster           = module.gke_e6data.cluster_name
-  node_count        = 2
+  node_count        = 1
   version           = var.gke_version
   max_pods_per_node = 64
 

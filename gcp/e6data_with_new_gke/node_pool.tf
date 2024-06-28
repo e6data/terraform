@@ -5,7 +5,7 @@ resource "google_container_node_pool" "workspace" {
   cluster     = module.gke_e6data.gke_cluster_id
   version     = var.gke_version
 
-  initial_node_count = 1
+  initial_node_count = 0
 
   node_config {
     disk_size_gb = 100
