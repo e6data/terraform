@@ -14,9 +14,6 @@ data "azurerm_resource_group" "aks_resource_group" {
   name = var.aks_resource_group_name
 }
 
-data "azuread_service_principal" "e6data_service_principal" {
-  display_name = "AK-TEST"
-}
 
 data "azurerm_storage_account" "data_storage_account" {
   name                = var.data_storage_account_name
@@ -40,7 +37,7 @@ locals {
     cloud = {
       type               = "AZURE"
       oidc_value         = azurerm_user_assigned_identity.e6data_identity.client_id
-      control_plane_user = [data.azuread_service_principal.e6data_service_principal.object_id]
+      control_plane_user = [azuread_service_principal.e6data_service_principal.object_id]
     }
   })
 
