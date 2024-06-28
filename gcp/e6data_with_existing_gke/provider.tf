@@ -12,8 +12,8 @@ provider "google" {
   project        = var.gcp_project_id
   region         = var.gcp_region
   default_labels = var.cost_labels
-
-  credentials = "/Users/prakhar/Downloads/proven-outpost-351604-d3fb4cb9e685.json" 
+  
+  /* credentials = "{{GOOGLE_CLOUD_KEYFILE_JSON}}" */
   # access_token = "{{ gcp_access_token }}"
 }
 
