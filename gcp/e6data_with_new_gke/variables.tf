@@ -22,7 +22,7 @@ variable "cluster_name" {
 variable "platform_sa_email" {
   description = "Platform service account email"
   type        = string
-  default     = "e6-customer-prod-y0j6l@e6data-analytics.iam.gserviceaccount.com"
+  default     = "e6-customer-beta-8uwl3@e6data-analytics.iam.gserviceaccount.com"
 }
 
 variable "cost_labels" {
@@ -94,7 +94,7 @@ variable "gke_dns_cache_enabled" {
 variable "control_plane_user" {
   description = "Control plane user to be added to e6data workspace"
   type        = list(string)
-  default     = ["107317529457865758669"]
+  default     = ["110954230975627803940"]
 }
 
 variable "max_instances_in_nodepool" {
@@ -149,4 +149,25 @@ variable "deletion_protection" {
 variable "authorized_networks" {
   type        = map(string)
   description = "authorized_networks"
+}
+
+# Autoscaler variables
+variable "autoscaler_namespace" {
+  type        = string
+  description = "Autoscaler namespace"
+}
+
+variable "autoscaler_service_account_name" {
+  type        = string
+  description = "Autoscaler service account name"
+}
+
+variable "autoscaler_helm_chart_name" {
+  type        = string
+  description = "Autoscaler helm chart name"
+}
+
+variable "autoscaler_helm_chart_version" {
+  type        = string
+  description = "Autoscaler helm chart version"
 }

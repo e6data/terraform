@@ -6,11 +6,11 @@ resource "google_container_node_pool" "workspace" {
   version     = var.gke_version
 
   initial_node_count = 0
-  autoscaling {
-    total_min_node_count = 0
-    total_max_node_count = var.max_instances_in_nodepool
-    location_policy      = "ANY"
-  }
+  # autoscaling {
+  #   total_min_node_count = 0
+  #   total_max_node_count = var.max_instances_in_nodepool
+  #   location_policy      = "ANY"
+  # }
   node_config {
     disk_size_gb = 100
     spot         = var.spot_enabled

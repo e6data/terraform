@@ -35,14 +35,17 @@ resource "google_container_cluster" "gke_cluster" {
   ip_allocation_policy {
   }
 
+  cluster_autoscaling{
+    enabled = false
+  }
+
   addons_config {
     http_load_balancing {
       disabled = false
     }
-
-    dns_cache_config {
-      enabled = var.dns_cache_enabled
-    }
+  dns_cache_config {
+    enabled = var.dns_cache_enabled
+  }
 
   }
 
