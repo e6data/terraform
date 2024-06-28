@@ -2,7 +2,7 @@ resource "google_container_node_pool" "default_gke_cluster_nodepool" {
   name_prefix       = "e6data-default"
   location          = local.kubernetes_cluster_location
   cluster           = module.gke_e6data.cluster_name
-  node_count        = 1
+  node_count        = 2
   version           = var.gke_version
   max_pods_per_node = 64
 
@@ -21,12 +21,6 @@ resource "google_container_node_pool" "default_gke_cluster_nodepool" {
       "e6data-workspace-name" = "default"
     }
   }
-
-  # autoscaling {
-  #   total_min_node_count = 1
-  #   total_max_node_count = 3
-  #   location_policy      = "ANY"
-  # }
 
   lifecycle {
     create_before_destroy = true
