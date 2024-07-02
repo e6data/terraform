@@ -211,6 +211,17 @@ variable "scale_down_utilization_threshold" {
   description = "Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down."
 }
 
+### Karpenter Variables
+variable "karpenter_namespace" {
+  description = "Namespace to deploy the Karpenter"
+  type        = string
+}
+
+variable "karpenter_service_account_name" {
+  description = "Service account name for the Karpenter"
+  type        = string
+}
+
 # variable "subscription_id" {
 #   type        = string
 #   description = "The subscription ID of the Azure subscription in which the e6data resources will be deployed."
