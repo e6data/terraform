@@ -24,6 +24,12 @@ variable "cluster_log_types" {
   default     = ["scheduler", "controllerManager", "authenticator", "audit"]
 }
 
+variable "cloudwatch_log_retention_in_days" {
+  description = "cloudwatch log retention period"
+  type        = number
+  default     = 30
+}
+
 variable "cidr_block" {
   type        = string
   description = "Base CIDR block which will be divided into subnet CIDR blocks (e.g. `10.0.0.0/16`)"

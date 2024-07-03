@@ -1,15 +1,15 @@
 module "eks" {
-  source            = "./modules/eks"
-  cluster_name      = var.cluster_name
-  kube_version      = var.kube_version
-  cluster_log_types = var.cluster_log_types
-
-  security_group_ids      = [module.security_group.security_group_id]
-  subnet_ids              = module.network.subnet_ids
-  private_subnet_ids      = module.network.private_subnet_ids
-  public_access_cidrs     = var.public_access_cidrs
-  endpoint_private_access = var.endpoint_private_access
-  vpc_id                  = module.network.vpc_id
+  source                           = "./modules/eks"
+  cluster_name                     = var.cluster_name
+  kube_version                     = var.kube_version
+  cluster_log_types                = var.cluster_log_types
+  cloudwatch_log_retention_in_days = var.cloudwatch_log_retention_in_days
+  security_group_ids               = [module.security_group.security_group_id]
+  subnet_ids                       = module.network.subnet_ids
+  private_subnet_ids               = module.network.private_subnet_ids
+  public_access_cidrs              = var.public_access_cidrs
+  endpoint_private_access          = var.endpoint_private_access
+  vpc_id                           = module.network.vpc_id
 
   depends_on = [module.network]
 }

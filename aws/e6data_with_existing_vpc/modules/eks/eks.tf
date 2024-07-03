@@ -21,3 +21,10 @@ resource "aws_eks_cluster" "eks" {
     security_group_ids      = var.security_group_ids
   }
 }
+
+resource "aws_cloudwatch_log_group" "eks" {
+  name              = "/aws/eks/${aws_eks_cluster.eks.name}/cluster"
+  retention_in_days = var.cloudwatch_log_retention_in_days
+
+  tags = var.cost_tags
+}
