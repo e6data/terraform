@@ -9,6 +9,7 @@ terraform {
 
 # Create the EKS cluster
 resource "aws_eks_cluster" "eks" {
+  depends_on                = [aws_cloudwatch_log_group.eks]
   name                      = "e6data-${var.cluster_name}"
   role_arn                  = aws_iam_role.iam_eks_cluster_role.arn
   version                   = var.kube_version
@@ -20,4 +21,9 @@ resource "aws_eks_cluster" "eks" {
     public_access_cidrs     = var.public_access_cidrs
     security_group_ids      = var.security_group_ids
   }
+}
+
+resource "aws_cloudwatch_log_group" "eks" {
+  name              = "/aws/eks/e6data-${var.cluster_name}/cluster"
+  retention_in_days = var.cloudwatch_log_retention_in_days
 }

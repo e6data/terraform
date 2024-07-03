@@ -14,6 +14,11 @@ variable "cluster_log_types" {
   default     = ["scheduler", "controllerManager"]
 }
 
+variable "cloudwatch_log_retention_in_days" {
+  description = "cloudwatch log retention period"
+  type        = number
+}
+
 variable "subnet_ids" {
   type        = list(string)
   description = "Subnet ids for eks cluster"
