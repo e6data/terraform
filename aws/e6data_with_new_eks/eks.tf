@@ -10,7 +10,6 @@ module "eks" {
   public_access_cidrs              = var.public_access_cidrs
   endpoint_private_access          = var.endpoint_private_access
   vpc_id                           = module.network.vpc_id
-  cost_tags                        = var.cost_tags
 
   depends_on = [module.network]
 }

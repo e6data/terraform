@@ -8,11 +8,6 @@ variable "cluster_name" {
   description = "Name of kubernetes cluster"
 }
 
-variable "cost_tags" {
-  type        = map(string)
-  description = "cost tags"
-}
-
 variable "cluster_log_types" {
   type        = list(string)
   description = "EKS Cluster enabled log types to Cloudwatch"
