@@ -3,11 +3,6 @@ variable "kube_version" {
   description = "kubernetes master version"
 }
 
-variable "cost_tags" {
-  type        = map(string)
-  description = "cost tags"
-}
-
 variable "cluster_name" {
   type        = string
   description = "Name of kubernetes cluster"
