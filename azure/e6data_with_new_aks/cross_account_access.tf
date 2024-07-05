@@ -34,7 +34,8 @@ resource "azurerm_role_definition" "e6data_aks_custom_role" {
   ]
   permissions {
     actions = [
-      "Microsoft.ContainerService/managedClusters/listClusterUserCredential/action"
+      "Microsoft.ContainerService/managedClusters/listClusterUserCredential/action",
+      "Microsoft.ContainerService/managedClusters/read"
     ]
     not_actions = []
   }

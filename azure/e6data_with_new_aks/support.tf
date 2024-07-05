@@ -22,6 +22,9 @@ data "azurerm_storage_account" "data_storage_account" {
 
 locals {
 
+  e6data_nodepool_name  = "e6data-nodepool-${local.short_workspace_name}-${random_string.random.result}"
+  e6data_nodeclass_name = "e6data-nodeclass-${local.short_workspace_name}-${random_string.random.result}"
+
   short_workspace_name      = substr(var.workspace_name, 0, 4)
   e6data_workspace_name     = "e6data-${local.short_workspace_name}"
   workspace_role_name       = replace(var.workspace_name, "-", "_")
@@ -32,6 +35,8 @@ locals {
   target_pool_role_name     = "e6data_${local.workspace_role_name}_targetpool_read"
   security_policy_role_name = "e6data_${local.workspace_role_name}_security_policy"
   global_address_role_name  = "e6data_${local.workspace_role_name}_globaladdress_policy"
+
+  node_identities = ""
 
   helm_values_file = yamlencode({
     cloud = {

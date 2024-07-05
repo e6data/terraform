@@ -1,61 +1,38 @@
+# General configuration
+prefix                          = "e6data"  # Prefix for resources
+region                          = "eastus"   # Azure region
+workspace_name                  =  "e6workspace"                  #Name of the e6data workspace to be created.
 
+# AKS cluster details
+subscription_id                 = "244ad77a-91e4-4a8e-9193-835d79ac55e2"  # Subscription ID of AZURE subscription
+aks_resource_group_name         = "e6datarg"  # Resource group name for AKS cluster
+aks_cluster_name                = "poc"  # AKS cluster name
+kube_version                    = "1.28"      # Kubernetes version
+kubernetes_namespace            = "e6data"  # Namespace to deploy e6data workspace
+private_cluster_enabled         = "false"  # Private cluster enabled (true/false)
 
-prefix                                  = "e6data"
+# Networking
+cidr_block                      = ["10.210.0.0/16"]  # CIDR block for the VNet
 
-region                                  = "eastus"
+# Node pool configuration
+nodepool_instance_family        = ["D", "F"]        # Instance families for node pools
+priority                        = ["spot"]          # VM priority (Regular or Spot)
 
-workspace_name                          =   "e6workspace"                  #Name of the e6data workspace to be created.
+# Application secrets
+e6data_app_secret_expiration_time = "2400h"  # Expiration time for application secret
 
-subscription_id                         =   "244ad77a-91e4-4a8e-9193-835d79ac55e2"  #subscription id where the eks cluster is present
-aks_resource_group_name                 =   "platform"              #The name of the resource group in which aks cluster is present.
-aks_cluster_name                        =   "platform"          #The name of the Kubernetes cluster to deploy e6data workspace.
+# Data storage configuration
+data_storage_account_name       = "databucket"    # Storage account name
+data_resource_group_name        = "data-rg"   # Resource group for storage account
+list_of_containers              = ["*"]                 # Containers to access in storage account
 
-cidr_block                              =   ["10.210.0.0/16"]
-kube_version                            =   "1.28"               #Version of Kubernetes used for the Agents.
-kubernetes_namespace                    =   "platform"                 #Value of the Kubernetes namespace to deploy the e6data workspace.
+# Helm chart version
+helm_chart_version              = "2.0.7"               # Helm chart version for e6data workspace
 
-vnet_name                               =   "akspocvnet596"         #The name of the vnet where this Node Pool should exist.
-subnet_name                             =   "default"               #The name of the Subnet where this Node Pool should exist.
-zones                                   =   ["1","2","3"]           #Specifies a list of Availability Zones in which this Kubernetes Cluster Node Pool should be located
-
-vm_size                                 =   "Standard_DS2_v2"       #The SKU which should be used for the Virtual Machines used in this Node Pool. 
-min_number_of_nodes                     =   "1"                     #The minimum number of nodes which should exist within this Node Pool. Valid values are between 0 and 1000 and must be less than or equal to max_number_of_nodes
-max_number_of_nodes                     =   "5"                     #The maximum number of nodes which should exist within this Node Pool. Valid values are between 0 and 1000 and must be greater than or equal to min_number_of_nodes
-priority                                =   "Spot"                  #The Priority for Virtual Machines within the Virtual Machine Scale Set that powers this Node Pool. Possible values are Regular and Spot
-spot_max_price                          =   -1                      #The maximum price you're willing to pay in USD per Virtual Machine. Valid values are -1 (the current on-demand price for a Virtual Machine) or a positive value with up to five decimal places   
-eviction_policy                         =   "Deallocate"            #The Eviction Policy which should be used for Virtual Machines within the Virtual Machine Scale Set powering this Node Pool. Possible values are Deallocate and Delete
-
-e6data_app_secret_expiration_time       =   "2400h"                 # A relative duration for which the password is valid until, for example 240h (10 days) or 2400h30m
-
-data_storage_account_name               =   "e6dataengine"           #Name of the storage account where the data is present that the e6data engine queries and therefore, require read access to
-data_resource_group_name                =   "e6data-common"         #Name of the resource group where data storage account is present
-list_of_containers                      =   ["*"]                   #Containers in the storage account where the data is present that the e6data engine queries and therefore, require read access to.Default is ["*"] which means all containers, it is advisable to change this.
-
-helm_chart_version                      =   "2.0.7"                 #e6data workspace Helm chart version to be used
-
-
+# Cost allocation tags
 cost_tags = {
   App = "e6data"
 }
-
-private_cluster_enabled = "false"
-
-# ##############################################
-
-# data_storage_account    = "e6dataengine"
-# data_resource_group     = "e6data-common"
-# cluster_name            = "engine"
-# kube_version            = "1.27.9"
-
-# resource_group_name     = "e6data-common"
-# admin_group_object_ids  = ["c436c2ee-18b7-4130-acc4-d7a01fe6ee7e"]
-# engine_namespaces       = ["e6data"]
-
-
-
-# container_names = ["ci", "devcore", "regression"]
-
-# env             = "e6engine"
 
 ###Default Node pool variables
 default_node_pool_min_size       = 1
@@ -68,23 +45,7 @@ scale_down_unready               = "1m"
 scale_down_utilization_threshold = "0.2"
 scale_down_delay_after_add       = "1m"
 
-
-# workspace_name       = "dev"
-# vm_size              = "Standard_D32plds_v5"
-enable_auto_scaling  = true
-min_size             = 0
-max_size             = 200
-# zones                = ["1", "2", "3"]
-# priority             = "Spot"
-# spot_max_price       = -1
-spot_eviction_policy = "Deallocate"
-# kubernetes_namespace = "dev"
-# helm_chart_version   = "2.0.7"
-
-###blob full access
-# e6data_blob_full_access_secret_expiration_time = "7200h"
-
-# azure container registry variables
-# acr_name = "e6labs"
-# acr_rg   = "e6data-common"
-
+# Karpenter Variables
+karpenter_namespace            = "kube-system"  # Namespace for Karpenter deployment
+karpenter_service_account_name = "karpenter"    # Service account name for Karpenter
+karpenter_release_version      = "0.5.0"        # Karpenter release version

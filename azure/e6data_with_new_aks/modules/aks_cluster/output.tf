@@ -1,6 +1,11 @@
 output "cluster_name" {
-  description = "AKS Cluster Name"
+  description = "AKS Cluster ID"
   value       = azurerm_kubernetes_cluster.aks_e6data.id
+}
+
+output "cluster_name_short" {
+  description = "AKS Cluster Name"
+  value       = azurerm_kubernetes_cluster.aks_e6data.name
 }
 
 output "host" {
@@ -31,6 +36,27 @@ output "aks_managed_rg_id" {
   value = azurerm_kubernetes_cluster.aks_e6data.node_resource_group_id
 }
 
+output "aks_rg_name" {
+  value = azurerm_kubernetes_cluster.aks_e6data.resource_group_name
+}
+
+output "aks_managed_rg_name" {
+  value = azurerm_kubernetes_cluster.aks_e6data.node_resource_group
+}
+
 output "kubelet_identity" {
   value = azurerm_kubernetes_cluster.aks_e6data.kubelet_identity[0].object_id
+}
+
+output "user_assigned_identity_id" {
+  value = azurerm_kubernetes_cluster.aks_e6data.kubelet_identity[0].user_assigned_identity_id
+}
+
+output "generated_cluster_public_ssh_key" {
+  description = "The cluster will use this generated public key as ssh key when `var.public_ssh_key` is empty or null. The fingerprint of the public key data in OpenSSH MD5 hash format, e.g. `aa:bb:cc:....` Only available if the selected private key format is compatible, similarly to `public_key_openssh` and the [ECDSA P224 limitations](https://registry.terraform.io/providers/hashicorp/tls/latest/docs#limitations)."
+  value       = try(azurerm_kubernetes_cluster.aks_e6data.linux_profile[0], null) != null ? (var.public_ssh_key == "" || var.public_ssh_key == null ? tls_private_key.ssh[0].public_key_openssh : null) : null
+}
+
+output "kube_config_raw" {
+  value       = azurerm_kubernetes_cluster.aks_e6data.kube_config_raw
 }

@@ -1,29 +1,3 @@
-# Create a node pool in the AKS cluster
-module "nodepool" {
-  source = "./modules/aks_nodepool"
-
-  nodepool_name       = var.workspace_name
-  aks_cluster_name    = module.aks_e6data.cluster_name
-  vm_size             = var.vm_size
-  kube_version        = module.aks_e6data.kube_version
-  enable_auto_scaling = var.enable_auto_scaling
-  min_number_of_nodes = var.min_size
-  max_number_of_nodes = var.max_size
-  vnet_subnet_id      = module.network.aks_subnet_id
-  zones               = var.zones
-  priority            = var.priority
-  spot_max_price      = var.spot_max_price
-  eviction_policy     = var.spot_eviction_policy
-  tags = merge(
-    {
-      namespace = var.kubernetes_namespace
-    },
-    var.cost_tags
-  )
-  depends_on = [module.network]
-
-}
-
 # Create user-assigned identity, which is used by the engine to access data buckets.
 resource "azurerm_user_assigned_identity" "e6data_identity" {
   location            = data.azurerm_resource_group.aks_resource_group.location

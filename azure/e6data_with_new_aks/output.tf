@@ -35,7 +35,7 @@ output "subscription_id" {
 }
 
 output "kubernetes_cluster_name" {
-  value = module.aks_e6data.cluster_name
+  value = module.aks_e6data.cluster_name_short
 }
 
 output "kubernetes_namespace" {

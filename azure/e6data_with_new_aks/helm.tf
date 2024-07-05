@@ -14,5 +14,5 @@ resource "helm_release" "workspace_deployment" {
   lifecycle {
     ignore_changes = [values]
   }
-  depends_on = [module.aks_e6data, module.nodepool, kubernetes_namespace.engine_namespace]
+  depends_on = [module.aks_e6data, kubernetes_namespace.engine_namespace]
 }

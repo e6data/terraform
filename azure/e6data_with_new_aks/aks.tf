@@ -75,6 +75,29 @@ provider "helm" {
   }
 }
 
+provider "kubectl" {
+  host                   = module.aks_e6data.host
+  cluster_ca_certificate = base64decode(module.aks_e6data.cluster_ca_certificate)
+  load_config_file       = false
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    command     = "kubelogin"
+    args = [
+      "get-token",
+      "--login",
+      "azurecli",
+      "--environment",
+      "AzurePublicCloud",
+      "--tenant-id",
+      data.azurerm_client_config.current.tenant_id,
+      "--server-id",
+      "6dae42f8-4368-4678-94ff-3960e28e3630",
+      "|",
+      "jq",
+      ".status.token"
+    ]
+  }
+}
 
 
 resource "kubernetes_namespace" "engine_namespace" {

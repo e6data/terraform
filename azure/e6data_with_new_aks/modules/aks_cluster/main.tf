@@ -1,3 +1,15 @@
+moved {
+  from = module.ssh-key.tls_private_key.ssh
+  to   = tls_private_key.ssh[0]
+}
+
+resource "tls_private_key" "ssh" {
+  count = var.admin_username == null ? 0 : 1
+
+  algorithm = "RSA"
+  rsa_bits  = 2048
+}
+
 resource "azurerm_kubernetes_cluster" "aks_e6data" {
   name                              = var.cluster_name
   location                          = var.region
@@ -10,8 +22,18 @@ resource "azurerm_kubernetes_cluster" "aks_e6data" {
   role_based_access_control_enabled = true
   kubernetes_version                = var.kube_version
 
+  linux_profile{
+    admin_username = var.admin_username
+      ssh_key {
+        key_data = replace(coalesce(var.public_ssh_key, tls_private_key.ssh[0].public_key_openssh), "\n", "")
+      }
+  }
+
   network_profile {
     network_plugin = "azure"
+    network_policy = "cilium"
+    network_plugin_mode = "overlay"
+    network_data_plane = "cilium"
   }
 
   # Enable virtual node (ACI connector) for Linux

@@ -13,23 +13,18 @@ spec:
         e6data-workspace-name: ${workspace_name}  
     spec:
       requirements:
-        - key: kubernetes.io/arch
-          operator: In
-          values: ${arch}
         - key: kubernetes.io/os
           operator: In
           values: ["linux"]
-        - key: karpenter.sh/capacity-type
-          operator: In
-          values: ${capacity_type}
         - key: karpenter.azure.com/sku-family
           operator: In
           values: ${sku_family}
-        - key: karpenter.azure.com/sku-name
-          operator: In
-          values: ${sku_name}          
       nodeClassRef:
         name: ${nodeclass_name}
+      taints:
+        - key: "e6data-workspace-name"
+          value: ${workspace_name}
+          effect: NoSchedule  
   limits:
     cpu: ${nodepool_cpu_limits}
   disruption:
