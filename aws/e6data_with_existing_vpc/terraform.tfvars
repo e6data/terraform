@@ -7,7 +7,7 @@ workspace_name = "workspace" ### Name of the e6data workspace to be created.
 # a) Accepts only lowercase alphanumeric characters.
 # b) Must have a minimum of 3 characters.
 
-helm_chart_version = "2.0.7" ### e6data workspace Helm chart version to be used.
+helm_chart_version = "2.0.8" ### e6data workspace Helm chart version to be used.
 
 # Kubernetes Variables
 kube_version             = "1.28" ### The Kubernetes cluster version. Version 1.24 or higher is required.
