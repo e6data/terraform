@@ -110,4 +110,6 @@ data "kubernetes_resources" "bootstrap" {
   kind           = "Secret"
   namespace      = "kube-system"
   field_selector = "type==bootstrap.kubernetes.io/token"
+
+  depends_on = [ module.aks_e6data ]
 }
