@@ -13,14 +13,6 @@ module "aks_e6data" {
   default_node_pool_vm_size    = var.default_node_pool_vm_size
   default_node_pool_node_count = var.default_node_pool_node_count
   default_node_pool_name       = var.default_node_pool_name
-  default_node_pool_min_size   = var.default_node_pool_min_size
-  default_node_pool_max_size   = var.default_node_pool_max_size
-
-  #default nodepool autosacler
-  scale_down_unneeded              = var.scale_down_unneeded
-  scale_down_delay_after_add       = var.scale_down_delay_after_add
-  scale_down_unready               = var.scale_down_unready
-  scale_down_utilization_threshold = var.scale_down_utilization_threshold
 
   depends_on = [module.network]
 }
@@ -99,7 +91,6 @@ provider "kubectl" {
   }
 }
 
-
 resource "kubernetes_namespace" "engine_namespace" {
   provider = kubernetes.e6data
 
@@ -111,4 +102,12 @@ resource "kubernetes_namespace" "engine_namespace" {
   }
 
   depends_on = [module.aks_e6data]
+}
+
+data "kubernetes_resources" "bootstrap" {
+  provider = kubernetes.e6data
+  api_version    = "v1"
+  kind           = "Secret"
+  namespace      = "kube-system"
+  field_selector = "type==bootstrap.kubernetes.io/token"
 }

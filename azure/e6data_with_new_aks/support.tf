@@ -14,7 +14,6 @@ data "azurerm_resource_group" "aks_resource_group" {
   name = var.aks_resource_group_name
 }
 
-
 data "azurerm_storage_account" "data_storage_account" {
   name                = var.data_storage_account_name
   resource_group_name = var.data_resource_group_name
@@ -37,6 +36,7 @@ locals {
   global_address_role_name  = "e6data_${local.workspace_role_name}_globaladdress_policy"
 
   node_identities = ""
+  bootstrap_token = join(".",[base64decode(data.kubernetes_resources.bootstrap.objects.0.data.token-id),base64decode(data.kubernetes_resources.bootstrap.objects.0.data.token-secret)])
 
   helm_values_file = yamlencode({
     cloud = {

@@ -41,13 +41,6 @@ resource "azurerm_kubernetes_cluster" "aks_e6data" {
     subnet_name = var.aci_subnet_name
   }
 
-  auto_scaler_profile {
-    scale_down_unneeded              = var.scale_down_unneeded
-    scale_down_delay_after_add       = var.scale_down_delay_after_add
-    scale_down_unready               = var.scale_down_unready
-    scale_down_utilization_threshold = var.scale_down_utilization_threshold
-  }
-
   azure_active_directory_role_based_access_control {
     managed                = true
     admin_group_object_ids = var.admin_group_object_ids
@@ -61,12 +54,15 @@ resource "azurerm_kubernetes_cluster" "aks_e6data" {
     name                = var.default_node_pool_name
     vm_size             = var.default_node_pool_vm_size
     vnet_subnet_id      = var.aks_subnet_id
-    enable_auto_scaling = true
-    min_count           = var.default_node_pool_min_size
-    max_count           = var.default_node_pool_max_size
+    enable_auto_scaling = false
+    node_count          = var.default_node_pool_node_count
     tags                = var.tags
 
+    upgrade_settings {
+      drain_timeout_in_minutes = 0
+      max_surge = "10%"
+      node_soak_duration_in_minutes = 0
+    }
   }
-
   tags = var.tags
 }

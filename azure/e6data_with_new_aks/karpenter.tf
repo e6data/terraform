@@ -61,9 +61,9 @@ module "karpenter" {
   karpenter_service_account_name = var.karpenter_service_account_name
   karpenter_managed_identity_client_id = azurerm_user_assigned_identity.karpenter.client_id
   public_ssh_key               = module.aks_e6data.generated_cluster_public_ssh_key
-  bootstrap_token              = trimspace(templatefile("bootstrap_token/token.tpl",{}))
+  bootstrap_token              = local.bootstrap_token
 
-  depends_on = [module.network, null_resource.find_secret]
+  depends_on = [module.network]
 }
 
 # Data source to fetch and template Karpenter provisioner manifests
@@ -95,19 +95,4 @@ resource "kubectl_manifest" "provisioners" {
   yaml_body = values(data.kubectl_path_documents.provisioner_manifests.manifests)[count.index]
 
   depends_on = [module.karpenter]
-}
-
-resource "null_resource" "find_secret" {
-  provisioner "local-exec" {
-    command = "bash bootstrap_token/find_secret.sh"
-
-  interpreter = ["/bin/bash", "-c"]
-
-  environment = {
-      KUBECONFIG = base64encode(module.aks_e6data.kube_config_raw)
-  }
-  }
-  triggers = {
-    always_run = "${timestamp()}"
-  }
 }

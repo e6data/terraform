@@ -44,7 +44,6 @@ variable "tags" {
   description = "cost tags"
 }
 
-
 ##default nodepool vars
 variable "default_node_pool_name" {
   type        = string
@@ -59,35 +58,6 @@ variable "default_node_pool_vm_size" {
 variable "default_node_pool_node_count" {
   type        = string
   description = "The node pool count of default nodepool"
-}
-
-variable "default_node_pool_min_size" {
-  type        = number
-  description = "The minimum number of nodes in the default AKS node pool."
-  default     = 1
-}
-
-variable "default_node_pool_max_size" {
-  type        = number
-  description = "The maximum number of nodes in the default AKS node pool."
-}
-
-## auto scaler profile
-variable "scale_down_unneeded" {
-  type        = string
-  description = "How long a node should be unneeded before it is eligible for scale down."
-}
-variable "scale_down_delay_after_add" {
-  type        = string
-  description = "How long after the scale up of AKS nodes the scale down evaluation resumes."
-}
-variable "scale_down_unready" {
-  type        = string
-  description = "How long an unready node should be unneeded before it is eligible for scale down."
-}
-variable "scale_down_utilization_threshold" {
-  type        = string
-  description = "Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down."
 }
 
 variable "public_ssh_key" {
