@@ -7,3 +7,4 @@ metadata:
     e6data-workspace-name: ${workspace_name}
 spec:
   imageFamily: Ubuntu2204
+  tags: ${tags}

@@ -27,7 +27,7 @@ data_resource_group_name        = "data-rg"                     # Resource group
 list_of_containers              = ["*"]                         # Containers to access in storage account
 
 # Helm chart version
-helm_chart_version              = "2.0.7"                       # Helm chart version for e6data workspace
+helm_chart_version              = "2.0.8"                       # Helm chart version for e6data workspace
 
 # Cost allocation tags
 cost_tags = {
@@ -36,7 +36,7 @@ cost_tags = {
 
 # Default Node pool variables
 default_node_pool_vm_size       = "Standard_B2s"
-default_node_pool_node_count    = 1
+default_node_pool_node_count    = 2
 default_node_pool_name          = "default"
 
 # Karpenter Variables

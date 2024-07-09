@@ -44,6 +44,10 @@ locals {
       oidc_value         = azurerm_user_assigned_identity.e6data_identity.client_id
       control_plane_user = [azuread_service_principal.e6data_service_principal.object_id]
     }
+    karpenter = {
+      nodepool  = local.e6data_nodepool_name
+      nodeclass = local.e6data_nodeclass_name
+    }
   })
 
   default_tags = {
