@@ -113,3 +113,27 @@ data "kubernetes_resources" "bootstrap" {
 
   depends_on = [ module.aks_e6data ]
 }
+
+resource "helm_release" "nginx_ingress" {
+  name       = "ingress-nginx"
+  chart      = "ingress-nginx/ingress-nginx"
+  version    = "4.7.1"
+  namespace  = "e6data"
+
+  set {
+    name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-load-balancer-health-probe-request-path"
+    value = "/healthz"
+  }
+
+  set {
+    name  = "controller.service.externalTrafficPolicy"
+    value = "Local"
+  }
+}
+
+resource "helm_release" "akv2k8s" {
+  name       = "akv2k8s"
+  chart      = "akv2k8s"
+  repository = "https://spv-charts.github.io/helm-charts"
+  namespace  = "kube-system"
+}
