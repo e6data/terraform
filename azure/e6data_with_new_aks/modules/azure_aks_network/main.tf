@@ -13,7 +13,6 @@ resource "azurerm_subnet" "aks" {
   address_prefixes     = [cidrsubnet(azurerm_virtual_network.vnet.address_space[0], ceil(log(4, 2)), 0)]
 }
 
-
 # Create Virtual Node (ACI) subnet
 resource "azurerm_subnet" "aci" {
   name                 = format("%s-subnet-%s", "${var.prefix}", "aci")
