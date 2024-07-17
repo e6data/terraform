@@ -17,6 +17,21 @@ module "aks_e6data" {
   depends_on = [module.network]
 }
 
+data "azurerm_resources" "aks_sg" {
+  type = "Microsoft.Network/networkSecurityGroups"
+
+  resource_group_name = module.aks_e6data.aks_managed_rg_name
+
+  depends_on = [ module.aks_e6data ]
+}
+
+resource "azurerm_subnet_network_security_group_association" "example" {
+  subnet_id                 = module.network.aks_subnet_id
+  network_security_group_id = data.azurerm_resources.aks_sg.resources.0.id
+
+  depends_on = [ module.aks_e6data, module.network ]
+}
+
 provider "kubernetes" {
   alias                  = "e6data"
   host                   = module.aks_e6data.host
