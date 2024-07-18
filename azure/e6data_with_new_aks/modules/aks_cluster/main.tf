@@ -57,6 +57,7 @@ resource "azurerm_kubernetes_cluster" "aks_e6data" {
     enable_auto_scaling = false
     node_count          = var.default_node_pool_node_count
     tags                = var.tags
+    temporary_name_for_rotation = "tmpnodepool"
 
     upgrade_settings {
       drain_timeout_in_minutes = 0
