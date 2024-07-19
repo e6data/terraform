@@ -19,3 +19,8 @@ variable "region" {
   type        = string
   description = "AZURE region"
 }
+
+variable "private_cluster_enabled" {
+  type        = bool
+  description = "enable private cluster"
+}

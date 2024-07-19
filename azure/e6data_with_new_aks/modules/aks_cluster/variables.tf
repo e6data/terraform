@@ -14,7 +14,7 @@ variable "kube_version" {
 }
 
 variable "private_cluster_enabled" {
-  type        = string
+  type        = bool
   description = "enable private cluster"
 }
 

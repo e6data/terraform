@@ -82,7 +82,7 @@ variable "cidr_block" {
 }
 
 variable "private_cluster_enabled" {
-  type        = string
+  type        = bool
   description = "enable private cluster"
 }
 

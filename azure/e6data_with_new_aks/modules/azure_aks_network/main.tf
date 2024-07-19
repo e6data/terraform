@@ -30,3 +30,18 @@ resource "azurerm_subnet" "aci" {
     }
   }
 }
+
+resource "azurerm_private_dns_zone" "aks_private_dns_zone" {
+  count                  = var.private_cluster_enabled ? 1 : 0
+  name                = "privatelink.${var.region}.azmk8s.io"
+  resource_group_name = var.resource_group_name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "aks_dns_link" {
+  count                  = var.private_cluster_enabled ? 1 : 0
+  name                  = "${var.prefix}-aks-dns-link"
+  resource_group_name   = var.resource_group_name
+  private_dns_zone_name = azurerm_private_dns_zone.aks_private_dns_zone.0.name
+  virtual_network_id    = azurerm_virtual_network.vnet.id
+}
+

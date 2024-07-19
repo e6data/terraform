@@ -4,4 +4,5 @@ module "network" {
   region              = var.region
   resource_group_name = data.azurerm_resource_group.aks_resource_group.name
   prefix              = var.prefix
+  private_cluster_enabled = var.private_cluster_enabled
 }
