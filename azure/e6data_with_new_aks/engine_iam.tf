@@ -6,7 +6,7 @@ resource "azurerm_user_assigned_identity" "e6data_identity" {
   tags                  = local.default_tags
 }
 
-# This resource block creates a federated if edentity credential, which will be used for authentication and authorization from the AKS.
+# This resource block creates a federated identity credential, which will be used for authentication and authorization from the AKS.
 resource "azurerm_federated_identity_credential" "e6data_federated_credential" {
   name                = "${var.workspace_name}-federated-credential"
   audience            = ["api://AzureADTokenExchange"]
