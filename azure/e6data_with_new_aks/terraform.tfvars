@@ -48,3 +48,4 @@ key_vault_name = ""
 key_vault_rg_name = ""
 
 nginx_ingress_controller_namespace = "kube-system"
+nginx_ingress_controller_version = "4.7.1"
