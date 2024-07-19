@@ -28,9 +28,9 @@ resource "azurerm_role_assignment" "e6data_app_blob_role" {
 resource "azurerm_role_definition" "e6data_aks_custom_role" {
   name        = "e6data aks custom role ${var.workspace_name}"
   description = "Custom role to list the aks cluster credential"
-  scope       = data.azurerm_subscription.primary.id
+  scope       = data.azurerm_resource_group.aks_resource_group.id
   assignable_scopes = [
-    data.azurerm_subscription.primary.id
+    data.azurerm_resource_group.aks_resource_group.id
   ]
   permissions {
     actions = [
@@ -41,9 +41,36 @@ resource "azurerm_role_definition" "e6data_aks_custom_role" {
   }
 }
 
+resource "azurerm_role_definition" "e6data_endpoint_custom_role" {
+  name        = "e6data aks custom role ${var.workspace_name}"
+  description = "Custom role to read the lb and pip"
+  scope       = module.aks_e6data.aks_managed_rg_id
+  assignable_scopes = [
+    module.aks_e6data.aks_managed_rg_id
+  ]
+  permissions {
+    actions = [
+      "Microsoft.Network/loadBalancers/read",
+      "Microsoft.Network/publicIPAddresses/read"
+    ]
+    not_actions = []
+  }
+}
+
 # custom role assigment to the service principal to get the aks credentials
 resource "azurerm_role_assignment" "e6data_aks_custom_role_assignment" {
   scope                = module.aks_e6data.cluster_name
   role_definition_id   = azurerm_role_definition.e6data_aks_custom_role.role_definition_resource_id
   principal_id         = azuread_service_principal.e6data_service_principal.object_id
+
+  depends_on = [ azurerm_role_definition.e6data_aks_custom_role ]
+}
+
+# custom role assigment to the service principal to get the load balancer and public ip credentials
+resource "azurerm_role_assignment" "e6data_lb_custom_role_assignment" {
+  scope                = module.aks_e6data.aks_managed_rg_id
+  role_definition_id   = azurerm_role_definition.e6data_endpoint_custom_role.role_definition_resource_id
+  principal_id         = azuread_service_principal.e6data_service_principal.object_id
+
+  depends_on = [azurerm_role_definition.e6data_endpoint_custom_role]
 }

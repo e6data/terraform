@@ -149,3 +149,12 @@ variable "nodepool_cpu_limits" {
   default     = 100000
 }
 
+variable "key_vault_name" {
+  description = "Name of the Key Vault"
+  default     = ""
+}
+
+variable "key_vault_rg_name" {
+  description = "Resource group in which the key vault is present"
+  default     = "endpoint"
+}

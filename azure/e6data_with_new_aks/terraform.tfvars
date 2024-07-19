@@ -43,3 +43,6 @@ default_node_pool_name          = "default"
 karpenter_namespace             = "kube-system"                 # Namespace for Karpenter deployment
 karpenter_service_account_name  = "karpenter"                   # Service account name for Karpenter
 karpenter_release_version       = "0.5.0"                       # Karpenter release version
+
+key_vault_name = ""
+key_vault_rg_name = ""
