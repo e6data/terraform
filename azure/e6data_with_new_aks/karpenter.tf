@@ -1,14 +1,14 @@
 # Create user-assigned identity, which is used by the karpenter.
 resource "azurerm_user_assigned_identity" "karpenter" {
   location            = data.azurerm_resource_group.aks_resource_group.location
-  name                = "${var.workspace_name}-karpenter-identity"
+  name                = "${var.workspace_name}-karpenter-identity-${random_string.random.result}"
   resource_group_name = data.azurerm_resource_group.aks_resource_group.name
-  tags                = local.default_tags
+  tags                = var.cost_tags
 }
 
 # This resource block creates a federated identity credential, which will be used for authentication and authorization from the AKS.
 resource "azurerm_federated_identity_credential" "karpenter_federated_credential" {
-  name                = "${var.workspace_name}-karpenter-federated-credential"
+  name                = "${var.workspace_name}-karpenter-federated-credential-${random_string.random.result}"
   audience            = ["api://AzureADTokenExchange"]
   resource_group_name = data.azurerm_resource_group.aks_resource_group.name
   issuer              = module.aks_e6data.oidc_issuer_url

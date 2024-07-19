@@ -46,3 +46,5 @@ karpenter_release_version       = "0.5.0"                       # Karpenter rele
 
 key_vault_name = ""
 key_vault_rg_name = ""
+
+nginx_ingress_controller_namespace = "kube-system"

@@ -5,7 +5,7 @@ variable "subscription_id" {
 
 variable "workspace_name" {
   type        = string
-  description = "Name of the e6data workspace to be created.."
+  description = "Name of the e6data workspace to be created."
 }
 
 variable "e6data_app_secret_expiration_time" {
@@ -41,7 +41,7 @@ variable "data_storage_account_name" {
 
 variable "list_of_containers" {
   type        = list(string)
-  description = "List of names of the containers inside the data storage account, that the 6data engine queries and require read access to."
+  description = "List of names of the containers inside the data storage account that the e6data engine queries and requires read access to."
   default     = ["*"]
 }
 
@@ -52,7 +52,7 @@ variable "helm_chart_version" {
 
 variable "kube_version" {
   type        = string
-  description = "Version of Kubernetes used for the Agents"
+  description = "Version of Kubernetes used for the Agents."
 }
 
 variable "priority" {
@@ -63,27 +63,27 @@ variable "priority" {
 
 variable "prefix" {
   type        = string
-  description = "AZURE resource name prefix"
+  description = "AZURE resource name prefix."
 }
 
 variable "region" {
   type        = string
-  description = "AZURE region"
+  description = "AZURE region."
 }
 
 variable "cost_tags" {
   type        = map(string)
-  description = "cost tags"
+  description = "Cost tags."
 }
 
 variable "cidr_block" {
   type        = list(string)
-  description = "Base CIDR block which will be divided into subnet CIDR blocks (e.g. `10.0.0.0/16`)"
+  description = "Base CIDR block which will be divided into subnet CIDR blocks (e.g. `10.0.0.0/16`)."
 }
 
 variable "private_cluster_enabled" {
   type        = string
-  description = "enable private cluster"
+  description = "Enable private cluster."
 }
 
 # Default Node pool Variables
@@ -95,66 +95,62 @@ variable "default_node_pool_name" {
 
 variable "default_node_pool_vm_size" {
   type        = string
-  description = "The size of the default AKS node pool vm."
+  description = "The size of the default AKS node pool VM."
 }
 
 variable "default_node_pool_node_count" {
   type        = string
-  description = "The node pool count of default nodepool"
+  description = "The node pool count of the default node pool."
 }
 
-
-## default nodegroup auto scaler profile
-# variable "scale_down_unneeded" {
-#   type        = string
-#   description = "How long a node should be unneeded before it is eligible for scale down."
-# }
-# variable "scale_down_delay_after_add" {
-#   type        = string
-#   description = "How long after the scale up of AKS nodes the scale down evaluation resumes."
-# }
-# variable "scale_down_unready" {
-#   type        = string
-#   description = "How long an unready node should be unneeded before it is eligible for scale down."
-# }
-# variable "scale_down_utilization_threshold" {
-#   type        = string
-#   description = "Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down."
-# }
-
 ### Karpenter Variables
+
 variable "karpenter_namespace" {
-  description = "Namespace to deploy the Karpenter"
   type        = string
+  description = "Namespace to deploy the Karpenter."
 }
 
 variable "karpenter_release_version" {
-  description = "Version of the Karpenter cluster autoscaler Helm chart"
   type        = string
+  description = "Version of the Karpenter cluster autoscaler Helm chart."
 }
 
 variable "karpenter_service_account_name" {
-  description = "Service account name for the Karpenter"
   type        = string
+  description = "Service account name for the Karpenter."
 }
 
 variable "nodepool_instance_family" {
   type        = list(string)
-  description = "Instance family for nodepool"
+  description = "Instance family for node pool."
 }
 
 variable "nodepool_cpu_limits" {
   type        = number
-  description = "CPU limits for nodepool"
+  description = "CPU limits for node pool."
   default     = 100000
 }
 
 variable "key_vault_name" {
-  description = "Name of the Key Vault"
+  type        = string
+  description = "Name of the Key Vault."
   default     = ""
 }
 
 variable "key_vault_rg_name" {
-  description = "Resource group in which the key vault is present"
+  type        = string
+  description = "Resource group in which the key vault is present."
   default     = "endpoint"
+}
+
+variable "nginx_ingress_controller_namespace" {
+  type        = string
+  description = "NGINX ingress controller namespace."
+  default     = "kube-system"
+}
+
+variable "nginx_ingress_controller_version" {
+  type        = string
+  description = "Version of the NGINX Ingress Controller."
+  default     = "4.7.1"
 }

@@ -1,6 +1,6 @@
 resource "azurerm_key_vault" "e6data_vault" {
   count               = var.key_vault_name != "" ? 0 : 1
-  name                = "${var.prefix}-vault"
+  name                = "${var.prefix}-vault-${random_string.random.result}"
   resource_group_name = var.aks_resource_group_name
   location            = var.region
   tenant_id           = data.azurerm_client_config.current.tenant_id

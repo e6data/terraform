@@ -1,6 +1,6 @@
 # Create an Azure AD application
 resource "azuread_application" "e6data_app" {
-  display_name     = "${var.workspace_name}-app"
+  display_name     = "${var.workspace_name}-app-${random_string.random.result}"
   owners           = [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMultipleOrgs"
 }
@@ -26,7 +26,7 @@ resource "azurerm_role_assignment" "e6data_app_blob_role" {
 
 # custom role definition to the service principal to get the aks credentials
 resource "azurerm_role_definition" "e6data_aks_custom_role" {
-  name        = "e6data aks custom role ${var.workspace_name}"
+  name        = "e6data aks custom role ${var.workspace_name} ${random_string.random.result}"
   description = "Custom role to list the aks cluster credential"
   scope       = data.azurerm_resource_group.aks_resource_group.id
   assignable_scopes = [
@@ -42,7 +42,7 @@ resource "azurerm_role_definition" "e6data_aks_custom_role" {
 }
 
 resource "azurerm_role_definition" "e6data_endpoint_custom_role" {
-  name        = "e6data aks custom role ${var.workspace_name}"
+  name        = "e6data aks custom role ${var.workspace_name} ${random_string.random.result}"
   description = "Custom role to read the lb and pip"
   scope       = module.aks_e6data.aks_managed_rg_id
   assignable_scopes = [
