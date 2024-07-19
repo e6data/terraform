@@ -50,7 +50,7 @@ module "karpenter" {
   }
 
   karpenter_version            = var.karpenter_release_version
-  aks_cluster_name             = module.aks_e6data.cluster_name_short
+  aks_cluster_name             = module.aks_e6data.cluster_id
   aks_cluster_endpoint         = module.aks_e6data.host
   node_identities              = local.node_identities
   subscription_id              = var.subscription_id
@@ -71,7 +71,7 @@ data "kubectl_path_documents" "provisioner_manifests" {
   pattern = "./karpenter-provisioner-manifests/*.yaml"
   vars = {
     workspace_name           = var.workspace_name
-    cluster_name             = module.aks_e6data.cluster_name
+    cluster_name             = module.aks_e6data.cluster_id
     sku_family               = jsonencode(var.nodepool_instance_family)
     nodeclass_name           = local.e6data_nodeclass_name
     nodepool_name            = local.e6data_nodepool_name

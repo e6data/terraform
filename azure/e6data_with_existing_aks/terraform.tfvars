@@ -1,32 +1,28 @@
 # General configuration
 prefix                          = "e6data"                       # Prefix for resources
 region                          = "eastus"                       # Azure region
-workspace_name                  = "e6workspace"                  # Name of the e6data workspace to be created
+workspace_name                  = "existing"                  # Name of the e6data workspace to be created
 
 # AKS cluster details
-subscription_id                 = "abcdh100000-abcd-efgh-0000-000000000"  # Subscription ID of AZURE subscription
-aks_resource_group_name         = "e6datarg"                    # Resource group name for AKS cluster
-aks_cluster_name                = "poc"                         # AKS cluster name
-kube_version                    = "1.28"                        # Kubernetes version
-kubernetes_namespace            = "e6data"                      # Namespace to deploy e6data workspace
-private_cluster_enabled         = "false"                       # Private cluster enabled (true/false)
+subscription_id                 = "244ad77a-91e4-4a8e-9193-835d79ac55e2"  # Subscription ID of AZURE subscription
+aks_resource_group_name         = "jultuesday"                    # Resource group name for AKS cluster
+aks_cluster_name                = "e6data-poc"                         # AKS cluster name
+kubernetes_namespace            = "existing"                      # Namespace to deploy e6data workspace
 
-# Networking
-cidr_block                      = ["10.210.0.0/16"]             # CIDR block for the VNet
-
-# Node pool configuration
+# Karpenter Node pool configuration
 nodepool_instance_family        = ["D", "F"]                    # Instance families for node pools
+nodepool_instance_arch          = ["arm64"]
 priority                        = ["spot"]                      # VM priority (Regular or Spot)
 
 # Application secrets
 e6data_app_secret_expiration_time = "2400h"                     # Expiration time for application secret
 
 # Data storage configuration
-data_storage_account_name       = "databucket"                  # Storage account name
-data_resource_group_name        = "data-rg"                     # Resource group for storage account
+data_storage_account_name       = "e6dataengine"                  # Storage account name
+data_resource_group_name        = "e6data-common"                     # Resource group for storage account
 list_of_containers              = ["*"]                         # Containers to access in storage account
 
-# Helm chart version
+# e6data Helm chart version
 helm_chart_version              = "2.0.8"                       # Helm chart version for e6data workspace
 
 # Cost allocation tags
@@ -35,7 +31,7 @@ cost_tags = {
 }
 
 # Default Node pool variables
-default_node_pool_vm_size       = "Standard_B2s"
+default_node_pool_vm_size       = "standard_d2_v5"
 default_node_pool_node_count    = 2
 default_node_pool_name          = "default"
 
@@ -44,8 +40,8 @@ karpenter_namespace             = "kube-system"                 # Namespace for 
 karpenter_service_account_name  = "karpenter"                   # Service account name for Karpenter
 karpenter_release_version       = "0.5.0"                       # Karpenter release version
 
-key_vault_name = ""
-key_vault_rg_name = ""
+key_vault_name = "hsgateway"                                    # Key vault in which the ssl certificate is present for the endpoints,A new key vault will be created if this is empty
+key_vault_rg_name = "endpoint"
 
+nginx_ingress_controller_helm_version = "4.7.1"
 nginx_ingress_controller_namespace = "kube-system"
-nginx_ingress_controller_version = "4.7.1"

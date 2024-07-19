@@ -6,7 +6,7 @@ resource "azurerm_key_vault" "e6data_vault" {
   tenant_id           = data.azurerm_client_config.current.tenant_id
   sku_name            = "standard"
 
-  tags = var.cost_tags
+  tags                = var.cost_tags
 }
 
 data "azurerm_key_vault" "vault" {
@@ -15,12 +15,12 @@ data "azurerm_key_vault" "vault" {
   resource_group_name = var.key_vault_rg_name
 }
 
-resource "azurerm_role_assignment" "customer_key_vault" {
-  count               = var.key_vault_name != "" ? 1 : 0
-  scope               = data.azurerm_key_vault.vault[0].id
-  role_definition_name = "Key Vault Certificate User"
-  principal_id        = module.aks_e6data.kubelet_identity
-}
+# resource "azurerm_role_assignment" "customer_key_vault" {
+#   count               = var.key_vault_name != "" ? 1 : 0
+#   scope               = data.azurerm_key_vault.vault[0].id
+#   role_definition_name = "Key Vault Certificate User"
+#   principal_id        = module.aks_e6data.kubelet_identity
+# }
 
 resource "azurerm_role_assignment" "e6data_key_vault" {
   count               = var.key_vault_name == "" ? 1 : 0

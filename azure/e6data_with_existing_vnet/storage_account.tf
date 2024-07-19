@@ -7,7 +7,7 @@ resource azurerm_storage_account "e6data_storage_account" {
   account_kind             = "StorageV2"
   account_tier             = "Standard"
   account_replication_type = "LRS"
-  tags                     = local.default_tags
+  tags                     = var.cost_tags
 }
 
 # Create containers

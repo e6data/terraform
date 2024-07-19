@@ -59,7 +59,7 @@ resource "azurerm_role_definition" "e6data_endpoint_custom_role" {
 
 # custom role assigment to the service principal to get the aks credentials
 resource "azurerm_role_assignment" "e6data_aks_custom_role_assignment" {
-  scope                = module.aks_e6data.cluster_name
+  scope                = module.aks_e6data.cluster_id
   role_definition_id   = azurerm_role_definition.e6data_aks_custom_role.role_definition_resource_id
   principal_id         = azuread_service_principal.e6data_service_principal.object_id
 
