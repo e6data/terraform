@@ -36,4 +36,6 @@ resource "helm_release" "akv2k8s" {
   chart      = "akv2k8s"
   repository = "http://charts.spvapi.no"
   namespace  = "kube-system"
+
+  depends_on = [ module.aks_e6data ]
 }

@@ -17,6 +17,8 @@ resource "helm_release" "nginx_ingress" {
     name  = "controller.service.externalTrafficPolicy"
     value = "Local"
   }
+
+  depends_on = [ module.aks_e6data ]
 }
 
 resource "kubernetes_ingress_v1" "dummy" {
@@ -52,4 +54,6 @@ resource "kubernetes_ingress_v1" "dummy" {
       }
     }
   }
+
+  depends_on = [ module.aks_e6data, helm_release.nginx_ingress ]
 }
