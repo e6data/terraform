@@ -33,6 +33,8 @@ resource "google_container_cluster" "gke_cluster" {
   }
 
   ip_allocation_policy {
+    cluster_secondary_range_name = "e6data-${var.workspace_name}-podrange"
+    services_secondary_range_name = "e6data-${var.workspace_name}-servicerange"
   }
 
   addons_config {

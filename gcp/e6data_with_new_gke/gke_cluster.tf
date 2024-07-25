@@ -33,4 +33,5 @@ module "gke_e6data" {
   deletion_protection  = var.deletion_protection
   authorized_networks  = var.authorized_networks
 
+  workspace_name       = var.workspace_name
 }

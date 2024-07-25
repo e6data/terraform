@@ -3,6 +3,11 @@ variable "cluster_name" {
   description = "The GKE cluster name"
 }
 
+variable "workspace_name" {
+  description = "value of the component name"
+  type        = string
+}
+
 variable "region" {
   type = string
 }

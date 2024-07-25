@@ -10,11 +10,13 @@ workspace_name = "workspace" # The name of the e6data workspace
 # a) Accepts only lowercase alphanumeric characters.
 # b) Must have a minimum of 3 characters.
 
-helm_chart_version = "2.0.7" ### e6data workspace Helm chart version to be used.
+helm_chart_version = "2.0.9" ### e6data workspace Helm chart version to be used.
 
 # Network Variables
 vpc_name                 = "vpc"           # The name of the VPC
 gke_subnet_ip_cidr_range = "10.100.0.0/18" # The subnet IP range for GKE
+pod_ip_cidr_range        = "10.102.0.0/18" # The subnet IP range for pods
+service_ip_cidr_range    = "10.104.0.0/18" # The subnet IP range for service
 
 gke_e6data_master_ipv4_cidr_block = "10.103.4.0/28"
 # The IP range in CIDR notation to use for the hosted master network

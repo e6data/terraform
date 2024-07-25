@@ -10,6 +10,16 @@ resource "google_compute_subnetwork" "subnetwork" {
 
   private_ip_google_access = true
 
+  secondary_ip_range {
+    range_name    = "e6data-${var.workspace_name}-podrange"
+    ip_cidr_range = var.pod_ip_cidr_range
+  }
+
+  secondary_ip_range {
+    range_name    = "e6data-${var.workspace_name}-servicerange"
+    ip_cidr_range = var.service_ip_cidr_range
+  }
+
   dynamic "log_config" {
     for_each = var.vpc_flow_logs_config
     content {

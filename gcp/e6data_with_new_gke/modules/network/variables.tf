@@ -13,6 +13,16 @@ variable "gke_subnet_ip_cidr_range" {
   type        = string
 }
 
+variable "pod_ip_cidr_range" {
+  description = "The CIDR block for the pods"
+  type        = string
+}
+
+variable "service_ip_cidr_range" {
+  description = "The CIDR block for the services"
+  type        = string
+}
+
 variable "vpc_flow_logs_config" {
   type        = list(map(any))
   description = "Subnet VPC Flow Logs configuration"

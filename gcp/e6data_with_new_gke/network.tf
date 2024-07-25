@@ -9,4 +9,7 @@ module "network" {
 
   cloud_nat_ports_per_vm = var.cloud_nat_ports_per_vm
   cloud_nat_log_config   = var.cloud_nat_log_config
+
+  pod_ip_cidr_range      = var.pod_ip_cidr_range
+  service_ip_cidr_range  = var.service_ip_cidr_range
 }
