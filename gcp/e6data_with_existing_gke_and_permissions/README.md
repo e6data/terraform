@@ -17,6 +17,7 @@ Prior to running these scripts, please follow the instructions in this document 
 3. A [Google Kubernetes Engine (GKE) cluster.](https://docs.e6data.com/product-documentation/workspaces/creating-workspaces-in-gcp#creating-a-gke-cluster-optional)
    - ODIC enabled
      - For instructions to create an OIDC Provider, refer to the official GCP Documentation: [Enable OIDC](https://cloud.google.com/kubernetes-engine/docs/how-to/oidc#enable-oidc)
+4. A GCP service account should be created and granted access to the data buckets. Additionally, the necessary permissions should be assigned to the e6data service account as specified in this document. (https://docs.e6data.com/product-documentation/setup/gcp-setup/infrastructure-and-permissions-for-e6data)
 
 ## Installing the e6data Workspace
 
