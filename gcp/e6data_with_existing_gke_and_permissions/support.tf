@@ -2,6 +2,9 @@ locals {
   short_workspace_name        = substr(var.workspace_name, 0, 4)
   e6data_workspace_name       = "e6data-${local.short_workspace_name}"
   kubernetes_cluster_location = var.kubernetes_cluster_zone != "" ? var.kubernetes_cluster_zone : var.gcp_region
+  workspace_role_name         = replace(var.workspace_name, "-", "_")
+  workspace_write_role_name   = "e6data_${local.workspace_role_name}_write"
+
   helm_values_file = yamlencode({
     cloud = {
       type               = "GCP"

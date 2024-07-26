@@ -9,17 +9,19 @@ gcp_region     = "us-central1"    ### The GCP region to deploy the e6data worksp
 
 helm_chart_version = "2.0.9" ### e6data workspace Helm chart version to be used.
 
-cluster_name              = "gcp-project-id" # The name of the GKE cluster
+cluster_name              = "gke-cluster-name" # The name of the GKE cluster
 kubernetes_cluster_zone   = ""
 max_instances_in_nodepool = 60
 nodepool_instance_type    = "c2-standard-30"
 spot_enabled              = true # A boolean that represents whether the underlying node VMs are spot.
 
-kubernetes_namespace = "namespace1"
+kubernetes_namespace = "namespace"
 
 cost_labels = {} # Cost labels for tracking costs
 # Note: The variable cost_labels only accepts lowercase letters ([a-z]), numeric characters ([0-9]), underscores (_) and dashes (-).
 
 buckets = ["*"] ### List of bucket names that the e6data engine queries and therefore, require read access to. Default is ["*"] which means all buckets, it is advisable to change this.
 
-workspace_sa_email = "test-1@project-one-12345.iam.gserviceaccount.com" ###Existing service account that has access to the data buckets
+workspace_sa_email = "test-1@abcde-huninm-12345.iam.gserviceaccount.com" ###Existing service account that has access to the data buckets
+workspace_bucket_write_role_ID = "projects/abcde-huninm-12345/roles/CustomRole123"
+workload_identity_role_ID = "projects/abcde-huninm-12345/roles/CustomRol435"

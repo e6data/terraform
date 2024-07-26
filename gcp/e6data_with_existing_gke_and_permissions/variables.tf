@@ -76,3 +76,13 @@ variable "workspace_sa_email" {
   type        = string
   description = "existing workspace sa email"
 }
+
+variable "workspace_bucket_write_role_ID" {
+  type        = string
+  description = "workspace write role name"
+}
+
+variable "workload_identity_role_ID" {
+  type        = string
+  description = "workload identity role name"
+}
