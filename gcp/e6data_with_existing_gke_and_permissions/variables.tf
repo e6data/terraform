@@ -13,11 +13,6 @@ variable "cluster_name" {
   type        = string
 }
 
-variable "kubernetes_namespace" {
-  description = "Kubernetes namespace to deploy e6data workspaces"
-  type        = string
-}
-
 variable "kubernetes_cluster_zone" {
   description = "Kubernetes cluster zone (Only required for zonal clusters)"
   type        = string
