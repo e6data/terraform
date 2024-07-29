@@ -8,19 +8,9 @@ variable "gcp_project_id" {
   type        = string
 }
 
-variable "workspace_name" {
-  description = "Name of e6data workspace to be created"
-  type        = string
-}
-
 variable "cluster_name" {
   description = "Kubernetes cluster name"
   type        = string
-}
-
-variable "max_instances_in_nodepool" {
-  description = "Maximum number of instances in nodepool"
-  type        = number
 }
 
 variable "kubernetes_namespace" {
@@ -37,11 +27,6 @@ variable "platform_sa_email" {
   description = "Platform service account email"
   type        = string
   default     = "e6-customer-prod-y0j6l@e6data-analytics.iam.gserviceaccount.com"
-}
-
-variable "nodepool_instance_type" {
-  description = "Instance type for nodepool"
-  type        = string
 }
 
 variable "helm_chart_version" {
@@ -67,11 +52,6 @@ variable "cost_labels" {
   description = "cost labels"
 }
 
-variable "spot_enabled" {
-  type        = bool
-  description = "Enable spot instances in node pools"
-}
-
 variable "workspace_sa_email" {
   type        = string
   description = "existing workspace sa email"
@@ -85,4 +65,32 @@ variable "workspace_bucket_write_role_ID" {
 variable "workload_identity_role_ID" {
   type        = string
   description = "workload identity role name"
+}
+
+
+##new
+variable "workspace_names" {
+  type = list(object({
+    name                    = string
+    namespace               = string
+    nodepool_instance_type  = string
+    max_instances_in_nodepool = number
+    spot_enabled            = bool
+  }))
+  default = [
+    {
+      name                    = "workspace1"
+      namespace               = "namespace1"
+      nodepool_instance_type  = "n1-standard-2"
+      max_instances_in_nodepool = 50
+      spot_enabled            = true
+    },
+    {
+      name                    = "workspace2"
+      namespace               = "namespace2"
+      nodepool_instance_type  = "n1-standard-4"
+      max_instances_in_nodepool = 50
+      spot_enabled            = false
+    }
+  ]
 }
