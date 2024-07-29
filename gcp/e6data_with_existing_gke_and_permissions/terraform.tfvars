@@ -3,14 +3,14 @@ workspace_names = [
     {
       name                    = "workspace1"
       namespace               = "namespace1"
-      nodepool_instance_type  = "c2-standard-30"
+      nodepool_instance_type  = "c2d-highmem-32"
       max_instances_in_nodepool = 50
       spot_enabled            = true
     },
     {
       name                    = "workspace2"
       namespace               = "namespace2"
-      nodepool_instance_type  = "c2-standard-30"
+      nodepool_instance_type  = "c2d-highmem-32"
       max_instances_in_nodepool = 50
       spot_enabled            = true
     }
@@ -26,7 +26,7 @@ gcp_region     = "us-central1"    ### The GCP region to deploy the e6data worksp
 helm_chart_version = "2.0.9" ### e6data workspace Helm chart version to be used.
 
 cluster_name              = "cluster-1" # The name of the GKE cluster
-kubernetes_cluster_zone   = "us-central1-c"
+kubernetes_cluster_zone   = ""
 
 cost_labels = {} # Cost labels for tracking costs
 # Note: The variable cost_labels only accepts lowercase letters ([a-z]), numeric characters ([0-9]), underscores (_) and dashes (-).
