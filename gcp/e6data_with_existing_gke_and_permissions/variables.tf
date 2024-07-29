@@ -71,6 +71,7 @@ variable "workspace_names" {
     nodepool_instance_type  = string
     max_instances_in_nodepool = number
     spot_enabled            = bool
+    cost_labels             = map(string)
   }))
   default = [
     {
@@ -79,6 +80,7 @@ variable "workspace_names" {
       nodepool_instance_type  = "n1-standard-2"
       max_instances_in_nodepool = 50
       spot_enabled            = true
+      cost_labels             = {workspace = "workspace1"}
     },
     {
       name                    = "workspace2"
@@ -86,6 +88,7 @@ variable "workspace_names" {
       nodepool_instance_type  = "n1-standard-4"
       max_instances_in_nodepool = 50
       spot_enabled            = false
+      cost_labels             = {workspace = "workspace2"}
     }
   ]
 }

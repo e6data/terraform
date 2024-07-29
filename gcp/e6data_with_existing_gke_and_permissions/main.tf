@@ -19,6 +19,8 @@ resource "google_container_node_pool" "workspace" {
     workload_metadata_config {
       mode = "GKE_METADATA"
     }
+    
+    resource_labels = var.workspace_names[count.index].cost_labels
 
     labels = {
       e6data-workspace-name = var.workspace_names[count.index].name

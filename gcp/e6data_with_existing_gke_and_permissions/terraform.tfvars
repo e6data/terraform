@@ -6,6 +6,7 @@ workspace_names = [
       nodepool_instance_type  = "c2d-highmem-32"
       max_instances_in_nodepool = 50
       spot_enabled            = true
+      cost_labels             = {workspace = "workspace1"}  ## Use cost labels to manage resources in your organisation and resource breakdown. Labels are applied to all nodes and persistent disks in the node pool.
     },
     {
       name                    = "workspace2"
@@ -13,6 +14,7 @@ workspace_names = [
       nodepool_instance_type  = "c2d-highmem-32"
       max_instances_in_nodepool = 50
       spot_enabled            = true
+      cost_labels             = {workspace = "workspace2"}   ## Use cost labels to manage resources in your organisation and resource breakdown. Labels are applied to all nodes and persistent disks in the node pool. 
     }
   ]
 # The name of the e6data workspace
@@ -29,6 +31,7 @@ cluster_name              = "cluster-1" # The name of the GKE cluster
 kubernetes_cluster_zone   = ""
 
 cost_labels = {} # Cost labels for tracking costs
+# cost labels for the resources created from this terraform
 # Note: The variable cost_labels only accepts lowercase letters ([a-z]), numeric characters ([0-9]), underscores (_) and dashes (-).
 
 buckets = ["*"] ### List of bucket names that the e6data engine queries and therefore, require read access to. Default is ["*"] which means all buckets, it is advisable to change this.

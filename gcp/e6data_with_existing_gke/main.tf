@@ -16,6 +16,8 @@ resource "google_container_node_pool" "workspace" {
       mode = "GKE_METADATA"
     }
 
+    resource_labels = var.cost_labels
+
     labels = {
       e6data-workspace-name = var.workspace_name
       app                   = "e6data"
