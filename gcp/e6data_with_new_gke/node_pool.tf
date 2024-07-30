@@ -1,33 +1,34 @@
 # # Create GKE nodepool for workspace
 resource "google_container_node_pool" "workspace" {
-  name_prefix = local.e6data_workspace_name
-  location    = var.gcp_region
-  cluster     = module.gke_e6data.gke_cluster_id
-  version     = var.gke_version
+  count = length(local.workspaces)
 
+  name_prefix        = local.workspaces[count.index].e6data_workspace_name
+  cluster            = module.gke_e6data.gke_cluster_id
   initial_node_count = 0
+
   autoscaling {
     total_min_node_count = 0
-    total_max_node_count = var.max_instances_in_nodepool
+    total_max_node_count = local.workspaces[count.index].max_instances_in_nodepool
     location_policy      = "ANY"
   }
+
   node_config {
     disk_size_gb = 100
-    spot         = var.spot_enabled
-    machine_type = var.gke_e6data_instance_type
+    spot         = local.workspaces[count.index].spot_enabled
+    machine_type = local.workspaces[count.index].nodepool_instance_type
     workload_metadata_config {
       mode = "GKE_METADATA"
     }
-    resource_labels = var.cost_labels
+    resource_labels = local.workspaces[count.index].cost_labels
 
     labels = {
-      e6data-workspace-name = var.workspace_name
+      e6data-workspace-name = local.workspaces[count.index].name
       app                   = "e6data"
     }
 
     taint {
       key    = "e6data-workspace-name"
-      value  = var.workspace_name
+      value  = local.workspaces[count.index].name
       effect = "NO_SCHEDULE"
     }
   }
@@ -39,21 +40,22 @@ resource "google_container_node_pool" "workspace" {
 
 # # Create GCS bucket for workspace
 resource "google_storage_bucket" "workspace_bucket" {
-  name     = "${local.e6data_workspace_name}-${random_string.random.result}"
+  count    = length(local.workspaces)
+  name     = "${local.workspaces[count.index].e6data_workspace_name}-${random_string.random[count.index].result}"
   location = var.gcp_region
 }
 
 # # Create service account for workspace
 resource "google_service_account" "workspace_sa" {
-  account_id   = "${local.e6data_workspace_name}-${random_string.random.result}"
-  display_name = "${local.e6data_workspace_name}-${random_string.random.result}"
+  account_id   = "${local.workspaces[0].e6data_workspace_name}-${random_string.random.0.result}"
+  display_name = "${local.workspaces[0].e6data_workspace_name}-${random_string.random.0.result}"
   description  = "Service account for e6data workspace access"
 }
 
 # # Create IAM role for workspace write access on GCS bucket
 resource "google_project_iam_custom_role" "workspace_write_role" {
-  role_id     = "${local.workspace_write_role_name}_${random_string.random.result}"
-  title       = "e6data ${var.workspace_name} Workspace Write Access ${random_string.random.result}"
+  role_id     = "${local.workspace_write_role_name}_${random_string.random.0.result}"
+  title       = "e6data ${var.workspace_names[0].name} Workspace Write Access ${random_string.random.0.result}"
   description = "Custom e6data workspace role for GCS write access "
 
   permissions = [
@@ -68,8 +70,8 @@ resource "google_project_iam_custom_role" "workspace_write_role" {
 
 # # Create IAM role for workspace read access on GCS buckets
 resource "google_project_iam_custom_role" "workspace_read_role" {
-  role_id     = "${local.workspace_read_role_name}_${random_string.random.result}"
-  title       = "e6data ${var.workspace_name} Workspace Read Access ${random_string.random.result}"
+  role_id     = "${local.workspace_read_role_name}_${random_string.random.0.result}"
+  title       = "e6data ${var.workspace_names[0].name} Workspace Read Access ${random_string.random.0.result}"
   description = "Custom e6data workspace role for GCS read access"
 
   permissions = [
@@ -99,44 +101,22 @@ resource "google_storage_bucket_iam_member" "workspace_read_bucket_binding" {
   member = "serviceAccount:${google_service_account.workspace_sa.email}"
 }
 
-# # Create IAM policy binding for workspace service account and GCS bucket write access
-resource "google_project_iam_binding" "workspace_write_binding" {
-  project = var.gcp_project_id
-  role    = google_project_iam_custom_role.workspace_write_role.name
-
+## IAM binding to the customer serviceaaccount to access workspace gcs bucket
+resource "google_storage_bucket_iam_binding" "workspace_write_binding" {
+  count  = length(var.workspace_names)
+  bucket = google_storage_bucket.workspace_bucket[count.index].name
+  role   = google_project_iam_custom_role.workspace_write_role.name
   members = [
     "serviceAccount:${google_service_account.workspace_sa.email}",
+    "serviceAccount:${var.platform_sa_email}"
   ]
-
-  condition {
-    title       = "Workspace Write Access"
-    description = "Write access to e6data workspace GCS bucket"
-    expression  = "resource.name.startsWith(\"projects/_/buckets/${local.e6data_workspace_name}-${random_string.random.result}/\")"
-  }
 
   depends_on = [google_project_iam_custom_role.workspace_write_role, google_storage_bucket.workspace_bucket, google_service_account.workspace_sa]
 }
 
-resource "google_project_iam_binding" "platform_gcs_read_binding" {
-  project = var.gcp_project_id
-  role    = google_project_iam_custom_role.workspace_write_role.name
-
-  members = [
-    "serviceAccount:${var.platform_sa_email}",
-  ]
-
-  condition {
-    title       = "Workspace Read Access"
-    description = "Read access to e6data workspace GCS bucket"
-    expression  = "resource.name.startsWith(\"projects/_/buckets/${local.e6data_workspace_name}-${random_string.random.result}/\")"
-  }
-
-  depends_on = [google_project_iam_custom_role.workspace_write_role, google_storage_bucket.workspace_bucket]
-}
-
 resource "google_project_iam_custom_role" "e6dataclusterViewer" {
-  role_id     = "${local.cluster_viewer_role_name}_${random_string.random.result}"
-  title       = "e6data ${var.workspace_name} clusterViewer ${random_string.random.result}"
+  role_id     = "${local.cluster_viewer_role_name}_${random_string.random.0.result}"
+  title       = "e6data ${var.workspace_names[0].name} clusterViewer ${random_string.random.0.result}"
   description = "kubernetes container clusterViewer access"
   permissions = [
     "container.clusters.get",
@@ -166,8 +146,8 @@ resource "google_project_iam_binding" "platform_ksa_mapping" {
 }
 
 resource "google_project_iam_custom_role" "GlobalAddress" {
-  role_id     = "${local.cluster_viewer_role_name}_${random_string.random.result}_global_address_create"
-  title       = "e6data ${var.workspace_name} GlobalAddress ${random_string.random.result}"
+  role_id     = "${local.cluster_viewer_role_name}_${random_string.random.0.result}_global_address_create"
+  title       = "e6data ${var.workspace_names[0].name} GlobalAddress ${random_string.random.0.result}"
   description = "Global address create access"
   permissions = [
     "compute.globalAddresses.create",
@@ -180,8 +160,8 @@ resource "google_project_iam_custom_role" "GlobalAddress" {
 }
 
 resource "google_project_iam_custom_role" "security_policy" {
-  role_id     = "${local.cluster_viewer_role_name}_${random_string.random.result}_security_policy"
-  title       = "e6data ${var.workspace_name} security policy ${random_string.random.result}"
+  role_id     = "${local.cluster_viewer_role_name}_${random_string.random.0.result}_security_policy"
+  title       = "e6data ${var.workspace_names[0].name} security policy ${random_string.random.0.result}"
   description = "Global address access"
   permissions = [
     "compute.securityPolicies.create",
@@ -221,8 +201,8 @@ resource "google_project_iam_binding" "security_policy_create_mapping" {
 }
 
 resource "google_project_iam_custom_role" "workloadIdentityUser" {
-  role_id     = "${local.workload_role_name}_${random_string.random.result}"
-  title       = "e6data ${var.workspace_name} workloadIdentityUser Access ${random_string.random.result}"
+  role_id     = "${local.workload_role_name}_${random_string.random.0.result}"
+  title       = "e6data ${var.workspace_names[0].name} workloadIdentityUser Access ${random_string.random.0.result}"
   description = "e6data custom workload identity user role"
   permissions = [
     "iam.serviceAccounts.get",
@@ -235,17 +215,16 @@ resource "google_project_iam_custom_role" "workloadIdentityUser" {
 }
 
 # Create IAM policy binding for workspace service account and Kubernetes cluster
-resource "google_project_iam_binding" "workspace_ksa_mapping" {
+resource "google_project_iam_member" "workspace_ksa_mapping" {
+  count   = length(var.workspace_names)
   project = var.gcp_project_id
   role    = google_project_iam_custom_role.workloadIdentityUser.name
-  members = [
-    "serviceAccount:${var.gcp_project_id}.svc.id.goog[${var.kubernetes_namespace}/${var.workspace_name}]",
-  ]
+  member =  "serviceAccount:${var.gcp_project_id}.svc.id.goog[${var.workspace_names[count.index].namespace}/${var.workspace_names[count.index].name}]"
 }
 
 resource "google_project_iam_custom_role" "targetpoolAccess" {
-  role_id     = "${local.target_pool_role_name}_${random_string.random.result}"
-  title       = "e6data ${var.workspace_name} targetpoolAccess ${random_string.random.result}"
+  role_id     = "${local.target_pool_role_name}_${random_string.random.0.result}"
+  title       = "e6data ${var.workspace_names[0].name} targetpoolAccess ${random_string.random.0.result}"
   description = "gcp targetpool access"
   permissions = [
     "compute.instances.get",

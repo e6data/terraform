@@ -1,7 +1,7 @@
 module "network" {
   source = "./modules/network"
 
-  workspace_name = var.workspace_name
+  workspace_name = var.workspace_names[0].name
   gcp_region     = var.gcp_region
 
   gke_subnet_ip_cidr_range = var.gke_subnet_ip_cidr_range

@@ -4,11 +4,6 @@ variable "gcp_project_id" {
   description = "GCP Project ID"
 }
 
-variable "kubernetes_namespace" {
-  description = "Kubernetes namespace to deploy e6data workspaces"
-  type        = string
-}
-
 variable "kubernetes_cluster_zone" {
   description = "Kubernetes cluster zone (Only required for zonal clusters)"
   type        = string
@@ -31,9 +26,33 @@ variable "cost_labels" {
 }
 
 ########### NETWORK VARIABLES ###############
-variable "workspace_name" {
-  description = "value of the component name"
-  type        = string
+variable "workspace_names" {
+  type = list(object({
+    name                    = string
+    namespace               = string
+    nodepool_instance_type  = string
+    max_instances_in_nodepool = number
+    spot_enabled            = bool
+    cost_labels             = map(string)
+  }))
+  default = [
+    {
+      name                    = "workspace1"
+      namespace               = "namespace1"
+      nodepool_instance_type  = "n1-standard-2"
+      max_instances_in_nodepool = 50
+      spot_enabled            = true
+      cost_labels             = {}
+    },
+    {
+      name                    = "workspace2"
+      namespace               = "namespace2"
+      nodepool_instance_type  = "n1-standard-4"
+      max_instances_in_nodepool = 50
+      spot_enabled            = true
+      cost_labels             = {}
+    }
+  ]
 }
 
 variable "gcp_region" {
@@ -107,19 +126,9 @@ variable "control_plane_user" {
   default     = ["107317529457865758669"]
 }
 
-variable "max_instances_in_nodepool" {
-  description = "Maximum number of instances in nodepool"
-  type        = number
-}
-
 variable "gke_e6data_max_pods_per_node" {
   type        = string
   description = "Number of max pods per node"
-}
-
-variable "gke_e6data_instance_type" {
-  type        = string
-  description = "the GKE instance type"
 }
 
 variable "gke_e6data_initial_node_count" {
@@ -160,3 +169,4 @@ variable "authorized_networks" {
   type        = map(string)
   description = "authorized_networks"
 }
+
