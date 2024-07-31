@@ -10,7 +10,7 @@ resource "google_compute_subnetwork" "subnetwork" {
   network       = google_compute_network.network.name
 
   private_ip_google_access = true
-
+  
   secondary_ip_range {
     range_name    = "e6data-${var.workspace_name}-podrange"
     ip_cidr_range = var.pod_ip_cidr_range

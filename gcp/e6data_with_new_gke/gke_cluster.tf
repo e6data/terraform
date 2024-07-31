@@ -18,6 +18,7 @@ provider "helm" {
 module "gke_e6data" {
   source       = "./modules/gke_cluster"
   cluster_name = var.cluster_name
+  workspace_name = var.workspace_name
   region       = local.kubernetes_cluster_location
   network      = module.network.network_self_link
   subnetwork   = module.network.subnetwork_self_link
@@ -33,5 +34,4 @@ module "gke_e6data" {
   deletion_protection  = var.deletion_protection
   authorized_networks  = var.authorized_networks
 
-  workspace_name       = var.workspace_names[0].name
 }
