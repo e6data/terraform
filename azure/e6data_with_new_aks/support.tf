@@ -42,7 +42,7 @@ locals {
     cloud = {
       type               = "AZURE"
       oidc_value         = azurerm_user_assigned_identity.e6data_identity.client_id
-      control_plane_user = [azuread_service_principal.e6data_service_principal.object_id]
+      control_plane_user = [azurerm_user_assigned_identity.federated_identity.principal_id]
     }
     karpenter = {
       nodepool  = local.e6data_nodepool_name
@@ -81,6 +81,3 @@ resource "random_string" "random" {
   lower   = true
   upper   = false
 }
-
-
-

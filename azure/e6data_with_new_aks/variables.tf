@@ -154,3 +154,13 @@ variable "nginx_ingress_controller_version" {
   description = "Version of the NGINX Ingress Controller."
   default     = "4.7.1"
 }
+
+variable "identity_pool_id" {
+  type        = string
+  description = "Identity pool ID from the e6data console."
+}
+
+variable "identity_id" {
+  type        = string
+  description = "Identity ID from the e6data console."
+}

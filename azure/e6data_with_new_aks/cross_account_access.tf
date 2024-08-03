@@ -1,27 +1,29 @@
 # Create an Azure AD application
-resource "azuread_application" "e6data_app" {
-  display_name     = "${var.workspace_name}-app-${random_string.random.result}"
-  owners           = [data.azuread_client_config.current.object_id]
-  sign_in_audience = "AzureADMultipleOrgs"
+resource "azurerm_user_assigned_identity" "federated_identity" {
+  location            = data.azurerm_resource_group.aks_resource_group.location
+  name                = "${var.workspace_name}-federated-${random_string.random.result}"
+  resource_group_name = data.azurerm_resource_group.aks_resource_group.name
+  tags                = var.cost_tags
 }
 
-# Create an Azure AD application password
-resource "azuread_application_password" "e6data_secret" {
-  application_id                    = azuread_application.e6data_app.id
-  end_date_relative                 = var.e6data_app_secret_expiration_time
-}
+resource "azurerm_federated_identity_credential" "federated_credential" {
+  name                = "e6data-cognito"
+  resource_group_name = data.azurerm_resource_group.aks_resource_group.name
+  audience            = ["${var.identity_pool_id}"]
+  issuer              = "https://cognito-identity.amazonaws.com"
+  parent_id           = azurerm_user_assigned_identity.federated_identity.id
+  subject             = "${var.identity_id}"
 
-# Create an Azure AD service principal
-resource "azuread_service_principal" "e6data_service_principal" {
-  client_id    = azuread_application.e6data_app.application_id
-  owners       = [data.azuread_client_config.current.object_id]
+  depends_on = [ azurerm_user_assigned_identity.federated_identity ]
 }
 
 # service principal role assignment to provide read and write access to the e6data managed storage account
 resource "azurerm_role_assignment" "e6data_app_blob_role" {
   scope                = azurerm_storage_account.e6data_storage_account.id
   role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = azuread_service_principal.e6data_service_principal.object_id
+  principal_id         = azurerm_user_assigned_identity.federated_identity.principal_id
+
+  depends_on = [ azurerm_user_assigned_identity.federated_identity ]
 }
 
 # custom role definition to the service principal to get the aks credentials
@@ -42,7 +44,7 @@ resource "azurerm_role_definition" "e6data_aks_custom_role" {
 }
 
 resource "azurerm_role_definition" "e6data_endpoint_custom_role" {
-  name        = "e6data aks custom role ${var.workspace_name} ${random_string.random.result}"
+  name        = "e6data aks custom role ${var.workspace_name} ${random_string.random.result}2"
   description = "Custom role to read the lb and pip"
   scope       = module.aks_e6data.aks_managed_rg_id
   assignable_scopes = [
@@ -51,7 +53,9 @@ resource "azurerm_role_definition" "e6data_endpoint_custom_role" {
   permissions {
     actions = [
       "Microsoft.Network/loadBalancers/read",
-      "Microsoft.Network/publicIPAddresses/read"
+      "Microsoft.Network/publicIPAddresses/read",
+      "Microsoft.Network/networkInterfaces/delete",
+      "Microsoft.Network/networkInterfaces/read"
     ]
     not_actions = []
   }
@@ -61,16 +65,17 @@ resource "azurerm_role_definition" "e6data_endpoint_custom_role" {
 resource "azurerm_role_assignment" "e6data_aks_custom_role_assignment" {
   scope                = module.aks_e6data.cluster_name
   role_definition_id   = azurerm_role_definition.e6data_aks_custom_role.role_definition_resource_id
-  principal_id         = azuread_service_principal.e6data_service_principal.object_id
+  principal_id         = azurerm_user_assigned_identity.federated_identity.principal_id
 
-  depends_on = [ azurerm_role_definition.e6data_aks_custom_role ]
+  depends_on = [ azurerm_role_definition.e6data_aks_custom_role, azurerm_user_assigned_identity.federated_identity ]
+
 }
 
 # custom role assigment to the service principal to get the load balancer and public ip credentials
 resource "azurerm_role_assignment" "e6data_lb_custom_role_assignment" {
   scope                = module.aks_e6data.aks_managed_rg_id
   role_definition_id   = azurerm_role_definition.e6data_endpoint_custom_role.role_definition_resource_id
-  principal_id         = azuread_service_principal.e6data_service_principal.object_id
+  principal_id         = azurerm_user_assigned_identity.federated_identity.principal_id
 
-  depends_on = [azurerm_role_definition.e6data_endpoint_custom_role]
+  depends_on = [azurerm_role_definition.e6data_endpoint_custom_role, azurerm_user_assigned_identity.federated_identity]
 }

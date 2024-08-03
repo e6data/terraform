@@ -11,6 +11,7 @@ resource "azurerm_subnet" "aks" {
   resource_group_name  = azurerm_virtual_network.vnet.resource_group_name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = [cidrsubnet(azurerm_virtual_network.vnet.address_space[0], ceil(log(4, 2)), 0)]
+  service_endpoints    = ["Microsoft.Storage"]
 }
 
 # Create Virtual Node (ACI) subnet
