@@ -62,8 +62,9 @@ resource "google_container_node_pool" "workspace_ondemand" {
     resource_labels = local.workspaces[count.index].cost_labels
 
     labels = {
-      e6data-workspace-name = "${local.workspaces[count.index].name}-executor"
       app                   = "e6data"
+      e6data-workspace-name = "${local.workspaces[count.index].name}"
+      e6data-capacity-type  = "${local.workspaces[count.index].name}-ondemand"
     }
 
     taint {
@@ -73,7 +74,7 @@ resource "google_container_node_pool" "workspace_ondemand" {
     }
     taint {
       key    = "e6data-capacity-type"
-      value  = "on-demand"
+      value  = "ondemand"
       effect = "NO_SCHEDULE"
     }
   }

@@ -17,7 +17,6 @@ resource "google_service_account" "workspace_sa" {
   description  = "Service account for e6data workspace access"
 }
 
-
 # # Create IAM role for workspace write access on GCS bucket
 resource "google_project_iam_custom_role" "workspace_write_role" {
   role_id     = "${local.workspace_write_role_name}_${random_string.random.0.result}"
@@ -47,26 +46,6 @@ resource "google_project_iam_custom_role" "workspace_read_role" {
   ]
 }
 
-# Assign the custom role to either all buckets or specific buckets based on the value of the 'buckets' variable
-# resource "google_project_iam_binding" "workspace_read_project_binding" {
-#   count   = contains(var.buckets, "*") ? 1 : 0
-#   project = var.gcp_project_id
-#   role    = google_project_iam_custom_role.workspace_read_role.name
-
-#   members = [
-#     "serviceAccount:${google_service_account.workspace_sa.email}",
-#   ]
-
-#   depends_on = [google_project_iam_custom_role.workspace_read_role, google_storage_bucket.workspace_bucket, google_service_account.workspace_sa]
-# }
-
-# resource "google_storage_bucket_iam_member" "workspace_read_bucket_binding" {
-#   count  = contains(var.buckets, "*") ? 0 : length(var.buckets)
-#   bucket = var.buckets[count.index]
-#   role   = google_project_iam_custom_role.workspace_read_role.name
-#   member = "serviceAccount:${google_service_account.workspace_sa.email}"
-# }
-
 # # Assign the custom role to either all buckets or specific buckets based on the value of the 'buckets' variable
 resource "google_project_iam_member" "workspace_read_project_binding" {
   for_each = local.workspaces_with_star_buckets
@@ -92,14 +71,6 @@ resource "google_storage_bucket_iam_member" "workspace_read_bucket_binding" {
 
   member = each.value.workspace.serviceaccount_create ? "serviceAccount:${google_service_account.workspace_sa[regex("\\d+", each.key)].email}" : "serviceAccount:${each.value.workspace.serviceaccount_email}"
 }
-
-
-
-
-
-
-
-
 
 resource "google_storage_bucket_iam_binding" "workspace_write_binding" {
   for_each = {

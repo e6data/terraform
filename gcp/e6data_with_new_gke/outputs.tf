@@ -25,3 +25,7 @@ output "kubernetes_namespaces" {
 output "kubernetes_cluster_zone" {
   value = var.kubernetes_cluster_zone
 }
+
+output "service_account_names" {
+  value = [for sa in google_service_account.workspace_sa : sa.email]
+}

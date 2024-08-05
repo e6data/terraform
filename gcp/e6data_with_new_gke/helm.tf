@@ -1,4 +1,6 @@
 resource "helm_release" "e6data_workspace_deployment" {
+  provider = helm.gke_e6data
+  
   for_each = { for idx, workspace in var.workspaces : workspace.name => workspace }
 
   name             = each.key
