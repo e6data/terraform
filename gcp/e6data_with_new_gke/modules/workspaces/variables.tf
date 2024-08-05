@@ -13,11 +13,6 @@ variable "spot_enabled" {
   type        = bool
 }
 
-# variable "machine_type" {
-#   description = "The machine type to use for the node pool."
-#   type        = string
-# }
-
 variable "e6data_workspace_name" {
   description = "The E6DATA workspace name."
   type        = string
