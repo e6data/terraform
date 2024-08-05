@@ -29,4 +29,6 @@ resource "helm_release" "e6data_workspace_deployment" {
       }
     })
   ]
+
+  depends_on = [ google_container_node_pool.workspace ]
 }
