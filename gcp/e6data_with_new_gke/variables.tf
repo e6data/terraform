@@ -4,11 +4,6 @@ variable "gcp_project_id" {
   description = "GCP Project ID"
 }
 
-variable "kubernetes_namespace" {
-  description = "Kubernetes namespace to deploy e6data workspaces"
-  type        = string
-}
-
 variable "kubernetes_cluster_zone" {
   description = "Kubernetes cluster zone (Only required for zonal clusters)"
   type        = string
@@ -31,10 +26,10 @@ variable "cost_labels" {
 }
 
 ########### NETWORK VARIABLES ###############
-variable "workspace_name" {
-  description = "value of the component name"
-  type        = string
-}
+# variable "workspace_name" {
+#   description = "value of the component name"
+#   type        = string
+# }
 
 variable "gcp_region" {
   description = "The region to deploy to"
@@ -107,10 +102,6 @@ variable "gke_e6data_max_pods_per_node" {
   description = "Number of max pods per node"
 }
 
-variable "gke_e6data_instance_type" {
-  type        = string
-  description = "the GKE instance type"
-}
 
 variable "gke_e6data_initial_node_count" {
   type        = number
@@ -161,11 +152,12 @@ variable "service_ip_cidr_range" {
 }
 
 ## Additional workspaces
-variable "additional_workspaces" {
+variable "workspaces" {
   type = list(object({
     name                    = string
     namespace               = string
-    nodepool_instance_type  = string
+    spot_nodepool_instance_type  = string
+    ondemand_nodepool_instance_type  = string
     max_instances_in_nodepool = number
     spot_enabled            = bool
     cost_labels             = map(string)
@@ -177,7 +169,8 @@ variable "additional_workspaces" {
     {
       name                    = "workspace1"
       namespace               = "namespace1"
-      nodepool_instance_type  = "n1-standard-2"
+      spot_nodepool_instance_type      = "c2-standard-30"
+      ondemand_nodepool_instance_type  = "c2-standard-30"
       max_instances_in_nodepool = 50
       spot_enabled            = true
       cost_labels             = {}
@@ -188,7 +181,8 @@ variable "additional_workspaces" {
     {
       name                    = "workspace2"
       namespace               = "namespace2"
-      nodepool_instance_type  = "n1-standard-4"
+      spot_nodepool_instance_type      = "c2-standard-30"
+      ondemand_nodepool_instance_type  = "c2-standard-30"
       max_instances_in_nodepool = 50
       spot_enabled            = true
       cost_labels             = {}

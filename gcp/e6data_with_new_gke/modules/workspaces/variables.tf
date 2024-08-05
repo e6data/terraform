@@ -13,10 +13,10 @@ variable "spot_enabled" {
   type        = bool
 }
 
-variable "machine_type" {
-  description = "The machine type to use for the node pool."
-  type        = string
-}
+# variable "machine_type" {
+#   description = "The machine type to use for the node pool."
+#   type        = string
+# }
 
 variable "e6data_workspace_name" {
   description = "The E6DATA workspace name."
@@ -68,11 +68,6 @@ variable "workloadIdentityUser_role_name" {
   type        = string
 }
 
-variable "kubernetes_namespace" {
-  description = "The Kubernetes namespace where resources will be created."
-  type        = string
-}
-
 variable "target_pool_role_name" {
   description = "The name of the target pool role."
   type        = string
@@ -106,7 +101,8 @@ variable "workspaces" {
   type        = list(object({
     name          = string
     namespace     = string
-    nodepool_instance_type = string
+    spot_nodepool_instance_type  = string
+    ondemand_nodepool_instance_type  = string
     max_instances_in_nodepool = number
     spot_enabled  = bool
     cost_labels   = map(string)
