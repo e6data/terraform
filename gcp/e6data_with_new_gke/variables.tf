@@ -26,31 +26,30 @@ variable "cost_labels" {
 }
 
 ########### NETWORK VARIABLES ###############
-variable "workspace_names" {
+variable "workspaces" {
   type = list(object({
     name                    = string
     namespace               = string
-    nodepool_instance_type  = string
+    spot_nodepool_instance_type  = string
+    ondemand_nodepool_instance_type  = string
     max_instances_in_nodepool = number
-    spot_enabled            = bool
     cost_labels             = map(string)
+    serviceaccount_create   = bool
+    serviceaccount_email    = string
+    buckets                 = list(string)
   }))
+
   default = [
     {
       name                    = "workspace1"
       namespace               = "namespace1"
-      nodepool_instance_type  = "n1-standard-2"
+      spot_nodepool_instance_type      = "c2-standard-30"
+      ondemand_nodepool_instance_type  = "c2-standard-30"
       max_instances_in_nodepool = 50
-      spot_enabled            = true
       cost_labels             = {}
-    },
-    {
-      name                    = "workspace2"
-      namespace               = "namespace2"
-      nodepool_instance_type  = "n1-standard-4"
-      max_instances_in_nodepool = 50
-      spot_enabled            = true
-      cost_labels             = {}
+      serviceaccount_create   = true
+      serviceaccount_email    = ""
+      buckets                 = ["*"]
     }
   ]
 }
@@ -147,11 +146,6 @@ variable "default_nodepool_instance_type" {
   description = "the GKE instance type for default nodepool"
 }
 
-variable "spot_enabled" {
-  type        = bool
-  description = "Enable spot instances in node pools"
-}
-
 variable "buckets" {
   description = "List of bucket names to grant permissions to the e6data engine. Use ['*'] to grant permissions to all buckets."
   type        = list(string)
@@ -169,4 +163,3 @@ variable "authorized_networks" {
   type        = map(string)
   description = "authorized_networks"
 }
-

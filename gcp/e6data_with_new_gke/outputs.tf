@@ -1,5 +1,5 @@
-output "workspace_names" {
-  value = [for workspace in var.workspace_names : workspace.name]
+output "workspaces" {
+  value = [for workspace in var.workspaces : workspace.name]
 }
 
 output "region" {
@@ -19,7 +19,7 @@ output "kubernetes_cluster_name" {
 }
 
 output "kubernetes_namespaces" {
-  value = [for workspace in var.workspace_names : workspace.namespace]
+  value = [for workspace in var.workspaces : workspace.namespace]
 }
 
 output "kubernetes_cluster_zone" {
