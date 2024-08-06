@@ -32,6 +32,7 @@ variable "workspaces" {
     namespace               = string
     spot_nodepool_instance_type  = string
     ondemand_nodepool_instance_type  = string
+    ondemand_highmem_nodepool_instance_type = string
     max_instances_in_nodepool = number
     cost_labels             = map(string)
     serviceaccount_create   = bool

@@ -5,6 +5,7 @@ locals {
     namespace = ws.namespace
     spot_nodepool_instance_type = ws.spot_nodepool_instance_type
     ondemand_nodepool_instance_type = ws.ondemand_nodepool_instance_type
+    ondemand_highmem_nodepool_instance_type = ws.ondemand_highmem_nodepool_instance_type
     serviceaccount_create  = ws.serviceaccount_create
     serviceaccount_email  = ws.serviceaccount_email
     buckets  = ws.buckets
