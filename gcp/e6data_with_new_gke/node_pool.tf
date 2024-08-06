@@ -77,6 +77,62 @@ resource "google_container_node_pool" "workspace_ondemand" {
       value  = "ondemand"
       effect = "NO_SCHEDULE"
     }
+    taint {
+      key    = "e6data-instance-type"
+      value  = "c2-standard-30"
+      effect = "NO_SCHEDULE"
+    }
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+# # # Create GKE nodepool for workspace
+resource "google_container_node_pool" "workspace_ondemand_c2d_highmem" {
+  count = length(local.workspaces)
+
+  name_prefix        = local.workspaces[count.index].name
+  cluster            = module.gke_e6data.gke_cluster_id
+  initial_node_count = 0
+
+  autoscaling {
+    total_min_node_count = 0
+    total_max_node_count = local.workspaces[count.index].max_instances_in_nodepool
+    location_policy      = "ANY"
+  }
+
+  node_config {
+    disk_size_gb = 100
+    spot         = false
+    machine_type = local.workspaces[count.index].ondemand_c2d_highmem_32_nodepool_instance_type
+    workload_metadata_config {
+      mode = "GKE_METADATA"
+    }
+    resource_labels = local.workspaces[count.index].cost_labels
+
+    labels = {
+      app                   = "e6data"
+      e6data-workspace-name = "${local.workspaces[count.index].name}"
+      e6data-capacity-type  = "${local.workspaces[count.index].name}-ondemand-c2d-highmem-32"
+    }
+
+    taint {
+      key    = "e6data-workspace-name"
+      value  = local.workspaces[count.index].name
+      effect = "NO_SCHEDULE"
+    }
+    taint {
+      key    = "e6data-capacity-type"
+      value  = "ondemand"
+      effect = "NO_SCHEDULE"
+    }
+    taint {
+      key    = "e6data-instance-type"
+      value  = "c2d-highmem-32"
+      effect = "NO_SCHEDULE"
+    }
   }
 
   lifecycle {
