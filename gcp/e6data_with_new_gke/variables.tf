@@ -32,6 +32,7 @@ variable "workspaces" {
     namespace               = string
     spot_nodepool_instance_type  = string
     ondemand_nodepool_instance_type  = string
+    ondemand_highmem_nodepool_instance_type = string
     max_instances_in_nodepool = number
     cost_labels             = map(string)
     serviceaccount_create   = bool
@@ -45,6 +46,7 @@ variable "workspaces" {
       namespace               = "namespace1"
       spot_nodepool_instance_type      = "c2-standard-30"
       ondemand_nodepool_instance_type  = "c2-standard-30"
+      ondemand_highmem_nodepool_instance_type = "c2d-highmem-32"
       max_instances_in_nodepool = 50
       cost_labels             = {}
       serviceaccount_create   = true

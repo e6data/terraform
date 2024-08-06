@@ -64,7 +64,7 @@ resource "google_container_node_pool" "workspace_ondemand" {
     labels = {
       app                   = "e6data"
       e6data-workspace-name = "${local.workspaces[count.index].name}"
-      e6data-capacity-type  = "${local.workspaces[count.index].name}-ondemand"
+      e6data-capacity-type  = "${local.workspaces[count.index].name}-ondemand-c2-standard-30"
     }
 
     taint {
@@ -74,12 +74,7 @@ resource "google_container_node_pool" "workspace_ondemand" {
     }
     taint {
       key    = "e6data-capacity-type"
-      value  = "ondemand"
-      effect = "NO_SCHEDULE"
-    }
-    taint {
-      key    = "e6data-instance-type"
-      value  = "c2-standard-30"
+      value  = "ondemand-c2-standard-30"
       effect = "NO_SCHEDULE"
     }
   }
@@ -106,7 +101,7 @@ resource "google_container_node_pool" "workspace_ondemand_c2d_highmem" {
   node_config {
     disk_size_gb = 100
     spot         = false
-    machine_type = local.workspaces[count.index].ondemand_c2d_highmem_32_nodepool_instance_type
+    machine_type = local.workspaces[count.index].ondemand_highmem_nodepool_instance_type
     workload_metadata_config {
       mode = "GKE_METADATA"
     }
@@ -125,12 +120,7 @@ resource "google_container_node_pool" "workspace_ondemand_c2d_highmem" {
     }
     taint {
       key    = "e6data-capacity-type"
-      value  = "ondemand"
-      effect = "NO_SCHEDULE"
-    }
-    taint {
-      key    = "e6data-instance-type"
-      value  = "c2d-highmem-32"
+      value  = "ondemand-c2d-highmem-32"
       effect = "NO_SCHEDULE"
     }
   }
