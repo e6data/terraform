@@ -7,18 +7,19 @@ gcp_project_id = "gcp-project-id" # The ID of the GCP project
 
 # e6data Workspace Variables
 workspaces = [
-    {
-      name                    = "workspace"
-      namespace               = "namespace"
-      spot_nodepool_instance_type      = "c2d-highmem-32"
-      ondemand_nodepool_instance_type  = "c2d-highmem-32"
-      max_instances_in_nodepool = 50
-      serviceaccount_create   = true
-      serviceaccount_email    = ""
-      buckets                 = ["*"]
-      cost_labels             = {}
-    }
-  ]
+  {
+    name                                           = "workspace"
+    namespace                                      = "namespace"
+    spot_nodepool_instance_type                    = "c2d-highmem-32"
+    ondemand_nodepool_instance_type                = "c2-standard-30"
+    ondemand_c2d_highmem_32_nodepool_instance_type = "c2d-highmem-32"
+    max_instances_in_nodepool                      = 50
+    serviceaccount_create                          = true
+    serviceaccount_email                           = ""
+    buckets                                        = ["*"]
+    cost_labels                                    = {}
+  }
+]
 
 helm_chart_version = "2.0.8" ### e6data workspace Helm chart version to be used.
 
@@ -38,12 +39,12 @@ gke_encryption_state  = "ENCRYPTED" # The encryption state for GKE (It is recomm
 gke_dns_cache_enabled = true        # The status of the NodeLocal DNSCache addon.
 
 # GKE Cluster variables
-cluster_name                   = "gkecluster" # The name of the GKE cluster
-kubernetes_cluster_zone        = ""                 #If you specify a zone (such as us-central1-a), the cluster will be a zonal cluster with a single cluster master.
-default_nodepool_instance_type = "e2-standard-2"    # The default instance type for the node pool
+cluster_name                   = "gkecluster"    # The name of the GKE cluster
+kubernetes_cluster_zone        = ""              #If you specify a zone (such as us-central1-a), the cluster will be a zonal cluster with a single cluster master.
+default_nodepool_instance_type = "e2-standard-2" # The default instance type for the node pool
 
-gke_e6data_initial_node_count = 1                # The initial number of nodes in the GKE cluster
-gke_e6data_max_pods_per_node  = 64               # The maximum number of pods per node in the GKE cluster
+gke_e6data_initial_node_count = 1  # The initial number of nodes in the GKE cluster
+gke_e6data_max_pods_per_node  = 64 # The maximum number of pods per node in the GKE cluster
 
 authorized_networks = {          #External networks that can access the Kubernetes cluster master through HTTPS.
   "44.194.151.209/32" : "e6data" #The default value is set to the CIDR of e6data(i.e.,44.194.151.209/32)
