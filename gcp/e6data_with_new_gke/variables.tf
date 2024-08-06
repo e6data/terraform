@@ -46,6 +46,7 @@ variable "workspaces" {
       namespace               = "namespace1"
       spot_nodepool_instance_type      = "c2-standard-30"
       ondemand_nodepool_instance_type  = "c2-standard-30"
+      ondemand_highmem_nodepool_instance_type = "c2d-highmem-32"
       max_instances_in_nodepool = 50
       cost_labels             = {}
       serviceaccount_create   = true
