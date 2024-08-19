@@ -158,3 +158,13 @@ variable "nginx_ingress_controller_namespace" {
   description = "Helm chart version for the nginx ingress controller"
   type = string
 }
+
+variable "identity_pool_id" {
+  type        = string
+  description = "Identity pool ID from the e6data console."
+}
+
+variable "identity_id" {
+  type        = string
+  description = "Identity ID from the e6data console."
+}

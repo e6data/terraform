@@ -14,8 +14,9 @@ nodepool_instance_family        = ["D", "F"]                    # Instance famil
 nodepool_instance_arch          = ["arm64"]
 priority                        = ["spot"]                      # VM priority (Regular or Spot)
 
-# Application secrets
-e6data_app_secret_expiration_time = "2400h"                     # Expiration time for application secret
+# Identity Pool Variables
+identity_pool_id                = "<identity_pool_id>"             # The identity pool ID available in the e6data console after clicking on the "Create Workspace" button and selecting AZURE
+identity_id                     = "<identity_id>"                  # The identity ID available in the e6data console, used for authentication and authorization in the workspace
 
 # Data storage configuration
 data_storage_account_name       = "e6dataengine"                  # Storage account name

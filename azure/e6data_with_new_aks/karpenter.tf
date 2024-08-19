@@ -76,6 +76,7 @@ data "kubectl_path_documents" "provisioner_manifests" {
     nodeclass_name           = local.e6data_nodeclass_name
     nodepool_name            = local.e6data_nodepool_name
     capacity_type            = jsonencode(var.priority)
+    arch                     = jsonencode(var.nodepool_instance_arch)
     
     tags = jsonencode(
       merge(

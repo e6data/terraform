@@ -164,3 +164,8 @@ variable "identity_id" {
   type        = string
   description = "Identity ID from the e6data console."
 }
+
+variable "nodepool_instance_arch" {
+  type        = list(string)
+  description = "Instance arch for nodepool"
+}
