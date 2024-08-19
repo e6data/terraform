@@ -33,7 +33,7 @@ cost_tags = {
 }
 
 # Default Node pool variables
-default_node_pool_vm_size       = "Standard_B2s"                   # VM size for the default node pool
+default_node_pool_vm_size       = "standard_d2_v5"                   # VM size for the default node pool
 default_node_pool_node_count    = 3                                # Number of nodes in the default node pool
 default_node_pool_name          = "default"                        # Name of the default node pool
 

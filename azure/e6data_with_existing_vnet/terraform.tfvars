@@ -50,7 +50,7 @@ karpenter_release_version       = "0.6.0"                          # Karpenter r
 
 # Key Vault Configuration
 key_vault_name                  = ""                               # Please provide the Key Vault name in which the certificate for the domain is present. If left blank, a new Key Vault will be created in the AKS resource group.
-key_vault_rg_name               = ""                               # The resource group for the specified Key Vault. If left blank, it will default to the AKS resource group.
+key_vault_rg_name               = ""                               # The resource group for the specified Key Vault. If left blank, it will default to the AKS resource group. For more info : https://docs.e6data.com/product-documentation/connectivity/endpoints
 
 # Nginx Ingress Controller Configuration
 nginx_ingress_controller_namespace = "kube-system"                # Namespace where the Nginx Ingress Controller will be deployed
