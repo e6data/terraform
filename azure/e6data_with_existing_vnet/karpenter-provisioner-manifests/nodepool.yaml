@@ -19,6 +19,9 @@ spec:
         - key: karpenter.azure.com/sku-family
           operator: In
           values: ${sku_family}
+        - key: kubernetes.io/arch
+          operator: In
+          values: ${arch}
       nodeClassRef:
         name: ${nodeclass_name}
       taints:

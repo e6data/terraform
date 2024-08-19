@@ -1,4 +1,4 @@
-# Create an Azure AD application
+# Create an Azure user assigned identity
 resource "azurerm_user_assigned_identity" "federated_identity" {
   location            = data.azurerm_resource_group.aks_resource_group.location
   name                = "${var.workspace_name}-federated-${random_string.random.result}"
