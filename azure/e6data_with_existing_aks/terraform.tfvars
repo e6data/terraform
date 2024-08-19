@@ -27,7 +27,7 @@ list_of_containers              = ["*"]                            # Containers 
 helm_chart_version              = "2.0.9"                          # Helm chart version for e6data workspace
 
 # Cost allocation tags
-cost_tags = {
+cost_tags = {                                                      # Tags used for cost allocation and management. Helps in tracking and optimizing resource costs. Here, the tag "App" is set to "e6data."
   App = "e6data"
 }
 
