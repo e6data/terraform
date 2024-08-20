@@ -19,14 +19,14 @@ resource "azurerm_role_assignment" "customer_key_vault" {
   count               = var.key_vault_name != "" ? 1 : 0
   scope               = data.azurerm_key_vault.vault[0].id
   role_definition_name = "Key Vault Certificate User"
-  principal_id        = module.aks_e6data.kubelet_identity
+  principal_id        = data.azurerm_kubernetes_cluster.aks_e6data.kubelet_identity[0].object_id
 }
 
 resource "azurerm_role_assignment" "e6data_key_vault" {
   count               = var.key_vault_name == "" ? 1 : 0
   scope               = azurerm_key_vault.e6data_vault[0].id
   role_definition_name = "Key Vault Certificate User"
-  principal_id        = module.aks_e6data.kubelet_identity
+  principal_id        = data.azurerm_kubernetes_cluster.aks_e6data.kubelet_identity[0].object_id
 }
 
 resource "helm_release" "akv2k8s" {
@@ -36,6 +36,4 @@ resource "helm_release" "akv2k8s" {
   chart      = "akv2k8s"
   repository = "http://charts.spvapi.no"
   namespace  = "kube-system"
-
-  depends_on = [ module.aks_e6data ]
 }

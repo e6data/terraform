@@ -46,9 +46,9 @@ resource "azurerm_role_definition" "e6data_aks_custom_role" {
 resource "azurerm_role_definition" "e6data_endpoint_custom_role" {
   name        = "e6data aks custom role ${var.workspace_name} ${random_string.random.result}2"
   description = "Custom role to read the lb and pip"
-  scope       = module.aks_e6data.aks_managed_rg_id
+  scope       = data.azurerm_kubernetes_cluster.aks_e6data.node_resource_group_id
   assignable_scopes = [
-    module.aks_e6data.aks_managed_rg_id
+    data.azurerm_kubernetes_cluster.aks_e6data.node_resource_group_id
   ]
   permissions {
     actions = [
@@ -63,7 +63,7 @@ resource "azurerm_role_definition" "e6data_endpoint_custom_role" {
 
 # custom role assigment to the service principal to get the aks credentials
 resource "azurerm_role_assignment" "e6data_aks_custom_role_assignment" {
-  scope                = module.aks_e6data.cluster_name
+  scope                = data.azurerm_kubernetes_cluster.aks_e6data.id
   role_definition_id   = azurerm_role_definition.e6data_aks_custom_role.role_definition_resource_id
   principal_id         = azurerm_user_assigned_identity.federated_identity.principal_id
 
@@ -73,7 +73,7 @@ resource "azurerm_role_assignment" "e6data_aks_custom_role_assignment" {
 
 # custom role assigment to the service principal to get the load balancer and public ip credentials
 resource "azurerm_role_assignment" "e6data_lb_custom_role_assignment" {
-  scope                = module.aks_e6data.aks_managed_rg_id
+  scope                = data.azurerm_kubernetes_cluster.aks_e6data.node_resource_group_id
   role_definition_id   = azurerm_role_definition.e6data_endpoint_custom_role.role_definition_resource_id
   principal_id         = azurerm_user_assigned_identity.federated_identity.principal_id
 

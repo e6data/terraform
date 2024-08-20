@@ -18,12 +18,7 @@ output "tenant_id" {
 
 output "client_id" {
   sensitive = true
-  value = azuread_application.e6data_app.application_id
-}
-
-output "secret" {
-  sensitive = true
-  value = azuread_application_password.e6data_secret.value
+  value = azurerm_user_assigned_identity.federated_identity.client_id
 }
 
 output "resource_group" {
