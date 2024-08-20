@@ -20,9 +20,9 @@ nodepool_instance_arch          = ["arm64"]                         # Instance a
 priority                        = ["spot"]                          # VM priority (Regular or Spot)
 
 # Data storage configuration
-data_storage_account_name       = "e6datastorage"                   # Storage account name
-data_resource_group_name        = "e6data-storage-rg"               # Resource group for storage account
-list_of_containers              = ["data-container", "logs-container"]  # Containers to access in storage account
+data_storage_account_name       = "datastorage"                   # Storage account name
+data_resource_group_name        = "data-storage-rg"               # Resource group for storage account
+list_of_containers              = ["*"]                           # Containers to access in storage account
 
 # Helm chart version
 helm_chart_version              = "2.0.9"                           # Helm chart version for e6data workspace
@@ -44,11 +44,11 @@ identity_id                     = "identity-67890"                  # The identi
 # Karpenter Variables
 karpenter_namespace             = "kube-system"                     # Namespace for Karpenter deployment
 karpenter_service_account_name  = "karpenter"                       # Service account name for Karpenter
-karpenter_release_version       = "0.6.0"                           # Karpenter release version
+karpenter_release_version       = "0.4.0"                           # Karpenter release version
 
 # Key Vault Configuration
-key_vault_name                  = "e6data-keyvault"                 # Please provide the Key Vault name in which the certificate for the domain is present. If left blank, a new Key Vault will be created in the AKS resource group.
-key_vault_rg_name               = "e6data-keyvault-rg"              # The resource group for the specified Key Vault. If left blank, it will default to the AKS resource group. For more info : https://docs.e6data.com/product-documentation/connectivity/endpoints
+key_vault_name                  = ""                                # Please provide the Key Vault name in which the certificate for the domain is present. If left blank, a new Key Vault will be created in the AKS resource group.
+key_vault_rg_name               = ""                                # The resource group for the specified Key Vault. If left blank, it will default to the AKS resource group. For more info : https://docs.e6data.com/product-documentation/connectivity/endpoints
 
 # Nginx Ingress Controller Configuration
 nginx_ingress_controller_namespace = "kube-system"                 # Namespace where the Nginx Ingress Controller will be deployed
