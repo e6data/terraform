@@ -15,8 +15,8 @@ nodepool_instance_arch          = ["arm64"]                         # Instance a
 priority                        = ["spot"]                          # VM priority (Regular or Spot)
 
 # Identity Pool Variables
-identity_pool_id                = "identity-pool-12345"             # The identity pool ID available in the e6data console
-identity_id                     = "identity-67890"                  # The identity ID available in the e6data console
+identity_pool_id                = "identity-pool-12345"             # The identity pool ID available in the e6data console after clicking on the "Create Workspace" button and selecting AZURE
+identity_id                     = "identity-67890"                  # The identity ID available in the e6data console, used for authentication and authorization in the workspace
 
 # Data storage configuration
 data_storage_account_name       = "datastorage"                   # Storage account name
@@ -42,8 +42,8 @@ karpenter_service_account_name  = "karpenter"                       # Service ac
 karpenter_release_version       = "0.5.0"                           # Karpenter release version
 
 # Key Vault Configuration
-key_vault_name                  = ""                               # Name of the Key Vault with the certificate for the domain
-key_vault_rg_name               = ""                               # The resource group for the specified Key Vault
+key_vault_name                  = ""                               # Please provide the Key Vault name in which the certificate for the domain is present. If left blank, a new Key Vault will be created in the AKS resource group.
+key_vault_rg_name               = ""                               # The resource group for the specified Key Vault. If left blank, it will default to the AKS resource group. For more info : https://docs.e6data.com/product-
 
 # Nginx Ingress Controller Configuration
 nginx_ingress_controller_namespace = "kube-system"                 # Namespace where the Nginx Ingress Controller will be deployed
