@@ -6,16 +6,18 @@ workspace_name                  = "e6data-workspace"                # Name of th
 # AKS cluster details
 subscription_id                 = "12345678-1234-1234-1234-1234567890ab"  # Subscription ID of Azure subscription
 aks_resource_group_name         = "e6data-aks-rg"                   # Resource group name for AKS cluster
-aks_cluster_name                = "e6data-aks-cluster"              # AKS cluster name
+aks_cluster_name                = "aks-cluster"                     # AKS cluster name
 kube_version                    = "1.30"                            # Kubernetes version
 kubernetes_namespace            = "e6data"                          # Namespace to deploy e6data workspace
 private_cluster_enabled         = "false"                           # Private cluster enabled (true/false)
 
 # Networking
 cidr_block                      = ["10.220.0.0/16"]                 # CIDR block for the VNet
+service_cidr                    = "10.220.133.0/24"                 # The CIDR block for service addresses
+dns_service_ip                  = "10.220.132.10"                   # The IP address for the DNS service
 
 # Node pool configuration
-nodepool_instance_family        = ["D", "F"]                        # Instance families for node pools
+nodepool_instance_family        = ["D", "E"]                        # Instance families for node pools
 nodepool_instance_arch          = ["arm64"]                         # Instance architecture for node pools
 priority                        = ["spot"]                          # VM priority (Regular or Spot)
 

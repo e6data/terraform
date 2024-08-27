@@ -71,3 +71,13 @@ variable "admin_username" {
   default     = "azureuser"
   description = "The username of the local administrator to be created on the Kubernetes cluster. Set this variable to `null` to turn off the cluster's `linux_profile`. Changing this forces a new resource to be created."
 }
+
+variable "service_cidr" {
+  description = "The CIDR block for service addresses"
+  type        = string
+}
+
+variable "dns_service_ip" {
+  description = "The IP address for the DNS service"
+  type        = string
+}

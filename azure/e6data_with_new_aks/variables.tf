@@ -169,3 +169,13 @@ variable "nodepool_instance_arch" {
   type        = list(string)
   description = "Instance arch for nodepool"
 }
+
+variable "service_cidr" {
+  description = "The CIDR block for service addresses"
+  type        = string
+}
+
+variable "dns_service_ip" {
+  description = "The IP address for the DNS service"
+  type        = string
+}

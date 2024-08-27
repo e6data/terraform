@@ -1,30 +1,34 @@
 # General configuration
-prefix                          = "e6"                             # Prefix for resources
+prefix                          = "exist"                             # Prefix for resources
 region                          = "eastus"                          # Azure region
-workspace_name                  = "e6data-workspace"                # Name of the e6data workspace to be created
+workspace_name                  = "ws"                # Name of the e6data workspace to be created
 
-# AKS cluster details
-subscription_id                 = "12345678-1234-1234-1234-1234567890ab"  # Subscription ID of Azure subscription
-aks_resource_group_name         = "e6data-aks-rg"                   # Resource group name for AKS cluster
-aks_cluster_name                = "e6data-aks-cluster"              # AKS cluster name
-kube_version                    = "1.30"                            # Kubernetes version
-kubernetes_namespace            = "e6data"                          # Namespace to deploy e6data workspace
-private_cluster_enabled         = "false"                           # Private cluster enabled (true/false)
+# Details of existing resources
+vnet_name                       = "e6-network"                      # The name of the existing Virtual Network (VNet) where the resources will be deployed.
+aks_resource_group_name         = "terraform-test"                  # The resource group name that will contain the AKS cluster.
 
-# Networking
-vnet_name                       = "e6data-vnet"                     # Name of the VNet
-aks_subnet_cidr                 = ["10.210.128.0/24"]               # CIDR block for AKS subnet
-aci_subnet_cidr                 = ["10.210.129.0/24"]               # CIDR block for ACI subnet
+# AKS cluster details to be created
+subscription_id                 = "244ad77a-91e4-4a8e-9193-835d79ac55e2"  # The Subscription ID of the Azure account where the resources will be created.
+aks_cluster_name                = "aks-cluster"                     # The name of the AKS cluster to be created.
+kube_version                    = "1.30"                            # The Kubernetes version to use for the AKS cluster.
+kubernetes_namespace            = "e6data"                          # The namespace where the e6data workspace will be deployed within the AKS cluster.
+private_cluster_enabled         = "false"                           # Determines whether the AKS cluster will be private (true) or public (false).
+
+# Networking configuration
+aks_subnet_cidr                 = ["10.220.131.0/24"]               # The CIDR block for the subnet dedicated to the AKS cluster nodes.
+aci_subnet_cidr                 = ["10.220.132.0/24"]               # The CIDR block for the subnet reserved for Azure Container Instances (ACI), if integrated with the AKS cluster.
+service_cidr                    = "10.220.133.0/24"                 # The CIDR block for the IP addresses assigned to Kubernetes services within the cluster (e.g., ClusterIP services).
+dns_service_ip                  = "10.220.133.10"                   # The IP address within the service CIDR block designated for the Kubernetes DNS service, handling internal DNS resolution in the cluster.
 
 # Node pool configuration
-nodepool_instance_family        = ["D", "F"]                        # Instance families for node pools
+nodepool_instance_family        = ["D", "E"]                        # Instance families for node pools
 nodepool_instance_arch          = ["arm64"]                         # Instance architecture for node pools
 priority                        = ["spot"]                          # VM priority (Regular or Spot)
 
 # Data storage configuration
-data_storage_account_name       = "datastorage"                     # Storage account name
-data_resource_group_name        = "data-storage-rg"                 # Resource group for storage account
-list_of_containers              = ["*"]                             # Containers to access in storage account
+data_storage_account_name       = "e6dataengine"                   # Storage account name
+data_resource_group_name        = "e6data-common"               # Resource group for storage account
+list_of_containers              = ["*"]                           # Containers to access in storage account
 
 # Helm chart version
 helm_chart_version              = "2.0.9"                           # Helm chart version for e6data workspace

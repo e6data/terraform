@@ -7,6 +7,8 @@ module "aks_e6data" {
   resource_group_name     = data.azurerm_resource_group.aks_resource_group.name
   aks_subnet_id           = module.network.aks_subnet_id
   aci_subnet_name         = module.network.aci_subnet_name
+  service_cidr            = var.service_cidr
+  dns_service_ip          = var.dns_service_ip
   tags                    = var.cost_tags
 
   #default nodepool vars
