@@ -32,6 +32,8 @@ resource "azurerm_role_assignment" "e6data_key_vault" {
 resource "helm_release" "akv2k8s" {
   provider = helm.e6data
 
+  count = var.deploy_akv2k8s ? 1 : 0
+
   name       = "akv2k8s"
   chart      = "akv2k8s"
   repository = "http://charts.spvapi.no"
