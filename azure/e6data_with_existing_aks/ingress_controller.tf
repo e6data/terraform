@@ -2,6 +2,8 @@
 resource "helm_release" "nginx_ingress" {
   provider = helm.e6data
 
+  count = var.deploy_nginx_ingress ? 1 : 0
+
   name       = "ingress-nginx"
   chart      = "ingress-nginx"
   repository = "https://kubernetes.github.io/ingress-nginx"
@@ -21,6 +23,9 @@ resource "helm_release" "nginx_ingress" {
 
 resource "kubernetes_ingress_v1" "dummy" {
   provider = kubernetes.e6data
+
+  count = var.deploy_nginx_ingress ? 1 : 0
+
   metadata {
     name      = "dummy-ingress"
     namespace = var.kubernetes_namespace

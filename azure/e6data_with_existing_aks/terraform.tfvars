@@ -6,11 +6,11 @@ workspace_name                  = "e6data-workspace"                # Name of th
 # AKS cluster details
 subscription_id                 = "12345678-1234-1234-1234-1234567890ab"  # Subscription ID of Azure subscription
 aks_resource_group_name         = "e6data-aks-rg"                   # Resource group name for AKS cluster
-aks_cluster_name                = "e6data-aks-cluster"              # AKS cluster name
+aks_cluster_name                = "aks-cluster"              # AKS cluster name
 kubernetes_namespace            = "e6data"                          # Namespace to deploy e6data workspace
 
 # Karpenter Node pool configuration
-nodepool_instance_family        = ["D", "F"]                        # Instance families for node pools
+nodepool_instance_family        = ["D", "E"]                        # Instance families for node pools
 nodepool_instance_arch          = ["arm64"]                         # Instance architecture for node pools
 priority                        = ["spot"]                          # VM priority (Regular or Spot)
 
@@ -48,3 +48,11 @@ key_vault_rg_name               = ""                               # The resourc
 # Nginx Ingress Controller Configuration
 nginx_ingress_controller_namespace = "kube-system"                 # Namespace where the Nginx Ingress Controller will be deployed
 nginx_ingress_controller_version   = "4.7.1"                       # Version of the Nginx Ingress Controller to be installed
+
+# Toggle to decide whether to deploy the akv2k8s Helm chart.
+# Set to true to deploy, false to skip deployment.
+deploy_akv2k8s = false
+
+# Toggle to decide whether to deploy the NGINX Ingress Controller.
+# Set to true to deploy, false to skip deployment.
+deploy_nginx_ingress = false

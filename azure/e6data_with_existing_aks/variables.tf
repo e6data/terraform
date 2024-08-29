@@ -168,3 +168,15 @@ variable "identity_id" {
   type        = string
   description = "Identity ID from the e6data console."
 }
+
+variable "deploy_akv2k8s" {
+  description = "Decide whether to deploy akv2k8s"
+  type        = bool
+  default     = true
+}
+
+variable "deploy_nginx_ingress" {
+  description = "Decide whether to deploy nginx ingress"
+  type        = bool
+  default     = true
+}

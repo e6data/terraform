@@ -6,5 +6,5 @@ metadata:
     app: e6data
     e6data-workspace-name: ${workspace_name}
 spec:
-  imageFamily: Ubuntu2204
+  imageFamily: AzureLinux
   tags: ${tags}

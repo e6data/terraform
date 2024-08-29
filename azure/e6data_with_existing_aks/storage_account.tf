@@ -1,7 +1,7 @@
 # Create Azure Storage Account
 
 resource azurerm_storage_account "e6data_storage_account" {
-  name                     = "e6data${var.workspace_name}${random_string.random.result}"
+  name                     = "e6data${local.short_workspace_name}${random_string.random.result}"
   resource_group_name      = data.azurerm_resource_group.aks_resource_group.name
   location                 = data.azurerm_resource_group.aks_resource_group.location
   account_kind             = "StorageV2"
@@ -16,4 +16,3 @@ module "containers" {
   storage_account_name = azurerm_storage_account.e6data_storage_account.name
   container_name       = "${var.prefix}-${var.workspace_name}-${random_string.random.result}"
 }
-
