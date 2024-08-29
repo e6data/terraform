@@ -1,11 +1,13 @@
 # General configuration
 prefix                          = "e6"                             # Prefix for resources
 region                          = "eastus"                          # Azure region
-workspace_name                  = "e6data-workspace"                # Name of the e6data workspace to be created
+workspace_name                  = "workspace"                # Name of the e6data workspace to be created
+
+# Details of existing resources
+aks_resource_group_name         = "e6-rg"                         # Resource group to be use to deploy the AKS cluster in
 
 # AKS cluster details
 subscription_id                 = "12345678-1234-1234-1234-1234567890ab"  # Subscription ID of Azure subscription
-aks_resource_group_name         = "e6data-aks-rg"                   # Resource group name for AKS cluster
 aks_cluster_name                = "aks-cluster"                     # AKS cluster name
 kube_version                    = "1.30"                            # Kubernetes version
 kubernetes_namespace            = "e6data"                          # Namespace to deploy e6data workspace
