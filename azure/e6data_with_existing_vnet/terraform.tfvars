@@ -1,14 +1,14 @@
 # General configuration
 prefix                          = "exist"                             # Prefix for resources
 region                          = "eastus"                          # Azure region
-workspace_name                  = "ws"                # Name of the e6data workspace to be created
+workspace_name                  = "workspace"                              # Name of the e6data workspace to be created
 
 # Details of existing resources
 vnet_name                       = "e6-network"                      # The name of the existing Virtual Network (VNet) where the resources will be deployed.
-aks_resource_group_name         = "terraform-test"                  # The resource group name that will contain the AKS cluster.
+aks_resource_group_name         = "e6-rg"                  # The resource group name that will contain the AKS cluster.
 
 # AKS cluster details to be created
-subscription_id                 = "244ad77a-91e4-4a8e-9193-835d79ac55e2"  # The Subscription ID of the Azure account where the resources will be created.
+subscription_id                 = "12345678-1234-1234-1234-1234567890ab"  # The Subscription ID of the Azure account where the resources will be created.
 aks_cluster_name                = "aks-cluster"                     # The name of the AKS cluster to be created.
 kube_version                    = "1.30"                            # The Kubernetes version to use for the AKS cluster.
 kubernetes_namespace            = "e6data"                          # The namespace where the e6data workspace will be deployed within the AKS cluster.
@@ -26,8 +26,8 @@ nodepool_instance_arch          = ["arm64"]                         # Instance a
 priority                        = ["spot"]                          # VM priority (Regular or Spot)
 
 # Data storage configuration
-data_storage_account_name       = "e6dataengine"                   # Storage account name
-data_resource_group_name        = "e6data-common"               # Resource group for storage account
+data_storage_account_name       = "datastorage"                   # Storage account name
+data_resource_group_name        = "data-storage-rg"               # Resource group for storage account
 list_of_containers              = ["*"]                           # Containers to access in storage account
 
 # Helm chart version
