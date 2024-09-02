@@ -23,7 +23,7 @@ resource "aws_eks_access_entry" "aws_auth_update" {
   principal_arn = aws_iam_role.e6data_cross_account_role.arn
   type          = "STANDARD"
   user_name     = "e6data-${var.workspace_name}-user"
-  depends_on    = [aws_eks_node_group.workspace_node_group]
+  depends_on    = [module.eks]
 }
 
 resource "aws_eks_access_entry" "aws_karpenter_auth_update" {
@@ -31,5 +31,5 @@ resource "aws_eks_access_entry" "aws_karpenter_auth_update" {
   principal_arn = aws_iam_role.karpenter_node_role.arn
   type          = "STANDARD"
   user_name     = "e6dsata-${var.workspace_name}-user"
-  depends_on    = [aws_eks_node_group.workspace_node_group]
+  depends_on    = [module.eks]
 }
