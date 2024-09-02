@@ -18,27 +18,18 @@ resource "helm_release" "e6data_workspace_deployment" {
   depends_on = [module.eks, aws_eks_node_group.default_node_group]
 }
 
-data "kubernetes_config_map_v1" "aws_auth_read" {
-  provider = kubernetes.e6data
-
-  metadata {
-    name      = "aws-auth"
-    namespace = "kube-system"
-  }
-  depends_on = [aws_eks_node_group.default_node_group]
+resource "aws_eks_access_entry" "aws_auth_update" {
+  cluster_name  = module.eks.cluster_name
+  principal_arn = aws_iam_role.e6data_cross_account_role.arn
+  type          = "STANDARD"
+  user_name     = "e6data-${var.workspace_name}-user"
+  depends_on    = [aws_eks_node_group.workspace_node_group]
 }
 
-resource "kubernetes_config_map_v1_data" "aws_auth_update" {
-  provider = kubernetes.e6data
-  metadata {
-    name      = "aws-auth"
-    namespace = "kube-system"
-  }
-  data = local.map3
-
-  force = true
-  lifecycle {
-    ignore_changes = [data]
-  }
-  depends_on = [aws_eks_node_group.default_node_group]
+resource "aws_eks_access_entry" "aws_karpenter_auth_update" {
+  cluster_name  = module.eks.cluster_name
+  principal_arn = aws_iam_role.karpenter_node_role.arn
+  type          = "STANDARD"
+  user_name     = "e6dsata-${var.workspace_name}-user"
+  depends_on    = [aws_eks_node_group.workspace_node_group]
 }

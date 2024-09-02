@@ -21,6 +21,10 @@ resource "aws_eks_cluster" "eks" {
     public_access_cidrs     = var.public_access_cidrs
     security_group_ids      = var.security_group_ids
   }
+
+  access_config {
+    authentication_mode = "API_AND_CONFIG_MAP"
+  }
 }
 
 resource "aws_cloudwatch_log_group" "eks" {
