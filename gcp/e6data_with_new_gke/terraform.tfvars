@@ -48,3 +48,5 @@ cost_labels = {} # Cost labels for tracking costs
 # Note: The variable cost_labels only accepts lowercase letters ([a-z]), numeric characters ([0-9]), underscores (_) and dashes (-).
 
 buckets = ["*"] ### List of bucket names that the e6data engine queries and therefore, require read access to. Default is ["*"] which means all buckets, it is advisable to change this.
+
+local_ssd_count = 8   ## The amount of local SSD disks that will be attached to each cluster node. Defaults to 0. 1disk = 375GB

@@ -53,6 +53,4 @@ resource "kubernetes_daemon_set_v1" "gke_raid_disks" {
       }
     }
   }
-
-  depends_on = [ helm_release.e6data_workspace_deployment ]
 }
