@@ -147,10 +147,10 @@ variable "karpenter_eks_node_policy_arn" {
   ]
 }
 
-variable "karpenter_namespace" {
-  description = "Namespace to deploy the Karpenter cluster autoscaler"
-  type        = string
-}
+# variable "karpenter_namespace" {
+#   description = "Namespace to deploy the Karpenter cluster autoscaler"
+#   type        = string
+# }
 
 variable "karpenter_service_account_name" {
   description = "Service account name for the Karpenter cluster autoscaler"
