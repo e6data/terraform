@@ -44,3 +44,15 @@ variable "label_value" {
   default     = "e6data"
   description = "The label value to apply to Karpenter pods"
 }
+
+variable "label_key_1" {
+  description = "The first label key to apply to Karpenter pods"
+  type        = string
+  default     = "component" # Change this to your desired first label key
+}
+
+variable "label_value_1" {
+  description = "The first label value to apply to Karpenter pods"
+  type        = string
+  default     = "karpenter" # Change this to your desired first label value
+}
