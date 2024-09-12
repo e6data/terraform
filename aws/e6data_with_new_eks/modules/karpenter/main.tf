@@ -65,6 +65,11 @@ resource "helm_release" "karpenter_release" {
     value = "karp"
   }
 
+  set {
+    name  = "nodeSelector.kubernetes.io/os"
+    value = "" # Set to empty string to remove it
+  }
+
   # Add tolerations
   set {
     name  = "tolerations[0].key"
