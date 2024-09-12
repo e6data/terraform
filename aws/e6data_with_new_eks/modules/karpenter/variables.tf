@@ -32,3 +32,15 @@ variable "controller_role_arn" {
   description = "ARN of the IAM role associated with the Karpenter controller"
   type        = string
 }
+
+variable "label_key" {
+  type        = string
+  default     = "app"
+  description = "The label key to apply to Karpenter pods"
+}
+
+variable "label_value" {
+  type        = string
+  default     = "e6data"
+  description = "The label value to apply to Karpenter pods"
+}

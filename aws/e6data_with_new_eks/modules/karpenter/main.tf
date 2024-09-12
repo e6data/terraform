@@ -48,4 +48,8 @@ resource "helm_release" "karpenter_release" {
     name  = "serviceAccount.name"
     value = var.service_account_name
   }
+  set {
+    name  = "podLabels.${var.label_key}"
+    value = var.label_value
+  }
 }
