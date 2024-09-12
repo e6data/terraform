@@ -56,19 +56,15 @@ resource "helm_release" "karpenter_release" {
     name  = "podLabels.${var.label_key_1}"
     value = var.label_value_1
   }
-  set {
-    name  = "nodeSelector.app"
-    value = "e6data"
-  }
-  set {
-    name  = "nodeSelector.e6data-workspace-name"
-    value = "karp"
-  }
 
   set {
-    name  = "nodeSelector.kubernetes.io/os"
-    value = "" # Set to empty string to remove it
+    name = "nodeSelector"
+    value = jsonencode({
+      app                   = "e6data"
+      e6data-workspace-name = "karp"
+    })
   }
+
 
   # Add tolerations
   set {
