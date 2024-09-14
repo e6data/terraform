@@ -407,7 +407,7 @@ module "karpeneter_deployment" {
   controller_role_arn     = module.karpenter_oidc.oidc_role_arn
   interruption_queue_name = aws_sqs_queue.node_interruption_queue.name
 
-  depends_on = [module.eks, module.karpenter_oidc, aws_eks_node_group.default_node_group, aws_sqs_queue.node_interruption_queue]
+  depends_on = [module.eks, module.karpenter_oidc, aws_eks_node_group.default_node_group, aws_sqs_queue.node_interruption_queue, helm_release.e6data_workspace_deployment]
 }
 
 data "aws_availability_zones" "available" {

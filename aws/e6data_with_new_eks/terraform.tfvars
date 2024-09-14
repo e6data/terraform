@@ -41,7 +41,7 @@ cost_tags = {
 aws_command_line_path = "aws" ### Specify the path to the AWS Command Line Interface executable. Run "which aws" command to get the exact path.
 
 # ALB Ingress Controller Variables
-alb_ingress_controller_namespace            = "kube-system"
+# alb_ingress_controller_namespace            = "kube-system"
 alb_ingress_controller_service_account_name = "alb-ingress-controller"
 alb_controller_helm_chart_version           = "1.6.1"
 
