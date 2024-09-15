@@ -7,23 +7,23 @@ resource "aws_ec2_tag" "karpenter_subnet_cluster_tag" {
   value       = module.eks.cluster_name
 }
 
-data "aws_iam_policy_document" "karpenter_node_trust_policy" {
-  statement {
-    actions = ["sts:AssumeRole"]
+# data "aws_iam_policy_document" "karpenter_node_trust_policy" {
+#   statement {
+#     actions = ["sts:AssumeRole"]
 
-    principals {
-      type        = "Service"
-      identifiers = ["ec2.amazonaws.com"]
-    }
-  }
-}
+#     principals {
+#       type        = "Service"
+#       identifiers = ["ec2.amazonaws.com"]
+#     }
+#   }
+# }
 
-##The karpenter node role includes several AWS managed policies, which are designed to provide permissions for specific uses needed by the nodes to work with EC2 and other AWS resources.
-resource "aws_iam_role" "karpenter_node_role" {
-  name                = "e6data-${var.cluster_name}-KarpenterNodeRole-${random_string.random.result}"
-  managed_policy_arns = var.karpenter_eks_node_policy_arn
-  assume_role_policy  = data.aws_iam_policy_document.karpenter_node_trust_policy.json
-}
+# ##The karpenter node role includes several AWS managed policies, which are designed to provide permissions for specific uses needed by the nodes to work with EC2 and other AWS resources.
+# resource "aws_iam_role" "karpenter_node_role" {
+#   name                = "e6data-${var.cluster_name}-KarpenterNodeRole-${random_string.random.result}"
+#   managed_policy_arns = var.karpenter_eks_node_policy_arn
+#   assume_role_policy  = data.aws_iam_policy_document.karpenter_node_trust_policy.json
+# }
 
 # Grants Karpenter controller scoped permissions to manage EC2 resources, including creation, tagging, and deletion, with conditions to limit actions to specific cluster and nodepool tags.
 data "aws_iam_policy_document" "karpenter_controller_policy_document" {
@@ -241,7 +241,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     actions = ["iam:PassRole"]
 
     effect    = "Allow"
-    resources = ["${aws_iam_role.karpenter_node_role.arn}"]
+    resources = ["${aws_iam_role.eks_nodegroup_iam_role.arn}"]
     sid       = "AllowPassingInstanceRole"
     condition {
       test     = "StringEquals"
@@ -387,7 +387,7 @@ module "karpenter_oidc" {
   kubernetes_namespace            = var.karpenter_namespace
   kubernetes_service_account_name = var.karpenter_service_account_name
 
-  depends_on = [aws_iam_policy.karpenter_controller_policy, aws_eks_node_group.default_node_group]
+  depends_on = [aws_iam_policy.karpenter_controller_policy, aws_eks_node_group.default_node_group, aws_eks_access_policy_association.tf_runner_auth_policy]
 }
 
 module "karpeneter_deployment" {
@@ -407,7 +407,7 @@ module "karpeneter_deployment" {
   controller_role_arn     = module.karpenter_oidc.oidc_role_arn
   interruption_queue_name = aws_sqs_queue.node_interruption_queue.name
 
-  depends_on = [module.eks, module.karpenter_oidc, aws_eks_node_group.default_node_group, aws_sqs_queue.node_interruption_queue]
+  depends_on = [module.eks, module.karpenter_oidc, aws_eks_node_group.default_node_group, aws_sqs_queue.node_interruption_queue, aws_eks_access_policy_association.tf_runner_auth_policy]
 }
 
 data "aws_availability_zones" "available" {
@@ -423,7 +423,7 @@ data "kubectl_path_documents" "provisioner_manifests" {
     available_zones          = jsonencode(data.aws_availability_zones.available.names)
     cluster_name             = module.eks.cluster_name
     instance_family          = jsonencode(var.nodepool_instance_family)
-    karpenter_node_role_name = aws_iam_role.karpenter_node_role.name
+    karpenter_node_role_name = aws_iam_role.eks_nodegroup_iam_role.name
     volume_size              = var.eks_disk_size
     nodeclass_name           = local.e6data_nodeclass_name
     nodepool_name            = local.e6data_nodepool_name
@@ -437,12 +437,12 @@ data "kubectl_path_documents" "provisioner_manifests" {
     )
     nodepool_cpu_limits = var.nodepool_cpu_limits
   }
-  depends_on = [data.aws_availability_zones.available, aws_iam_role.karpenter_node_role, module.eks]
+  depends_on = [data.aws_availability_zones.available, aws_iam_role.eks_nodegroup_iam_role, module.eks]
 }
 
 resource "kubectl_manifest" "provisioners" {
   count     = 2
   yaml_body = values(data.kubectl_path_documents.provisioner_manifests.manifests)[count.index]
 
-  depends_on = [module.karpeneter_deployment]
+  depends_on = [module.karpeneter_deployment, aws_eks_access_policy_association.tf_runner_auth_policy]
 }

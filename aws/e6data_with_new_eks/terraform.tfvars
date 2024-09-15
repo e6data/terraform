@@ -43,7 +43,7 @@ aws_command_line_path = "aws" ### Specify the path to the AWS Command Line Inter
 # ALB Ingress Controller Variables
 alb_ingress_controller_namespace            = "kube-system"
 alb_ingress_controller_service_account_name = "alb-ingress-controller"
-alb_controller_helm_chart_version           = "1.6.1"
+alb_controller_helm_chart_version           = "1.8.1"
 
 # Karpenter Variables
 karpenter_namespace            = "kube-system" ### Namespace to deploy the karpenter
