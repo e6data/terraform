@@ -3,7 +3,7 @@ locals {
   is_assumed_role      = contains(data.aws_caller_identity.current.arn, "assumed-role")
   role_name            = split("/", data.aws_caller_identity.current.arn)[1]
 
-  role_arn = local.is_assumed_role ? "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${locals.role_name}" : data.aws_caller_identity.current.arn
+  role_arn = local.is_assumed_role ? "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${local.role_name}" : data.aws_caller_identity.current.arn
 
   e6data_workspace_name       = "e6data-workspace-${local.short_workspace_name}"
   bucket_names_with_full_path = [for bucket_name in var.bucket_names : "arn:aws:s3:::${bucket_name}/*"]
