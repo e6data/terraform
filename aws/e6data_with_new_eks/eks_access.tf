@@ -8,7 +8,7 @@ resource "aws_eks_access_entry" "aws_auth" {
 
 resource "aws_eks_access_entry" "tf_runner" {
   cluster_name  = module.eks.cluster_name
-  principal_arn = data.aws_caller_identity.current.arn
+  principal_arn = local.role_arn
   type          = "STANDARD"
   user_name     = "terraform-user"
   depends_on    = [module.eks]
