@@ -7,24 +7,6 @@ resource "aws_ec2_tag" "karpenter_subnet_cluster_tag" {
   value       = module.eks.cluster_name
 }
 
-# data "aws_iam_policy_document" "karpenter_node_trust_policy" {
-#   statement {
-#     actions = ["sts:AssumeRole"]
-
-#     principals {
-#       type        = "Service"
-#       identifiers = ["ec2.amazonaws.com"]
-#     }
-#   }
-# }
-
-# ##The karpenter node role includes several AWS managed policies, which are designed to provide permissions for specific uses needed by the nodes to work with EC2 and other AWS resources.
-# resource "aws_iam_role" "karpenter_node_role" {
-#   name                = "e6data-${var.cluster_name}-KarpenterNodeRole-${random_string.random.result}"
-#   managed_policy_arns = var.karpenter_eks_node_policy_arn
-#   assume_role_policy  = data.aws_iam_policy_document.karpenter_node_trust_policy.json
-# }
-
 # Grants Karpenter controller scoped permissions to manage EC2 resources, including creation, tagging, and deletion, with conditions to limit actions to specific cluster and nodepool tags.
 data "aws_iam_policy_document" "karpenter_controller_policy_document" {
   statement {
