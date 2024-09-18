@@ -12,14 +12,14 @@ resource "aws_eks_access_entry" "aws_auth" {
 #   user_name     = "${var.workspace_name}-terraform-user"
 # }
 
-resource "aws_eks_access_policy_association" "tf_runner_auth_policy" {
-  cluster_name  = data.aws_eks_cluster.current.name
-  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-  principal_arn = local.role_arn
+# resource "aws_eks_access_policy_association" "tf_runner_auth_policy" {
+#   cluster_name  = data.aws_eks_cluster.current.name
+#   policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+#   principal_arn = local.role_arn
 
-  access_scope {
-    type = "cluster"
-  }
+#   access_scope {
+#     type = "cluster"
+#   }
 
-  depends_on = [aws_eks_access_entry.tf_runner]
-}
+#   depends_on = [aws_eks_access_entry.tf_runner]
+# }
