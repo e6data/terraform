@@ -49,5 +49,5 @@ resource "kubectl_manifest" "provisioners" {
   count     = 2
   yaml_body = values(data.kubectl_path_documents.provisioner_manifests.manifests)[count.index]
 
-  depends_on = [data.kubectl_path_documents.provisioner_manifests, aws_eks_access_policy_association.tf_runner_auth_policy]
+  depends_on = [data.kubectl_path_documents.provisioner_manifests]
 }

@@ -14,5 +14,5 @@ resource "helm_release" "e6data_workspace_deployment" {
   lifecycle {
     ignore_changes = [values]
   }
-  depends_on = [aws_eks_access_policy_association.tf_runner_auth_policy]
+  # depends_on = [aws_eks_access_policy_association.tf_runner_auth_policy]
 }
