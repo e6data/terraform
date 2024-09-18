@@ -1,3 +1,14 @@
+provider "kubernetes" {
+  alias                  = "eks_e6data"
+  host                   = data.aws_eks_cluster.current.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.current.certificate_authority[0].data)
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    args        = ["eks", "get-token", "--cluster-name", var.eks_cluster_name]
+    command     = var.aws_command_line_path
+  }
+}
+
 locals {
   mapUsers    = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapUsers"], "")
   mapRoles    = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapRoles"], "")
@@ -6,11 +17,11 @@ locals {
   mapRoles2 = yamldecode(local.mapRoles)
 
   myroles = [{
-    "rolearn"  = aws_iam_role.e6data_cross_account_role.arn,
+    "rolearn"  = var.cross_account_role_arn,
     "username" = "e6data-${var.workspace_name}-user"
     },
     {
-      "rolearn"  = aws_iam_role.karpenter_node_role.arn,
+      "rolearn"  = var.karpenter_node_role_arn,
       "username" = "system:node:{{EC2PrivateDNSName}}"
       "groups"   = ["system:bootstrappers", "system:nodes"]
   }]
@@ -54,9 +65,3 @@ resource "kubernetes_config_map_v1_data" "aws_auth_update" {
   }
 }
 
-data "aws_caller_identity" "current" {
-}
-
-data "aws_eks_cluster" "current" {
-  name = var.eks_cluster_name
-}

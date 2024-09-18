@@ -1,6 +1,6 @@
 resource "aws_eks_access_entry" "aws_auth" {
   cluster_name  = data.aws_eks_cluster.current.name
-  principal_arn = aws_iam_role.e6data_cross_account_role.arn
+  principal_arn = var.cross_account_role_arn
   type          = "STANDARD"
   user_name     = "e6data-${var.workspace_name}-user"
 }
