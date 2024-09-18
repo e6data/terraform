@@ -9,7 +9,7 @@ resource "aws_eks_access_entry" "tf_runner" {
   cluster_name  = data.aws_eks_cluster.current.name
   principal_arn = local.role_arn
   type          = "STANDARD"
-  user_name     = "terraform-user"
+  user_name     = "${var.workspace_name}-terraform-user"
 }
 
 resource "aws_eks_access_policy_association" "tf_runner_auth_policy" {
