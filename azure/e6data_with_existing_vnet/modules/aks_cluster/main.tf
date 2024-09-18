@@ -34,8 +34,6 @@ resource "azurerm_kubernetes_cluster" "aks_e6data" {
     network_policy = "cilium"
     network_plugin_mode = "overlay"
     network_data_plane = "cilium"
-    service_cidr = var.service_cidr
-    dns_service_ip = var.dns_service_ip
   }
 
   # Enable virtual node (ACI connector) for Linux

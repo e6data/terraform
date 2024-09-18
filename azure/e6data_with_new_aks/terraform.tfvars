@@ -15,8 +15,6 @@ private_cluster_enabled         = "false"                           # Private cl
 
 # Networking
 cidr_block                      = ["10.220.0.0/16"]                 # CIDR block for the VNet
-service_cidr                    = "10.220.133.0/24"                 # The CIDR block for service addresses
-dns_service_ip                  = "10.220.133.10"                   # The IP address for the DNS service
 
 # Node pool configuration
 nodepool_instance_family        = ["D", "E"]                        # Instance families for node pools

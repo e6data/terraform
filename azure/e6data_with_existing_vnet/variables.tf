@@ -193,13 +193,3 @@ variable "identity_id" {
   type        = string
   description = "Identity ID from the e6data console."
 }
-
-variable "service_cidr" {
-  description = "The CIDR block for service addresses"
-  type        = string
-}
-
-variable "dns_service_ip" {
-  description = "The IP address for the DNS service"
-  type        = string
-}

@@ -17,8 +17,6 @@ private_cluster_enabled         = "false"                           # Determines
 # Networking configuration
 aks_subnet_cidr                 = ["10.220.131.0/24"]               # The CIDR block for the subnet dedicated to the AKS cluster nodes.
 aci_subnet_cidr                 = ["10.220.132.0/24"]               # The CIDR block for the subnet reserved for Azure Container Instances (ACI), if integrated with the AKS cluster.
-service_cidr                    = "10.220.133.0/24"                 # The CIDR block for the IP addresses assigned to Kubernetes services within the cluster (e.g., ClusterIP services).
-dns_service_ip                  = "10.220.133.10"                   # The IP address within the service CIDR block designated for the Kubernetes DNS service, handling internal DNS resolution in the cluster.
 
 # Node pool configuration
 nodepool_instance_family        = ["D", "E"]                        # Instance families for node pools
