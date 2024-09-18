@@ -40,8 +40,6 @@ locals {
   map3 = { for k, v in local.map2 : k => replace(v, "\"", "") }
 }
 
-
-
 data "kubernetes_config_map_v1" "aws_auth_read" {
   provider = kubernetes.eks_e6data
 
