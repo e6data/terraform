@@ -24,6 +24,12 @@ variable "cluster_log_types" {
   default     = ["scheduler", "controllerManager", "authenticator", "audit"]
 }
 
+variable "cloudwatch_log_retention_in_days" {
+  description = "cloudwatch log retention period"
+  type        = number
+  default     = 30
+}
+
 variable "vpc_id" {
   type        = string
   description = "VPC ID to create e6data resources"
