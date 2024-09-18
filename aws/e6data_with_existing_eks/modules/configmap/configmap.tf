@@ -1,3 +1,10 @@
+data "aws_caller_identity" "current" {
+}
+
+data "aws_eks_cluster" "current" {
+  name = var.eks_cluster_name
+}
+
 provider "kubernetes" {
   alias                  = "eks_e6data"
   host                   = data.aws_eks_cluster.current.endpoint
@@ -62,4 +69,3 @@ resource "kubernetes_config_map_v1_data" "aws_auth_update" {
     ignore_changes = [data]
   }
 }
-
