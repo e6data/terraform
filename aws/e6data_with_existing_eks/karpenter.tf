@@ -1,12 +1,23 @@
-data "aws_availability_zones" "available" {
-  state         = "available"
-  exclude_names = var.excluded_az
+data "aws_iam_policy_document" "karpenter_node_trust_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
 }
 
 resource "aws_iam_role" "karpenter_node_role" {
   name                = "e6data-${var.workspace_name}-KarpenterNodeRole-${random_string.random.result}"
   managed_policy_arns = var.karpenter_eks_node_policy_arn
   assume_role_policy  = data.aws_iam_policy_document.karpenter_node_trust_policy.json
+}
+
+data "aws_availability_zones" "available" {
+  state         = "available"
+  exclude_names = var.excluded_az
 }
 
 # Data source to fetch and template Karpenter provisioner manifests
