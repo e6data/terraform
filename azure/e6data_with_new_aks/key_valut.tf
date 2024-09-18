@@ -5,6 +5,7 @@ resource "azurerm_key_vault" "e6data_vault" {
   location            = var.region
   tenant_id           = data.azurerm_client_config.current.tenant_id
   sku_name            = "standard"
+  enable_rbac_authorization = true
 
   tags = var.cost_tags
 }
