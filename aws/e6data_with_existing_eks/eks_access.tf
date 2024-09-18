@@ -5,12 +5,12 @@ resource "aws_eks_access_entry" "aws_auth" {
   user_name     = "e6data-${var.workspace_name}-user"
 }
 
-resource "aws_eks_access_entry" "tf_runner" {
-  cluster_name  = data.aws_eks_cluster.current.name
-  principal_arn = local.role_arn
-  type          = "STANDARD"
-  user_name     = "${var.workspace_name}-terraform-user"
-}
+# resource "aws_eks_access_entry" "tf_runner" {
+#   cluster_name  = data.aws_eks_cluster.current.name
+#   principal_arn = local.role_arn
+#   type          = "STANDARD"
+#   user_name     = "${var.workspace_name}-terraform-user"
+# }
 
 resource "aws_eks_access_policy_association" "tf_runner_auth_policy" {
   cluster_name  = data.aws_eks_cluster.current.name
