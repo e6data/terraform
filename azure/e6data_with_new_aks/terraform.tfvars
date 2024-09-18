@@ -9,7 +9,7 @@ aks_resource_group_name         = "e6-rg"                         # Resource gro
 # AKS cluster details
 subscription_id                 = "12345678-1234-1234-1234-1234567890ab"  # Subscription ID of Azure subscription
 aks_cluster_name                = "aks-cluster"                     # AKS cluster name
-kube_version                    = "1.30"                            # Kubernetes version
+kube_version                    = "1.29"                            # Kubernetes version
 kubernetes_namespace            = "e6data"                          # Namespace to deploy e6data workspace
 private_cluster_enabled         = "false"                           # Private cluster enabled (true/false)
 
