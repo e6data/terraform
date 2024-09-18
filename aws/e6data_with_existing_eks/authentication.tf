@@ -17,11 +17,11 @@ locals {
 
   myroles = [
     {
-      "rolearn"  = var.cross_account_role_arn,
+      "rolearn"  = aws_iam_role.e6data_cross_account_role.arn,
       "username" = "e6data-${var.workspace_name}-user"
     },
     {
-      "rolearn"  = var.karpenter_node_role_arn,
+      "rolearn"  = aws_iam_role.karpenter_node_role.arn,
       "username" = "system:node:{{EC2PrivateDNSName}}",
       "groups"   = ["system:bootstrappers", "system:nodes"]
     }
