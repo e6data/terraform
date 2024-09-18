@@ -24,34 +24,36 @@ locals {
       nodeclass = local.e6data_nodeclass_name
     }
   })
-  # mapUsers    = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapUsers"], "")
-  # mapRoles    = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapRoles"], "")
-  # mapAccounts = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapAccounts"], "")
+  mapUsers    = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapUsers"], "")
+  mapRoles    = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapRoles"], "")
+  mapAccounts = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapAccounts"], "")
 
-  # mapRoles2 = yamldecode(local.mapRoles)
+  mapRoles2 = yamldecode(local.mapRoles)
 
-  # myroles = [{
-  #   "rolearn"  = var.cross_account_role_arn,
-  #   "username" = "e6data-${var.workspace_name}-user"
-  #   },
-  #   {
-  #     "rolearn"  = var.karpenter_node_role_arn,
-  #     "username" = "system:node:{{EC2PrivateDNSName}}"
-  #     "groups"   = ["system:bootstrappers", "system:nodes"]
-  # }]
+  myroles = [
+    {
+      "rolearn"  = aws_iam_role.e6data_cross_account_role.arn,
+      "username" = "e6data-${var.workspace_name}-user"
+    },
+    {
+      "rolearn"  = aws_iam_role.karpenter_node_role.arn,
+      "username" = "system:node:{{EC2PrivateDNSName}}",
+      "groups"   = ["system:bootstrappers", "system:nodes"]
+    }
+  ]
 
-  # totalRoles  = concat(local.mapRoles2, local.myroles)
-  # totalRoles2 = yamlencode(local.totalRoles)
+  totalRoles  = concat(local.mapRoles2, local.myroles)
+  totalRoles2 = yamlencode(local.totalRoles)
 
-  # mapData = {
-  #   mapUsers    = local.mapUsers == "" ? "" : local.mapUsers
-  #   mapRoles    = local.totalRoles2
-  #   mapAccounts = local.mapAccounts == "" ? "" : local.mapAccounts
-  # }
+  mapData = {
+    mapUsers    = local.mapUsers == "" ? "" : local.mapUsers
+    mapRoles    = local.totalRoles2
+    mapAccounts = local.mapAccounts == "" ? "" : local.mapAccounts
+  }
 
-  # map2 = { for k, v in local.mapData : k => v if v != "" }
+  map2 = { for k, v in local.mapData : k => v if v != "" }
 
-  # map3 = { for k, v in local.map2 : k => replace(v, "\"", "") }
+  map3 = { for k, v in local.map2 : k => replace(v, "\"", "") }
 }
 
 resource "random_string" "random" {
