@@ -15,5 +15,18 @@ resource "aws_eks_access_entry" "aws_auth" {
 resource "aws_eks_access_entry" "tf_runner" {
   cluster_name  = data.aws_eks_cluster.current.name
   principal_arn = var.principal_arn
-  type          = "EC2_LINUX"
+  type          = "STANDARD"
+  user_name     = "${var.workspace_name}-terraform-user"
+}
+
+resource "aws_eks_access_policy_association" "tf_runner_auth_policy" {
+  cluster_name  = data.aws_eks_cluster.current.name
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+  principal_arn = var.principal_arn
+
+  access_scope {
+    type = "cluster"
+  }
+
+  depends_on = [aws_eks_access_entry.tf_runner]
 }
