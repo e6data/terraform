@@ -367,5 +367,5 @@ module "aws_ingress_controller" {
   region = var.aws_region
   vpc_id = module.network.vpc_id
 
-  depends_on = [module.alb_controller_oidc, aws_eks_node_group.default_node_group, aws_eks_access_policy_association.tf_runner_auth_policy]
+  depends_on = [module.alb_controller_oidc, aws_eks_node_group.default_node_group, , module.e6data_authentication]
 }
