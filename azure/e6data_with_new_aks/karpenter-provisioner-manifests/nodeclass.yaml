@@ -1,0 +1,10 @@
+apiVersion: karpenter.azure.com/v1alpha2
+kind: AKSNodeClass
+metadata:
+  name: ${nodeclass_name}
+  labels:
+    app: e6data
+    e6data-workspace-name: ${workspace_name}
+spec:
+  imageFamily: AzureLinux
+  tags: ${tags}
