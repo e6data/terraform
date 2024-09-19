@@ -9,7 +9,7 @@ aks_resource_group_name         = "e6-rg"                         # Resource gro
 # AKS cluster details
 subscription_id                 = "12345678-1234-1234-1234-1234567890ab"  # Subscription ID of Azure subscription
 aks_cluster_name                = "aks-cluster"                     # AKS cluster name
-kube_version                    = "1.29"                            # Kubernetes version
+kube_version                    = "1.30"                            # Kubernetes version
 kubernetes_namespace            = "e6data"                          # Namespace to deploy e6data workspace
 private_cluster_enabled         = "false"                           # Private cluster enabled (true/false)
 
@@ -17,9 +17,8 @@ private_cluster_enabled         = "false"                           # Private cl
 cidr_block                      = ["10.220.0.0/16"]                 # CIDR block for the VNet
 
 # Node pool configuration
-nodepool_instance_family        = ["D", "E"]                        # Instance families for node pools
-nodepool_instance_arch          = ["arm64"]                         # Instance architecture for node pools
-priority                        = ["spot"]                          # VM priority (Regular or Spot)
+nodepool_instance_family        = ["D", "E", "L"]                        # Instance families for node pools
+nodepool_instance_arch          = ["arm64", "amd64"]                         # Instance architecture for node pools
 
 # Data storage configuration
 data_storage_account_name       = "datastorage"                   # Storage account name
@@ -46,7 +45,7 @@ identity_id                     = "identity-67890"                  # The identi
 # Karpenter Variables
 karpenter_namespace             = "kube-system"                     # Namespace for Karpenter deployment
 karpenter_service_account_name  = "karpenter"                       # Service account name for Karpenter
-karpenter_release_version       = "0.5.0"                           # Karpenter release version
+karpenter_release_version       = "0.5.4"                           # Karpenter release version
 
 # Key Vault Configuration
 key_vault_name                  = ""                                # Please provide the Key Vault name in which the certificate for the domain is present. If left blank, a new Key Vault will be created in the AKS resource group.

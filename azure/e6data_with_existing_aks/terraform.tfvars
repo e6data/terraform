@@ -10,9 +10,8 @@ aks_cluster_name                = "aks-cluster"              # AKS cluster name
 kubernetes_namespace            = "e6data"                          # Namespace to deploy e6data workspace
 
 # Karpenter Node pool configuration
-nodepool_instance_family        = ["D", "E"]                        # Instance families for node pools
-nodepool_instance_arch          = ["arm64"]                         # Instance architecture for node pools
-priority                        = ["spot"]                          # VM priority (Regular or Spot)
+nodepool_instance_family        = ["D", "E", "L"]                        # Instance families for node pools
+nodepool_instance_arch          = ["arm64", "amd64"]                     # Instance architecture for node pools
 
 # Identity Pool Variables
 identity_pool_id                = "identity-pool-12345"             # The identity pool ID available in the e6data console after clicking on the "Create Workspace" button and selecting AZURE
@@ -30,16 +29,6 @@ helm_chart_version              = "2.0.9"                           # Helm chart
 cost_tags = {                                                       # Tags used for cost allocation and management.
   App = "e6data"
 }
-
-# Default Node pool variables
-default_node_pool_vm_size       = "standard_d2_v5"                  # VM size for the default node pool
-default_node_pool_node_count    = 2                                 # Number of nodes in the default node pool
-default_node_pool_name          = "default"                         # Name of the default node pool
-
-# Karpenter Variables
-karpenter_namespace             = "kube-system"                     # Namespace for Karpenter deployment
-karpenter_service_account_name  = "karpenter"                       # Service account name for Karpenter
-karpenter_release_version       = "0.5.0"                           # Karpenter release version
 
 # Key Vault Configuration
 key_vault_name                  = ""                               # Please provide the Key Vault name in which the certificate for the domain is present. If left blank, a new Key Vault will be created in the AKS resource group.
