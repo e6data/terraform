@@ -426,5 +426,5 @@ resource "kubectl_manifest" "provisioners" {
   count     = 2
   yaml_body = values(data.kubectl_path_documents.provisioner_manifests.manifests)[count.index]
 
-  depends_on = [module.karpeneter_deployment, aws_eks_access_policy_association.tf_runner_auth_policy]
+  depends_on = [module.karpeneter_deployment, module.e6data_authentication]
 }
