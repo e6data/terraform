@@ -369,7 +369,7 @@ module "karpenter_oidc" {
   kubernetes_namespace            = var.karpenter_namespace
   kubernetes_service_account_name = var.karpenter_service_account_name
 
-  depends_on = [aws_iam_policy.karpenter_controller_policy, aws_eks_node_group.default_node_group, aws_eks_access_policy_association.tf_runner_auth_policy]
+  depends_on = [aws_iam_policy.karpenter_controller_policy, aws_eks_node_group.default_node_group, module.e6data_authentication]
 }
 
 module "karpeneter_deployment" {

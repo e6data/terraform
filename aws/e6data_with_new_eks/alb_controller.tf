@@ -331,7 +331,7 @@ module "alb_controller_oidc" {
   kubernetes_namespace            = var.alb_ingress_controller_namespace
   kubernetes_service_account_name = var.alb_ingress_controller_service_account_name
 
-  depends_on = [module.eks, aws_eks_node_group.default_node_group, aws_eks_access_policy_association.tf_runner_auth_policy]
+  depends_on = [module.eks, aws_eks_node_group.default_node_group, module.e6data_authentication]
 }
 
 resource "aws_ec2_tag" "subnet_cluster_tag" {
