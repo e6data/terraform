@@ -10,18 +10,16 @@ aks_resource_group_name         = "e6-rg"                  # The resource group 
 # AKS cluster details to be created
 subscription_id                 = "12345678-1234-1234-1234-1234567890ab"  # The Subscription ID of the Azure account where the resources will be created.
 aks_cluster_name                = "aks-cluster"                     # The name of the AKS cluster to be created.
-kube_version                    = "1.29"                            # The Kubernetes version to use for the AKS cluster.
+kube_version                    = "1.30"                            # The Kubernetes version to use for the AKS cluster.
 kubernetes_namespace            = "e6data"                          # The namespace where the e6data workspace will be deployed within the AKS cluster.
-private_cluster_enabled         = "false"                           # Determines whether the AKS cluster will be private (true) or public (false).
 
 # Networking configuration
 aks_subnet_cidr                 = ["10.220.131.0/24"]               # The CIDR block for the subnet dedicated to the AKS cluster nodes.
 aci_subnet_cidr                 = ["10.220.132.0/24"]               # The CIDR block for the subnet reserved for Azure Container Instances (ACI), if integrated with the AKS cluster.
 
 # Node pool configuration
-nodepool_instance_family        = ["D", "E"]                        # Instance families for node pools
-nodepool_instance_arch          = ["arm64"]                         # Instance architecture for node pools
-priority                        = ["spot"]                          # VM priority (Regular or Spot)
+nodepool_instance_family        = ["D", "E", "L"]                        # Instance families for node pools
+nodepool_instance_arch          = ["arm64","amd64"]                         # Instance architecture for node pools
 
 # Data storage configuration
 data_storage_account_name       = "datastorage"                   # Storage account name
@@ -48,7 +46,7 @@ identity_id                     = "identity-67890"                  # The identi
 # Karpenter Variables
 karpenter_namespace             = "kube-system"                     # Namespace for Karpenter deployment
 karpenter_service_account_name  = "karpenter"                       # Service account name for Karpenter
-karpenter_release_version       = "0.5.0"                           # Karpenter release version
+karpenter_release_version       = "0.5.4"                           # Karpenter release version
 
 # Key Vault Configuration
 key_vault_name                  = ""                                # Please provide the Key Vault name in which the certificate for the domain is present. If left blank, a new Key Vault will be created in the AKS resource group.

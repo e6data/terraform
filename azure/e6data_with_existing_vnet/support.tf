@@ -44,21 +44,6 @@ locals {
 
   all_containers = data.azurerm_storage_account.data_storage_account.id
 
-  node_labels = merge(
-    {
-      "app" = "e6data"
-      "e6data-workspace-name" = var.workspace_name
-    },
-    var.priority == "Spot" ? {
-      "kubernetes.azure.com/scalesetpriority" = "spot"
-    } : {}
-  )
-
-  node_taints = concat(
-    ["e6data-workspace-name=${var.workspace_name}:NoSchedule"],
-    var.priority == "Spot" ? ["kubernetes.azure.com/scalesetpriority=spot:NoSchedule"] : []
-  )
-
   blob_storage_container_path = "https://${azurerm_storage_account.e6data_storage_account.name}.blob.core.windows.net/${module.containers.container_name}"
 
 }
