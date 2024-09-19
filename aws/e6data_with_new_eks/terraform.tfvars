@@ -10,7 +10,7 @@ workspace_name = "workspace" ### Name of the e6data workspace to be created.
 helm_chart_version = "2.0.9" ### e6data workspace Helm chart version to be used.
 
 # Kubernetes Variables
-kube_version             = "1.29" ### The Kubernetes cluster version. Version 1.24 or higher is required.
+kube_version             = "1.30" ### The Kubernetes cluster version. Version 1.24 or higher is required.
 eks_disk_size            = 100    ### Disk size for the instances in the nodepool. A minimum of 100 GB is required.
 nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c6gd", "r6g", "r6gd", "r7g", "r7gd", "i3"]
 
