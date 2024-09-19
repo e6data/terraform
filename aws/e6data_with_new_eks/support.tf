@@ -34,13 +34,9 @@ resource "random_string" "random" {
   upper   = false
 }
 
-data "aws_caller_identity" "current" {
+data "aws_eks_cluster" "current" {
+  name = var.eks_cluster_name
 }
 
-# data "aws_eks_cluster" "current" {
-#   name = module.eks.cluster_name
-# }
-
-# data "aws_eks_cluster_auth" "current" {
-#   name = module.eks.cluster_name
-# }
+data "aws_caller_identity" "current" {
+}
