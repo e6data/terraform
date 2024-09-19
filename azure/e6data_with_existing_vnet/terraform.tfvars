@@ -10,7 +10,7 @@ aks_resource_group_name         = "e6-rg"                  # The resource group 
 # AKS cluster details to be created
 subscription_id                 = "12345678-1234-1234-1234-1234567890ab"  # The Subscription ID of the Azure account where the resources will be created.
 aks_cluster_name                = "aks-cluster"                     # The name of the AKS cluster to be created.
-kube_version                    = "1.29"                            # The Kubernetes version to use for the AKS cluster.
+kube_version                    = "1.30"                            # The Kubernetes version to use for the AKS cluster.
 kubernetes_namespace            = "e6data"                          # The namespace where the e6data workspace will be deployed within the AKS cluster.
 
 # Networking configuration
