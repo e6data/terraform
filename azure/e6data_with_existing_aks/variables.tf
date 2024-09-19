@@ -8,12 +8,6 @@ variable "workspace_name" {
   description = "Name of the e6data workspace to be created.."
 }
 
-variable "e6data_app_secret_expiration_time" {
-  type        = string
-  description = "A relative duration for which the password is valid until, for example 240h (10 days) or 2400h30m."
-  default     = "3600h"
-}
-
 variable "aks_cluster_name" {
   type        = string
   description = "The name of your Azure Kubernetes Service (AKS) cluster in which to deploy the e6data workspace."
@@ -50,12 +44,6 @@ variable "helm_chart_version" {
   description = "The version of the e6data helm chart to be deployed."
 }
 
-variable "priority" {
-  type        = list(string)
-  description = "Regular/Spot"
-  default     = ["spot"]
-}
-
 variable "prefix" {
   type        = string
   description = "AZURE resource name prefix"
@@ -72,57 +60,6 @@ variable "cost_tags" {
 }
 
 # Default Node pool Variables
-
-variable "default_node_pool_name" {
-  type        = string
-  description = "The name of the default AKS node pool."
-}
-
-variable "default_node_pool_vm_size" {
-  type        = string
-  description = "The size of the default AKS node pool vm."
-}
-
-variable "default_node_pool_node_count" {
-  type        = string
-  description = "The node pool count of default nodepool"
-}
-
-
-## default nodegroup auto scaler profile
-# variable "scale_down_unneeded" {
-#   type        = string
-#   description = "How long a node should be unneeded before it is eligible for scale down."
-# }
-# variable "scale_down_delay_after_add" {
-#   type        = string
-#   description = "How long after the scale up of AKS nodes the scale down evaluation resumes."
-# }
-# variable "scale_down_unready" {
-#   type        = string
-#   description = "How long an unready node should be unneeded before it is eligible for scale down."
-# }
-# variable "scale_down_utilization_threshold" {
-#   type        = string
-#   description = "Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down."
-# }
-
-### Karpenter Variables
-variable "karpenter_namespace" {
-  description = "Namespace to deploy the Karpenter"
-  type        = string
-}
-
-variable "karpenter_release_version" {
-  description = "Version of the Karpenter cluster autoscaler Helm chart"
-  type        = string
-}
-
-variable "karpenter_service_account_name" {
-  description = "Service account name for the Karpenter"
-  type        = string
-}
-
 variable "nodepool_instance_family" {
   type        = list(string)
   description = "Instance family for nodepool"

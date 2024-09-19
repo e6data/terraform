@@ -8,12 +8,6 @@ variable "workspace_name" {
   description = "Name of the e6data workspace to be created.."
 }
 
-variable "e6data_app_secret_expiration_time" {
-  type        = string
-  description = "A relative duration for which the password is valid until, for example 240h (10 days) or 2400h30m."
-  default     = "3600h"
-}
-
 variable "aks_cluster_name" {
   type        = string
   description = "The name of your Azure Kubernetes Service (AKS) cluster in which to deploy the e6data workspace."
@@ -55,12 +49,6 @@ variable "kube_version" {
   description = "Version of Kubernetes used for the Agents"
 }
 
-variable "priority" {
-  type        = list(string)
-  description = "Regular/Spot"
-  default     = ["spot"]
-}
-
 variable "prefix" {
   type        = string
   description = "AZURE resource name prefix"
@@ -84,6 +72,7 @@ variable "vnet_name" {
 variable "private_cluster_enabled" {
   type        = bool
   description = "enable private cluster"
+  default     = false
 }
 
 # Default Node pool Variables
@@ -102,25 +91,6 @@ variable "default_node_pool_node_count" {
   type        = string
   description = "The node pool count of default nodepool"
 }
-
-
-## default nodegroup auto scaler profile
-# variable "scale_down_unneeded" {
-#   type        = string
-#   description = "How long a node should be unneeded before it is eligible for scale down."
-# }
-# variable "scale_down_delay_after_add" {
-#   type        = string
-#   description = "How long after the scale up of AKS nodes the scale down evaluation resumes."
-# }
-# variable "scale_down_unready" {
-#   type        = string
-#   description = "How long an unready node should be unneeded before it is eligible for scale down."
-# }
-# variable "scale_down_utilization_threshold" {
-#   type        = string
-#   description = "Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down."
-# }
 
 ### Karpenter Variables
 variable "karpenter_namespace" {

@@ -8,12 +8,6 @@ variable "workspace_name" {
   description = "Name of the e6data workspace to be created."
 }
 
-variable "e6data_app_secret_expiration_time" {
-  type        = string
-  description = "A relative duration for which the password is valid until, for example 240h (10 days) or 2400h30m."
-  default     = "3600h"
-}
-
 variable "aks_cluster_name" {
   type        = string
   description = "The name of your Azure Kubernetes Service (AKS) cluster in which to deploy the e6data workspace."
@@ -55,12 +49,6 @@ variable "kube_version" {
   description = "Version of Kubernetes used for the Agents."
 }
 
-variable "priority" {
-  type        = list(string)
-  description = "Regular/Spot"
-  default     = ["spot"]
-}
-
 variable "prefix" {
   type        = string
   description = "AZURE resource name prefix."
@@ -82,12 +70,12 @@ variable "cidr_block" {
 }
 
 variable "private_cluster_enabled" {
-  type        = string
+  type        = bool
   description = "Enable private cluster."
+  default     = false
 }
 
 # Default Node pool Variables
-
 variable "default_node_pool_name" {
   type        = string
   description = "The name of the default AKS node pool."
