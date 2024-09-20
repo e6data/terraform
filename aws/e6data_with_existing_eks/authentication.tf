@@ -4,7 +4,6 @@ module "e6data_configmap_and_api" {
 
   workspace_name         = var.workspace_name
   eks_cluster_name       = var.eks_cluster_name
-  principal_arn          = aws_iam_role.karpenter_node_role.arn
   cross_account_role_arn = aws_iam_role.e6data_cross_account_role.arn
 }
 

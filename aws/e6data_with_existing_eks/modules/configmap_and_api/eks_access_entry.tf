@@ -11,9 +11,3 @@ resource "aws_eks_access_entry" "aws_auth" {
   type          = "STANDARD"
   user_name     = "e6data-${var.workspace_name}-user"
 }
-
-resource "aws_eks_access_entry" "tf_runner" {
-  cluster_name  = data.aws_eks_cluster.current.name
-  principal_arn = var.principal_arn
-  type          = "EC2_LINUX"
-}

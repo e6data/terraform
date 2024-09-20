@@ -1,9 +1,5 @@
 locals {
   short_workspace_name = substr(var.workspace_name, 0, 5)
-  is_assumed_role      = regex("assumed-role", data.aws_caller_identity.current.arn) != ""
-  role_name            = split("/", data.aws_caller_identity.current.arn)[1]
-  role_arn             = local.is_assumed_role ? "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${local.role_name}" : data.aws_caller_identity.current.arn
-
   e6data_workspace_name       = "e6data-workspace-${local.short_workspace_name}"
   bucket_names_with_full_path = [for bucket_name in var.bucket_names : "arn:aws:s3:::${bucket_name}/*"]
   bucket_names_with_arn       = [for bucket_name in var.bucket_names : "arn:aws:s3:::${bucket_name}"]
@@ -34,11 +30,6 @@ locals {
     {
       "rolearn"  = aws_iam_role.e6data_cross_account_role.arn,
       "username" = "e6data-${var.workspace_name}-user"
-    },
-    {
-      "rolearn"  = aws_iam_role.karpenter_node_role.arn,
-      "username" = "system:node:{{EC2PrivateDNSName}}",
-      "groups"   = ["system:bootstrappers", "system:nodes"]
     }
   ]
 
@@ -72,6 +63,15 @@ data "aws_eks_cluster" "current" {
 
 data "aws_eks_cluster_auth" "current" {
   name = var.eks_cluster_name
+}
+
+data "aws_eks_node_groups" "current" {
+  cluster_name = data.aws_eks_cluster.current.name
+}
+
+data "aws_eks_node_group" "current" {
+  cluster_name   = var.eks_cluster_name
+  node_group_name = tolist(data.aws_eks_node_groups.current.names)[0]
 }
 
 provider "kubernetes" {
