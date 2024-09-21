@@ -40,7 +40,7 @@ resource "kubernetes_ingress_v1" "dummy" {
 
       http {
         path {
-          path = "/"
+          path = "/${var.kubernetes_namespace}"
           path_type = "Prefix"
 
           backend {
