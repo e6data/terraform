@@ -50,7 +50,7 @@ resource "helm_release" "karpenter_release" {
   }
   set {
     name  = "podLabels.app"
-    value = "test"
+    value = "e6data"
   }
 
 }
