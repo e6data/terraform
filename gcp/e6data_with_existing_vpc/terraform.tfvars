@@ -49,3 +49,9 @@ cost_labels = {} # Cost labels for tracking costs
 # Note: The variable cost_labels only accepts lowercase letters ([a-z]), numeric characters ([0-9]), underscores (_) and dashes (-).
 
 buckets = ["*"] ### List of bucket names that the e6data engine queries and therefore, require read access to. Default is ["*"] which means all buckets, it is advisable to change this.
+
+# Autoscaler Variables
+autoscaler_namespace            = "kube-system"          ### Namespace to deploy the cluster autoscaler
+autoscaler_service_account_name = "cluster-autoscaler"   ### Service account name for the cluster autoscaler
+autoscaler_helm_chart_name      = "autoscaler"           ### Name of the cluster autoscaler Helm chart
+autoscaler_helm_chart_version   = "9.37.0"               ### Version of the cluster autoscaler Helm chart

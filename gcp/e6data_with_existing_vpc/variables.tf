@@ -160,3 +160,24 @@ variable "authorized_networks" {
   type        = map(string)
   description = "authorized_networks"
 }
+
+# Autoscaler variables
+variable "autoscaler_namespace" {
+  type        = string
+  description = "Autoscaler namespace"
+}
+
+variable "autoscaler_service_account_name" {
+  type        = string
+  description = "Autoscaler service account name"
+}
+
+variable "autoscaler_helm_chart_name" {
+  type        = string
+  description = "Autoscaler helm chart name"
+}
+
+variable "autoscaler_helm_chart_version" {
+  type        = string
+  description = "Autoscaler helm chart version"
+}
