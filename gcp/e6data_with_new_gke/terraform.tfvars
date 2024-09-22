@@ -33,7 +33,7 @@ default_nodepool_instance_type = "e2-standard-2"    # The default instance type 
 
 gke_e6data_initial_node_count = 1                # The initial number of nodes in the GKE cluster
 gke_e6data_max_pods_per_node  = 64               # The maximum number of pods per node in the GKE cluster
-gke_e6data_instance_type      = "c2-standard-30" # The instance type for the GKE nodes
+gke_e6data_instance_type      = "c2d-highmem-112" # The instance type for the GKE nodes
 max_instances_in_nodepool     = 50               # The maximum number of instances in a node group
 
 authorized_networks = {          #External networks that can access the Kubernetes cluster master through HTTPS.
@@ -48,3 +48,5 @@ cost_labels = {} # Cost labels for tracking costs
 # Note: The variable cost_labels only accepts lowercase letters ([a-z]), numeric characters ([0-9]), underscores (_) and dashes (-).
 
 buckets = ["*"] ### List of bucket names that the e6data engine queries and therefore, require read access to. Default is ["*"] which means all buckets, it is advisable to change this.
+
+local_ssd_count = 8   ## The amount of local SSD disks that will be attached to each cluster node. Defaults to 0. 1disk = 375GB
