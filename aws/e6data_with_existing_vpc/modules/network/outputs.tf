@@ -8,6 +8,16 @@ output "private_subnet_ids" {
   value       = [for subnet in aws_subnet.private : subnet.id]
 }
 
+output "additional_public_subnet_ids" {
+  description = "IDs of the created public subnets"
+  value       = [for subnet in aws_subnet.additional_public : subnet.id]
+}
+
+output "additional_private_subnet_ids" {
+  description = "IDs of the created private subnets"
+  value       = [for subnet in aws_subnet.additional_private : subnet.id]
+}
+
 output "public_route_table_id" {
   description = "IDs of the created public route tables"
   value       = aws_route_table.public_route_table.id
