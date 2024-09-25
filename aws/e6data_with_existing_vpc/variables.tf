@@ -252,3 +252,9 @@ variable "additional_egress_rules" {
   }))
   default = []
 }
+
+variable "additional_cidr_block" {
+  type        = string
+  description = "Base CIDR block which will be divided into subnet CIDR blocks (e.g. `10.0.0.0/16`)"
+  default     = ""
+}

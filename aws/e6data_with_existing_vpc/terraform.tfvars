@@ -18,6 +18,10 @@ nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c6gd", "r6
 vpc_id      = "vpc-abcdefg12345"
 excluded_az = ["us-east-1e"]
 
+# Additional CIDR block for the VPC. 
+# Leave it empty ("") if no extra CIDR block is needed.
+additional_cidr_block = ""
+
 # EKS Cluster Variables
 cluster_name      = "ekscluster"                                                 ### The name of the Kubernetes cluster to be created for the e6data workspace.
 cluster_log_types = ["scheduler", "controllerManager", "authenticator", "audit"] ### List of the desired control plane logging to enable.

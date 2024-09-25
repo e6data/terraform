@@ -1,8 +1,15 @@
 # This resource adds a tag to each subnet in the network module
 # to enable Karpenter to discover the EKS cluster.
 resource "aws_ec2_tag" "karpenter_subnet_cluster_tag" {
-  count       = length(module.network.private_subnet_ids)
+  count       = var.additional_cidr_block == "" ? length(module.network.private_subnet_ids) : 0
   resource_id = module.network.private_subnet_ids[count.index]
+  key         = "karpenter.sh/discovery"
+  value       = module.eks.cluster_name
+}
+
+resource "aws_ec2_tag" "karpenter_subnet_cluster_tag_additional" {
+  count       = var.additional_cidr_block == "" ? 0 : length(module.network.additional_private_subnet_ids)
+  resource_id = module.network.additional_private_subnet_ids[count.index]
   key         = "karpenter.sh/discovery"
   value       = module.eks.cluster_name
 }

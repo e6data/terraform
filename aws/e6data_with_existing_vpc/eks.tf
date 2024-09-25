@@ -55,3 +55,45 @@ provider "helm" {
   }
 }
 
+resource "kubectl_manifest" "eni_config" {
+  
+  for_each = length(var.additional_cidr_block) > 0 ? {
+    for index, subnet_id in module.network.additional_private_subnet_ids : index => {
+      az_name   = data.aws_availability_zones.available.names[index]
+      subnet_id = subnet_id
+    }
+  } : {}
+
+  yaml_body = <<EOF
+apiVersion: crd.k8s.amazonaws.com/v1alpha1
+kind: ENIConfig
+metadata:
+  name: "${each.value.az_name}"
+spec:
+  subnet: "${each.value.subnet_id}"
+EOF
+}
+
+
+resource "kubectl_manifest" "aws_node_patch" {
+  count = length(var.additional_cidr_block) > 0 ? 1 : 0
+  yaml_body = <<EOT
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: aws-node
+  namespace: kube-system
+spec:
+  template:
+    spec:
+      containers:
+        - name: aws-node
+          env:
+            - name: AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG
+              value: "true"
+            - name: ENI_CONFIG_LABEL_DEF
+              value: "failure-domain.beta.kubernetes.io/zone"
+EOT
+
+  wait = false
+}

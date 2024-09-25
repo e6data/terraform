@@ -56,6 +56,31 @@ locals {
       )
     }
   }
+
+
+  additional_public_subnets = length(var.additional_cidr_block) > 0 ? {
+    for index, subnet in data.aws_availability_zones.available.names : index =>
+    {
+      az = data.aws_availability_zones.available.names[index]
+      cidr = cidrsubnet(
+        var.additional_cidr_block,
+        12,
+        150 + index
+      )
+    }
+  } : {}
+
+  additional_private_subnets = length(var.additional_cidr_block) > 0 ? {
+    for index, subnet in data.aws_availability_zones.available.names : index =>
+    {
+      az = data.aws_availability_zones.available.names[index]
+      cidr = cidrsubnet(
+        var.additional_cidr_block,
+        12,
+        200 + index
+      )
+    }
+  } : {}
 }
 
 resource "aws_vpc_endpoint" "s3_endpoint" {
