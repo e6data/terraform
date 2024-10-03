@@ -22,6 +22,8 @@ resource "azurerm_kubernetes_cluster" "aks_e6data" {
   role_based_access_control_enabled = true
   kubernetes_version                = var.kube_version
 
+  node_os_upgrade_channel           = "None"
+
   linux_profile{
     admin_username = var.admin_username
       ssh_key {
@@ -42,7 +44,6 @@ resource "azurerm_kubernetes_cluster" "aks_e6data" {
   }
 
   azure_active_directory_role_based_access_control {
-    managed                = true
     admin_group_object_ids = var.admin_group_object_ids
   }
 
@@ -54,7 +55,6 @@ resource "azurerm_kubernetes_cluster" "aks_e6data" {
     name                = var.default_node_pool_name
     vm_size             = var.default_node_pool_vm_size
     vnet_subnet_id      = var.aks_subnet_id
-    enable_auto_scaling = false
     node_count          = var.default_node_pool_node_count
     tags                = var.tags
     temporary_name_for_rotation = "tmpnodepool"
