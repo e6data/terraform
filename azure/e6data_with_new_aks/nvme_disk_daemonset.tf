@@ -1,4 +1,4 @@
-resource "kubernetes_daemon_set_v1" "gke_raid_disks" {
+resource "kubernetes_daemon_set_v1" "aks_raid_disks" {
   provider = kubernetes.e6data
 
   metadata {
@@ -71,4 +71,6 @@ resource "kubernetes_daemon_set_v1" "gke_raid_disks" {
       }
     }
   }
+
+  depends_on = [ helm_release.workspace_deployment ]
 }
