@@ -328,10 +328,10 @@ module "alb_controller_oidc" {
 
   oidc_role_name = "${module.eks.cluster_name}-alb-controller"
 
-  kubernetes_namespace            = var.alb_ingress_controller_namespace
+  kubernetes_namespace            = var.kubernetes_namespace
   kubernetes_service_account_name = var.alb_ingress_controller_service_account_name
 
-  depends_on = [module.eks, aws_eks_node_group.default_node_group]
+  depends_on = [module.eks, aws_eks_node_group.default_node_group, helm_release.e6data_workspace_deployment]
 }
 
 resource "aws_ec2_tag" "subnet_cluster_tag" {

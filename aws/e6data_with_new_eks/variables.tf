@@ -107,12 +107,6 @@ variable "bucket_names" {
   description = "List of bucket names to be queried by e6data engine"
 }
 
-# ALB Ingress Controller variables
-variable "alb_ingress_controller_namespace" {
-  type        = string
-  description = "ALB Ingress Controller namespace"
-}
-
 variable "alb_ingress_controller_service_account_name" {
   type        = string
   description = "ALB Ingress Controller service account name"
@@ -145,11 +139,6 @@ variable "karpenter_eks_node_policy_arn" {
     "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
     "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   ]
-}
-
-variable "karpenter_namespace" {
-  description = "Namespace to deploy the Karpenter cluster autoscaler"
-  type        = string
 }
 
 variable "karpenter_service_account_name" {
