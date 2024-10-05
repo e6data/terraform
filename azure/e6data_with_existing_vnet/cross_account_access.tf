@@ -18,16 +18,35 @@ resource "azurerm_federated_identity_credential" "federated_credential" {
 }
 
 # custom role definition to provide key vault certificate access
-resource "azurerm_role_definition" "e6data_key_vault_custom_role" {
-  name        = "e6data aks custom role ${var.workspace_name} ${random_string.random.result}"
+resource "azurerm_role_definition" "e6data_customer_key_vault_custom_role" {
+  count       = var.key_vault_name != "" ? 1 : 0
+  name        = "e6data aks custom role customer key vault ${var.workspace_name} ${random_string.random.result}"
   description = "Custom role to read certificates from Key Vault"
-  scope       = data.azurerm_resource_group.aks_resource_group.id
+  scope               = data.azurerm_key_vault.vault[0].id
   assignable_scopes = [
-    data.azurerm_resource_group.aks_resource_group.id
+    data.azurerm_key_vault.vault[0].id
   ]
   
   permissions {
-    actions = [
+    data_actions = [
+      "Microsoft.KeyVault/vaults/certificates/read"
+    ]
+    not_actions = []
+  }
+}
+
+# custom role definition to provide key vault certificate access
+resource "azurerm_role_definition" "e6data_key_vault_custom_role" {
+  count               = var.key_vault_name == "" ? 1 : 0
+  name        = "e6data aks custom role e6data key vault ${var.workspace_name} ${random_string.random.result}"
+  description = "Custom role to read certificates from Key Vault"
+  scope               = azurerm_key_vault.e6data_vault[0].id
+  assignable_scopes = [
+    azurerm_key_vault.e6data_vault[0].id
+  ]
+  
+  permissions {
+    data_actions = [
       "Microsoft.KeyVault/vaults/certificates/read"
     ]
     not_actions = []
@@ -38,14 +57,14 @@ resource "azurerm_role_definition" "e6data_key_vault_custom_role" {
 resource "azurerm_role_assignment" "customer_key_vault_e6" {
   count               = var.key_vault_name != "" ? 1 : 0
   scope               = data.azurerm_key_vault.vault[0].id
-  role_definition_id = azurerm_role_definition.e6data_key_vault_custom_role.role_definition_resource_id
+  role_definition_id = azurerm_role_definition.e6data_key_vault_custom_role.0.role_definition_resource_id
   principal_id         = azurerm_user_assigned_identity.federated_identity.principal_id
 }
 
 resource "azurerm_role_assignment" "e6data_key_vault_e6" {
   count               = var.key_vault_name == "" ? 1 : 0
   scope               = azurerm_key_vault.e6data_vault[0].id
-  role_definition_id  = azurerm_role_definition.e6data_key_vault_custom_role.role_definition_resource_id
+  role_definition_id  = azurerm_role_definition.e6data_key_vault_custom_role.0.role_definition_resource_id
   principal_id        = azurerm_user_assigned_identity.federated_identity.principal_id
 }
 
