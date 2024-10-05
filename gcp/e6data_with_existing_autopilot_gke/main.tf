@@ -100,6 +100,7 @@ resource "google_project_iam_custom_role" "e6dataclusterViewer" {
   title       = "e6data ${var.workspace_name} clusterViewer ${random_string.random.result}"
   description = "kubernetes container clusterViewer access"
   permissions = [
+    "container.secrets.create",
     "container.clusters.get",
     "container.clusters.list",
     "container.roleBindings.get",
