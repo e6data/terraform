@@ -38,7 +38,7 @@ gke_e6data_instance_type      = "c2-standard-30" # The instance type for the GKE
 max_instances_in_nodepool     = 50               # The maximum number of instances in a node group
 
 authorized_networks = {          #External networks that can access the Kubernetes cluster master through HTTPS.
-  "44.194.151.209/32" : "e6data" #The default value is set to the CIDR of e6data(i.e.,44.194.151.209/32)
+  "0.0.0.0/0" : "allow_all"      #The default value "0.0.0.0/0" allows public access. To restrict access to e6data, use the NAT Gateway IP: "44.194.151.209/32".
 }
 
 # Kubernetes Namespace
