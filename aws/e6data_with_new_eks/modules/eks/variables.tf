@@ -67,6 +67,11 @@ variable "endpoint_private_access" {
   description = "whether to enable private access to the eks cluster"
 }
 
+variable "endpoint_public_access" {
+  type        = bool
+  description = "whether to enable public access to the eks cluster"
+}
+
 variable "security_group_ids" {
   type        = list(string)
   description = "security group to attach to the eks cluster and worker nodes"
