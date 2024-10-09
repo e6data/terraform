@@ -3,14 +3,6 @@ data "azurerm_kubernetes_cluster" "aks_e6data" {
   resource_group_name = var.aks_resource_group_name
 }
 
-data "azurerm_resources" "aks_sg" {
-  type = "Microsoft.Network/networkSecurityGroups"
-
-  resource_group_name = data.azurerm_kubernetes_cluster.aks_e6data.node_resource_group
-
-  depends_on = [ data.azurerm_kubernetes_cluster.aks_e6data ]
-}
-
 provider "kubernetes" {
   alias                  = "e6data"
   host                   = data.azurerm_kubernetes_cluster.aks_e6data.kube_config.0.host

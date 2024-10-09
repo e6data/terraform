@@ -25,7 +25,7 @@ data "azurerm_resources" "aks_sg" {
   depends_on = [ module.aks_e6data ]
 }
 
-resource "azurerm_subnet_network_security_group_association" "example" {
+resource "azurerm_subnet_network_security_group_association" "aks_sg" {
   subnet_id                 = module.network.aks_subnet_id
   network_security_group_id = data.azurerm_resources.aks_sg.resources.0.id
 
