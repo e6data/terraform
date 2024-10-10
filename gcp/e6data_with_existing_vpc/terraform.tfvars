@@ -10,7 +10,7 @@ workspace_name = "workspace" # The name of the e6data workspace
 # a) Accepts only lowercase alphanumeric characters.
 # b) Must have a minimum of 3 characters.
 
-helm_chart_version = "2.0.9" ### e6data workspace Helm chart version to be used.
+helm_chart_version = "2.0.12" ### e6data workspace Helm chart version to be used.
 
 # Network Variables
 vpc_name                 = "vpc"           # The name of the VPC
@@ -22,7 +22,7 @@ gke_e6data_master_ipv4_cidr_block = "10.103.4.0/28"
 # This range must not overlap with any other ranges in use within the cluster's network, and it must be a /28 subnet
 
 # Kubernetes Variables
-gke_version           = "1.28"      # The version of GKE to use                
+gke_version           = "1.30"      # The version of GKE to use                
 gke_encryption_state  = "ENCRYPTED" # The encryption state for GKE (It is recommended to use encryption)
 gke_dns_cache_enabled = true        # The status of the NodeLocal DNSCache addon.
 spot_enabled          = false       # A boolean that represents whether the underlying node VMs are spot.
@@ -38,7 +38,7 @@ gke_e6data_instance_type      = "c2-standard-30" # The instance type for the GKE
 max_instances_in_nodepool     = 50               # The maximum number of instances in a node group
 
 authorized_networks = {          #External networks that can access the Kubernetes cluster master through HTTPS.
-  "44.194.151.209/32" : "e6data" #The default value is set to the CIDR of e6data(i.e.,44.194.151.209/32)
+  "0.0.0.0/0" : "allow_all"      #The default value "0.0.0.0/0" allows public access. To restrict access to e6data, use the NAT Gateway IP: "44.194.151.209/32".
 }
 
 # Kubernetes Namespace
