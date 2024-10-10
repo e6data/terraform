@@ -134,6 +134,12 @@ variable "endpoint_private_access" {
   description = "To enable private access to the eks cluster"
 }
 
+variable "endpoint_public_access" {
+  type        = bool
+  default     = true
+  description = "To enable public access to the eks cluster"
+}
+
 ### Karpenter Variables
 variable "karpenter_eks_node_policy_arn" {
   type        = list(string)
