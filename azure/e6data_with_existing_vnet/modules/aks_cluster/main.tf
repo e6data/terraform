@@ -18,7 +18,6 @@ resource "azurerm_kubernetes_cluster" "aks_e6data" {
   workload_identity_enabled         = true
   oidc_issuer_enabled               = true
   dns_prefix                        = var.cluster_name
-  private_cluster_enabled           = var.private_cluster_enabled
   role_based_access_control_enabled = true
   kubernetes_version                = var.kube_version
 

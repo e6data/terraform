@@ -13,11 +13,6 @@ variable "kube_version" {
   description = "The Kubernetes version in cluster"
 }
 
-variable "private_cluster_enabled" {
-  type        = string
-  description = "enable private cluster"
-}
-
 variable "resource_group_name" {
   type        = string
   description = "resource group name"
@@ -26,7 +21,6 @@ variable "resource_group_name" {
 variable "admin_group_object_ids" {
   type        = list(string)
   description = "AAD groups to have admin access to the aks cluster"
-  default     = ["c436c2ee-18b7-4130-acc4-d7a01fe6ee7e"]
 }
 
 variable "aci_subnet_name" {
