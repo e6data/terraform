@@ -33,6 +33,11 @@ variable "data_storage_account_name" {
   description = "The name of the storage account containing data to be queried."
 }
 
+variable "admin_group_object_ids" {
+  type        = list(string)
+  description = "AAD groups to have admin access to the aks cluster"
+}
+
 variable "list_of_containers" {
   type        = list(string)
   description = "List of names of the containers inside the data storage account that the e6data engine queries and requires read access to."

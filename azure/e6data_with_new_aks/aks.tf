@@ -3,12 +3,11 @@ module "aks_e6data" {
   region                  = var.region
   cluster_name            = "${var.prefix}-${var.aks_cluster_name}"
   kube_version            = var.kube_version
-  private_cluster_enabled = var.private_cluster_enabled
   resource_group_name     = data.azurerm_resource_group.aks_resource_group.name
   aks_subnet_id           = module.network.aks_subnet_id
   aci_subnet_name         = module.network.aci_subnet_name
+  admin_group_object_ids  = var.admin_group_object_ids
   tags                    = var.cost_tags
-
 
   #default nodepool vars
   default_node_pool_vm_size    = var.default_node_pool_vm_size

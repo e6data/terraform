@@ -12,6 +12,7 @@ subscription_id                 = "12345678-1234-1234-1234-1234567890ab"  # The 
 aks_cluster_name                = "aks-cluster"                     # The name of the AKS cluster to be created.
 kube_version                    = "1.30"                            # The Kubernetes version to use for the AKS cluster.
 kubernetes_namespace            = "e6data"                          # The namespace where the e6data workspace will be deployed within the AKS cluster.
+admin_group_object_ids          = ["abcdefg-18b7-1234-acc4-d7a01fe6ee7e"]  # A list of Object IDs of Azure Active Directory Groups which should have Admin Role on the Cluster.
 
 # Networking configuration
 aks_subnet_cidr                 = ["10.220.131.0/24"]               # The CIDR block for the subnet dedicated to the AKS cluster nodes.
