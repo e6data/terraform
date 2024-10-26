@@ -7,7 +7,7 @@ workspace_name = "workspace" # The name of the e6data workspace
 gcp_project_id = "gcp-project-id" ### The Google Cloud Platform (GCP) project ID to deploy the e6data workspace.
 gcp_region     = "us-central1"    ### The GCP region to deploy the e6data workspace.
 
-helm_chart_version = "2.0.9" ### e6data workspace Helm chart version to be used.
+helm_chart_version = "2.0.12" ### e6data workspace Helm chart version to be used.
 
 cluster_name              = "gke-cluster-name" # The name of the GKE cluster
 kubernetes_cluster_zone   = ""

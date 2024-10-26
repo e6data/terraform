@@ -11,7 +11,7 @@ subscription_id                 = "12345678-1234-1234-1234-1234567890ab"  # Subs
 aks_cluster_name                = "aks-cluster"                     # AKS cluster name
 kube_version                    = "1.30"                            # Kubernetes version
 kubernetes_namespace            = "e6data"                          # Namespace to deploy e6data workspace
-private_cluster_enabled         = "false"                           # Private cluster enabled (true/false)
+admin_group_object_ids          = ["abcdefg-18b7-1234-acc4-d7a01fe6ee7e"]  # A list of Object IDs of Azure Active Directory Groups which should have Admin Role on the Cluster.
 
 # Networking
 cidr_block                      = ["10.220.0.0/16"]                 # CIDR block for the VNet
