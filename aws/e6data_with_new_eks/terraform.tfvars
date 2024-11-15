@@ -10,9 +10,10 @@ workspace_name = "workspace" ### Name of the e6data workspace to be created.
 helm_chart_version = "2.0.9" ### e6data workspace Helm chart version to be used.
 
 # Kubernetes Variables
-kube_version             = "1.28" ### The Kubernetes cluster version. Version 1.24 or higher is required.
-eks_disk_size            = 100    ### Disk size for the instances in the nodepool. A minimum of 100 GB is required.
-nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c6gd", "r6g", "r6gd", "r7g", "r7gd", "i3"]
+kube_version                   = "1.29" ### The Kubernetes cluster version. Version 1.24 or higher is required.
+default_nodegroup_kube_version = "1.29"
+eks_disk_size                  = 100 ### Disk size for the instances in the nodepool. A minimum of 100 GB is required.
+nodepool_instance_family       = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c6gd", "r6g", "r6gd", "r7g", "r7gd", "i3"]
 
 # Network Variables
 cidr_block  = "10.200.0.0/16"
@@ -43,12 +44,12 @@ aws_command_line_path = "aws" ### Specify the path to the AWS Command Line Inter
 # ALB Ingress Controller Variables
 alb_ingress_controller_namespace            = "kube-system"
 alb_ingress_controller_service_account_name = "alb-ingress-controller"
-alb_controller_helm_chart_version           = "1.6.1"
+alb_controller_helm_chart_version           = "1.8.1"
 
 # Karpenter Variables
 karpenter_namespace            = "kube-system" ### Namespace to deploy the karpenter
 karpenter_service_account_name = "karpenter"   ### Service account name for the karpenter
-karpenter_release_version      = "0.36.0"      ### Version of the karpenter Helm chart
+karpenter_release_version      = "1.0.8"       ### Version of the karpenter Helm chart
 
 #### Additional ingress/egress rules for the EKS Security Group
 # additional_ingress_rules = [
