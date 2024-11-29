@@ -48,4 +48,9 @@ resource "helm_release" "karpenter_release" {
     name  = "serviceAccount.name"
     value = var.service_account_name
   }
+  set {
+    name  = "podLabels.app"
+    value = "e6data"
+  }
+
 }

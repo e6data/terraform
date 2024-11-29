@@ -384,7 +384,7 @@ module "karpenter_oidc" {
 
   oidc_role_name = "${module.eks.cluster_name}-karpenter"
 
-  kubernetes_namespace            = var.karpenter_namespace
+  kubernetes_namespace            = var.kubernetes_namespace
   kubernetes_service_account_name = var.karpenter_service_account_name
 
   depends_on = [aws_iam_policy.karpenter_controller_policy, aws_eks_node_group.default_node_group]
@@ -407,7 +407,7 @@ module "karpeneter_deployment" {
   controller_role_arn     = module.karpenter_oidc.oidc_role_arn
   interruption_queue_name = aws_sqs_queue.node_interruption_queue.name
 
-  depends_on = [module.eks, module.karpenter_oidc, aws_eks_node_group.default_node_group, aws_sqs_queue.node_interruption_queue]
+  depends_on = [module.eks, module.karpenter_oidc, aws_eks_node_group.default_node_group, aws_sqs_queue.node_interruption_queue, helm_release.e6data_workspace_deployment]
 }
 
 data "aws_availability_zones" "available" {
