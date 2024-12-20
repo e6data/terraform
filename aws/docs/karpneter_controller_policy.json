@@ -146,7 +146,7 @@
                 "sqs:DeleteMessage"
             ],
             "Effect": "Allow",
-            "Resource": "arn:aws:sqs:<AWS_REGION>:670514002493:e6data-final-spot-interruption-queue",
+            "Resource": "arn:aws:sqs:<AWS_REGION>:<AWS_ACCOUNT_ID>:e6data-final-spot-interruption-queue",
             "Sid": "AllowInterruptionQueueActions"
         },
         {
@@ -157,7 +157,7 @@
                 }
             },
             "Effect": "Allow",
-            "Resource": "arn:aws:iam::670514002493:role/<EKS_CLUSTER_NAME>-KarpenterNodeRole",
+            "Resource": "arn:aws:iam::<AWS_ACCOUNT_ID>:role/<EKS_CLUSTER_NAME>-KarpenterNodeRole",
             "Sid": "AllowPassingInstanceRole"
         },
         {
@@ -209,7 +209,7 @@
         {
             "Action": "eks:DescribeCluster",
             "Effect": "Allow",
-            "Resource": "arn:aws:eks:<AWS_REGION>:670514002493:cluster/<EKS_CLUSTER_NAME>",
+            "Resource": "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:cluster/<EKS_CLUSTER_NAME>",
             "Sid": "EKSClusterEndpointLookup"
         },
         {

@@ -99,19 +99,3 @@ resource "aws_iam_role" "eks_nodegroup_iam_role" {
   managed_policy_arns = var.eks_nodegroup_iam_policy_arn
   assume_role_policy  = data.aws_iam_policy_document.eks_nodegroup_iam_assume_policy.json
 }
-
-resource "null_resource" "default_nodegroup_asgd" {
-
-  provisioner "local-exec" {
-    interpreter = ["/bin/sh", "-c"]
-    command     = <<EOF
-set -e
-
-${var.aws_command_line_path} autoscaling update-auto-scaling-group \
-  --auto-scaling-group-name ${aws_eks_node_group.default_node_group.resources[0].autoscaling_groups[0].name} \
-  --no-capacity-rebalance
-EOF
-  }
-
-  depends_on = [aws_eks_node_group.default_node_group]
-}
