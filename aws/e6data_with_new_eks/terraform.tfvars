@@ -36,7 +36,7 @@ kubernetes_namespace = "namespace" ### Value of the Kubernetes namespace to depl
 
 # Cost Tags
 cost_tags = {
-  App = "e6data"
+  app = "e6data"
 }
 
 # AWS Command Line Variable
