@@ -8,6 +8,11 @@ variable "kube_version" {
   description = "kubernetes master version"
 }
 
+variable "default_nodegroup_kube_version" {
+  type        = string
+  description = "kubernetes worker version"
+}
+
 variable "helm_chart_version" {
   description = "Version of e6data workspace helm chart to deploy"
   type        = string
