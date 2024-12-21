@@ -1,6 +1,6 @@
 locals {
   short_workspace_name = substr(var.workspace_name, 0, 5)
-  assumed_role         = regex("assumed-role", data.aws_caller_identity.current.arn) != ""
+  assumed_role         = can(regex("assumed-role", data.aws_caller_identity.current.arn))
   role_name            = split("/", data.aws_caller_identity.current.arn)[1]
   role_arn             = local.assumed_role ? "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${local.role_name}" : data.aws_caller_identity.current.arn
   e6data_workspace_name       = "e6data-workspace-${local.short_workspace_name}"
