@@ -1,6 +1,7 @@
+# Configure authentication and access management for EKS cluster
 module "e6data_configmap_and_api" {
-  source                 = "./modules/configmap_and_api"
-  count = contains(["API", "API_AND_CONFIG_MAP"], data.aws_eks_cluster.current.access_config[0].authentication_mode) ? 1 : 0
+  source = "./modules/configmap_and_api"
+  count  = contains(["API", "API_AND_CONFIG_MAP"], data.aws_eks_cluster.current.access_config[0].authentication_mode) ? 1 : 0
 
   workspace_name         = var.workspace_name
   eks_cluster_name       = var.eks_cluster_name
@@ -18,7 +19,7 @@ data "kubernetes_config_map_v1" "aws_auth_read" {
 
 resource "kubernetes_config_map_v1_data" "aws_auth_update" {
   provider = kubernetes.eks_e6data
-  
+
   metadata {
     name      = "aws-auth"
     namespace = "kube-system"

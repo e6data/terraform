@@ -41,6 +41,7 @@ resource "aws_launch_template" "default_nodegroup_launch_template" {
   }
 }
 
+# Create a default EKS node group in the specified cluster with defined instance types and scaling configuration
 resource "aws_eks_node_group" "default_node_group" {
   cluster_name = module.eks.cluster_name
   version      = var.default_nodegroup_kube_version

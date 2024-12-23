@@ -1,3 +1,4 @@
+# Create an Amazon EKS cluster with specified configurations and network settings
 module "eks" {
   source                           = "./modules/eks"
   cluster_name                     = var.cluster_name

@@ -1,3 +1,4 @@
+# Create a security group for the specified workspace with defined ingress and egress rules
 module "security_group" {
   source        = "./modules/security_group"
   sec_grp_name  = "${local.e6data_workspace_name}-${random_string.random.result}"

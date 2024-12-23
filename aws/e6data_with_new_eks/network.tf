@@ -1,3 +1,4 @@
+# Create a network infrastructure for the application, including VPC and associated settings
 module "network" {
   source = "./modules/network"
 

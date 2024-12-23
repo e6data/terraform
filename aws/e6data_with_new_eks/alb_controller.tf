@@ -315,6 +315,7 @@ resource "aws_iam_policy" "alb_controller_policy" {
   policy      = data.aws_iam_policy_document.alb_controller_access_doc.json
 }
 
+# Configure the OIDC provider for the AWS ALB Ingress Controller to enable integration with EKS
 module "alb_controller_oidc" {
   source = "./modules/aws_oidc"
 
@@ -350,6 +351,7 @@ resource "aws_ec2_tag" "private_subnet_cluster_tag" {
 
 data "aws_elb_service_account" "main" {}
 
+# Deploy the AWS Application Load Balancer (ALB) Ingress Controller in the specified EKS cluster
 module "aws_ingress_controller" {
   source = "./modules/alb_controller"
 

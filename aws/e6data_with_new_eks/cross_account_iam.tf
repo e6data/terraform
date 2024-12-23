@@ -1,3 +1,4 @@
+# Define an IAM policy document that allows read and write access to the specified S3 bucket
 data "aws_iam_policy_document" "iam_s3ReadWriteAccess_doc" {
   statement {
     sid       = "ListBucket"
@@ -24,6 +25,7 @@ data "aws_iam_policy_document" "iam_s3ReadWriteAccess_doc" {
   }
 }
 
+# Define an IAM policy document for cross-account access
 data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
   statement {
     sid    = "describeEKSCluster"
@@ -205,18 +207,21 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
   }
 }
 
+# Create an IAM policy that allows read and write access to the E6data workspace S3 bucket
 resource "aws_iam_policy" "e6data_s3_read_write_policy" {
   name        = "${local.e6data_workspace_name}-s3-readwrite-${random_string.random.result}"
   description = "Allows read/write access for e6data workspace s3 bucket"
   policy      = data.aws_iam_policy_document.iam_s3ReadWriteAccess_doc.json
 }
 
+# Create an IAM policy that allows cross-account access
 resource "aws_iam_policy" "e6data_cross_account_eks_policy" {
   name        = "${local.e6data_workspace_name}-cross-account-eks-${random_string.random.result}"
   description = "Allows read access for EKS describe cluster"
   policy      = data.aws_iam_policy_document.cross_account_iam_eksAccess_doc.json
 }
 
+# Define an IAM policy document that allows a specified principal to assume this role with a condition
 data "aws_iam_policy_document" "assume_role_policy" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -235,6 +240,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
   }
 }
 
+# Create an IAM role for cross-account access, allowing specified policies to be attached
 resource "aws_iam_role" "e6data_cross_account_role" {
   name                = "${local.e6data_workspace_name}-cross-account-role-${random_string.random.result}"
   managed_policy_arns = [aws_iam_policy.e6data_s3_read_write_policy.arn, aws_iam_policy.e6data_cross_account_eks_policy.arn]

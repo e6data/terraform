@@ -347,12 +347,14 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
   }
 }
 
+# Create an IAM policy for the Karpenter controller, granting necessary permissions for managing EKS nodes
 resource "aws_iam_policy" "karpenter_controller_policy" {
   name        = "${module.eks.cluster_name}-karpenter-controller-${random_string.random.result}"
   description = "karpenter policy for cluster ${module.eks.cluster_name}"
   policy      = data.aws_iam_policy_document.karpenter_controller_policy_document.json
 }
 
+# Configure the OIDC provider for Karpenter to enable integration with EKS
 module "karpenter_oidc" {
   source = "./modules/aws_oidc"
 
@@ -372,6 +374,7 @@ module "karpenter_oidc" {
   depends_on = [aws_iam_policy.karpenter_controller_policy, aws_eks_node_group.default_node_group, module.e6data_authentication]
 }
 
+# Deploy Karpenter in the specified Kubernetes namespace to manage EKS node provisioning
 module "karpeneter_deployment" {
   providers = {
     kubernetes = kubernetes.e6data

@@ -1,3 +1,4 @@
+# Deploy a Helm release for the workspace in the specified Kubernetes namespace
 resource "helm_release" "e6data_workspace_deployment" {
   provider = helm.e6data
 
