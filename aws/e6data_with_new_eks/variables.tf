@@ -261,8 +261,3 @@ variable "additional_egress_rules" {
   }))
   default = []
 }
-
-variable "default_nodegroup_kube_version" {
-  type        = string
-  description = "kubernetes worker version"
-}
