@@ -41,9 +41,10 @@ resource "aws_launch_template" "default_nodegroup_launch_template" {
   }
 }
 
+# Create a default EKS node group in the specified cluster with defined instance types and scaling configuration
 resource "aws_eks_node_group" "default_node_group" {
   cluster_name = module.eks.cluster_name
-  version      = var.kube_version
+  version      = var.default_nodegroup_kube_version
   # node_group_name = "${local.e6data_workspace_name}-default-${element(split(".", var.kube_version),1)}"
   node_group_name_prefix = "${local.e6data_workspace_name}-default-ng-"
   node_role_arn          = aws_iam_role.eks_nodegroup_iam_role.arn
@@ -98,20 +99,4 @@ resource "aws_iam_role" "eks_nodegroup_iam_role" {
   name                = "${local.e6data_workspace_name}-${random_string.random.result}"
   managed_policy_arns = var.eks_nodegroup_iam_policy_arn
   assume_role_policy  = data.aws_iam_policy_document.eks_nodegroup_iam_assume_policy.json
-}
-
-resource "null_resource" "default_nodegroup_asgd" {
-
-  provisioner "local-exec" {
-    interpreter = ["/bin/sh", "-c"]
-    command     = <<EOF
-set -e
-
-${var.aws_command_line_path} autoscaling update-auto-scaling-group \
-  --auto-scaling-group-name ${aws_eks_node_group.default_node_group.resources[0].autoscaling_groups[0].name} \
-  --no-capacity-rebalance
-EOF
-  }
-
-  depends_on = [aws_eks_node_group.default_node_group]
 }

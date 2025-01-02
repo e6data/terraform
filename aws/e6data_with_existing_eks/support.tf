@@ -1,6 +1,5 @@
 locals {
   short_workspace_name = substr(var.workspace_name, 0, 5)
-
   e6data_workspace_name       = "e6data-workspace-${local.short_workspace_name}"
   bucket_names_with_full_path = [for bucket_name in var.bucket_names : "arn:aws:s3:::${bucket_name}/*"]
   bucket_names_with_arn       = [for bucket_name in var.bucket_names : "arn:aws:s3:::${bucket_name}"]
@@ -21,22 +20,18 @@ locals {
       nodeclass = local.e6data_nodeclass_name
     }
   })
-
   mapUsers    = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapUsers"], "")
   mapRoles    = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapRoles"], "")
   mapAccounts = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapAccounts"], "")
 
   mapRoles2 = yamldecode(local.mapRoles)
 
-  myroles = [{
-    "rolearn"  = aws_iam_role.e6data_cross_account_role.arn,
-    "username" = "e6data-${var.workspace_name}-user"
-    },
+  myroles = [
     {
-      "rolearn"  = aws_iam_role.karpenter_node_role.arn,
-      "username" = "system:node:{{EC2PrivateDNSName}}"
-      "groups"   = ["system:bootstrappers", "system:nodes"]
-  }]
+      "rolearn"  = aws_iam_role.e6data_cross_account_role.arn,
+      "username" = "e6data-${var.workspace_name}-user"
+    }
+  ]
 
   totalRoles  = concat(local.mapRoles2, local.myroles)
   totalRoles2 = yamlencode(local.totalRoles)
@@ -68,6 +63,15 @@ data "aws_eks_cluster" "current" {
 
 data "aws_eks_cluster_auth" "current" {
   name = var.eks_cluster_name
+}
+
+data "aws_eks_node_groups" "current" {
+  cluster_name = data.aws_eks_cluster.current.name
+}
+
+data "aws_eks_node_group" "current" {
+  cluster_name   = var.eks_cluster_name
+  node_group_name = tolist(data.aws_eks_node_groups.current.names)[0]
 }
 
 provider "kubernetes" {

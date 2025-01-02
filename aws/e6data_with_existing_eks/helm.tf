@@ -1,3 +1,4 @@
+# Deploy a Helm release for the workspace in the specified Kubernetes namespace
 resource "helm_release" "e6data_workspace_deployment" {
   provider = helm.eks_e6data
 
@@ -14,27 +15,5 @@ resource "helm_release" "e6data_workspace_deployment" {
   lifecycle {
     ignore_changes = [values]
   }
-}
-
-data "kubernetes_config_map_v1" "aws_auth_read" {
-  provider = kubernetes.eks_e6data
-
-  metadata {
-    name      = "aws-auth"
-    namespace = "kube-system"
-  }
-}
-
-resource "kubernetes_config_map_v1_data" "aws_auth_update" {
-  provider = kubernetes.eks_e6data
-  metadata {
-    name      = "aws-auth"
-    namespace = "kube-system"
-  }
-  data = local.map3
-
-  force = true
-  lifecycle {
-    ignore_changes = [data]
-  }
+  # depends_on = [aws_eks_access_policy_association.tf_runner_auth_policy]
 }

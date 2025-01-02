@@ -1,3 +1,4 @@
+# Define an IAM policy document for allowing OIDC-based role assumption by Kubernetes service accounts
 data "aws_iam_policy_document" "oidc_assume_role_policy" {
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]
@@ -24,7 +25,9 @@ data "aws_iam_policy_document" "engine_iam_glue_s3readAccess_doc" {
     actions = [
       "glue:GetDatabase*",
       "glue:GetTable*",
-      "glue:GetPartitions"
+      "glue:GetPartitions",
+      "glue:DeleteTable",
+      "glue:CreateTable"
     ]
     resources = ["*"]
   }
@@ -49,13 +52,14 @@ data "aws_iam_policy_document" "engine_iam_glue_s3readAccess_doc" {
   }
 }
 
-
+# Create an IAM policy that grants read access to S3 buckets and the Glue catalog
 resource "aws_iam_policy" "e6data_engine_s3_glue_policy" {
   name        = "${local.e6data_workspace_name}-engine-s3-glue-policy-${random_string.random.result}"
   description = "Allows read access for s3 buckets and glue catalog"
   policy      = data.aws_iam_policy_document.engine_iam_glue_s3readAccess_doc.json
 }
 
+# Create an IAM role for the engine, allowing it to assume the role with specified policies attached
 resource "aws_iam_role" "e6data_engine_role" {
   name                = "${local.e6data_workspace_name}-engine-role-${random_string.random.result}"
   assume_role_policy  = data.aws_iam_policy_document.oidc_assume_role_policy.json

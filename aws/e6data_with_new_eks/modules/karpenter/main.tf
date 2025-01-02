@@ -15,6 +15,16 @@ resource "null_resource" "waiting" {
   }
 }
 
+resource "helm_release" "karpenter-crd" {
+  namespace        = var.namespace
+  create_namespace = false
+  name             = "karpenter-crd"
+  repository       = "oci://public.ecr.aws/karpenter"
+  chart            = "karpenter-crd"
+  version          = var.karpenter_release_version
+  wait             = true
+}
+
 resource "helm_release" "karpenter_release" {
   name  = "karpenter"
   chart = "karpenter"
@@ -24,6 +34,7 @@ resource "helm_release" "karpenter_release" {
   version   = var.karpenter_release_version
   namespace = var.namespace
   timeout   = 600
+  skip_crds = true
 
   set {
     name  = "settings.clusterName"

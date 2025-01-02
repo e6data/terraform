@@ -1,21 +1,3 @@
-data "aws_iam_policy_document" "karpenter_node_trust_policy" {
-  statement {
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["ec2.amazonaws.com"]
-    }
-  }
-}
-
-##The karpenter node role includes several AWS managed policies, which are designed to provide permissions for specific uses needed by the nodes to work with EC2 and other AWS resources.
-resource "aws_iam_role" "karpenter_node_role" {
-  name                = "e6data-${var.workspace_name}-KarpenterNodeRole-${random_string.random.result}"
-  managed_policy_arns = var.karpenter_eks_node_policy_arn
-  assume_role_policy  = data.aws_iam_policy_document.karpenter_node_trust_policy.json
-}
-
 data "aws_availability_zones" "available" {
   state         = "available"
   exclude_names = var.excluded_az
@@ -29,7 +11,7 @@ data "kubectl_path_documents" "provisioner_manifests" {
     available_zones          = jsonencode(data.aws_availability_zones.available.names)
     cluster_name             = var.eks_cluster_name
     instance_family          = jsonencode(var.nodepool_instance_family)
-    karpenter_node_role_name = aws_iam_role.karpenter_node_role.name
+    karpenter_node_role_name = basename(data.aws_eks_node_group.current.node_role_arn)
     volume_size              = var.eks_disk_size
     nodeclass_name           = local.e6data_nodeclass_name
     nodepool_name            = local.e6data_nodepool_name
@@ -43,7 +25,7 @@ data "kubectl_path_documents" "provisioner_manifests" {
     )
     nodepool_cpu_limits = var.nodepool_cpu_limits
   }
-  depends_on = [data.aws_availability_zones.available, aws_iam_role.karpenter_node_role]
+  depends_on = [data.aws_availability_zones.available]
 }
 
 resource "kubectl_manifest" "provisioners" {
