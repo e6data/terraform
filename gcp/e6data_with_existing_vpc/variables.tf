@@ -160,3 +160,9 @@ variable "authorized_networks" {
   type        = map(string)
   description = "authorized_networks"
 }
+
+variable "local_ssd_count" {
+  description = "The amount of local SSD disks that will be attached to each cluster node. Defaults to 0. 1disk = 375GB"
+  type        = number
+  default     = 0
+}

@@ -29,6 +29,10 @@ resource "google_container_node_pool" "workspace" {
       value  = var.workspace_name
       effect = "NO_SCHEDULE"
     }
+
+    local_nvme_ssd_block_config {
+      local_ssd_count = var.local_ssd_count
+    }
   }
 
   lifecycle {
