@@ -27,7 +27,8 @@ data "aws_iam_policy_document" "engine_iam_glue_s3readAccess_doc" {
       "glue:GetTable*",
       "glue:GetPartitions",
       "glue:DeleteTable",
-      "glue:CreateTable"
+      "glue:CreateTable",
+      "glue:UpdateTable"
     ]
     resources = ["*"]
   }
