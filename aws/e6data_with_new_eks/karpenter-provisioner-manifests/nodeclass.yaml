@@ -21,6 +21,8 @@ spec:
         volumeSize: ${volume_size}Gi
         volumeType: gp3
   userData: |
+    mount_location="/app/tmp"
+    mkdir -p $mount_location
     yum install nvme-cli -y
     # Check if NVMe drives are present
     if nvme list | grep -q "Amazon EC2 NVMe Instance Storage"; then
@@ -33,7 +35,6 @@ spec:
             yum install mdadm -y
             mdadm --create /dev/md0 --level=0 --name=md0 --raid-devices=$num_drives "$${nvme_drives[@]}"
             mkfs.ext4 /dev/md0
-            mount_location="/tmp"
             mount /dev/md0 $mount_location
             mdadm --detail --scan >> /etc/mdadm.conf 
             echo /dev/md0 $mount_location ext4 defaults,noatime 0 2 >> /etc/fstab
@@ -42,7 +43,6 @@ spec:
             for disk in "$${nvme_drives[@]}"
             do
                 mkfs.ext4 -F $disk
-                mount_location="/tmp"
                 mount $disk $mount_location
                 echo $disk $mount_location ext4 defaults,noatime 0 2 >> /etc/fstab 
             done
@@ -51,3 +51,4 @@ spec:
         # NVMe drives are not detected, exit gracefully or skip NVMe-specific commands
         echo "No NVMe drives detected. Skipping NVMe-specific commands."
     fi
+    chmod 777 $mount_location
