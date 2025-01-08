@@ -32,9 +32,13 @@ resource "kubernetes_daemon_set_v1" "aks_raid_disks" {
           "e6data-workspace-name" = var.workspace_name
         }
 
+        image_pull_secrets {
+          name = "e6data-reg-cred"
+        }
+
         container {
           name  = "startup-script"
-          image = "public.ecr.aws/e6data/azure-nvme-raid-disks:0.2"
+          image = "us-docker.pkg.dev/e6data-analytics/e6-engine/azure-nvme-raid-disks:3.0.12-339968fb"
           image_pull_policy = "Always"
 
           security_context {
