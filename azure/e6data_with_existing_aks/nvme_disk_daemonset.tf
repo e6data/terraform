@@ -46,7 +46,7 @@ resource "kubernetes_daemon_set_v1" "aks_raid_disks" {
           }
 
           volume_mount {
-            mount_path        = "/tmp"
+            mount_path        = "/app/tmp"
             name              = "tmp-volume"
             mount_propagation = "Bidirectional"
           }
@@ -55,7 +55,7 @@ resource "kubernetes_daemon_set_v1" "aks_raid_disks" {
         volume {
           name = "tmp-volume"
           host_path {
-            path = "/tmp"
+            path = "/app/tmp"
           }
         }
 
