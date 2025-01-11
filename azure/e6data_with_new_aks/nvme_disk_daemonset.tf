@@ -38,7 +38,7 @@ resource "kubernetes_daemon_set_v1" "aks_raid_disks" {
 
         container {
           name  = "startup-script"
-          image = "us-docker.pkg.dev/e6data-analytics/e6-engine/azure-nvme-raid-disks:3.0.12-339968fb"
+          image = "us-docker.pkg.dev/e6data-analytics/e6-engine/az-nvme-provisioner:3.0.5-e4fd230d"
           image_pull_policy = "Always"
 
           security_context {
@@ -46,7 +46,7 @@ resource "kubernetes_daemon_set_v1" "aks_raid_disks" {
           }
 
           volume_mount {
-            mount_path        = "/tmp"
+            mount_path        = "/app/tmp"
             name              = "tmp-volume"
             mount_propagation = "Bidirectional"
           }
@@ -55,7 +55,7 @@ resource "kubernetes_daemon_set_v1" "aks_raid_disks" {
         volume {
           name = "tmp-volume"
           host_path {
-            path = "/tmp"
+            path = "/app/tmp"
           }
         }
 
