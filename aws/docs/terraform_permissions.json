@@ -63,13 +63,13 @@
                 "ec2:DeleteSecurityGroup",
                 "ec2:ModifyLaunchTemplate",
                 "eks:CreateAccessEntry",
-				"eks:DeleteAccessEntry",
-				"eks:TagResource",
-				"eks:UntagResource",
-				"eks:DescribeAccessEntry",
-				"eks:AssociateAccessPolicy",
-				"eks:ListAssociatedAccessPolicies",
-				"eks:DisassociateAccessPolicy"
+                "eks:DeleteAccessEntry",
+                "eks:TagResource",
+                "eks:UntagResource",
+                "eks:DescribeAccessEntry",
+                "eks:AssociateAccessPolicy",
+                "eks:ListAssociatedAccessPolicies",
+                "eks:DisassociateAccessPolicy"
             ],
             "Resource": [
                 "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:nodegroup/e6data-*",
@@ -241,10 +241,10 @@
             "Action": [
                 "logs:CreateLogGroup",
                 "logs:DescribeLogGroups",
-				"logs:ListTagsLogGroup",
-				"logs:PutRetentionPolicy",
-				"logs:DeleteLogGroup",
-				"logs:DeleteRetentionPolicy"
+                "logs:ListTagsLogGroup",
+                "logs:PutRetentionPolicy",
+                "logs:DeleteLogGroup",
+                "logs:DeleteRetentionPolicy"
             ],
             "Resource": [
                 "arn:aws:logs:<AWS_REGION>:<AWS_ACCOUNT_ID>:log-group::log-stream:*",
