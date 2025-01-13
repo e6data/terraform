@@ -62,7 +62,7 @@
                 "eks:TagResource",
                 "ec2:DeleteSecurityGroup",
                 "ec2:ModifyLaunchTemplate",
-				"eks:CreateAccessEntry",
+                "eks:CreateAccessEntry",
 				"eks:DeleteAccessEntry",
 				"eks:TagResource",
 				"eks:UntagResource",
@@ -240,7 +240,7 @@
             "Effect": "Allow",
             "Action": [
                 "logs:CreateLogGroup",
-				"logs:DescribeLogGroups",
+                "logs:DescribeLogGroups",
 				"logs:ListTagsLogGroup",
 				"logs:PutRetentionPolicy",
 				"logs:DeleteLogGroup",
