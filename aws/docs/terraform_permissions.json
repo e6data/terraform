@@ -6,7 +6,7 @@
             "Effect": "Allow",
             "Action": [
                 "ec2:AuthorizeSecurityGroupIngress",
-                "ec2:AuthorizeSecurityGroupEgress",                
+                "ec2:AuthorizeSecurityGroupEgress",
                 "ec2:DeleteSubnet",
                 "ec2:DeleteVpcEndpoints",
                 "eks:UpdateClusterConfig",
@@ -61,7 +61,15 @@
                 "ec2:CreateVpcEndpoint",
                 "eks:TagResource",
                 "ec2:DeleteSecurityGroup",
-                "ec2:ModifyLaunchTemplate"
+                "ec2:ModifyLaunchTemplate",
+                "eks:CreateAccessEntry",
+                "eks:TagResource",
+                "eks:UntagResource",
+                "eks:DescribeAccessEntry",
+                "eks:DeleteAccessEntry",
+                "eks:AssociateAccessPolicy",
+                "eks:ListAssociatedAccessPolicies",
+                "eks:DisassociateAccessPolicy"
             ],
             "Resource": [
                 "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:nodegroup/e6data-*",
@@ -79,7 +87,8 @@
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:internet-gateway/*",
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:volume/*",
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:security-group/*",
-                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:network-interface/*"
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:network-interface/*",
+                "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:access-entry/e6data-*/*"
             ]
         },
         {
@@ -135,7 +144,6 @@
                 "ec2:DisassociateAddress",
                 "events:PutTargets",
                 "events:ListTargetsByRule"
-
             ],
             "Resource": "*"
         },
@@ -193,7 +201,7 @@
         {
             "Sid": "RulesManage",
             "Effect": "Allow",
-            "Action": [                
+            "Action": [
                 "events:DeleteRule",
                 "events:RemoveTargets"
             ],
@@ -204,7 +212,7 @@
         {
             "Sid": "SQSwrite",
             "Effect": "Allow",
-            "Action": [                
+            "Action": [
                 "sqs:deletequeue",
                 "sqs:setqueueattributes"
             ],
@@ -215,7 +223,7 @@
         {
             "Sid": "Dissociateaddress",
             "Effect": "Allow",
-            "Action": [                
+            "Action": [
                 "ec2:DisassociateAddress"
             ],
             "Resource": [
@@ -226,6 +234,20 @@
                     "aws:ResourceTag/Name": "e6data-*"
                 }
             }
+        },
+        {
+            "Sid": "CloudWatchLogGroup",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:DescribeLogGroups",
+                "logs:ListTagsLogGroup",
+                "logs:PutRetentionPolicy"
+            ],
+            "Resource": [
+                "arn:aws:logs:<AWS_REGION>:<AWS_ACCOUNT_ID>:log-group::log-stream:*",
+                "arn:aws:logs:<AWS_REGION>:<AWS_ACCOUNT_ID>:log-group:/aws/eks/e6data-*"
+            ]
         }
     ]
 }
