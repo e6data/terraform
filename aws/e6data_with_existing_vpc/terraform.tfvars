@@ -73,7 +73,3 @@ additional_egress_rules = [
   #   cidr_blocks = ["0.0.0.0/0"]
   # }
 ]
-
-private_subnet_index = 150
-
-public_subnet_index = 200
