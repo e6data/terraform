@@ -262,3 +262,13 @@ variable "additional_egress_rules" {
   }))
   default = []
 }
+
+variable "private_subnet_cidr" {
+  description = "CIDR blocks for private subnets"
+  type        = list(string)
+}
+
+variable "public_subnet_cidr" {
+  description = "CIDR blocks for public subnets"
+  type        = list(string)
+}

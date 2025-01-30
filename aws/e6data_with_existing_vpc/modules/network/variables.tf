@@ -26,3 +26,12 @@ variable "region" {
   description = "AWS region of the EKS cluster."
   default     = "us-east-1"
 }
+variable "private_subnet_cidr" {
+  description = "CIDR blocks for private subnets"
+  type        = list(string)
+}
+
+variable "public_subnet_cidr" {
+  description = "CIDR blocks for public subnets"
+  type        = list(string)
+}

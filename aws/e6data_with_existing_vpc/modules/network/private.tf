@@ -1,15 +1,15 @@
 resource "aws_subnet" "private" {
 
-  for_each = local.private_subnets
+  for_each = toset(var.private_subnet_cidr)
 
   vpc_id            = data.aws_vpc.vpc.id
-  availability_zone = each.value.az
-  cidr_block        = each.value.cidr
+  availability_zone = element(data.aws_availability_zones.available.names, index(var.private_subnet_cidr, each.value))
+  cidr_block        = each.value
 
   map_public_ip_on_launch = true
 
   tags = {
-    Name = format("%s-%s-private-subnet-%s", var.env, var.workspace_name, each.value.az)
+    Name = format("%s-%s-private-subnet-%s", var.env, var.workspace_name, element(data.aws_availability_zones.available.names, index(var.private_subnet_cidr, each.value)))
     type = "private"
   }
 
@@ -36,8 +36,8 @@ resource "aws_route_table" "private_route_table" {
 }
 
 resource "aws_route_table_association" "private_subnet_assoc" {
-  for_each = local.private_subnets
+  for_each = aws_subnet.private
 
-  subnet_id      = aws_subnet.private[each.key].id
+  subnet_id      = each.value.id
   route_table_id = aws_route_table.private_route_table.id
 }
