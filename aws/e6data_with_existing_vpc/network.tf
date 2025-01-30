@@ -9,5 +9,4 @@ module "network" {
 
   vpc_id      = var.vpc_id
   excluded_az = var.excluded_az
-
 }
