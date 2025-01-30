@@ -9,7 +9,7 @@ workspace_name = "workspace-name" ### Name of the e6data workspace to be created
 eks_cluster_name = "eks-cluster-name" ### The name of the Kubernetes cluster to deploy e6data workspace.
 
 eks_disk_size            = 100 ### Disk size for the instances in the nodepool. A minimum of 100 GB is required.
-nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g","c8g","r8g", "i8g", "c6gd", "r6g", "r6gd", "r7g", "r7gd", "i3"]
+nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c8g", "r8g", "i8g", "c6gd", "r6g", "r6gd", "r7g", "r7gd", "i3"]
 
 excluded_az = ["us-east-1e"]
 
