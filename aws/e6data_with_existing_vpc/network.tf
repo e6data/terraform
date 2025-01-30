@@ -9,4 +9,6 @@ module "network" {
 
   vpc_id      = var.vpc_id
   excluded_az = var.excluded_az
+  private_subnet_index = var.private_subnet_index
+  public_subnet_index = var.public_subnet_index
 }

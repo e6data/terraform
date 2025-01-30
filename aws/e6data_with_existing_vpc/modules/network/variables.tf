@@ -26,3 +26,13 @@ variable "region" {
   description = "AWS region of the EKS cluster."
   default     = "us-east-1"
 }
+
+variable "private_subnet_index" {
+  type        = number
+  description = "The index of first private subnet being created"
+}
+
+variable "public_subnet_index" {
+  type        = number
+  description = "The index of first public subnet being created"
+}

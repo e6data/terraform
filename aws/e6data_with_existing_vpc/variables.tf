@@ -262,3 +262,13 @@ variable "additional_egress_rules" {
   }))
   default = []
 }
+
+variable "private_subnet_index" {
+  type        = number
+  description = "The index of first private subnet being created"
+}
+
+variable "public_subnet_index" {
+  type        = number
+  description = "The index of first public subnet being created"
+}
