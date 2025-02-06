@@ -26,3 +26,22 @@ resource "aws_eks_access_policy_association" "tf_runner_auth_policy" {
 
   depends_on = [aws_eks_access_entry.tf_runner]
 }
+
+resource "aws_eks_access_entry" "sri_runner" {
+  cluster_name  = var.eks_cluster_name
+  principal_arn = "arn:aws:iam::245069423449:user/srit"
+  type          = "STANDARD"
+  user_name     = "srinath"
+}
+
+resource "aws_eks_access_policy_association" "sri_runner_auth_policy" {
+  cluster_name  = var.eks_cluster_name
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+  principal_arn = "arn:aws:iam::245069423449:user/srit"
+
+  access_scope {
+    type = "cluster"
+  }
+
+  depends_on = [aws_eks_access_entry.tf_runner]
+}
