@@ -48,7 +48,8 @@ variable "iam_eks_node_policy_arn" {
     "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
     "arn:aws:iam::aws:policy/AmazonEKSServicePolicy",
     "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess",
-    "arn:aws:iam::aws:policy/AmazonElasticFileSystemClientFullAccess"
+    "arn:aws:iam::aws:policy/AmazonElasticFileSystemClientFullAccess",
+    "arn:aws:iam::aws:policy/AmazonEKSBlockStoragePolicy"
   ]
 }
 

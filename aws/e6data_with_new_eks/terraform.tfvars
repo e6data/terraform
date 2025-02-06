@@ -2,7 +2,7 @@
 aws_region = "us-east-1" ### AWS region of the EKS cluster.
 
 # e6data Workspace Variables
-workspace_name = "workspace" ### Name of the e6data workspace to be created.
+workspace_name = "srit" ### Name of the e6data workspace to be created.
 # Note: The variable workspace_name should meet the following criteria:
 # a) Accepts only lowercase alphanumeric characters.
 # b) Must have a minimum of 3 characters.
@@ -17,11 +17,11 @@ eks_disk_size            = 100    ### Disk size for the instances in the nodepoo
 nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c8g", "r8g", "i8g", "c6gd", "r6g", "r6gd", "r7g", "r7gd", "i3"]
 
 # Network Variables
-cidr_block  = "10.200.0.0/16"
+cidr_block  = "10.120.0.0/16"
 excluded_az = ["us-east-1e"]
 
 # EKS Cluster Variables
-cluster_name      = "ekscluster"                                                 ### The name of the Kubernetes cluster to be created for the e6data workspace.
+cluster_name      = "srit"                                                 ### The name of the Kubernetes cluster to be created for the e6data workspace.
 cluster_log_types = ["scheduler", "controllerManager", "authenticator", "audit"] ### List of the desired control plane logging to enable.
 
 public_access_cidrs = ["0.0.0.0/0"]
@@ -37,6 +37,11 @@ kubernetes_namespace = "namespace" ### Value of the Kubernetes namespace to depl
 # Cost Tags
 cost_tags = {
   app = "e6data"
+  Environment = "Dev"
+  permanent = "true"
+  Operation = "POC"
+  Team = "PLT"
+  User = "SRINATH@E6X.IO"
 }
 
 # AWS Command Line Variable
@@ -50,7 +55,7 @@ alb_controller_helm_chart_version           = "1.8.1"
 # Karpenter Variables
 karpenter_namespace            = "kube-system" ### Namespace to deploy the karpenter
 karpenter_service_account_name = "karpenter"   ### Service account name for the karpenter
-karpenter_release_version      = "1.0.8"       ### Version of the karpenter Helm chart
+karpenter_release_version      = "1.2.1"       ### Version of the karpenter Helm chart
 
 #### Additional ingress/egress rules for the EKS Security Group
 # additional_ingress_rules = [
