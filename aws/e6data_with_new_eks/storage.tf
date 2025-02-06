@@ -28,7 +28,7 @@ resource "kubernetes_storage_class" "storage_class" {
 }
 
 module "ebs_driver_oidc" {
-  source = "./modules/aws_oidc"
+  source = "./modules/aws_oidc_without_sa"
 
   providers = {
     kubernetes = kubernetes.e6data
