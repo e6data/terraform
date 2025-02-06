@@ -2,6 +2,8 @@ resource "aws_eks_addon" "ebs_storage_driver" {
   cluster_name = module.eks.cluster_name
   addon_name   = "aws-ebs-csi-driver"
 
+  depends_on = [  ]
+
 
 }
 resource "kubernetes_storage_class" "storage_class" {
@@ -28,7 +30,7 @@ resource "kubernetes_storage_class" "storage_class" {
 }
 
 module "ebs_driver_oidc" {
-  source = "./modules/aws_oidc_without_sa"
+  source = "./modules/aws_oidc"
 
   providers = {
     kubernetes = kubernetes.e6data
@@ -43,5 +45,5 @@ module "ebs_driver_oidc" {
   kubernetes_namespace            = "kube-system"
   kubernetes_service_account_name = "ebs-csi-controller-sa"
 
-  depends_on = [ aws_eks_addon.ebs_storage_driver ]
+  
 }
