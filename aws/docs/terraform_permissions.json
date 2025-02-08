@@ -250,6 +250,24 @@
                 "arn:aws:logs:<AWS_REGION>:<AWS_ACCOUNT_ID>:log-group::log-stream:*",
                 "arn:aws:logs:<AWS_REGION>:<AWS_ACCOUNT_ID>:log-group:/aws/eks/e6data-*"
             ]
+        },
+        {
+            "Sid": "S3ListAccess",
+            "Effect": "Allow",
+            "Action": "s3:ListBucket",
+            "Resource": "arn:aws:s3:::<S3_BUCKET_NAME>"
+        },
+        {
+            "Sid": "S3GetAndPutAccess",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::<S3_BUCKET_NAME>",
+                "arn:aws:s3:::<S3_BUCKET_NAME>/*"
+            ]
         }
     ]
 }
