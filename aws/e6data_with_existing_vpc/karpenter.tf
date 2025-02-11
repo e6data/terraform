@@ -38,11 +38,6 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       variable = "aws:ResourceTag/kubernetes.io/cluster/${module.eks.cluster_name}"
       values   = ["owned"]
     }
-    condition {
-      test     = "StringEquals"
-      variable = "aws:ResourceTag/karpenter.sh/nodepool"
-      values   = [local.e6data_nodepool_name]
-    }
   }
 
   statement {
@@ -67,11 +62,6 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       test     = "StringEquals"
       variable = "aws:RequestTag/kubernetes.io/cluster/${module.eks.cluster_name}"
       values   = ["owned"]
-    }
-    condition {
-      test     = "StringEquals"
-      variable = "aws:RequestTag/karpenter.sh/nodepool"
-      values   = [local.e6data_nodepool_name]
     }
   }
 
@@ -105,11 +95,6 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
         "CreateLaunchTemplate"
       ]
     }
-    condition {
-      test     = "StringEquals"
-      variable = "aws:RequestTag/karpenter.sh/nodepool"
-      values   = [local.e6data_nodepool_name]
-    }
   }
 
   statement {
@@ -127,11 +112,6 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       test     = "StringEquals"
       variable = "aws:ResourceTag/kubernetes.io/cluster/${module.eks.cluster_name}"
       values   = ["owned"]
-    }
-    condition {
-      test     = "StringEquals"
-      variable = "aws:ResourceTag/karpenter.sh/nodepool"
-      values   = [local.e6data_nodepool_name]
     }
   }
 
@@ -152,11 +132,6 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       test     = "StringEquals"
       variable = "aws:ResourceTag/kubernetes.io/cluster/${module.eks.cluster_name}"
       values   = ["owned"]
-    }
-    condition {
-      test     = "StringEquals"
-      variable = "aws:ResourceTag/karpenter.sh/nodepool"
-      values   = [local.e6data_nodepool_name]
     }
   }
 
@@ -251,12 +226,6 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       variable = "aws:RequestTag/topology.kubernetes.io/region"
       values   = ["${var.aws_region}"]
     }
-
-    condition {
-      test     = "StringEquals"
-      variable = "aws:RequestTag/karpenter.k8s.aws/ec2nodeclass"
-      values   = [local.e6data_nodeclass_name]
-    }
   }
 
   statement {
@@ -288,18 +257,6 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       variable = "aws:RequestTag/topology.kubernetes.io/region"
       values   = ["${var.aws_region}"]
     }
-
-    condition {
-      test     = "StringEquals"
-      variable = "aws:ResourceTag/karpenter.k8s.aws/ec2nodeclass"
-      values   = [local.e6data_nodeclass_name]
-    }
-
-    condition {
-      test     = "StringEquals"
-      variable = "aws:RequestTag/karpenter.k8s.aws/ec2nodeclass"
-      values   = [local.e6data_nodeclass_name]
-    }
   }
 
   statement {
@@ -322,12 +279,6 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       test     = "StringEquals"
       variable = "aws:ResourceTag/topology.kubernetes.io/region"
       values   = ["${var.aws_region}"]
-    }
-
-    condition {
-      test     = "StringEquals"
-      variable = "aws:ResourceTag/karpenter.k8s.aws/ec2nodeclass"
-      values   = [local.e6data_nodeclass_name]
     }
   }
 
