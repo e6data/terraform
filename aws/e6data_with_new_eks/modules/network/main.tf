@@ -66,3 +66,83 @@ resource "aws_vpc_endpoint" "s3_endpoint" {
 
   depends_on = [aws_vpc.vpc, aws_route_table.private_route_table, aws_route_table.public_route_table]
 }
+
+resource "aws_network_acl" "nacl" {
+  vpc_id = aws_vpc.vpc.id
+
+  ingress {
+    rule_no    = 100
+    protocol   = "6" #TCP
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 443
+    to_port    = 443
+  }
+
+  ingress {
+    rule_no    = 110
+    protocol   = "6" #TCP
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 80
+    to_port    = 80
+  }
+
+  ingress {
+    rule_no    = 120
+    protocol   = "17" #UDP
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 65535
+  }
+
+  ingress {
+    rule_no    = 130
+    protocol   = "6" #TCP
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 1024
+    to_port    = 65535
+  }
+
+  egress {
+    rule_no    = 100
+    protocol   = "6" #TCP
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 443
+    to_port    = 443
+  }
+
+  egress {
+    rule_no    = 110
+    protocol   = "6" #TCP
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 80
+    to_port    = 80
+  }
+
+  egress {
+    rule_no    = 120
+    protocol   = "17" #UDP
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 65535
+  }
+
+  egress {
+    rule_no    = 130
+    protocol   = "6" #TCP
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 1024
+    to_port    = 65535
+  }
+
+  tags = {
+    Name = "${var.env}-${var.workspace_name}-nacl"
+  }
+}

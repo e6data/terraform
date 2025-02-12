@@ -69,7 +69,11 @@
                 "eks:DescribeAccessEntry",
                 "eks:AssociateAccessPolicy",
                 "eks:ListAssociatedAccessPolicies",
-                "eks:DisassociateAccessPolicy"
+                "eks:DisassociateAccessPolicy",
+                "ec2:CreateNetworkAcl",
+                "ec2:CreateNetworkAclEntry",
+                "ec2:DeleteNetworkAcl",
+                "ec2:DeleteNetworkAclEntry"
             ],
             "Resource": [
                 "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:nodegroup/e6data-*",
@@ -88,7 +92,8 @@
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:volume/*",
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:security-group/*",
                 "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:network-interface/*",
-                "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:access-entry/e6data-*/*"
+                "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:access-entry/e6data-*/*",
+                "arn:aws:ec2:<AWS_REGION>:<AWS_ACCOUNT_ID>:network-acl/*"
             ]
         },
         {
@@ -143,7 +148,8 @@
                 "events:ListTagsForResource",
                 "ec2:DisassociateAddress",
                 "events:PutTargets",
-                "events:ListTargetsByRule"
+                "events:ListTargetsByRule",
+                "ec2:DescribeNetworkAcls"
             ],
             "Resource": "*"
         },
@@ -249,24 +255,6 @@
             "Resource": [
                 "arn:aws:logs:<AWS_REGION>:<AWS_ACCOUNT_ID>:log-group::log-stream:*",
                 "arn:aws:logs:<AWS_REGION>:<AWS_ACCOUNT_ID>:log-group:/aws/eks/e6data-*"
-            ]
-        },
-        {
-            "Sid": "S3ListAccess",
-            "Effect": "Allow",
-            "Action": "s3:ListBucket",
-            "Resource": "arn:aws:s3:::<S3_BUCKET_NAME>"
-        },
-        {
-            "Sid": "S3GetAndPutAccess",
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:PutObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::<S3_BUCKET_NAME>",
-                "arn:aws:s3:::<S3_BUCKET_NAME>/*"
             ]
         }
     ]
