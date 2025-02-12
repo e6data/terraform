@@ -72,7 +72,8 @@
                 "eks:DisassociateAccessPolicy",
                 "ec2:CreateNetworkAcl",
                 "ec2:CreateNetworkAclEntry",
-                "ec2:DeleteNetworkAcl"
+                "ec2:DeleteNetworkAcl",
+                "ec2:DeleteNetworkAclEntry"
             ],
             "Resource": [
                 "arn:aws:eks:<AWS_REGION>:<AWS_ACCOUNT_ID>:nodegroup/e6data-*",
