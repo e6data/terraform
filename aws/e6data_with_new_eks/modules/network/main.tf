@@ -59,7 +59,7 @@ locals {
 resource "aws_vpc_endpoint" "s3_endpoint" {
   vpc_id          = aws_vpc.vpc.id
   service_name    = "com.amazonaws.${var.region}.s3"
-  route_table_ids = [aws_route_table.private_route_table.id, aws_route_table.public_route_table.id, aws_vpc.vpc.default_route_table_id]
+  route_table_ids = concat([aws_route_table.public_route_table.id], values(aws_route_table.private_route_table)[*].id, [aws_vpc.vpc.default_route_table_id])
   tags = {
     Name = "${var.env}-${var.workspace_name}-gw-endpoint"
   }
