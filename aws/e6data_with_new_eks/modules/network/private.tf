@@ -23,12 +23,17 @@ resource "aws_subnet" "private" {
 resource "aws_route_table" "private_route_table" {
   vpc_id = aws_vpc.vpc.id
 
+  for_each = {
+    nat_1 = aws_nat_gateway.nat_gw_1.id
+    nat_2 = aws_nat_gateway.nat_gw_2.id
+  }
+
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat_gw.id
+    nat_gateway_id = each.value
   }
   tags = {
-    Name = "${var.env}-private"
+    Name = "${var.env}-private-${each.key}"
   }
 
   lifecycle {
@@ -40,5 +45,5 @@ resource "aws_route_table_association" "private_subnet_assoc" {
   for_each = local.private_subnets
 
   subnet_id      = aws_subnet.private[each.key].id
-  route_table_id = aws_route_table.private_route_table.id
+  route_table_id = each.key % 2 == 0 ? aws_route_table.private_route_table["nat_1"].id : aws_route_table.private_route_table["nat_2"].id
 }

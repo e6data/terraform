@@ -13,9 +13,9 @@ output "public_route_table_id" {
   value       = aws_route_table.public_route_table.id
 }
 
-output "private_route_table_id" {
+output "private_route_table_ids" {
   description = "IDs of the created private route tables"
-  value       = aws_route_table.private_route_table.id
+  value       = { for k, v in aws_route_table.private_route_table : k => v.id }
 }
 
 output "subnet_ids" {
