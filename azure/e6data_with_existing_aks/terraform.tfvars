@@ -23,7 +23,7 @@ data_resource_group_name        = "data-storage-rg"               # Resource gro
 list_of_containers              = ["*"]                           # Containers to access in storage account
 
 # e6data Helm chart version
-helm_chart_version              = "2.1.3"                           # Helm chart version for e6data workspace
+helm_chart_version              = "2.1.4"                           # Helm chart version for e6data workspace
 
 # Cost allocation tags
 cost_tags = {                                                       # Tags used for cost allocation and management.
