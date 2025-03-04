@@ -38,6 +38,8 @@ key_vault_rg_name               = ""                               # The resourc
 nginx_ingress_controller_namespace = "kube-system"                 # Namespace where the Nginx Ingress Controller will be deployed
 nginx_ingress_controller_version   = "4.7.1"                       # Version of the Nginx Ingress Controller to be installed
 
+debug_namespaces = ["kube-system"]
+
 # Toggle to decide whether to deploy the akv2k8s Helm chart.
 # Set to true to deploy, false to skip deployment.
 deploy_akv2k8s = false

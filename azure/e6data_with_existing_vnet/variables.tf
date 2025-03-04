@@ -168,3 +168,9 @@ variable "identity_id" {
   type        = string
   description = "Identity ID from the e6data console."
 }
+
+variable "debug_namespaces" {
+  type        = list(string)
+  description = "kaprneter and alb controller namespaces"
+  default     = ["kube-system"]
+}

@@ -150,3 +150,9 @@ variable "authorized_networks" {
   type        = map(string)
   description = "authorized_networks"
 }
+
+variable "debug_namespaces" {
+  type        = list(string)
+  description = "kaprneter and alb controller namespaces"
+  default     = ["kube-system"]
+}

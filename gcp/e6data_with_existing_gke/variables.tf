@@ -71,3 +71,9 @@ variable "spot_enabled" {
   type        = bool
   description = "Enable spot instances in node pools"
 }
+
+variable "debug_namespaces" {
+  type        = list(string)
+  description = "kaprneter and alb controller namespaces"
+  default     = ["kube-system"]
+}

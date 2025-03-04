@@ -44,6 +44,8 @@ authorized_networks = {          #External networks that can access the Kubernet
 # Kubernetes Namespace
 kubernetes_namespace = "namespace" # The namespace to use for Kubernetes resources
 
+debug_namespaces = ["kube-system"]
+
 # Cost Labels
 cost_labels = {} # Cost labels for tracking costs
 # Note: The variable cost_labels only accepts lowercase letters ([a-z]), numeric characters ([0-9]), underscores (_) and dashes (-).

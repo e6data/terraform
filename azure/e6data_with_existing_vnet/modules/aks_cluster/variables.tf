@@ -13,11 +13,6 @@ variable "kube_version" {
   description = "The Kubernetes version in cluster"
 }
 
-variable "private_cluster_enabled" {
-  type        = string
-  description = "enable private cluster"
-}
-
 variable "resource_group_name" {
   type        = string
   description = "resource group name"
