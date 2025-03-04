@@ -14,10 +14,7 @@ locals {
       type               = "AWS"
       oidc_value         = aws_iam_role.e6data_engine_role.arn
       control_plane_user = ["e6data-${var.workspace_name}-user"]
-    }
-    karpenter = {
-      nodepool  = local.e6data_nodepool_name
-      nodeclass = local.e6data_nodeclass_name
+      debug_namespaces   = var.debug_namespaces
     }
   })
   mapUsers    = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapUsers"], "")
