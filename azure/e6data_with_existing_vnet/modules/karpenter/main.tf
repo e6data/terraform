@@ -71,6 +71,10 @@ resource "helm_release" "karpenter" {
             value = ""
           },
           {
+            name  = "VNET_GUID"
+            value = var.vnet_guid
+          },
+          {
             name  = "AZURE_NODE_RESOURCE_GROUP"
             value = var.node_resource_group
           }
