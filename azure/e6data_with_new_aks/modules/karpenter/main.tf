@@ -59,6 +59,10 @@ resource "helm_release" "karpenter" {
             value = var.public_ssh_key
           },
           {
+            name  = "VNET_GUID"
+            value = var.vnet_guid
+          },
+          {
             name  = "ARM_USE_CREDENTIAL_FROM_ENVIRONMENT"
             value = "true"
           },

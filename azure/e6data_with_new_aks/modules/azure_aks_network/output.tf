@@ -18,6 +18,11 @@ output "aci_subnet_name" {
   value       = azurerm_subnet.aci.name
 }
 
+output "vnet_guid" {
+  description = "The guid for vnet"
+  value       = azurerm_virtual_network.vnet.guid
+}
+
 # output "ondemand_subnet_id" {
 #   description = "The subnet ID for ondemand"
 #   value = azurerm_subnet.ondemand.name

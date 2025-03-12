@@ -17,3 +17,8 @@ output "aci_subnet_name" {
   description = "The subnet ID for aci"
   value       = azurerm_subnet.aci.name
 }
+
+output "vnet_guid" {
+  description = "The guid for vnet"
+  value       = data.azurerm_virtual_network.vnet.guid
+}

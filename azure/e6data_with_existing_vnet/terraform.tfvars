@@ -47,7 +47,7 @@ identity_id                     = "identity-67890"                  # The identi
 # Karpenter Variables
 karpenter_namespace             = "kube-system"                     # Namespace for Karpenter deployment
 karpenter_service_account_name  = "karpenter"                       # Service account name for Karpenter
-karpenter_release_version       = "0.5.4"                           # Karpenter release version
+karpenter_release_version       = "0.7.4"                           # Karpenter release version
 
 # Key Vault Configuration
 key_vault_name                  = ""                                # Please provide the Key Vault name in which the certificate for the domain is present. If left blank, a new Key Vault will be created in the AKS resource group.
