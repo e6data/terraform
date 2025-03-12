@@ -68,3 +68,8 @@ variable "bootstrap_token" {
   description = "bootstrap token"
   type        = string
 }
+
+variable "vnet_guid" {
+  description = "vnet guid"
+  type        = string
+}
