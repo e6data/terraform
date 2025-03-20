@@ -22,6 +22,7 @@ spec:
         volumeType: gp3
   userData: |
     echo "$(jq '.allowedUnsafeSysctls += ["net.core.somaxconn","net.ipv4.ip_local_port_range"]' /etc/kubernetes/kubelet/kubelet-config.json)" > /etc/kubernetes/kubelet/kubelet-config.json
+    echo "$(jq '.cpuManagerPolicy = "static"' /etc/kubernetes/kubelet/kubelet-config.json)" > /etc/kubernetes/kubelet/kubelet-config.json  
     mount_location="/app/tmp"
     mkdir -p $mount_location
     yum install nvme-cli -y
