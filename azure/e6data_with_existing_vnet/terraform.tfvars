@@ -49,6 +49,8 @@ karpenter_namespace             = "kube-system"                     # Namespace 
 karpenter_service_account_name  = "karpenter"                       # Service account name for Karpenter
 karpenter_release_version       = "0.7.4"                           # Karpenter release version
 
+debug_namespaces = ["kube-system"]
+
 # Key Vault Configuration
 key_vault_name                  = ""                                # Please provide the Key Vault name in which the certificate for the domain is present. If left blank, a new Key Vault will be created in the AKS resource group.
 key_vault_rg_name               = ""                                # The resource group for the specified Key Vault. If left blank, it will default to the AKS resource group. For more info : https://docs.e6data.com/product-documentation/connectivity/endpoints

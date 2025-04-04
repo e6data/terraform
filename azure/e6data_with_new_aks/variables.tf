@@ -162,3 +162,9 @@ variable "nodepool_instance_arch" {
   type        = list(string)
   description = "Instance arch for nodepool"
 }
+
+variable "debug_namespaces" {
+  type        = list(string)
+  description = "kaprneter and alb controller namespaces"
+  default     = ["kube-system"]
+}

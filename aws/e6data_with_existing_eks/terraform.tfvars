@@ -18,6 +18,7 @@ bucket_names = ["*"] ### List of bucket names that the e6data engine queries and
 kubernetes_namespace = "e6data" ### Value of the Kubernetes namespace to deploy the e6data workspace.
 helm_chart_version   = "2.1.7"  ### e6data workspace Helm chart version to be used.
 
+debug_namespaces = ["kube-system"]
 
 ### Below are the tags which will be applied to all the resources created by this Terraform script.
 cost_tags = {
