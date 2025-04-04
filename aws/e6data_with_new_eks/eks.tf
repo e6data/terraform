@@ -16,6 +16,22 @@ module "eks" {
   depends_on = [module.network]
 }
 
+resource "aws_eks_addon" "vpc_cni" {
+  cluster_name             = module.eks.cluster_id
+  addon_name               = "vpc-cni"
+  addon_version            = var.vpc_cni_version
+
+  configuration_values = jsonencode({
+    env = {
+      WARM_ENI_TARGET    = tostring(var.warm_eni_target)
+      WARM_PREFIX_TARGET = tostring(var.warm_prefix_target)
+      MINIMUM_IP_TARGET  = tostring(var.minimum_ip_target)
+    }
+  })
+
+  depends_on = [aws_eks_node_group.default_node_group, module.eks]
+}
+
 resource "aws_ec2_tag" "cluster_primary_security_group" {
   resource_id = module.eks.cluster_primary_security_group_id
   key         = "app"

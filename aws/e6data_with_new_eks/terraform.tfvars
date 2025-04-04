@@ -7,7 +7,7 @@ workspace_name = "workspace" ### Name of the e6data workspace to be created.
 # a) Accepts only lowercase alphanumeric characters.
 # b) Must have a minimum of 3 characters.
 
-helm_chart_version = "2.1.4" ### e6data workspace Helm chart version to be used.
+helm_chart_version = "2.1.7" ### e6data workspace Helm chart version to be used.
 
 # Kubernetes Variables
 kube_version             = "1.31" ### The Kubernetes cluster version. Version 1.24 or higher is required.
@@ -75,3 +75,10 @@ additional_egress_rules = [
     cidr_blocks = ["0.0.0.0/0"]
   }
 ]
+
+
+# vpc cni addon parameters
+vpc_cni_version    = "v1.19.0-eksbuild.1"
+warm_eni_target    = 0          # Number of extra ENIs (Elastic Network Interfaces) to keep available for pod assignment.
+warm_prefix_target = 0          # Number of extra IP address prefixes to keep available for pod assignment.
+minimum_ip_target  = 12         # Minimum number of IP addresses to keep available for pod assignment.

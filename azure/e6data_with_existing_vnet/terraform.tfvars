@@ -28,7 +28,7 @@ data_resource_group_name        = "data-storage-rg"               # Resource gro
 list_of_containers              = ["*"]                           # Containers to access in storage account
 
 # Helm chart version
-helm_chart_version              = "2.1.4"                           # Helm chart version for e6data workspace
+helm_chart_version              = "2.1.7"                           # Helm chart version for e6data workspace
 
 # Cost allocation tags
 cost_tags = {                                                       # Tags used for cost allocation and management.
@@ -47,7 +47,7 @@ identity_id                     = "identity-67890"                  # The identi
 # Karpenter Variables
 karpenter_namespace             = "kube-system"                     # Namespace for Karpenter deployment
 karpenter_service_account_name  = "karpenter"                       # Service account name for Karpenter
-karpenter_release_version       = "0.5.4"                           # Karpenter release version
+karpenter_release_version       = "0.7.4"                           # Karpenter release version
 
 debug_namespaces = ["kube-system"]
 

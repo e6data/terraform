@@ -62,6 +62,7 @@ module "karpenter" {
   karpenter_managed_identity_client_id = azurerm_user_assigned_identity.karpenter.client_id
   public_ssh_key               = module.aks_e6data.generated_cluster_public_ssh_key
   bootstrap_token              = local.bootstrap_token
+  vnet_guid                    = module.network.vnet_guid
 
   depends_on = [module.network]
 }

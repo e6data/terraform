@@ -34,3 +34,8 @@ output "cluster_primary_security_group_id" {
   description = "EKS Cluster primary security group"
   value       = aws_eks_cluster.eks.vpc_config[0].cluster_security_group_id
 }
+
+output "cluster_id" {
+  description = "EKS Cluster primary security group"
+  value       = aws_eks_cluster.eks.id
+}

@@ -267,3 +267,27 @@ variable "debug_namespaces" {
   description = "kaprneter and alb controller namespaces"
   default     = ["kube-system"]
 }
+
+variable "vpc_cni_version" {
+  description = "Version of the VPC CNI to use"
+  type        = string
+  default     = "v1.19.0-eksbuild.1" # Set the desired default version
+}
+
+variable "warm_eni_target" {
+  description = "Number of extra ENIs (Elastic Network Interfaces) to keep available for pod assignment."
+  type        = number
+  default     = 0
+}
+
+variable "warm_prefix_target" {
+  description = "Number of extra IP address prefixes to keep available for pod assignment."
+  type        = number
+  default     = 0
+}
+
+variable "minimum_ip_target" {
+  description = "Minimum number of IP addresses to keep available for pod assignment."
+  type        = number
+  default     = 12
+}
