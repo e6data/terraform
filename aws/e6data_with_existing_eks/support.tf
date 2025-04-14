@@ -72,7 +72,7 @@ data "aws_eks_node_group" "current" {
 }
 
 data "aws_eks_cluster_auth" "target_eks_auth" {
-  name = module.eks.cluster_name
+  name = data.aws_eks_cluster.current.name
 }
 
 provider "kubernetes" {
