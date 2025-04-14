@@ -72,36 +72,24 @@ data "aws_eks_node_group" "current" {
 }
 
 provider "kubernetes" {
-  alias                  = "eks_e6data"
-  host                   = data.aws_eks_cluster.current.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.current.certificate_authority[0].data)
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    args        = ["eks", "get-token", "--cluster-name", var.eks_cluster_name]
-    command     = var.aws_command_line_path
-  }
+  alias                  = "e6data"
+  host                   = module.eks.eks_endpoint
+  cluster_ca_certificate = base64decode(module.eks.eks_certificate_data)
+  token                  = data.aws_eks_cluster_auth.target_eks_auth.token
 }
 
 provider "kubectl" {
-  host                   = data.aws_eks_cluster.current.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.current.certificate_authority[0].data)
+  host                   = module.eks.eks_endpoint
+  cluster_ca_certificate = base64decode(module.eks.eks_certificate_data)
   load_config_file       = false
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    args        = ["eks", "get-token", "--cluster-name", var.eks_cluster_name]
-    command     = var.aws_command_line_path
-  }
+  token                  = data.aws_eks_cluster_auth.target_eks_auth.token
 }
 
 provider "helm" {
-  alias = "eks_e6data"
+  alias = "e6data"
   kubernetes {
-    host                   = data.aws_eks_cluster.current.endpoint
-    cluster_ca_certificate = base64decode(data.aws_eks_cluster.current.certificate_authority[0].data)
-    exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
-      args        = ["eks", "get-token", "--cluster-name", var.eks_cluster_name]
-      command     = var.aws_command_line_path
-    }
+    host                   = module.eks.eks_endpoint
+    cluster_ca_certificate = base64decode(module.eks.eks_certificate_data)
+    token                  = data.aws_eks_cluster_auth.target_eks_auth.token
   }
 }

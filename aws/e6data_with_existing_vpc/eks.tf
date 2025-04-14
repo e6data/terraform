@@ -42,22 +42,14 @@ provider "kubernetes" {
   alias                  = "e6data"
   host                   = module.eks.eks_endpoint
   cluster_ca_certificate = base64decode(module.eks.eks_certificate_data)
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
-    command     = var.aws_command_line_path
-  }
+  token                  = data.aws_eks_cluster_auth.target_eks_auth.token
 }
 
 provider "kubectl" {
   host                   = module.eks.eks_endpoint
   cluster_ca_certificate = base64decode(module.eks.eks_certificate_data)
   load_config_file       = false
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
-    command     = var.aws_command_line_path
-  }
+  token                  = data.aws_eks_cluster_auth.target_eks_auth.token
 }
 
 provider "helm" {
@@ -65,11 +57,7 @@ provider "helm" {
   kubernetes {
     host                   = module.eks.eks_endpoint
     cluster_ca_certificate = base64decode(module.eks.eks_certificate_data)
-    exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
-      args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
-      command     = var.aws_command_line_path
-    }
+    token                  = data.aws_eks_cluster_auth.target_eks_auth.token
   }
 }
 
