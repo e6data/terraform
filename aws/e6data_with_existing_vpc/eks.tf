@@ -38,6 +38,14 @@ resource "aws_ec2_tag" "cluster_primary_security_group" {
   value       = "e6data"
 }
 
+data "aws_eks_cluster_auth" "target_eks_auth" {
+  name = module.eks.cluster_name
+
+  depends_on = [ 
+    module.eks
+  ]
+}
+
 provider "kubernetes" {
   alias                  = "eks_e6data"
   host                   = module.eks.eks_endpoint

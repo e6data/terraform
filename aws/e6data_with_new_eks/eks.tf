@@ -46,6 +46,14 @@ data "aws_eks_cluster_auth" "target_eks_auth" {
   ]
 }
 
+data "aws_eks_cluster_auth" "target_eks_auth" {
+  name = module.eks.cluster_name
+
+  depends_on = [ 
+    module.eks
+  ]
+}
+
 provider "kubernetes" {
   alias                  = "eks_e6data"
   host                   = module.eks.eks_endpoint
