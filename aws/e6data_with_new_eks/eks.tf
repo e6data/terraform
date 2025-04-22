@@ -46,16 +46,8 @@ data "aws_eks_cluster_auth" "target_eks_auth" {
   ]
 }
 
-data "aws_eks_cluster_auth" "target_eks_auth" {
-  name = module.eks.cluster_name
-
-  depends_on = [ 
-    module.eks
-  ]
-}
-
 provider "kubernetes" {
-  alias                  = "eks_e6data"
+  alias                  = "e6data"
   host                   = module.eks.eks_endpoint
   cluster_ca_certificate = base64decode(module.eks.eks_certificate_data)
   token                  = data.aws_eks_cluster_auth.target_eks_auth.token
@@ -69,7 +61,7 @@ provider "kubectl" {
 }
 
 provider "helm" {
-  alias = "eks_e6data"
+  alias = "e6data"
   kubernetes {
     host                   = module.eks.eks_endpoint
     cluster_ca_certificate = base64decode(module.eks.eks_certificate_data)
