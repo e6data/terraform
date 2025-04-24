@@ -28,3 +28,13 @@ variable "query_type" {
     error_message = "Valid value is one of the following: unload, cross_acc_query"
   }
 }
+
+variable "region" {
+  description = "AWS region for cross-account query"
+  type        = string
+}
+
+variable "cross_account_id" {
+  description = "Account ID for cross-account query"
+  type        = string
+}

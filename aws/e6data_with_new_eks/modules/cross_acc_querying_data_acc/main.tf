@@ -5,37 +5,46 @@ locals {
 
 resource "aws_iam_role" "cross_query_role" {
     name = "${var.identifier}-cross-account-query-role"
-    
+
     assume_role_policy = jsonencode({
-        Version = "2012-10-17"
-        Statement = [
-        {
-            Action = [
-            "sts:AssumeRole",
-            ]
-            Effect = "Allow"
+        Version = "2012-10-17",
+        Statement = concat(
+        [
+            {
+            Effect = "Allow",
             Principal = {
-            AWS = [var.engine_role_arn]
+                AWS = var.engine_role_arn
+            },
+            Action = "sts:AssumeRole"
             }
-            Condition = var.external_id != "" ? {
-            StringEquals = {
+        ],
+        var.external_id != "" ? [
+            {
+            Effect = "Allow",
+            Principal = {
+                AWS = var.engine_role_arn
+            },
+            Action = "sts:AssumeRole",
+            Condition = {
+                StringEquals = {
                 "sts:ExternalId" = var.external_id
+                }
             }
-            } : null
-        },
-        {
-            Action = [
-            "sts:TagSession"
-            ]
-            Effect = "Allow"
+            }
+        ] : [],
+        [
+            {
+            Effect = "Allow",
             Principal = {
-            AWS = [var.engine_role_arn]
+                AWS = var.engine_role_arn
+            },
+            Action = "sts:TagSession"
             }
-            Resource = "*"
-        }
         ]
+        )
     })
 }
+
 
 resource "aws_iam_policy" "glue_policy" {
     name        = "${var.identifier}-glue-policy"
@@ -61,7 +70,7 @@ data "aws_iam_policy_document" "glue_policy" {
     }
 }
 
-resource "aws_iam_role_policy_attachment" "query_sheets_rds_policy_attachment" {
+resource "aws_iam_role_policy_attachment" "cross_acc_query_glue_policy_attachment" {
     role       = aws_iam_role.cross_query_role.name
     policy_arn = aws_iam_policy.glue_policy.arn
 }
@@ -91,4 +100,9 @@ data "aws_iam_policy_document" "s3_access" {
         ]
         resources = local.bucket_names_with_full_path
     }
+}
+
+resource "aws_iam_role_policy_attachment" "cross_acc_query_s3_policy_attachment" {
+    role       = aws_iam_role.cross_query_role.name
+    policy_arn = aws_iam_policy.s3_access.arn
 }

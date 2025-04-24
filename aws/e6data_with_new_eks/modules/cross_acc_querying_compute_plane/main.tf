@@ -32,6 +32,20 @@ data "aws_iam_policy_document" "cross_acc_query" {
     actions = ["sts:TagSession"]
     resources = ["*"]
   }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "glue:GetDatabase*",
+      "glue:GetTable*",
+      "glue:GetPartitions"
+    ]
+    resources = [
+      "arn:aws:glue:${var.region}:${var.cross_account_id}:catalog",
+      "arn:aws:glue:${var.region}:${var.cross_account_id}:database/*",
+      "arn:aws:glue:${var.region}:${var.cross_account_id}:table/*"
+    ]
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "query_policy_attachment" {

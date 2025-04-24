@@ -3,39 +3,6 @@ locals {
     bucket_names_with_arn       = [for bucket_name in var.bucket_names : "arn:aws:s3:::${bucket_name}"]
 }
 
-resource "aws_iam_role" "unload_role" {
-    name = "${var.identifier}-unload-query-role"
-    assume_role_policy = jsonencode({
-        Version = "2012-10-17"
-        Statement = [
-        {
-            Action = [
-            "sts:AssumeRole",
-            ]
-            Effect = "Allow"
-            Principal = {
-            AWS = [var.engine_role_arn]
-            }
-            Condition = var.external_id != "" ? {
-            StringEquals = {
-                "sts:ExternalId" = var.external_id
-            }
-            } : null
-        },
-        {
-            Action = [
-            "sts:TagSession"
-            ]
-            Effect = "Allow"
-            Principal = {
-            AWS = [var.engine_role_arn]
-            }
-            Resource = "*"
-        }
-        ]
-    })
-}
-
 resource "aws_iam_policy" "s3_access" {
     name        = "${var.identifier}-unload-s3-access-policy"
     description = "IAM policy for S3 access"
@@ -62,3 +29,46 @@ data "aws_iam_policy_document" "s3_access" {
         resources = local.bucket_names_with_full_path
     }
 }
+
+resource "aws_iam_role" "unload_role" {
+    name = "${var.identifier}-unload-query-role"
+
+    assume_role_policy = jsonencode({
+        Version = "2012-10-17",
+        Statement = concat(
+        [
+            {
+            Effect = "Allow",
+            Principal = {
+                AWS = var.engine_role_arn
+            },
+            Action = "sts:AssumeRole"
+            }
+        ],
+        var.external_id != "" ? [
+            {
+            Effect = "Allow",
+            Principal = {
+                AWS = var.engine_role_arn
+            },
+            Action = "sts:AssumeRole",
+            Condition = {
+                StringEquals = {
+                "sts:ExternalId" = var.external_id
+                }
+            }
+            }
+        ] : [],
+        [
+            {
+            Effect = "Allow",
+            Principal = {
+                AWS = var.engine_role_arn
+            },
+            Action = "sts:TagSession"
+            }
+        ]
+        )
+    })
+}
+
