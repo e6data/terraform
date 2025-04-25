@@ -53,6 +53,30 @@ data "aws_iam_policy_document" "engine_iam_glue_s3readAccess_doc" {
   }
 }
 
+data "aws_iam_policy_document" "system_tables_policy" {
+  statement {
+    sid    = "AssumeRole"
+    effect = "Allow"
+
+    actions = [
+      "sts:AssumeRole"
+    ]
+    resources = ["arn:aws:iam:${var.control_plane_accoubt_id}:role/e6-system-tables-*"]
+  }
+
+  statement {
+    sid    = "TagSession"
+    effect = "Allow"
+
+    actions = [
+      "sts:TagSession"
+    ]
+    resources = ["*"]
+  }
+
+
+}
+
 # Create an IAM policy that grants read access to S3 buckets and the Glue catalog
 resource "aws_iam_policy" "e6data_engine_s3_glue_policy" {
   name        = "${local.e6data_workspace_name}-engine-s3-glue-${random_string.random.result}"
