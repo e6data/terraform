@@ -291,3 +291,7 @@ variable "minimum_ip_target" {
   type        = number
   default     = 12
 }
+
+locals {
+  cross_account_id = split(":", var.e6data_cross_oidc_role_arn[0])[4]
+}
