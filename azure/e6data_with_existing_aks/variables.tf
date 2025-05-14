@@ -117,3 +117,9 @@ variable "deploy_nginx_ingress" {
   type        = bool
   default     = true
 }
+
+variable "debug_namespaces" {
+  type        = list(string)
+  description = "kaprneter and alb controller namespaces"
+  default     = ["kube-system"]
+}

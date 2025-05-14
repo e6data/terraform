@@ -262,6 +262,12 @@ variable "additional_egress_rules" {
   default = []
 }
 
+variable "debug_namespaces" {
+  type        = list(string)
+  description = "kaprneter and alb controller namespaces"
+  default     = ["kube-system"]
+}
+
 variable "vpc_cni_version" {
   description = "Version of the VPC CNI to use"
   type        = string
@@ -284,4 +290,8 @@ variable "minimum_ip_target" {
   description = "Minimum number of IP addresses to keep available for pod assignment."
   type        = number
   default     = 12
+}
+
+locals {
+  cross_account_id = split(":", var.e6data_cross_oidc_role_arn[0])[4]
 }
