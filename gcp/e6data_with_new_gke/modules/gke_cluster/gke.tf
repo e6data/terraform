@@ -5,7 +5,7 @@ resource "google_container_cluster" "gke_cluster" {
   location            = var.region
   min_master_version  = var.gke_version
   monitoring_service  = "monitoring.googleapis.com/kubernetes"
-  logging_service     = "none"
+  logging_service     = "logging.googleapis.com/kubernetes"
   network             = var.network
   subnetwork          = var.subnetwork
   initial_node_count  = var.initial_node_count
