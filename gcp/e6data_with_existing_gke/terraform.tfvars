@@ -17,6 +17,8 @@ spot_enabled              = true # A boolean that represents whether the underly
 
 kubernetes_namespace = "namespace1"
 
+debug_namespaces = ["kube-system"]
+
 cost_labels = {} # Cost labels for tracking costs
 # Note: The variable cost_labels only accepts lowercase letters ([a-z]), numeric characters ([0-9]), underscores (_) and dashes (-).
 

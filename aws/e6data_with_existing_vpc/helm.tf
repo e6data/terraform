@@ -12,9 +12,5 @@ resource "helm_release" "e6data_workspace_deployment" {
 
   values = [local.helm_values_file]
 
-  lifecycle {
-    ignore_changes = [values]
-  }
-
   depends_on = [module.eks, aws_eks_node_group.default_node_group, module.e6data_authentication]
 }

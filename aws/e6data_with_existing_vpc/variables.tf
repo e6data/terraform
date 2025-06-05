@@ -263,6 +263,11 @@ variable "additional_egress_rules" {
   default = []
 }
 
+variable "debug_namespaces" {
+  type        = list(string)
+  description = "kaprneter and alb controller namespaces"
+  default     = ["kube-system"]
+}
 variable "vpc_cni_version" {
   description = "Version of the VPC CNI to use"
   type        = string

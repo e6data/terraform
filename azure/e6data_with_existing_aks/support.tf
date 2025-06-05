@@ -32,10 +32,7 @@ locals {
       type               = "AZURE"
       oidc_value         = azurerm_user_assigned_identity.e6data_identity.client_id
       control_plane_user = [azurerm_user_assigned_identity.federated_identity.principal_id]
-    }
-    karpenter = {
-      nodepool  = local.e6data_nodepool_name
-      nodeclass = local.e6data_nodeclass_name
+      debug_namespaces   = var.debug_namespaces
     }
   })
 

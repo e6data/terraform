@@ -52,6 +52,8 @@ karpenter_namespace            = "kube-system" ### Namespace to deploy the karpe
 karpenter_service_account_name = "karpenter"   ### Service account name for the karpenter
 karpenter_release_version      = "1.0.8"       ### Version of the karpenter Helm chart
 
+debug_namespaces = ["kube-system"]
+
 #### Additional ingress/egress rules for the EKS Security Group
 # additional_ingress_rules = [
 #   {

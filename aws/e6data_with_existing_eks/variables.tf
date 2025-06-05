@@ -83,3 +83,8 @@ variable "nodepool_cpu_limits" {
   default     = 100000
 }
 
+variable "debug_namespaces" {
+  type        = list(string)
+  description = "kaprneter and alb controller namespaces"
+  default     = ["kube-system"]
+}
