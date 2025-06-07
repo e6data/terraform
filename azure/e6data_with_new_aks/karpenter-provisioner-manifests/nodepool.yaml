@@ -24,7 +24,7 @@ spec:
           values: ${arch}
       nodeClassRef:
         group: "karpenter.azure.com" 
-        kind: "AzureNodeClass"
+        kind: "AKSNodeClass"
         name: ${nodeclass_name}
       taints:
         - key: "e6data-workspace-name"
