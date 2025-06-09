@@ -53,6 +53,28 @@ data "aws_iam_policy_document" "engine_iam_glue_s3readAccess_doc" {
   }
 }
 
+data "aws_iam_policy_document" "system_tables_policy" {
+   statement {
+    sid    = "AssumeRole"
+    effect = "Allow"
+
+    actions = [
+      "sts:AssumeRole"
+    ]
+    resources = ["arn:aws:iam::${local.cross_account_id}:role/e6-system-tables-*"]
+  }
+
+  statement {
+    sid    = "TagSession"
+    effect = "Allow"
+
+    actions = [
+      "sts:TagSession"
+    ]
+    resources = ["*"]
+  }
+}
+
 # Create an IAM policy that grants read access to S3 buckets and the Glue catalog
 resource "aws_iam_policy" "e6data_engine_s3_glue_policy" {
   name        = "${local.e6data_workspace_name}-engine-s3-glue-policy-${random_string.random.result}"
@@ -60,9 +82,15 @@ resource "aws_iam_policy" "e6data_engine_s3_glue_policy" {
   policy      = data.aws_iam_policy_document.engine_iam_glue_s3readAccess_doc.json
 }
 
+resource "aws_iam_policy" "e6data_engine_system_tables_policy" {
+  name        = "${local.e6data_workspace_name}-engine-system-tables-${random_string.random.result}"
+  description = "Allows assume the role for system tables"
+  policy      = data.aws_iam_policy_document.system_tables_policy.json
+}
+
 # Create an IAM role for the engine, allowing it to assume the role with specified policies attached
 resource "aws_iam_role" "e6data_engine_role" {
   name                = "${local.e6data_workspace_name}-engine-role-${random_string.random.result}"
   assume_role_policy  = data.aws_iam_policy_document.oidc_assume_role_policy.json
-  managed_policy_arns = [aws_iam_policy.e6data_engine_s3_glue_policy.arn, aws_iam_policy.e6data_s3_read_write_policy.arn]
+  managed_policy_arns = [aws_iam_policy.e6data_engine_s3_glue_policy.arn, aws_iam_policy.e6data_s3_read_write_policy.arn, aws_iam_policy.e6data_engine_system_tables_policy.arn]
 }

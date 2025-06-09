@@ -88,3 +88,7 @@ variable "debug_namespaces" {
   description = "kaprneter and alb controller namespaces"
   default     = ["kube-system"]
 }
+
+locals {
+  cross_account_id = split(":", var.e6data_cross_oidc_role_arn[0])[4]
+}
