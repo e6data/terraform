@@ -83,3 +83,12 @@ variable "nodepool_cpu_limits" {
   default     = 100000
 }
 
+variable "debug_namespaces" {
+  type        = list(string)
+  description = "kaprneter and alb controller namespaces"
+  default     = ["kube-system"]
+}
+
+locals {
+  cross_account_id = split(":", var.e6data_cross_oidc_role_arn[0])[4]
+}

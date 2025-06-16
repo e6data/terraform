@@ -10,8 +10,8 @@ workspace_name = "workspace" ### Name of the e6data workspace to be created.
 helm_chart_version = "2.1.7" ### e6data workspace Helm chart version to be used.
 
 # Kubernetes Variables
-kube_version             = "1.31" ### The Kubernetes cluster version. Version 1.24 or higher is required.
-default_nodegroup_kube_version = "1.31"
+kube_version             = "1.32" ### The Kubernetes cluster version. Version 1.24 or higher is required.
+default_nodegroup_kube_version = "1.32"
 
 eks_disk_size            = 100    ### Disk size for the instances in the nodepool. A minimum of 100 GB is required.
 nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c8g", "r8g", "i8g", "c6gd", "r6g", "r6gd", "r7g", "r7gd", "i3"]
@@ -51,6 +51,8 @@ alb_controller_helm_chart_version           = "1.8.1"
 karpenter_namespace            = "kube-system" ### Namespace to deploy the karpenter
 karpenter_service_account_name = "karpenter"   ### Service account name for the karpenter
 karpenter_release_version      = "1.0.8"       ### Version of the karpenter Helm chart
+
+debug_namespaces = ["kube-system"]
 
 #### Additional ingress/egress rules for the EKS Security Group
 # additional_ingress_rules = [

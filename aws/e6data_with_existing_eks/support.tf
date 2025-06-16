@@ -14,10 +14,7 @@ locals {
       type               = "AWS"
       oidc_value         = aws_iam_role.e6data_engine_role.arn
       control_plane_user = ["e6data-${var.workspace_name}-user"]
-    }
-    karpenter = {
-      nodepool  = local.e6data_nodepool_name
-      nodeclass = local.e6data_nodeclass_name
+      debug_namespaces   = var.debug_namespaces
     }
   })
   mapUsers    = try(data.kubernetes_config_map_v1.aws_auth_read.data["mapUsers"], "")
@@ -74,26 +71,22 @@ data "aws_eks_node_group" "current" {
   node_group_name = tolist(data.aws_eks_node_groups.current.names)[0]
 }
 
+data "aws_eks_cluster_auth" "target_eks_auth" {
+  name = data.aws_eks_cluster.current.name
+}
+
 provider "kubernetes" {
   alias                  = "eks_e6data"
   host                   = data.aws_eks_cluster.current.endpoint
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.current.certificate_authority[0].data)
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    args        = ["eks", "get-token", "--cluster-name", var.eks_cluster_name]
-    command     = var.aws_command_line_path
-  }
+  token                  = data.aws_eks_cluster_auth.target_eks_auth.token
 }
 
 provider "kubectl" {
   host                   = data.aws_eks_cluster.current.endpoint
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.current.certificate_authority[0].data)
   load_config_file       = false
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    args        = ["eks", "get-token", "--cluster-name", var.eks_cluster_name]
-    command     = var.aws_command_line_path
-  }
+  token                  = data.aws_eks_cluster_auth.target_eks_auth.token
 }
 
 provider "helm" {
@@ -101,10 +94,6 @@ provider "helm" {
   kubernetes {
     host                   = data.aws_eks_cluster.current.endpoint
     cluster_ca_certificate = base64decode(data.aws_eks_cluster.current.certificate_authority[0].data)
-    exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
-      args        = ["eks", "get-token", "--cluster-name", var.eks_cluster_name]
-      command     = var.aws_command_line_path
-    }
+    token                  = data.aws_eks_cluster_auth.target_eks_auth.token
   }
 }
