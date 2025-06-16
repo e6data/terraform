@@ -79,14 +79,14 @@ provider "kubernetes" {
   alias                  = "eks_e6data"
   host                   = data.aws_eks_cluster.current.endpoint
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.current.certificate_authority[0].data)
-  token                  = data.aws_eks_cluster_auth.current.token
+  token                  = data.aws_eks_cluster_auth.target_eks_auth.token
 }
 
 provider "kubectl" {
   host                   = data.aws_eks_cluster.current.endpoint
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.current.certificate_authority[0].data)
   load_config_file       = false
-  token                  = data.aws_eks_cluster_auth.current.token
+  token                  = data.aws_eks_cluster_auth.target_eks_auth.token
 }
 
 provider "helm" {
@@ -94,6 +94,6 @@ provider "helm" {
   kubernetes {
     host                   = data.aws_eks_cluster.current.endpoint
     cluster_ca_certificate = base64decode(data.aws_eks_cluster.current.certificate_authority[0].data)
-    token                  = data.aws_eks_cluster_auth.current.token
+    token                  = data.aws_eks_cluster_auth.target_eks_auth.token
   }
 }
