@@ -1,4 +1,4 @@
-apiVersion: karpenter.sh/v1beta1
+apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
   name: ${nodepool_name}
@@ -23,6 +23,8 @@ spec:
           operator: In
           values: ${arch}
       nodeClassRef:
+        group: "karpenter.azure.com" 
+        kind: "AKSNodeClass"
         name: ${nodeclass_name}
       taints:
         - key: "e6data-workspace-name"
