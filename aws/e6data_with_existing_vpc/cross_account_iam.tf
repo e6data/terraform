@@ -237,6 +237,16 @@ data "aws_iam_policy_document" "assume_role_policy" {
       values   = [var.e6data_cross_account_external_id]
     }
   }
+  
+  statement {
+    actions = ["sts:TagSession"]
+    effect  = "Allow"
+
+    principals {
+      identifiers = var.e6data_cross_oidc_role_arn
+      type        = "AWS"
+    }
+  }
 }
 
 # Create an IAM role for cross-account access, allowing specified policies to be attached
