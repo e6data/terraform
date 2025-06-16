@@ -268,12 +268,6 @@ variable "debug_namespaces" {
   default     = ["kube-system"]
 }
 
-variable "vpc_cni_version" {
-  description = "Version of the VPC CNI to use"
-  type        = string
-  default     = "v1.19.0-eksbuild.1" # Set the desired default version
-}
-
 variable "warm_eni_target" {
   description = "Number of extra ENIs (Elastic Network Interfaces) to keep available for pod assignment."
   type        = number
