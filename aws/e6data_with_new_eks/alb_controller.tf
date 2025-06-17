@@ -335,12 +335,12 @@ module "alb_controller_oidc" {
   depends_on = [module.eks, aws_eks_node_group.default_node_group, module.e6data_authentication]
 }
 
-resource "aws_ec2_tag" "subnet_cluster_tag" {
-  count       = length(module.network.public_subnet_ids)
-  resource_id = module.network.public_subnet_ids[count.index]
-  key         = "kubernetes.io/role/elb"
-  value       = "1"
-}
+# resource "aws_ec2_tag" "subnet_cluster_tag" {
+#   count       = length(module.network.public_subnet_ids)
+#   resource_id = module.network.public_subnet_ids[count.index]
+#   key         = "kubernetes.io/role/elb"
+#   value       = "1"
+# }
 
 resource "aws_ec2_tag" "private_subnet_cluster_tag" {
   count       = length(module.network.private_subnet_ids)

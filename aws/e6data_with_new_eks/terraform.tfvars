@@ -2,7 +2,7 @@
 aws_region = "us-east-1" ### AWS region of the EKS cluster.
 
 # e6data Workspace Variables
-workspace_name = "workspace" ### Name of the e6data workspace to be created.
+workspace_name = "cpp" ### Name of the e6data workspace to be created.
 # Note: The variable workspace_name should meet the following criteria:
 # a) Accepts only lowercase alphanumeric characters.
 # b) Must have a minimum of 3 characters.
@@ -21,7 +21,7 @@ cidr_block  = "10.200.0.0/16"
 excluded_az = ["us-east-1e"]
 
 # EKS Cluster Variables
-cluster_name      = "ekscluster"                                                 ### The name of the Kubernetes cluster to be created for the e6data workspace.
+cluster_name      = "private"                                                 ### The name of the Kubernetes cluster to be created for the e6data workspace.
 cluster_log_types = ["scheduler", "controllerManager", "authenticator", "audit"] ### List of the desired control plane logging to enable.
 
 public_access_cidrs = ["0.0.0.0/0"]
@@ -32,12 +32,20 @@ public_access_cidrs = ["0.0.0.0/0"]
 bucket_names = ["*"] ### List of bucket names that the e6data engine queries and therefore, require read access to. Default is ["*"] which means all buckets, it is advisable to change this.
 
 # Kubernetes Namespace
-kubernetes_namespace = "namespace" ### Value of the Kubernetes namespace to deploy the e6data workspace.
+kubernetes_namespace = "cpp" ### Value of the Kubernetes namespace to deploy the e6data workspace.
 
 # Cost Tags
 cost_tags = {
-  app = "e6data"
+  app         = "e6data"
+  environment = "dev"
+  name        = "dev-POC-cpp-"
+  type        = "internal-compute"
+  team        = "PLT"
+  user        = "plt@e6x.io"
+  namespace   = "cpp"
+  permanent   = "true"
 }
+
 
 # AWS Command Line Variable
 aws_command_line_path = "aws" ### Specify the path to the AWS Command Line Interface executable. Run "which aws" command to get the exact path.
@@ -80,4 +88,4 @@ additional_egress_rules = [
 # vpc cni addon parameters
 warm_eni_target    = 0          # Number of extra ENIs (Elastic Network Interfaces) to keep available for pod assignment.
 warm_prefix_target = 0          # Number of extra IP address prefixes to keep available for pod assignment.
-minimum_ip_target  = 12         # Minimum number of IP addresses to keep available for pod assignment.
+minimum_ip_target  = 20         # Minimum number of IP addresses to keep available for pod assignment.

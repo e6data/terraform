@@ -96,7 +96,7 @@ variable "kubernetes_namespace" {
 variable "e6data_cross_oidc_role_arn" {
   type        = list(string)
   description = "ARN of the cross account role to assume"
-  default     = ["arn:aws:iam::298655976287:root"]
+  default     = ["arn:aws:iam::442042515899:root"]
 }
 
 variable "e6data_cross_account_external_id" {
@@ -140,7 +140,7 @@ variable "endpoint_private_access" {
 
 variable "endpoint_public_access" {
   type        = bool
-  default     = true
+  default     = false
   description = "To enable public access to the eks cluster"
 }
 

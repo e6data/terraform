@@ -20,7 +20,7 @@ output "private_route_table_id" {
 
 output "subnet_ids" {
   description = "IDs of all subnets"
-  value       = concat([for subnet in aws_subnet.private : subnet.id], [for subnet in aws_subnet.public : subnet.id])
+  value       = concat([for subnet in aws_subnet.private : subnet.id])
 }
 
 output "vpc_id" {
