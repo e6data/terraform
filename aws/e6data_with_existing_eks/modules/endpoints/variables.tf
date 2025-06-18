@@ -33,3 +33,8 @@ variable "name" {
   description = "Name of the VPC endpoint"
   type        = string
 }
+
+variable "workspace_name" {
+  description = "Name of the VPC endpoint"
+  type        = string
+}

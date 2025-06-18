@@ -14,7 +14,7 @@ resource "aws_vpc_endpoint" "endpoint" {
 }
 
 resource "aws_security_group" "endpoint_sg" {
-  name        = "${var.name}-endpoint-sg"
+  name        = "${var.name}-${var.workspace_name}-endpoint-sg"
   description = "Allow endpoint inbound traffic"
   vpc_id      = var.vpc_id
 

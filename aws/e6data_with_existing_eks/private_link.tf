@@ -30,4 +30,5 @@ module "compute_plane_vpc_endpoints" {
   ingress_rules     = each.value.ingress_rules
   egress_rules      = each.value.egress_rules
   name              = each.key
+  workspace_name    = var.workspace_name
 }
