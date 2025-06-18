@@ -374,7 +374,7 @@ data "kubectl_path_documents" "provisioner_manifests" {
     )
     nodepool_cpu_limits = var.nodepool_cpu_limits
   }
-  depends_on = [data.aws_availability_zones.available]
+  depends_on = [data.aws_availability_zones.available, module.karpeneter_deployment]
 }
 
 resource "kubectl_manifest" "provisioners" {
