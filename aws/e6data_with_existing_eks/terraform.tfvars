@@ -41,7 +41,7 @@ gateway_vpc_endpoints = {
 
 interface_vpc_endpoints = {
   "e6data-logs" = {
-    service_name = "com.amazonaws.vpce.us-east-1.vpce-svc-0c0f5d925e9997e8a"
+    service_name = "com.amazonaws.vpce.us-east-1.vpce-svc-02ae494b80ed1af07"
     ingress_rules = [
         {
             description = "Allow HTTP traffic"
@@ -77,7 +77,7 @@ interface_vpc_endpoints = {
     vpc_endpoint_type = "Interface"
   },
   "e6data-metrics" = {
-    service_name = "com.amazonaws.vpce.us-east-1.vpce-svc-052d956f02d5310da"
+    service_name = "com.amazonaws.vpce.us-east-1.vpce-svc-013de62cc021280a1"
     ingress_rules = [
         {
             description = "Allow HTTP traffic"
