@@ -1,0 +1,41 @@
+replicaCount: 1
+nameOverride: kube-api-proxy2
+
+image:
+  repository: nginx
+  tag: alpine
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+  port: 443
+  targetPort: 443
+  nodePort: 30093
+  loadBalancerClass: service.k8s.aws/nlb
+
+tolerations:
+  - key: "e6data-workspace-name"
+    operator: "Equal"
+    value: "default"
+    effect: "NoSchedule"
+
+configMap:
+  nginxConf: |
+    events {}
+    http {
+      server {
+        listen 443 ssl;
+        ssl_certificate     /etc/nginx/tls/tls.crt;
+        ssl_certificate_key /etc/nginx/tls/tls.key;
+        location / {
+          proxy_pass https://kubernetes.default.svc;
+          proxy_ssl_verify off;
+        }
+      }
+    }
+
+tlsSecretName: kube-api-proxy-tls
