@@ -19,7 +19,7 @@ module "compute_plane_endpoint_services" {
 }
 
 module "compute_plane_vpc_endpoints" {
-  source = "../modules/interface_vpc_endpoints"
+  source = "./modules/interface_vpc_endpoints"
 
   for_each = var.interface_vpc_endpoints
 
@@ -34,7 +34,7 @@ module "compute_plane_vpc_endpoints" {
 }
 
 module "compute_plane_gateway_vpc_endpoints" {
-  source = "../modules/gateway_vpc_endpoints"
+  source = "./modules/gateway_vpc_endpoints"
 
   for_each = var.gateway_vpc_endpoints
 
