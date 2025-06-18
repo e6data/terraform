@@ -27,3 +27,8 @@ variable "kubernetes_service_account_name" {
   type        = string
   description = "service account that OIDC role should be assigned to"
 }
+
+variable "workspace_name" {
+  type        = string
+  description = "Name of the workspace"
+}

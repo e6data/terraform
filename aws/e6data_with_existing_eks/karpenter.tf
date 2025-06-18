@@ -321,6 +321,7 @@ module "karpenter_oidc" {
 
   kubernetes_namespace            = var.karpenter_namespace
   kubernetes_service_account_name = var.karpenter_service_account_name
+  workspace_name                  = var.workspace_name
 
   depends_on = [aws_iam_policy.karpenter_controller_policy]
 }
