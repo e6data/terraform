@@ -31,13 +31,15 @@ aws_command_line_path = "/usr/bin/aws" ### Specify the path to the AWS Command L
 vpc_id              = "vpc-005f5700386fcfa8d"
 subnet_ids          = ["subnet-038bd7bd3b6221fa1","subnet-0116872432093824a","subnet-014c84cc7fe53c35b","subnet-0a02195494b703195","subnet-08b00a68c6cd343b2"]
 
-vpc_endpoints = {
-  # "e6data-s3" = {
-  #   service_name = "com.amazonaws.us-east-1.s3"
-  #   ingress_rules = []
-  #   egress_rules  = []
-  #   vpc_endpoint_type = "Gateway"
-  # },
+
+gateway_vpc_endpoints = {
+  "e6data-s3" = {
+    service_name = "com.amazonaws.${var.region}.s3"
+    vpc_endpoint_type = "Gateway"
+  }
+}
+
+interface_vpc_endpoints = {
   "e6data-logs" = {
     service_name = "com.amazonaws.vpce.us-east-1.vpce-svc-0c0f5d925e9997e8a"
     ingress_rules = [

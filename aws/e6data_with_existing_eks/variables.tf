@@ -126,9 +126,13 @@ variable "nameOverride" {
   default = "kube-api-proxy2"
 }
 
-variable "vpc_endpoints" {
-  description = "Map of VPC endpoints to create"
+variable "interface_vpc_endpoints" {
+  description = "Map of VPC Interface endpoints to create"
 }   
+
+variable "gateway_vpc_endpoints" {
+  description = "Map of gateway VPC endpoints to create"
+}
 
 ### Karpenter Variables
 variable "karpenter_eks_node_policy_arn" {
