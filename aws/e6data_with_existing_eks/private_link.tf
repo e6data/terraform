@@ -38,7 +38,7 @@ module "compute_plane_gateway_vpc_endpoints" {
 
   for_each = var.gateway_vpc_endpoints
 
-  vpc_id            = data.aws_eks_cluster.cluster.vpc_config.vpc_id
+  vpc_id            = data.aws_eks_cluster.cluster.vpc_config[0].vpc_id
   service_name      = each.value.service_name
   vpc_endpoint_type = each.value.vpc_endpoint_type
   name              = each.key
