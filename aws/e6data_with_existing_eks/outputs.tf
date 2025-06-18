@@ -35,3 +35,7 @@ output "e6data_nodepool_name" {
 output "e6data_nodeclass_name" {
   value = local.e6data_nodeclass_name
 }
+
+output "endpoint_service_name" {
+  value = module.compute_plane_endpoint_services.endpoint_service_name
+}

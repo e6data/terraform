@@ -7,7 +7,7 @@ locals {
   e6data_nodepool_name  = "e6data-nodepool-${local.short_workspace_name}-${random_string.random.result}"
   e6data_nodeclass_name = "e6data-nodeclass-${local.short_workspace_name}-${random_string.random.result}"
 
-  oidc_tls_suffix = replace(data.aws_eks_cluster.current.identity[0].oidc[0].issuer, "https://", "")
+  oidc_tls_suffix = replace(data.aws_eks_cluster.target_eks.identity[0].oidc[0].issuer, "https://", "")
 
   helm_values_file = yamlencode({
     cloud = {
@@ -54,37 +54,33 @@ resource "random_string" "random" {
 data "aws_caller_identity" "current" {
 }
 
-data "aws_eks_cluster" "current" {
-  name = var.eks_cluster_name
+data "aws_eks_node_groups" "cluster_node_groups" {
+  cluster_name = var.eks_cluster_name
 }
 
-data "aws_eks_cluster_auth" "current" {
-  name = var.eks_cluster_name
-}
-
-data "aws_eks_node_groups" "current" {
-  cluster_name = data.aws_eks_cluster.current.name
-}
-
-data "aws_eks_node_group" "current" {
+data "aws_eks_node_group" "node_group" {
   cluster_name   = var.eks_cluster_name
-  node_group_name = tolist(data.aws_eks_node_groups.current.names)[0]
+  node_group_name = tolist(data.aws_eks_node_groups.cluster_node_groups.names)[0]
 }
 
 data "aws_eks_cluster_auth" "target_eks_auth" {
-  name = data.aws_eks_cluster.current.name
+  name = var.eks_cluster_name
+}
+
+data "aws_eks_cluster" "target_eks" {
+  name = var.eks_cluster_name
 }
 
 provider "kubernetes" {
   alias                  = "eks_e6data"
-  host                   = data.aws_eks_cluster.current.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.current.certificate_authority[0].data)
+  host                   = data.aws_eks_cluster.target_eks.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.target_eks.certificate_authority[0].data)
   token                  = data.aws_eks_cluster_auth.target_eks_auth.token
 }
 
 provider "kubectl" {
-  host                   = data.aws_eks_cluster.current.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.current.certificate_authority[0].data)
+  host                   = data.aws_eks_cluster.target_eks.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.target_eks.certificate_authority[0].data)
   load_config_file       = false
   token                  = data.aws_eks_cluster_auth.target_eks_auth.token
 }
@@ -92,8 +88,8 @@ provider "kubectl" {
 provider "helm" {
   alias = "eks_e6data"
   kubernetes {
-    host                   = data.aws_eks_cluster.current.endpoint
-    cluster_ca_certificate = base64decode(data.aws_eks_cluster.current.certificate_authority[0].data)
+    host                   = data.aws_eks_cluster.target_eks.endpoint
+    cluster_ca_certificate = base64decode(data.aws_eks_cluster.target_eks.certificate_authority[0].data)
     token                  = data.aws_eks_cluster_auth.target_eks_auth.token
   }
 }

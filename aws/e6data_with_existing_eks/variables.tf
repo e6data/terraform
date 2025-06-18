@@ -23,11 +23,6 @@ variable "kubernetes_namespace" {
   type        = string
 }
 
-variable "cost_tags" {
-  type        = map(string)
-  description = "e6data specific tags for isaolation and cost management"
-}
-
 variable "e6data_cross_oidc_role_arn" {
   type        = list(string)
   description = "ARN of the cross account role to assume"
@@ -61,17 +56,6 @@ variable "excluded_az" {
 }
 
 ### Karpenter Variables
-variable "karpenter_eks_node_policy_arn" {
-  type        = list(string)
-  description = "List of Policies to attach to the Karpenter node role"
-  default = [
-    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
-    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
-    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
-    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-  ]
-}
-
 variable "nodepool_instance_family" {
   type        = list(string)
   description = "Instance family for nodepool"
@@ -91,4 +75,84 @@ variable "debug_namespaces" {
 
 locals {
   cross_account_id = split(":", var.e6data_cross_oidc_role_arn[0])[4]
+}
+
+## Private Link Variables
+variable "cost_tags" {
+  type = map(string)
+  description = "cost tags"
+}
+
+variable "vpc_id" {
+  type = string
+  description = "vpc_id in whcih the eks cluster is present"
+}
+
+variable "subnet_ids" {
+  type = list(string)
+  description = "private subnets in which the eks is present"
+}
+
+variable "allowed_principals" {
+  type = list(string)
+}
+
+variable "nginx_image_repository" {
+  description = "Container image repository for nginx"
+}
+
+variable "nginx_image_tag" {
+  description = "Container image tag for nginx"
+}
+
+variable "tolerations" {
+  description = "Tolerations applied to the kube-api-proxy deployment"
+  type = list(object({
+    key      = string
+    operator = string
+    value    = string
+  }))
+  default = [
+    {
+      key      = "e6data-workspace-name"
+      operator = "Equal"
+      value    = "default"
+    }
+  ]
+}
+
+variable "nameOverride" {
+  type = string
+  default = "kube-api-proxy2"
+}
+
+variable "vpc_endpoints" {
+  description = "Map of VPC endpoints to create"
+}   
+
+### Karpenter Variables
+variable "karpenter_eks_node_policy_arn" {
+  type        = list(string)
+  description = "List of Policies to attach to the Karpenter node role"
+  default = [
+    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  ]
+}
+
+variable "karpenter_namespace" {
+  description = "Namespace to deploy the Karpenter cluster autoscaler"
+  type        = string
+}
+
+variable "karpenter_service_account_name" {
+  description = "Service account name for the Karpenter cluster autoscaler"
+  type        = string
+}
+
+variable "karpenter_release_version" {
+  description = "Version of the Karpenter cluster autoscaler Helm chart"
+  type        = string
 }

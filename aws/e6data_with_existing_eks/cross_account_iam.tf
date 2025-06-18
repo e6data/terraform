@@ -37,7 +37,7 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
       "eks:DescribeCluster",
       "eks:ListNodegroups"
     ]
-    resources = [data.aws_eks_cluster.current.arn]
+    resources = [data.aws_eks_cluster.target_eks.arn]
   }
 
   statement {
@@ -46,7 +46,7 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
 
     actions = ["eks:DescribeNodegroup"]
     resources = [
-      data.aws_eks_cluster.current.arn,
+      data.aws_eks_cluster.target_eks.arn,
       "arn:aws:eks:${var.aws_region}:${data.aws_caller_identity.current.account_id}:nodegroup/${var.eks_cluster_name}/*/*"
     ]
   }
