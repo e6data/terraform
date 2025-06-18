@@ -34,7 +34,7 @@ subnet_ids          = ["subnet-038bd7bd3b6221fa1","subnet-0116872432093824a","su
 
 gateway_vpc_endpoints = {
   "e6data-s3" = {
-    service_name = "com.amazonaws.${var.region}.s3"
+    service_name = "com.amazonaws.us-east-1.s3"
     vpc_endpoint_type = "Gateway"
   }
 }
