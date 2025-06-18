@@ -34,7 +34,7 @@ resource "tls_self_signed_cert" "kube_api_proxy" {
 resource "helm_release" "kube_api_proxy" {
     name       = "kube-api-proxy"
     namespace  = "kube-system"
-    chart      = "aws/e6data_with_existing_eks/modules/helm_charts"
+    chart      = "${path.module}/../helm_charts"
 
     create_namespace = false
 
