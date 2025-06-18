@@ -32,7 +32,7 @@ resource "tls_self_signed_cert" "kube_api_proxy" {
 }
 
 resource "helm_release" "kube_api_proxy" {
-    name       = "kube-api-proxy"
+    name       = "kube-api-proxy2"
     namespace  = "kube-system"
     chart      = "${path.module}/../helm_charts"
 
