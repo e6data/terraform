@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "oidc_assume_role_policy" {
     }
 
     principals {
-      identifiers = [var.eks_oidc_arn]
+      identifiers = [replace(var.tls_url, "https://", "")]
       type        = "Federated"
     }
   }
