@@ -123,7 +123,7 @@ variable "tolerations" {
 
 variable "nameOverride" {
   type = string
-  default = "kube-api-proxy2"
+  default = "kube-api-proxy3"
 }
 
 variable "interface_vpc_endpoints" {
