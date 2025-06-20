@@ -351,7 +351,7 @@ data "kubectl_path_documents" "provisioner_manifests" {
   pattern = "./karpenter-provisioner-manifests/*.yaml"
   vars = {
     workspace_name           = var.workspace_name
-    available_zones          = module.network.private_subnet_azs
+    available_zones          = jsonencode(module.network.private_subnet_azs)
     cluster_name             = module.eks.cluster_name
     instance_family          = jsonencode(var.nodepool_instance_family)
     karpenter_node_role_name = aws_iam_role.eks_nodegroup_iam_role.name

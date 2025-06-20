@@ -71,3 +71,8 @@ data "aws_subnets" "private" {
     values = ["private"]
   }
 }
+
+data "aws_subnet" "private" {
+  for_each = toset(data.aws_subnets.private.ids)
+  id       = each.key
+}

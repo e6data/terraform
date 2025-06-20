@@ -18,8 +18,8 @@ output "private_subnet_ids" {
 }
 
 output "private_subnet_azs" {
-  value = jsonencode(distinct([
+  value = distinct([
     for subnet in data.aws_subnet.private :
     subnet.availability_zone
-  ]))
+  ])
 }

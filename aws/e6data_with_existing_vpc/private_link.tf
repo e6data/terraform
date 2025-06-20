@@ -22,10 +22,10 @@ module "compute_plane_vpc_endpoints" {
 
   for_each = var.interface_vpc_endpoints
 
-  vpc_id            = module.vpc.vpc_id
+  vpc_id            = module.network.vpc_id
   service_name      = each.value.service_name
   vpc_endpoint_type = each.value.vpc_endpoint_type
-  subnet_ids        = module.vpc.private_subnet_ids
+  subnet_ids        = module.network.private_subnet_ids
   ingress_rules     = each.value.ingress_rules
   egress_rules      = each.value.egress_rules
   name              = each.key
