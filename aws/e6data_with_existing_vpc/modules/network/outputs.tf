@@ -1,26 +1,6 @@
-output "public_subnet_ids" {
-  description = "IDs of the created public subnets"
-  value       = [for subnet in aws_subnet.public : subnet.id]
-}
-
-output "private_subnet_ids" {
-  description = "IDs of the created private subnets"
-  value       = [for subnet in aws_subnet.private : subnet.id]
-}
-
-output "public_route_table_id" {
-  description = "IDs of the created public route tables"
-  value       = aws_route_table.public_route_table.id
-}
-
-output "private_route_table_id" {
-  description = "IDs of the created private route tables"
-  value       = { for k, v in aws_route_table.private_route_table : k => v.id }
-}
-
 output "subnet_ids" {
   description = "IDs of all subnets"
-  value       = concat([for subnet in aws_subnet.private : subnet.id], [for subnet in aws_subnet.public : subnet.id])
+  value = data.aws_subnets.private.ids
 }
 
 output "vpc_id" {
@@ -31,4 +11,8 @@ output "vpc_id" {
 output "vpc_cidr" {
   description = "The vpc CIDR"
   value       = data.aws_vpc.vpc.cidr_block
+}
+
+output "private_subnet_ids" {
+  value = data.aws_subnets.private.ids
 }

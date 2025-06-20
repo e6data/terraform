@@ -141,7 +141,7 @@ variable "endpoint_private_access" {
 
 variable "endpoint_public_access" {
   type        = bool
-  default     = true
+  default     = false
   description = "To enable public access to the eks cluster"
 }
 
@@ -289,4 +289,44 @@ variable "minimum_ip_target" {
 
 locals {
   cross_account_id = split(":", var.e6data_cross_oidc_role_arn[0])[4]
+}
+
+variable "e6data_engine_role_arn" {
+  description = "IAM role ARN for the e6data engine to read buckets"
+  type        = string
+  
+}
+
+
+## Private Link Variables
+variable "cost_tags" {
+  type = map(string)
+  description = "cost tags"
+}
+
+variable "allowed_principals" {
+  type = list(string)
+}
+
+variable "nginx_image_repository" {
+  description = "Container image repository for nginx"
+}
+
+variable "nginx_image_tag" {
+  description = "Container image tag for nginx"
+}
+
+variable "nameOverride" {
+  type = string
+  default = "kube-api-proxy"
+}
+
+variable "interface_vpc_endpoints" {
+  description = "Map of VPC Interface endpoints to create"
+}   
+
+variable "e6data_engine_role_arn" {
+  description = "IAM role ARN for the e6data engine to read buckets"
+  type        = string
+  
 }

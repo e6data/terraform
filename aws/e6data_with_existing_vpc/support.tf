@@ -15,7 +15,7 @@ locals {
   helm_values_file = yamlencode({
     cloud = {
       type               = "AWS"
-      oidc_value         = aws_iam_role.e6data_engine_role.arn
+      oidc_value         = var.e6data_engine_role_arn
       control_plane_user = ["e6data-${var.workspace_name}-user"]
       debug_namespaces   = var.debug_namespaces
     }

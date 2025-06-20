@@ -8,9 +8,7 @@ module "eks" {
   security_group_ids               = [module.security_group.security_group_id]
   subnet_ids                       = module.network.subnet_ids
   private_subnet_ids               = module.network.private_subnet_ids
-  public_access_cidrs              = var.public_access_cidrs
   endpoint_private_access          = var.endpoint_private_access
-  endpoint_public_access           = var.endpoint_public_access
   vpc_id                           = module.network.vpc_id
 
   depends_on = [module.network]
