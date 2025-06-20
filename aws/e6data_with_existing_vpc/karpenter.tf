@@ -346,17 +346,12 @@ module "karpeneter_deployment" {
   depends_on = [module.eks, module.karpenter_oidc, aws_eks_node_group.default_node_group, aws_sqs_queue.node_interruption_queue, module.e6data_authentication]
 }
 
-data "aws_availability_zones" "available" {
-  state         = "available"
-  exclude_names = var.excluded_az
-}
-
 # Data source to fetch and template Karpenter provisioner manifests
 data "kubectl_path_documents" "provisioner_manifests" {
   pattern = "./karpenter-provisioner-manifests/*.yaml"
   vars = {
     workspace_name           = var.workspace_name
-    available_zones          = jsonencode(data.aws_availability_zones.available.names)
+    available_zones          = module.network.private_subnet_azs
     cluster_name             = module.eks.cluster_name
     instance_family          = jsonencode(var.nodepool_instance_family)
     karpenter_node_role_name = aws_iam_role.eks_nodegroup_iam_role.name

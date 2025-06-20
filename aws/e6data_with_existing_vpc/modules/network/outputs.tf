@@ -16,3 +16,10 @@ output "vpc_cidr" {
 output "private_subnet_ids" {
   value = data.aws_subnets.private.ids
 }
+
+output "private_subnet_azs" {
+  value = jsonencode(distinct([
+    for subnet in data.aws_subnet.private :
+    subnet.availability_zone
+  ]))
+}

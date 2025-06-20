@@ -40,11 +40,6 @@ variable "vpc_id" {
   description = "VPC ID to create e6data resources"
 }
 
-variable "excluded_az" {
-  type        = list(string)
-  description = "AZ where EKS doesnt have capacity"
-}
-
 variable "app" {
   type        = string
   description = "tag prefix to be added"
@@ -99,11 +94,6 @@ variable "e6data_cross_account_external_id" {
   type        = string
   description = "External ID of the cross account role to assume"
   default     = "783562"
-}
-
-variable "bucket_names" {
-  type        = list(string)
-  description = "List of bucket names to be queried by e6data engine"
 }
 
 # ALB Ingress Controller variables
