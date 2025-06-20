@@ -130,6 +130,13 @@ resource "kubernetes_service_v1" "kube_api_proxy" {
     depends_on = [helm_release.kube_api_proxy]
 }
 
+resource "null_resource" "lb_waiting" {
+  provisioner "local-exec" {
+    command = "sleep 60"
+  }
+  depends_on = [ kubernetes_service_v1.kube_api_proxy ]
+}
+
 data "aws_lb" "kube_api_proxy" {
     tags = {
         "service.k8s.aws/stack" = "kube-system/${var.nameOverride}-svc",
@@ -150,5 +157,5 @@ resource "aws_vpc_endpoint_service" "eks_endpoint_service" {
         Name = "${var.nameOverride}-endpoint-service"
     }
 
-    depends_on = [kubernetes_service_v1.kube_api_proxy]
+    depends_on = [kubernetes_service_v1.kube_api_proxy, null_resource.lb_waiting]
 }
