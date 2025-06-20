@@ -1,7 +1,3 @@
-data "aws_eks_cluster" "cluster" {
-  name = module.eks.cluster_name
-}
-
 module "compute_plane_endpoint_services" {
   source = "./modules/endpoint_services"
 
