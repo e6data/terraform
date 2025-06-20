@@ -368,7 +368,7 @@ data "kubectl_path_documents" "provisioner_manifests" {
     )
     nodepool_cpu_limits = var.nodepool_cpu_limits
   }
-  depends_on = [data.aws_availability_zones.available, aws_iam_role.eks_nodegroup_iam_role, module.eks]
+  depends_on = [ aws_iam_role.eks_nodegroup_iam_role, module.eks]
 }
 
 resource "kubectl_manifest" "provisioners" {
