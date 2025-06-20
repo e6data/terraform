@@ -45,11 +45,6 @@ variable "excluded_az" {
   description = "AZ where EKS doesnt have capacity"
 }
 
-variable "cost_tags" {
-  type        = map(string)
-  description = "cost tags"
-}
-
 variable "app" {
   type        = string
   description = "tag prefix to be added"
@@ -324,9 +319,3 @@ variable "nameOverride" {
 variable "interface_vpc_endpoints" {
   description = "Map of VPC Interface endpoints to create"
 }   
-
-variable "e6data_engine_role_arn" {
-  description = "IAM role ARN for the e6data engine to read buckets"
-  type        = string
-  
-}
