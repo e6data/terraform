@@ -52,7 +52,7 @@ alb_controller_helm_chart_version           = "1.8.1"
 # Karpenter Variables
 karpenter_namespace            = "kube-system" ### Namespace to deploy the karpenter
 karpenter_service_account_name = "karpenter"   ### Service account name for the karpenter
-karpenter_release_version      = "1.0.8"       ### Version of the karpenter Helm chart
+karpenter_release_version      = "1.3.2"       ### Version of the karpenter Helm chart
 
 debug_namespaces = ["kube-system"]
 
