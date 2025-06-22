@@ -37,3 +37,8 @@ terraform {
     }
   }
 }
+provider "tls" {
+  proxy {
+    from_env = false
+  }
+}
