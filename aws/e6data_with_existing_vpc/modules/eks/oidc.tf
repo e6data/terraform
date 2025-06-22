@@ -8,3 +8,9 @@ resource "aws_iam_openid_connect_provider" "oidc_provider" {
   thumbprint_list = [data.tls_certificate.oidc_tls.certificates[0].sha1_fingerprint]
   url             = aws_eks_cluster.eks.identity[0].oidc[0].issuer
 }
+
+provider "tls" {
+  proxy {
+    from_env = false
+  }
+}
