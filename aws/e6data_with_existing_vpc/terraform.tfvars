@@ -389,7 +389,7 @@ interface_vpc_endpoints = {
   }
 
   "iam" = {
-    service_name      = "com.amazonaws.us-east-1.iam"
+    service_name      = "com.amazonaws.iam"
     vpc_endpoint_type = "Interface"
 
     ingress_rules = [
