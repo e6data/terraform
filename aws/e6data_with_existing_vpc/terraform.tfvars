@@ -2,7 +2,7 @@
 aws_region = "us-east-1" ### AWS region of the EKS cluster.
 
 # e6data Workspace Variables
-workspace_name = "newekscpp" ### Name of the e6data workspace to be created.
+workspace_name = "nonatcpp" ### Name of the e6data workspace to be created.
 # Note: The variable workspace_name should meet the following criteria:
 # a) Accepts only lowercase alphanumeric characters.
 # b) Must have a minimum of 3 characters.
@@ -17,13 +17,13 @@ eks_disk_size            = 100    ### Disk size for the instances in the nodepoo
 nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c8g", "r8g", "i8g", "c6gd", "r6g", "r6gd", "r7g", "r7gd", "i3"]
 
 # Network Variables
-vpc_id      = "vpc-00cbf4aea6ca78138"
+vpc_id      = "vpc-05b02848381d4c455"
 
 # IAM Role ARN for the e6data engine to access required AWS services like S3
 e6data_engine_role_arn = "arn:aws:iam::670514002493:role/e6data-newekscpp-engine-role"
 
 # EKS Cluster Variables
-cluster_name      = "newekscpp"                                                 ### The name of the Kubernetes cluster to be created for the e6data workspace.
+cluster_name      = "nonatcpp"                                                 ### The name of the Kubernetes cluster to be created for the e6data workspace.
 cluster_log_types = ["scheduler", "controllerManager", "authenticator", "audit"] ### List of the desired control plane logging to enable.
 
 # Kubernetes Namespace

@@ -1,4 +1,19 @@
-resource "aws_vpc_endpoint" "endpoint" {
+resource "aws_vpc_endpoint" "services_endpoint" {
+  vpc_id            = var.vpc_id
+  service_name      = var.service_name
+  vpc_endpoint_type = var.vpc_endpoint_type
+  subnet_ids        = var.subnet_ids
+  private_dns_enabled = true
+  security_group_ids = [
+    aws_security_group.endpoint_sg.id,
+  ]
+
+   tags = {
+    Name = "${var.name}-privatelink-endpoint"
+  }
+}
+
+resource "aws_vpc_endpoint" "monitoring_endpoint" {
   vpc_id            = var.vpc_id
   service_name      = var.service_name
   vpc_endpoint_type = var.vpc_endpoint_type
