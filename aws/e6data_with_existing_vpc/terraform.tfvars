@@ -426,6 +426,31 @@ interface_vpc_endpoints = {
       }
     ]
   }
+
+  "kafka" = {
+    service_name      = "com.amazonaws.us-east-1.kafka"
+    vpc_endpoint_type = "Interface"
+
+    ingress_rules = [
+      {
+        description = "Allow HTTPS for KAFKA"
+        from_port   = 443
+        to_port     = 443
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
+    ]
+
+    egress_rules = [
+      {
+        description = "Allow HTTPS for KAFKA"
+        from_port   = 443
+        to_port     = 443
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
+    ]
+  }
 }
 
 # List of IAM principals allowed to connect to the endpoint service (provided by e6data)
