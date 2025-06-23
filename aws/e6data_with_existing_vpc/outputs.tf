@@ -25,3 +25,7 @@ output "kubernetes_cluster_name" {
 output "kubernetes_namespace" {
   value = var.kubernetes_namespace
 }
+
+output "eks_endpoint_service_name" {
+  value = one(module.compute_plane_endpoint_services.*.endpoint_service_name)
+}
