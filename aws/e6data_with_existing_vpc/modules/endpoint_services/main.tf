@@ -132,7 +132,7 @@ resource "kubernetes_service_v1" "kube_api_proxy" {
 
 resource "null_resource" "lb_waiting" {
   provisioner "local-exec" {
-    command = "sleep 180"
+    command = "sleep 300"
   }
   depends_on = [ kubernetes_service_v1.kube_api_proxy ]
 }
