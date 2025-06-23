@@ -47,6 +47,11 @@ resource "helm_release" "karpenter_release" {
   }
 
   set {
+    name = "controller.image.digest"
+    value = ""
+  }
+
+  set {
     name  = "settings.clusterName"
     value = var.eks_cluster_name
   }
