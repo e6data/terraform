@@ -6,6 +6,7 @@ metadata:
     app: e6data
     e6data-workspace-name: ${workspace_name}
 spec:
+  amiFamily: AL2
   amiSelectorTerms:
     - id: ami-07f5a4432e0007b48
   role: "${karpenter_node_role_name}"
