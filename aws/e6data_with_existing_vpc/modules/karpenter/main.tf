@@ -37,12 +37,12 @@ resource "helm_release" "karpenter_release" {
   timeout   = 600
 
   set {
-    name = controller.image.repository
+    name = "controller.image.repository"
     value = var.karpenter_controller_image_repository
   }
 
   set {
-    name = controller.image.tag
+    name = "controller.image.tag"
     value = var.karpenter_controller_image_tag
   }
 

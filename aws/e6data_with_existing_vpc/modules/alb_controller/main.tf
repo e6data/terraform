@@ -25,12 +25,12 @@ resource "helm_release" "alb_controller_release" {
   timeout   = 600
 
   set {
-    name = image.repository
+    name = "image.repository"
     value = var.alb_controller_image_repository
   }
 
   set {
-    name = image.tag
+    name = "image.tag"
     value = var.alb_controller_image_tag
   }
 
