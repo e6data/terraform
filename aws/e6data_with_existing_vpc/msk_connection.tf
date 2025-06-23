@@ -1,5 +1,5 @@
 resource "aws_msk_vpc_connection" "msk_connect" {
-  authentication     = "SASL_IAM"
+  authentication     = "SASL_SCRAM"
   target_cluster_arn = var.msk_cluster_arn
   vpc_id             = module.network.vpc_id
   client_subnets     = module.network.private_subnet_ids
