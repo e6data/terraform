@@ -343,6 +343,9 @@ module "karpeneter_deployment" {
   controller_role_arn     = module.karpenter_oidc.oidc_role_arn
   interruption_queue_name = aws_sqs_queue.node_interruption_queue.name
 
+  karpenter_controller_image_repository = var.karpenter_controller_image_repository
+  karpenter_controller_image_tag        = var.karpenter_controller_image_tag
+
   depends_on = [module.eks, module.karpenter_oidc, aws_eks_node_group.default_node_group, aws_sqs_queue.node_interruption_queue, module.e6data_authentication]
 }
 

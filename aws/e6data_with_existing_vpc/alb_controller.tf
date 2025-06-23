@@ -335,13 +335,6 @@ module "alb_controller_oidc" {
   depends_on = [module.eks, module.e6data_authentication]
 }
 
-# resource "aws_ec2_tag" "subnet_cluster_tag" {
-#   count       = length(module.network.public_subnet_ids)
-#   resource_id = module.network.public_subnet_ids[count.index]
-#   key         = "kubernetes.io/role/elb"
-#   value       = "1"
-# }
-
 resource "aws_ec2_tag" "private_subnet_cluster_tag" {
   count       = length(module.network.private_subnet_ids)
   resource_id = module.network.private_subnet_ids[count.index]
@@ -368,6 +361,9 @@ module "aws_ingress_controller" {
 
   region = var.aws_region
   vpc_id = module.network.vpc_id
+
+  alb_controller_image_repository = var.alb_controller_image_repository
+  alb_controller_image_tag = var.alb_controller_image_tag
 
   depends_on = [module.alb_controller_oidc, module.e6data_authentication]
 }
