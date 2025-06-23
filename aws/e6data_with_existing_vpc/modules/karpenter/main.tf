@@ -37,6 +37,16 @@ resource "helm_release" "karpenter_release" {
   timeout   = 600
 
   set {
+    name = controller.image.repository
+    value = var.karpenter_controller_image_repository
+  }
+
+  set {
+    name = controller.image.tag
+    value = var.karpenter_controller_image_tag
+  }
+
+  set {
     name  = "settings.clusterName"
     value = var.eks_cluster_name
   }

@@ -32,3 +32,13 @@ variable "controller_role_arn" {
   description = "ARN of the IAM role associated with the Karpenter controller"
   type        = string
 }
+
+variable "karpenter_controller_image_repository" {
+  type        = string
+  description = "Repository for the Karpenter controller image"
+}
+
+variable "karpenter_controller_image_tag" {
+  type        = string
+  description = "Tag for the Karpenter controller image"
+}

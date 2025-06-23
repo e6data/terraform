@@ -97,6 +97,14 @@ variable "e6data_cross_account_external_id" {
 }
 
 # ALB Ingress Controller variables
+variable "alb_controller_image_repository" {
+  type = string
+}
+
+variable "alb_controller_image_tag" {
+  type = string
+}
+
 variable "alb_ingress_controller_namespace" {
   type        = string
   description = "ALB Ingress Controller namespace"
@@ -131,6 +139,16 @@ variable "endpoint_public_access" {
 }
 
 ### Karpenter Variables
+variable "karpenter_controller_image_repository" {
+  type        = string
+  description = "Repository for the Karpenter controller image"
+}
+
+variable "karpenter_controller_image_tag" {
+  type        = string
+  description = "Tag for the Karpenter controller image"
+}
+
 variable "karpenter_eks_node_policy_arn" {
   type        = list(string)
   description = "List of Policies to attach to the Karpenter node role"

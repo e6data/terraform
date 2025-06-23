@@ -48,11 +48,15 @@ aws_command_line_path = "aws" ### Specify the path to the AWS Command Line Inter
 alb_ingress_controller_namespace            = "kube-system"
 alb_ingress_controller_service_account_name = "alb-ingress-controller"
 alb_controller_helm_chart_version           = "1.8.1"
+alb_controller_image_repository             = "670514002493.dkr.ecr.us-east-1.amazonaws.com/eks/aws-load-balancer-controller"
+alb_controller_image_tag                    = "v2.8.1"
 
 # Karpenter Variables
 karpenter_namespace            = "kube-system" ### Namespace to deploy the karpenter
 karpenter_service_account_name = "karpenter"   ### Service account name for the karpenter
 karpenter_release_version      = "1.3.2"       ### Version of the karpenter Helm chart
+karpenter_controller_image_repository = "670514002493.dkr.ecr.us-east-1.amazonaws.com/eks/karpenter/controller"
+karpenter_controller_image_tag        = "v1.3.2"
 
 debug_namespaces = ["kube-system"]
 

@@ -28,3 +28,11 @@ variable "vpc_id" {
   type        = string
   description = "VPC ID"
 }
+
+variable "alb_controller_image_repository" {
+  type = string
+}
+
+variable "alb_controller_image_tag" {
+  type = string
+}
