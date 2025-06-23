@@ -7,7 +7,7 @@ metadata:
     e6data-workspace-name: ${workspace_name}
 spec:
   amiSelectorTerms:
-    - alias: "al2@1.31"
+    - id: "ami-07f5a4432e0007b48"
   role: "${karpenter_node_role_name}"
   subnetSelectorTerms:
     - tags:
