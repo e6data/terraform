@@ -7,6 +7,13 @@ resource "aws_ec2_tag" "karpenter_subnet_cluster_tag" {
   value       = module.eks.cluster_name
 }
 
+# Create an IAM policy for the Karpenter controller, granting necessary permissions for managing EKS nodes
+resource "aws_iam_policy" "karpenter_controller_policy" {
+  name        = "${module.eks.cluster_name}-karpenter-controller-${random_string.random.result}"
+  description = "karpenter policy for cluster ${module.eks.cluster_name}"
+  policy      = data.aws_iam_policy_document.karpenter_controller_policy_document.json
+}
+
 # Grants Karpenter controller scoped permissions to manage EC2 resources, including creation, tagging, and deletion, with conditions to limit actions to specific cluster and nodepool tags.
 data "aws_iam_policy_document" "karpenter_controller_policy_document" {
   statement {
@@ -24,21 +31,21 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     ]
   }
 
-  statement {
-    actions = [
-      "ec2:RunInstances",
-      "ec2:CreateFleet"
-    ]
+  # statement {
+  #   actions = [
+  #     "ec2:RunInstances",
+  #     "ec2:CreateFleet"
+  #   ]
 
-    effect    = "Allow"
-    resources = ["arn:aws:ec2:${var.aws_region}:*:launch-template/*"]
-    sid       = "AllowScopedEC2LaunchTemplateAccessActions"
-    condition {
-      test     = "StringEquals"
-      variable = "aws:ResourceTag/kubernetes.io/cluster/${module.eks.cluster_name}"
-      values   = ["owned"]
-    }
-  }
+  #   effect    = "Allow"
+  #   resources = ["*"]
+  #   sid       = "AllowScopedEC2LaunchTemplateAccessActions"
+  #   condition {
+  #     test     = "StringEquals"
+  #     variable = "aws:ResourceTag/kubernetes.io/cluster/${module.eks.cluster_name}"
+  #     values   = ["owned"]
+  #   }
+  # }
 
   statement {
     actions = [
@@ -58,11 +65,11 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     ]
 
     sid = "AllowScopedEC2InstanceActionsWithTags"
-    condition {
-      test     = "StringEquals"
-      variable = "aws:RequestTag/kubernetes.io/cluster/${module.eks.cluster_name}"
-      values   = ["owned"]
-    }
+    # condition {
+    #   test     = "StringEquals"
+    #   variable = "aws:RequestTag/kubernetes.io/cluster/${module.eks.cluster_name}"
+    #   values   = ["owned"]
+    # }
   }
 
   statement {
@@ -81,11 +88,11 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     ]
 
     sid = "AllowScopedResourceCreationTagging"
-    condition {
-      test     = "StringEquals"
-      variable = "aws:RequestTag/kubernetes.io/cluster/${module.eks.cluster_name}"
-      values   = ["owned"]
-    }
+    # condition {
+    #   test     = "StringEquals"
+    #   variable = "aws:RequestTag/kubernetes.io/cluster/${module.eks.cluster_name}"
+    #   values   = ["owned"]
+    # }
     condition {
       test     = "StringEquals"
       variable = "ec2:CreateAction"
@@ -108,11 +115,6 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     ]
 
     sid = "AllowScopedResourceTagging"
-    condition {
-      test     = "StringEquals"
-      variable = "aws:ResourceTag/kubernetes.io/cluster/${module.eks.cluster_name}"
-      values   = ["owned"]
-    }
   }
 
   statement {
@@ -169,7 +171,10 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
 
     sid = "AllowSSMReadActions"
   }
+}
 
+# Grants Karpenter controller scoped permissions to manage EC2 resources, including creation, tagging, and deletion, with conditions to limit actions to specific cluster and nodepool tags.
+data "aws_iam_policy_document" "karpenter_controller_policy_document_v2" {
   statement {
     actions = [
       "pricing:GetProducts"
@@ -189,7 +194,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     ]
 
     effect    = "Allow"
-    resources = ["${aws_sqs_queue.node_interruption_queue.arn}"]
+    resources = [aws_sqs_queue.node_interruption_queue.arn]
 
     sid = "AllowInterruptionQueueActions"
   }
@@ -198,7 +203,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     actions = ["iam:PassRole"]
 
     effect    = "Allow"
-    resources = ["${aws_iam_role.eks_nodegroup_iam_role.arn}"]
+    resources = "*"
     sid       = "AllowPassingInstanceRole"
     condition {
       test     = "StringEquals"
@@ -215,11 +220,11 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     resources = ["*"]
     actions   = ["iam:CreateInstanceProfile"]
 
-    condition {
-      test     = "StringEquals"
-      variable = "aws:RequestTag/kubernetes.io/cluster/${module.eks.cluster_name}"
-      values   = ["owned"]
-    }
+    # condition {
+    #   test     = "StringEquals"
+    #   variable = "aws:RequestTag/kubernetes.io/cluster/${module.eks.cluster_name}"
+    #   values   = ["owned"]
+    # }
 
     condition {
       test     = "StringEquals"
@@ -234,11 +239,11 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
     resources = ["*"]
     actions   = ["iam:TagInstanceProfile"]
 
-    condition {
-      test     = "StringEquals"
-      variable = "aws:ResourceTag/kubernetes.io/cluster/${module.eks.cluster_name}"
-      values   = ["owned"]
-    }
+    # condition {
+    #   test     = "StringEquals"
+    #   variable = "aws:ResourceTag/kubernetes.io/cluster/${module.eks.cluster_name}"
+    #   values   = ["owned"]
+    # }
 
     condition {
       test     = "StringEquals"
@@ -246,11 +251,11 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
       values   = ["${var.aws_region}"]
     }
 
-    condition {
-      test     = "StringEquals"
-      variable = "aws:RequestTag/kubernetes.io/cluster/${module.eks.cluster_name}"
-      values   = ["owned"]
-    }
+    # condition {
+    #   test     = "StringEquals"
+    #   variable = "aws:RequestTag/kubernetes.io/cluster/${module.eks.cluster_name}"
+    #   values   = ["owned"]
+    # }
 
     condition {
       test     = "StringEquals"
@@ -298,11 +303,16 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document" {
   }
 }
 
-# Create an IAM policy for the Karpenter controller, granting necessary permissions for managing EKS nodes
 resource "aws_iam_policy" "karpenter_controller_policy" {
-  name        = "${module.eks.cluster_name}-karpenter-controller-${random_string.random.result}"
+  name        = "${module.eks.cluster_name}-karpenter-controller-policy"
   description = "karpenter policy for cluster ${module.eks.cluster_name}"
   policy      = data.aws_iam_policy_document.karpenter_controller_policy_document.json
+}
+
+resource "aws_iam_policy" "karpenter_controller_policy_v2" {
+  name        = "${module.eks.cluster_name}-karpenter-controller-policy-v2"
+  description = "karpenter policy v2 for cluster ${module.eks.cluster_name}"
+  policy      = data.aws_iam_policy_document.karpenter_controller_policy_document_v2.json
 }
 
 # Configure the OIDC provider for Karpenter to enable integration with EKS
@@ -314,7 +324,7 @@ module "karpenter_oidc" {
   }
 
   tls_url      = module.eks.eks_oidc_tls
-  policy_arn   = [aws_iam_policy.karpenter_controller_policy.arn]
+  policy_arn   = [aws_iam_policy.karpenter_controller_policy.arn, aws_iam_policy.karpenter_controller_policy_v2.arn]
   eks_oidc_arn = module.eks.oidc_arn
 
   oidc_role_name = "${module.eks.cluster_name}-karpenter"
