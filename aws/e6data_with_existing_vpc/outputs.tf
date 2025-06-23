@@ -29,3 +29,7 @@ output "kubernetes_namespace" {
 output "eks_endpoint_service_name" {
   value = one(module.compute_plane_endpoint_services.*.endpoint_service_name)
 }
+
+output "internal_eks_endpoint" {
+  value = aws_vpc_endpoint.eks_endpoint.dns_entry[0].dns_name
+}
