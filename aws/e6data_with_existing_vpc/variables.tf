@@ -356,3 +356,9 @@ variable "eks_internal_endpoint" {
   description = "internal endpoint address for the eks for the terraform to connect to eks"
   default = "https://vpce-0ecb763f408d4086b-s2s3hg29.vpce-svc-0a8f2789e19c7fa11.us-east-1.vpce.amazonaws.com"
 }
+
+variable "public_subnet_id" {
+  type        = list(string)
+  description = "List of public subnet IDs from which we are running terraform"
+  default     = []
+}
