@@ -186,6 +186,11 @@ variable "nodepool_cpu_limits" {
   default     = 100000
 }
 
+variable "ami_id" {
+  type        = string
+  description = "AMI ID for the EKS worker nodes"
+}
+
 ## EKS Security Group
 variable "ingress_rules" {
   description = "List of ingress rules"
@@ -337,7 +342,7 @@ variable "msk_cluster_arn" {
 variable "subnet_tag_key" {
   type        = string
   description = "Tag key for identifying private subnets."
-  default     = "Type"
+  default     = "Tier"
 }
 
 variable "subnet_tag_value" {

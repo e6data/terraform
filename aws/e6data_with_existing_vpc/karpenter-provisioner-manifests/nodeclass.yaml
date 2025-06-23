@@ -8,7 +8,7 @@ metadata:
 spec:
   amiFamily: AL2
   amiSelectorTerms:
-    - id: ami-0a41cea25f508addc
+    - id: ${ami_id}
   role: "${karpenter_node_role_name}"
   subnetSelectorTerms:
     - tags:

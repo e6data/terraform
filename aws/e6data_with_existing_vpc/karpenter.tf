@@ -365,6 +365,7 @@ data "kubectl_path_documents" "provisioner_manifests" {
     volume_size              = var.eks_disk_size
     nodeclass_name           = local.e6data_nodeclass_name
     nodepool_name            = local.e6data_nodepool_name
+    ami_id                   = var.ami_id
     tags = jsonencode(
       merge(
         var.cost_tags,
