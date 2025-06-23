@@ -20,7 +20,7 @@ nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c8g", "r8g
 vpc_id      = "vpc-0022b22e838f83ec2"
 subnet_tag_key = "Tier"
 subnet_tag_value = "private" ### Tag key and value to identify the private subnets in the VPC where the EKS cluster will be deployed.
-public_subnet_id = "subnet-02bfaafb537d5bb51"
+public_subnet_id = ["subnet-02bfaafb537d5bb51"]
 
 # IAM Role ARN for the e6data engine to access required AWS services like S3
 e6data_engine_role_arn = "arn:aws:iam::670514002493:role/monday-engine-role"
