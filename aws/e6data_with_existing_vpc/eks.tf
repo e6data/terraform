@@ -46,14 +46,14 @@ data "aws_eks_cluster_auth" "target_eks_auth" {
 
 provider "kubernetes" {
   alias                   = "e6data"
-  host                    = var.eks_internal_endpoint
+  host                    = "https://${aws_vpc_endpoint.eks_endpoint.dns_entry[0].dns_name}"
   token                  = data.aws_eks_cluster_auth.target_eks_auth.token
   cluster_ca_certificate  = null
   insecure                = true
 }
 
 provider "kubectl" {
-  host                   = var.eks_internal_endpoint
+  host                    = "https://${aws_vpc_endpoint.eks_endpoint.dns_entry[0].dns_name}"
   token                  = data.aws_eks_cluster_auth.target_eks_auth.token
   cluster_ca_certificate = null
   load_config_file	 = false
@@ -63,7 +63,7 @@ provider "kubectl" {
 provider "helm" {
   alias = "e6data"
   kubernetes {
-    host                   = var.eks_internal_endpoint
+  host                    = "https://${aws_vpc_endpoint.eks_endpoint.dns_entry[0].dns_name}"
   token                  = data.aws_eks_cluster_auth.target_eks_auth.token
     cluster_ca_certificate = null
     insecure               = true
