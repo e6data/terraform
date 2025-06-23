@@ -20,7 +20,7 @@ nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c8g", "r8g
 vpc_id      = "vpc-05b02848381d4c455"
 
 # IAM Role ARN for the e6data engine to access required AWS services like S3
-e6data_engine_role_arn = "arn:aws:iam::670514002493:role/e6data-newekscpp-engine-role"
+e6data_engine_role_arn = "arn:aws:iam::670514002493:role/monday-engine-role"
 
 # EKS Cluster Variables
 cluster_name      = "cppmonday"                                                 ### The name of the Kubernetes cluster to be created for the e6data workspace.
