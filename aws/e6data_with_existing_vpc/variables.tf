@@ -327,3 +327,9 @@ variable "nameOverride" {
 variable "interface_vpc_endpoints" {
   description = "Map of VPC Interface endpoints to create"
 }   
+
+variable "msk_cluster_arn" {
+  type        = string
+  description = "ARN of the MSK cluster to connect to"
+  
+}

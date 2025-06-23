@@ -426,3 +426,5 @@ allowed_principals = [
 # NGINX image configuration (must be accessible by the EKS cluster)
 nginx_image_repository = "442042515899.dkr.ecr.us-east-1.amazonaws.com/nginx"   # Private ECR repo with nginx alpine image
 nginx_image_tag        = "latest"  # Corresponding image tag
+
+msk_cluster_arn = "arn:aws:kafka:us-east-1:442042515899:cluster/beta-e6-customer-query-history/0528ed83-7217-4f47-af2c-f455635416a1-3"
