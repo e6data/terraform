@@ -56,7 +56,7 @@ karpenter_namespace            = "kube-system" ### Namespace to deploy the karpe
 karpenter_service_account_name = "karpenter"   ### Service account name for the karpenter
 karpenter_release_version      = "1.3.2"       ### Version of the karpenter Helm chart
 karpenter_controller_image_repository = "670514002493.dkr.ecr.us-east-1.amazonaws.com/eks/karpenter/controller"
-karpenter_controller_image_tag        = "v1.3.2"
+karpenter_controller_image_tag        = "1.3.2"
 
 debug_namespaces = ["kube-system"]
 
