@@ -7,5 +7,7 @@ module "network" {
 
   workspace_name = var.workspace_name
 
-  vpc_id      = var.vpc_id
+  vpc_id           = var.vpc_id
+  subnet_tag_key   = var.subnet_tag_key
+  subnet_tag_value = var.subnet_tag_value
 }

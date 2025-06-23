@@ -5,8 +5,8 @@ data "aws_subnets" "private" {
   }
 
   filter {
-    name   = "tag:Tier"
-    values = ["private"]
+    name   = "tag:${var.subnet_tag_key}"
+    values = [var.subnet_tag_value]
   }
 }
 

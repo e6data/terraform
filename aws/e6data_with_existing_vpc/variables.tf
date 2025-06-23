@@ -333,3 +333,15 @@ variable "msk_cluster_arn" {
   description = "ARN of the MSK cluster to connect to"
   
 }
+
+variable "subnet_tag_key" {
+  type        = string
+  description = "Tag key for identifying private subnets."
+  default     = "Type"
+}
+
+variable "subnet_tag_value" {
+  type        = string
+  description = "Tag value for identifying private subnets."
+  default     = "private"
+}

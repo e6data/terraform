@@ -1,4 +1,4 @@
-resource "aws_msk_vpc_connection" "test" {
+resource "aws_msk_vpc_connection" "msk_connect" {
   authentication     = "SASL_IAM"
   target_cluster_arn = var.msk_cluster_arn
   vpc_id             = module.network.vpc_id

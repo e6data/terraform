@@ -26,3 +26,13 @@ variable "region" {
   description = "AWS region of the EKS cluster."
   default     = "us-east-1"
 }
+
+variable "subnet_tag_key" {
+  type        = string
+  description = "Tag key for identifying private subnets."
+}
+
+variable "subnet_tag_value" {
+  type        = string
+  description = "Tag value for identifying private subnets."
+}
