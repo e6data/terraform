@@ -1,5 +1,5 @@
 resource "aws_lb_target_group" "eks_target_group" {
-  name        = "eks-lb-${var.eks_cluster_name}"  
+  name        = "eks-lb-internal-${var.eks_cluster_name}"  
   port        = var.port
   protocol    = "TCP"
   vpc_id      = var.vpc_id
