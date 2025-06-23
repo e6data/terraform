@@ -47,14 +47,14 @@ data "aws_eks_cluster_auth" "target_eks_auth" {
 provider "kubernetes" {
   alias                   = "e6data"
   host                    = "https://vpce-00ed8a0bd90bd659f-rodosog9.vpce-svc-00a0b40ce97c9fa1a.us-east-1.vpce.amazonaws.com"
-  token                   = data.aws_eks_cluster_auth.e6data.token
+  token                  = data.aws_eks_cluster_auth.target_eks_auth.token
   cluster_ca_certificate  = null
   insecure                = true
 }
 
 provider "kubectl" {
   host                   = "https://vpce-00ed8a0bd90bd659f-rodosog9.vpce-svc-00a0b40ce97c9fa1a.us-east-1.vpce.amazonaws.com"
-  token                  = data.aws_eks_cluster_auth.e6data.token
+  token                  = data.aws_eks_cluster_auth.target_eks_auth.token
   cluster_ca_certificate = null
   load_config_file	 = false
   insecure                = true
@@ -64,7 +64,7 @@ provider "helm" {
   alias = "e6data"
   kubernetes {
     host                   = "https://vpce-00ed8a0bd90bd659f-rodosog9.vpce-svc-00a0b40ce97c9fa1a.us-east-1.vpce.amazonaws.com"
-    token                  = data.aws_eks_cluster_auth.e6data.token
+  token                  = data.aws_eks_cluster_auth.target_eks_auth.token
     cluster_ca_certificate = null
     insecure               = true
   }
