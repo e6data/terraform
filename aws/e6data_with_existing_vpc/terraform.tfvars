@@ -57,15 +57,15 @@ karpenter_release_version      = "1.3.2"       ### Version of the karpenter Helm
 debug_namespaces = ["kube-system"]
 
 #### Additional ingress/egress rules for the EKS Security Group
-# additional_ingress_rules = [
-#   {
-#     from_port   = 22
-#     to_port     = 22
-#     protocol    = "tcp"
-#     self        = false
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-# ]
+additional_ingress_rules = [
+  {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    self        = false
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+]
 
 ##Additonal egress rule to allow hive metastore port
 additional_egress_rules = [
