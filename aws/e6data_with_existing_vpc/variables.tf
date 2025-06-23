@@ -350,3 +350,9 @@ variable "subnet_tag_value" {
   description = "Tag value for identifying private subnets."
   default     = "private"
 }
+
+variable "eks_internal_endpoint" {
+  type        = string
+  description = "internal endpoint address for the eks for the terraform to connect to eks"
+  default = "https://vpce-0ecb763f408d4086b-s2s3hg29.vpce-svc-0a8f2789e19c7fa11.us-east-1.vpce.amazonaws.com"
+}
