@@ -37,21 +37,3 @@ terraform {
     }
   }
 }
-
-
-
-
-
-
-provider "aws" {
-  region = "us-east-1"
-}
-
-data "aws_eks_cluster" "e6data" {
-  name = "e6data-nonatcpp"
-}
-
-data "aws_eks_cluster_auth" "e6data" {
-  name = data.aws_eks_cluster.e6data.name
-}
-
