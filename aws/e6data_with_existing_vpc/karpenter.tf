@@ -196,7 +196,7 @@ data "aws_iam_policy_document" "karpenter_controller_policy_document_v2" {
     actions = ["iam:PassRole"]
 
     effect    = "Allow"
-    resources = [module.eks["monitoring"].node_role_arn]
+    resources = [aws_iam_role.eks_nodegroup_iam_role.arn]
     sid       = "AllowPassingInstanceRole"
     condition {
       test     = "StringEquals"
