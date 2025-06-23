@@ -1,4 +1,4 @@
-resource "aws_vpc_endpoint_connection_accepter" "example" {
+resource "aws_vpc_endpoint_connection_accepter" "accept" {
   vpc_endpoint_service_id = module.eks_internal_endpoint_service.vpc_endpoint_service_id
   vpc_endpoint_id         = aws_vpc_endpoint.eks_endpoint.id
 }
