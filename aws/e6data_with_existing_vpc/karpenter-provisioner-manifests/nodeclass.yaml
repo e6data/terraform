@@ -7,6 +7,8 @@ metadata:
     e6data-workspace-name: ${workspace_name}
 spec:
   amiFamily: AL2
+  amiSelectorTerms:
+    - alias: al2
   role: "${karpenter_node_role_name}"
   subnetSelectorTerms:
     - tags:
