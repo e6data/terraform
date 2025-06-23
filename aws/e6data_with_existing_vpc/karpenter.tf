@@ -354,7 +354,7 @@ module "karpeneter_deployment" {
 }
 
 # Data source to fetch and template Karpenter provisioner manifests
-data "kubectl_path_documents" "provisioner_manifests2" {
+data "kubectl_path_documents" "provisioner_manifests" {
   pattern = "./karpenter-provisioner-manifests/*.yaml"
   vars = {
     workspace_name           = var.workspace_name
