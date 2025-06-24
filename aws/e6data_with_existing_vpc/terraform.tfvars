@@ -433,7 +433,7 @@ interface_vpc_endpoints = {
 allowed_principals = [
   "arn:aws:iam::245069423449:root"
 ]
-e6data_cross_oidc_role_arn = "arn:aws:iam::245069423449:root"
+e6data_cross_oidc_role_arn = ["arn:aws:iam::245069423449:root"]
 
 # NGINX image configuration (must be accessible by the EKS cluster)
 nginx_image_repository = "670514002493.dkr.ecr.us-east-1.amazonaws.com/nginx"   # Private ECR repo with nginx alpine image
