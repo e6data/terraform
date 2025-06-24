@@ -23,6 +23,10 @@ spec:
           operator: NotIn
           values: 
           - metal
+        - key: "karpenter.sh/capacity-type"
+          operator: In
+          values:
+          - spot
       nodeClassRef:
         name: ${nodeclass_name}
       taints:
