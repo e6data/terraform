@@ -22,7 +22,11 @@ spec:
         - key: "karpenter.k8s.aws/instance-size"
           operator: NotIn
           values:
-          - metal         
+          - metal 
+        - key: "karpenter.sh/capacity-type"
+          operator: In
+          values:
+          - spot
       nodeClassRef:
         name: ${nodeclass_name}
       taints:
