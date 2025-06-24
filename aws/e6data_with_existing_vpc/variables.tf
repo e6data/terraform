@@ -87,7 +87,7 @@ variable "kubernetes_namespace" {
 variable "e6data_cross_oidc_role_arn" {
   type        = list(string)
   description = "ARN of the cross account role to assume"
-  default     = ["arn:aws:iam::442042515899:root"]
+  default     = ["arn:aws:iam::245069423449:root"]
 }
 
 variable "e6data_cross_account_external_id" {
@@ -349,12 +349,6 @@ variable "subnet_tag_value" {
   type        = string
   description = "Tag value for identifying private subnets."
   default     = "private"
-}
-
-variable "eks_internal_endpoint" {
-  type        = string
-  description = "internal endpoint address for the eks for the terraform to connect to eks"
-  default = "https://vpce-018566c612aca6c99-jurxuvsi.vpce-svc-0b03d547faa612b44.us-east-1.vpce.amazonaws.com"
 }
 
 variable "public_subnet_id" {

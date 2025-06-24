@@ -12,7 +12,7 @@ resource "aws_security_group" "msk_vpc_connection" {
   vpc_id      = module.network.vpc_id
 
   ingress {
-    from_port   = 14098
+    from_port   = 14000
     to_port     = 14100
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] 

@@ -2,7 +2,7 @@
 aws_region = "us-east-1" ### AWS region of the EKS cluster.
 
 # e6data Workspace Variables
-workspace_name = "mondaynight" ### Name of the e6data workspace to be created.
+workspace_name = "cpppilot" ### Name of the e6data workspace to be created.
 # Note: The variable workspace_name should meet the following criteria:
 # a) Accepts only lowercase alphanumeric characters.
 # b) Must have a minimum of 3 characters.
@@ -17,16 +17,16 @@ eks_disk_size            = 100    ### Disk size for the instances in the nodepoo
 nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c8g", "r8g", "i8g", "c6gd", "r6g", "r6gd", "r7g", "r7gd", "i3"]
 
 # Network Variables
-vpc_id      = "vpc-0022b22e838f83ec2"
-subnet_tag_key = "Tier"
+vpc_id      = "vpc-0a08b0530a0db590c" ### The ID of the existing VPC where the EKS cluster will be deployed.
+subnet_tag_key = "type"
 subnet_tag_value = "private" ### Tag key and value to identify the private subnets in the VPC where the EKS cluster will be deployed.
-public_subnet_id = ["subnet-02bfaafb537d5bb51"]
+public_subnet_id = ["subnet-07caf376292a4d1a4"] ### Public subnet from where the terraform runs.
 
 # IAM Role ARN for the e6data engine to access required AWS services like S3
 e6data_engine_role_arn = "arn:aws:iam::670514002493:role/monday-engine-role"
 
 # EKS Cluster Variables
-cluster_name      = "mondaynight"                                                 ### The name of the Kubernetes cluster to be created for the e6data workspace.
+cluster_name      = "cpppilot"                                                 ### The name of the Kubernetes cluster to be created for the e6data workspace.
 cluster_log_types = ["scheduler", "controllerManager", "authenticator", "audit"] ### List of the desired control plane logging to enable.
 
 # Kubernetes Namespace
@@ -60,7 +60,7 @@ karpenter_service_account_name = "karpenter"   ### Service account name for the 
 karpenter_release_version      = "1.3.2"       ### Version of the karpenter Helm chart
 karpenter_controller_image_repository = "670514002493.dkr.ecr.us-east-1.amazonaws.com/eks/karpenter/controller"
 karpenter_controller_image_tag        = "1.3.2"
-ami_id                                = "ami-0a41cea25f508addc"  ###AMI ID for the EKS worker nodes
+ami_id                                = "<Amazon Linux 2 arm64 AMI>"  ###AMI ID for the EKS worker nodes
 
 debug_namespaces = ["kube-system"]
 
@@ -94,7 +94,7 @@ minimum_ip_target  = 20         # Minimum number of IP addresses to keep availab
 # PrivateLink Interface Endpoint configurations for logs and metrics
 interface_vpc_endpoints = {
   "e6data-logs" = {
-    service_name      = "com.amazonaws.vpce.us-east-1.vpce-svc-02ae494b80ed1af07"
+    service_name      = "com.amazonaws.vpce.us-east-1.vpce-svc-0979079467114e125"
     vpc_endpoint_type = "Interface"
 
     ingress_rules = [
@@ -133,7 +133,7 @@ interface_vpc_endpoints = {
   }
 
   "e6data-metrics" = {
-    service_name      = "com.amazonaws.vpce.us-east-1.vpce-svc-013de62cc021280a1"
+    service_name      = "com.amazonaws.vpce.us-east-1.vpce-svc-09652db6b7fa61576"
     vpc_endpoint_type = "Interface"
 
     ingress_rules = [
@@ -427,40 +427,16 @@ interface_vpc_endpoints = {
       }
     ]
   }
-
-  "kafka" = {
-    service_name      = "com.amazonaws.us-east-1.kafka"
-    vpc_endpoint_type = "Interface"
-
-    ingress_rules = [
-      {
-        description = "Allow HTTPS for KAFKA"
-        from_port   = 443
-        to_port     = 443
-        protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-      }
-    ]
-
-    egress_rules = [
-      {
-        description = "Allow HTTPS for KAFKA"
-        from_port   = 443
-        to_port     = 443
-        protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-      }
-    ]
-  }
 }
 
 # List of IAM principals allowed to connect to the endpoint service (provided by e6data)
 allowed_principals = [
-  "arn:aws:iam::442042515899:root"
+  "arn:aws:iam::245069423449:root"
 ]
+e6data_cross_oidc_role_arn = "arn:aws:iam::245069423449:root"
 
 # NGINX image configuration (must be accessible by the EKS cluster)
-nginx_image_repository = "442042515899.dkr.ecr.us-east-1.amazonaws.com/nginx"   # Private ECR repo with nginx alpine image
+nginx_image_repository = "670514002493.dkr.ecr.us-east-1.amazonaws.com/nginx"   # Private ECR repo with nginx alpine image
 nginx_image_tag        = "latest"  # Corresponding image tag
 
-msk_cluster_arn = "arn:aws:kafka:us-east-1:442042515899:cluster/beta-e6-customer-query-history/0528ed83-7217-4f47-af2c-f455635416a1-3"
+msk_cluster_arn = "arn:aws:kafka:us-east-1:245069423449:cluster/pilot-e6-customer-query-history/1cdca129-274a-4ef2-b0a0-f15a1f4add8b-2"
