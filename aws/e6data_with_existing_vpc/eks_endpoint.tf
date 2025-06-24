@@ -1,3 +1,15 @@
+data "aws_network_interfaces" "eks_nic" {
+  filter {
+    name   = "description"
+    values = ["Amazon EKS ${module.eks.cluster_name}"]
+  }
+}
+
+data "aws_network_interface" "eks_nic" {
+  for_each = toset(data.aws_network_interfaces.eks_nic.ids)
+  id       = each.key
+}
+
 resource "aws_vpc_endpoint_connection_accepter" "accept" {
   vpc_endpoint_service_id = module.eks_internal_endpoint_service.vpc_endpoint_service_id
   vpc_endpoint_id         = aws_vpc_endpoint.eks_endpoint.id
@@ -17,6 +29,7 @@ module "eks_internal_endpoint_service" {
   subnet_ids = module.network.private_subnet_ids
   cost_tags = var.cost_tags
   aws_region = var.aws_region
+  eks_nic  = data.aws_network_interface.eks_nic
 
   depends_on = [
     module.eks
