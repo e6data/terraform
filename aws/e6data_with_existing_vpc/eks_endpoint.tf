@@ -1,6 +1,12 @@
 resource "aws_vpc_endpoint_connection_accepter" "accept" {
   vpc_endpoint_service_id = module.eks_internal_endpoint_service.vpc_endpoint_service_id
   vpc_endpoint_id         = aws_vpc_endpoint.eks_endpoint.id
+
+  depends_on = [
+    module.eks,
+    module.eks_internal_endpoint_service,
+    aws_vpc_endpoint.eks_endpoint
+  ]
 }
 
 module "eks_internal_endpoint_service" {
@@ -23,8 +29,10 @@ resource "aws_vpc_endpoint" "eks_endpoint" {
   vpc_endpoint_type = "Interface"
   subnet_ids        = var.public_subnet_id
   security_group_ids = [
-    aws_security_group.endpoint_sg.id,
+    aws_security_group.endpoint_sg.id
   ]
+
+  depends_on = [ module.eks_internal_endpoint_service, module.eks ]
 }
 
 resource "aws_security_group" "endpoint_sg" {
@@ -48,4 +56,5 @@ resource "aws_security_group" "endpoint_sg" {
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
+  depends_on = [ module.eks ]
 }
