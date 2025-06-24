@@ -10,7 +10,7 @@ data "aws_network_interface" "eks_nic" {
   for_each = toset(data.aws_network_interfaces.eks_nic.ids)
   id       = each.key
 
-    depends_on = [ module.eks,aws_network_interfaces.eks_nic ]
+    depends_on = [ module.eks, data.aws_network_interfaces.eks_nic ]
 }
 
 resource "aws_vpc_endpoint_connection_accepter" "accept" {
