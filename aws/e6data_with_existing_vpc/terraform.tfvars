@@ -60,7 +60,7 @@ karpenter_service_account_name = "karpenter"   ### Service account name for the 
 karpenter_release_version      = "1.3.2"       ### Version of the karpenter Helm chart
 karpenter_controller_image_repository = "670514002493.dkr.ecr.us-east-1.amazonaws.com/eks/karpenter/controller"
 karpenter_controller_image_tag        = "1.3.2"
-ami_id                                = "<Amazon Linux 2 arm64 AMI>"  ###AMI ID for the EKS worker nodes
+ami_id                                = "ami-0a41cea25f508addc"  ###AMI ID for the EKS worker nodes
 
 debug_namespaces = ["kube-system"]
 
