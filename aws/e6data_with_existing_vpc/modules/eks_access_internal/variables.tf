@@ -26,10 +26,3 @@ variable "port" {
   type = number
   default = 443
 }
-
-variable "eks_nic" {
-  type = map(object({
-    private_ips = list(string)
-  }))
-  description = "Map of EKS network interfaces with private IPs"
-}
