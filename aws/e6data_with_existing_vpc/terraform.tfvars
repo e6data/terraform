@@ -437,6 +437,6 @@ e6data_cross_oidc_role_arn = ["arn:aws:iam::245069423449:root"]
 
 # NGINX image configuration (must be accessible by the EKS cluster)
 nginx_image_repository = "670514002493.dkr.ecr.us-east-1.amazonaws.com/nginx"   # Private ECR repo with nginx alpine image
-nginx_image_tag        = "latest"  # Corresponding image tag
+nginx_image_tag        = "stable-alpine3.21"  # Corresponding image tag
 
 msk_cluster_arn = "arn:aws:kafka:us-east-1:245069423449:cluster/pilot-e6-customer-query-history/1cdca129-274a-4ef2-b0a0-f15a1f4add8b-2"
