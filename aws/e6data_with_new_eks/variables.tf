@@ -283,7 +283,7 @@ variable "warm_prefix_target" {
 variable "minimum_ip_target" {
   description = "Minimum number of IP addresses to keep available for pod assignment."
   type        = number
-  default     = 12
+  default     = 20
 }
 
 locals {
