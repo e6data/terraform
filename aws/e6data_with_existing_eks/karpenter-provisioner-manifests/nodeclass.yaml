@@ -20,6 +20,8 @@ spec:
       ebs:
         volumeSize: ${volume_size}Gi
         volumeType: gp3
+  kubelet:
+    maxPods: 18 
   userData: |
     echo "$(jq '.allowedUnsafeSysctls += ["net.core.somaxconn","net.ipv4.ip_local_port_range"]' /etc/kubernetes/kubelet/kubelet-config.json)" > /etc/kubernetes/kubelet/kubelet-config.json
     mount_location="/app/tmp"
