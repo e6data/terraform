@@ -34,7 +34,7 @@ spec:
   disruption:
     consolidationPolicy: WhenEmpty
     consolidateAfter: 30s
-    expireAfter: "never"
+    expireAfter: "Never"
     budgets:
     - nodes: 100%
       reasons:
