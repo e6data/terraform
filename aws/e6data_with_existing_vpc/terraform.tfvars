@@ -17,10 +17,10 @@ eks_disk_size            = 100    ### Disk size for the instances in the nodepoo
 nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c8g", "r8g", "i8g", "c6gd", "r6g", "r6gd", "r7g", "r7gd", "i3"]
 
 # Network Variables
-vpc_id      = "vpc-0a08b0530a0db590c" ### The ID of the existing VPC where the EKS cluster will be deployed.
+vpc_id      = "vpc-004657bfca97dc681" ### The ID of the existing VPC where the EKS cluster will be deployed.
 subnet_tag_key = "type"
 subnet_tag_value = "private" ### Tag key and value to identify the private subnets in the VPC where the EKS cluster will be deployed.
-public_subnet_id = ["subnet-07caf376292a4d1a4"] ### Public subnet from where the terraform runs.
+public_subnet_id = ["subnet-0f1b44091bebc9cdd"] ### Public subnet from where the terraform runs.
 
 # IAM Role ARN for the e6data engine to access required AWS services like S3
 e6data_engine_role_arn = "arn:aws:iam::670514002493:role/monday-engine-role"
