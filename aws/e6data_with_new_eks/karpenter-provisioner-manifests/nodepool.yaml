@@ -34,3 +34,11 @@ spec:
   disruption:
     consolidationPolicy: WhenEmpty
     consolidateAfter: 30s
+    expireAfter: "never"
+    budgets:
+    - nodes: 100%
+      reasons:
+      - Empty
+    - nodes: "0"
+      reasons:
+      - Drifted
