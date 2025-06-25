@@ -80,4 +80,4 @@ additional_egress_rules = [
 # vpc cni addon parameters
 warm_eni_target    = 0          # Number of extra ENIs (Elastic Network Interfaces) to keep available for pod assignment.
 warm_prefix_target = 0          # Number of extra IP address prefixes to keep available for pod assignment.
-minimum_ip_target  = 12         # Minimum number of IP addresses to keep available for pod assignment.
+minimum_ip_target  = 20         # Minimum number of IP addresses to keep available for pod assignment.
