@@ -1,18 +1,349 @@
-name: Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+name: Terraform ARGO
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Terraform action to perform'
+        required: true
+        type: choice
+        options:
+          - plan
+          - apply
+        default: plan
+
+      resource_type:
+        description: 'Type of resource to manage'
+        required: true
+        type: choice
+        options:
+          - application
+          - cluster
+          - repository
+        default: application
+      
+      environment:
+        description: 'Environment (ONLY for applications - ignore for cluster/repository)'
+        required: false
+        type: choice
+        options:
+          - dev
+          - uat
+          - beta
+          - demo
+          - prod
+        default: dev
+      
+      # Application choices
+      applications:
+        description: 'Select applications (ONLY if resource_type = application)'
+        required: false
+        type: choice
+        options:
+          - 'none'
+          - 'ALL'
+          - 'alert'
+          - 'appserver'
+          - 'appserver-admin'
+          - 'auth-gateway'
+          - 'auth-server'
+          - 'dashboard'
+          - 'signup'
+          - 'query'
+          - 'query-history'
+          - 'query-sheets'
+          - 'envoy'
+          - 'watcher'
+          - 'websocket'
+          - 'release-api'
+          - 'release-ui'
+          - 'wormhole-api'
+          - 'wormhole-ui'
+          - 'demo-api'
+          - 'demo-node-api'
+          - 'demo-ui'
+        default: 'none'
+      
+      # Cluster choices
+      clusters:
+        description: 'Select clusters (ONLY if resource_type = cluster)'
+        required: false
+        type: choice
+        options:
+          - 'none'
+          - 'ALL'
+          - 'beta-e6-microservices'
+          - 'uat-e6-microservices'
+          - 'development-e6-microservices'
+          - 'in-cluster'
+        default: 'none'
+      
+      # Repository choices
+      repositories:
+        description: 'Select repositories (ONLY if resource_type = repository)'
+        required: false
+        type: choice
+        options:
+          - 'none'
+          - 'ALL'
+          - 'appserver'
+          - 'demo-api'
+          - 'alert'
+          - 'Dashboard'
+          - 'demo-node-api'
+          - 'dev-query-engine'
+          - 'demo-console'
+          - 'platform'
+          - 'release-platform'
+        default: 'none'
+      
+      custom_resources:
+        description: 'Deploy multiple resources (comma-separated, e.g., dashboard,signup,alert)'
+        required: false
+        type: string
+        default: ''
+      
+      auto_approve:
+        description: 'Auto approve apply (use with caution)'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  TF_VAR_environment: ${{ github.event.inputs.environment }}
+  TF_VERSION: '1.6.6'
+
 jobs:
-  Explore-GitHub-Actions:
+  terraform:
+    name: 'Terraform ${{ github.event.inputs.action }} - ${{ github.event.inputs.resource_type }}'
     runs-on: ubuntu-latest
+    
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+    - name: Checkout
+      uses: actions/checkout@v4
+    
+    - name: Parse Resource Selection
+      id: parse_resources
+      run: |
+        RESOURCE_TYPE="${{ github.event.inputs.resource_type }}"
+        SELECTED_RESOURCES=""
+        
+        # Define ALL selections
+        ALL_APPLICATIONS="alert,appserver,appserver-admin,auth-gateway,auth-server,dashboard,signup,query,query-history,query-sheets,envoy,watcher,websocket,release-api,release-ui,wormhole-api,wormhole-ui,demo-api,demo-node-api,demo-ui"
+        ALL_CLUSTERS="arn:aws:eks:us-east-1:442042515899:cluster/beta-e6-microservices,arn:aws:eks:us-west-2:442042515899:cluster/uat-e6-microservices,arn:aws:eks:us-east-2:442042515899:cluster/development-e6-microservices,in-cluster"
+        ALL_REPOSITORIES="appserver,demo-api,alert,Dashboard,demo-node-api,dev-query-engine,demo-console,platform,release-platform"
+        
+        # Map friendly cluster names to ARNs
+        declare -A CLUSTER_MAPPING=(
+          ["beta-e6-microservices"]="arn:aws:eks:us-east-1:442042515899:cluster/beta-e6-microservices"
+          ["uat-e6-microservices"]="arn:aws:eks:us-west-2:442042515899:cluster/uat-e6-microservices"
+          ["development-e6-microservices"]="arn:aws:eks:us-east-2:442042515899:cluster/development-e6-microservices"
+        )
+        
+        # Check if custom resources are provided
+        if [[ -n "${{ github.event.inputs.custom_resources }}" ]]; then
+          SELECTED_RESOURCES="${{ github.event.inputs.custom_resources }}"
+          echo "📝 Using custom resource list: $SELECTED_RESOURCES"
+        else
+          # Select based on resource type
+          case "$RESOURCE_TYPE" in
+            "application")
+              SELECTION="${{ github.event.inputs.applications }}"
+              if [[ "$SELECTION" == "ALL" ]]; then
+                SELECTED_RESOURCES="$ALL_APPLICATIONS"
+                echo "📦 Selected ALL applications"
+              elif [[ "$SELECTION" != "none" ]]; then
+                SELECTED_RESOURCES="$SELECTION"
+              fi
+              ;;
+            
+            "cluster")
+              SELECTION="${{ github.event.inputs.clusters }}"
+              if [[ "$SELECTION" == "ALL" ]]; then
+                SELECTED_RESOURCES="$ALL_CLUSTERS"
+                echo "📦 Selected ALL clusters"
+              elif [[ "$SELECTION" != "none" ]]; then
+                # Map friendly names to ARNs
+                if [[ -n "${CLUSTER_MAPPING[$SELECTION]}" ]]; then
+                  SELECTED_RESOURCES="${CLUSTER_MAPPING[$SELECTION]}"
+                else
+                  SELECTED_RESOURCES="$SELECTION"
+                fi
+              fi
+              ;;
+            
+            "repository")
+              SELECTION="${{ github.event.inputs.repositories }}"
+              if [[ "$SELECTION" == "ALL" ]]; then
+                SELECTED_RESOURCES="$ALL_REPOSITORIES"
+                echo "📦 Selected ALL repositories"
+              elif [[ "$SELECTION" != "none" ]]; then
+                SELECTED_RESOURCES="$SELECTION"
+              fi
+              ;;
+          esac
+        fi
+        
+        # Handle custom resources for clusters - map friendly names to ARNs
+        if [[ "$RESOURCE_TYPE" == "cluster" ]] && [[ -n "${{ github.event.inputs.custom_resources }}" ]]; then
+          IFS=',' read -ra CLUSTERS <<< "$SELECTED_RESOURCES"
+          MAPPED_CLUSTERS=""
+          for cluster in "${CLUSTERS[@]}"; do
+            cluster=$(echo "$cluster" | xargs)
+            if [[ -n "${CLUSTER_MAPPING[$cluster]}" ]]; then
+              if [[ -z "$MAPPED_CLUSTERS" ]]; then
+                MAPPED_CLUSTERS="${CLUSTER_MAPPING[$cluster]}"
+              else
+                MAPPED_CLUSTERS="$MAPPED_CLUSTERS,${CLUSTER_MAPPING[$cluster]}"
+              fi
+            else
+              if [[ -z "$MAPPED_CLUSTERS" ]]; then
+                MAPPED_CLUSTERS="$cluster"
+              else
+                MAPPED_CLUSTERS="$MAPPED_CLUSTERS,$cluster"
+              fi
+            fi
+          done
+          SELECTED_RESOURCES="$MAPPED_CLUSTERS"
+        fi
+        
+        if [[ -z "$SELECTED_RESOURCES" ]] || [[ "$SELECTED_RESOURCES" == "none" ]]; then
+          echo "❌ No resources selected!"
+          echo "Please select a resource from the dropdown or use the custom_resources field"
+          exit 1
+        fi
+        
+        echo "✅ Selected resources: $SELECTED_RESOURCES"
+        echo "selected_resources=$SELECTED_RESOURCES" >> $GITHUB_OUTPUT
+    
+    - name: Validate Inputs
+      run: |
+        if [[ "${{ github.event.inputs.resource_type }}" == "application" ]] && [[ -z "${{ github.event.inputs.environment }}" ]]; then
+          echo "❌ ERROR: Environment is required when deploying applications!"
+          exit 1
+        fi
+    
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+        aws-region: eu-west-2
+    
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: ${{ env.TF_VERSION }}
+    
+    - name: Terraform Init
+      working-directory: ./argo-terraform
+      run: |
+        terraform init \
+          -backend-config="key=argocd/terraform.tfstate" \
+          -backend-config="bucket=${{ secrets.TF_STATE_BUCKET_ARGO }}" \
+          -backend-config="region=us-east-1"
+    
+    - name: Generate Target List
+      id: targets
+      working-directory: ./argo-terraform
+      run: |
+        TARGETS=""
+        RESOURCE_TYPE="${{ github.event.inputs.resource_type }}"
+        ENV_PREFIX="${{ github.event.inputs.environment }}"
+        
+        add_target() {
+          local resource=$1
+          
+          case "$RESOURCE_TYPE" in
+            "application")
+              if [[ "$resource" == demo-* ]]; then
+                TARGETS="${TARGETS} -target='argocd_application.apps[\"${resource}\"]'"
+              else
+                case "$ENV_PREFIX" in
+                  "prod")
+                    TARGETS="${TARGETS} -target='argocd_application.apps[\"${resource}\"]'"
+                    ;;
+                  *)
+                    TARGETS="${TARGETS} -target='argocd_application.apps[\"${ENV_PREFIX}-v2-${resource}\"]'"
+                    ;;
+                esac
+              fi
+              ;;
+            "cluster")
+              TARGETS="${TARGETS} -target='argocd_cluster.clusters[\"${resource}\"]'"
+              ;;
+            "repository")
+              TARGETS="${TARGETS} -target='argocd_repository.repos[\"${resource}\"]'"
+              ;;
+          esac
+        }
+        
+        echo "🔧 Generating Terraform targets..."
+        RESOURCES_INPUT="${{ steps.parse_resources.outputs.selected_resources }}"
+        
+        IFS=',' read -ra RESOURCES <<< "$RESOURCES_INPUT"
+        for resource in "${RESOURCES[@]}"; do
+          resource=$(echo "$resource" | xargs)
+          
+          if [[ "$RESOURCE_TYPE" == "application" ]]; then
+            resource=$(echo "$resource" | tr '[:upper:]' '[:lower:]')
+          fi
+          
+          add_target "$resource"
+          
+          # Display friendly name for clusters
+          if [[ "$RESOURCE_TYPE" == "cluster" ]] && [[ "$resource" == arn:* ]]; then
+            friendly_name=$(echo "$resource" | awk -F'/' '{print $NF}')
+            echo "✅ Processing cluster: $friendly_name"
+          else
+            echo "✅ Processing $RESOURCE_TYPE: $resource"
+          fi
+        done
+        
+        echo "targets=$TARGETS" >> $GITHUB_OUTPUT
+        
+        echo ""
+        if [[ -z "$TARGETS" ]]; then
+          echo "❌ No valid targets generated!"
+          exit 1
+        else
+          echo "🎯 Generated targets:"
+          echo "$TARGETS" | tr ' -' '\n-' | grep -v '^$'
+        fi
+    
+    - name: Terraform Validate
+      working-directory: ./argo-terraform
+      run: terraform validate
+    
+    - name: Terraform Plan
+      if: github.event.inputs.action == 'plan' || github.event.inputs.action == 'apply'
+      working-directory: ./argo-terraform
+      run: |
+        terraform plan \
+          -out=tfplan \
+          ${{ steps.targets.outputs.targets }}
+    
+    - name: Show Plan Summary
+      if: github.event.inputs.action == 'plan'
+      working-directory: ./argo-terraform
+      run: |
+        echo "📋 Terraform Plan Summary:"
+        terraform show -no-color tfplan | grep -E "will be created|will be updated|will be destroyed" || echo "No changes detected"
+    
+    - name: Terraform Apply
+      if: github.event.inputs.action == 'apply'
+      working-directory: ./argo-terraform
+      run: |
+        if [[ "${{ github.event.inputs.auto_approve }}" == "true" ]]; then
+          terraform apply -auto-approve tfplan
+        else
+          terraform apply tfplan
+        fi
+    
+    - name: Terraform Output
+      if: success() && github.event.inputs.action == 'apply'
+      working-directory: ./argo-terraform
+      run: terraform output
