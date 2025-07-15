@@ -1,0 +1,24 @@
+name: Manual
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Your name'
+        required: true
+        type: string
+      purpose:
+        description: 'Purpose of this run'
+        required: false
+        type: string
+        default: 'Testing GitHub Actions'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Hello Message
+        run: |
+          echo "👋 Hello, ${{ github.event.inputs.name }}!"
+          echo "📌 Purpose: ${{ github.event.inputs.purpose }}"
+          echo "🔧 This workflow was manually triggered using workflow_dispatch."
