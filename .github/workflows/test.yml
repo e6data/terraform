@@ -1,4 +1,4 @@
-name: Deploy e6datas
+name: god save me
 
 on:
   workflow_dispatch:
