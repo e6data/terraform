@@ -55,13 +55,11 @@ jobs:
     steps:
       - name: Validate Inputs
         run: |
-          # Validate workspace name
           if ! [[ "${{ inputs.workspace_name }}" =~ ^[a-z0-9]{3,10}$ ]]; then
             echo "Error: Workspace name must be 3-10 lowercase alphanumeric characters"
             exit 1
           fi
           
-          # Validate CIDR block format
           if ! [[ "${{ inputs.cidr_block }}" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}$ ]]; then
             echo "Error: Invalid CIDR block format"
             exit 1
@@ -94,15 +92,12 @@ jobs:
           DEPLOYMENT_DIR="deployments/new-eks/${{ inputs.workspace_name }}"
           echo "DEPLOYMENT_DIR=$DEPLOYMENT_DIR" >> $GITHUB_ENV
           mkdir -p $DEPLOYMENT_DIR
-          
-          # Copy terraform files
           cp -r aws/e6data_with_new_eks/* $DEPLOYMENT_DIR/
 
       - name: Update configuration files
         run: |
           cd ${{ env.DEPLOYMENT_DIR }}
           
-          # Update terraform.tfvars
           printf 'aws_region = "us-east-1"\n' > terraform.tfvars
           printf 'workspace_name = "%s"\n' "${{ inputs.workspace_name }}" >> terraform.tfvars
           printf 'cluster_name = "%s"\n' "${{ inputs.cluster_name }}" >> terraform.tfvars
@@ -125,11 +120,9 @@ jobs:
           printf 'default_nodegroup_disk_size = 50\n' >> terraform.tfvars
           printf 'nat_instance_types = ["t3.nano", "t3a.nano"]\n' >> terraform.tfvars
           
-          # Update provider.tf
           sed -i "s|bucket = \"mybucket\"|bucket = \"${{ inputs.s3_bucket }}\"|g" provider.tf
           sed -i "s|key    = \"path/to/my/key\"|key    = \"${{ inputs.terraform_state_key }}\"|g" provider.tf
           
-          # Create simple deployment marker file
           echo "new_eks" > deployment-type.txt
 
       - name: Initialize Terraform
@@ -152,7 +145,6 @@ jobs:
           cd ${{ env.DEPLOYMENT_DIR }}
           terraform output -json > outputs.json
           
-          # Display outputs
           echo "## Deployment Outputs" >> $GITHUB_STEP_SUMMARY
           echo "**Workspace:** ${{ inputs.workspace_name }}" >> $GITHUB_STEP_SUMMARY
           echo "**New EKS Cluster:** ${{ inputs.cluster_name }}" >> $GITHUB_STEP_SUMMARY
@@ -162,4 +154,3 @@ jobs:
           echo '```json' >> $GITHUB_STEP_SUMMARY
           cat outputs.json >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-

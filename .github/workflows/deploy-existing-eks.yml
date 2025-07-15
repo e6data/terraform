@@ -28,11 +28,11 @@ on:
         type: string
         default: 'e6data'
       terraform_state_key:
-        description: 'Terraform State Key '
+        description: 'Terraform State Key'
         required: true
         type: string
       s3_bucket:
-        description: 'S3 Bucket for Terraform State '
+        description: 'S3 Bucket for Terraform State'
         required: true
         type: string
       cost_tag_app:
@@ -51,13 +51,11 @@ jobs:
     steps:
       - name: Validate Inputs
         run: |
-          # Validate workspace name
           if ! [[ "${{ inputs.workspace_name }}" =~ ^[a-z0-9]{3,10}$ ]]; then
             echo "Error: Workspace name must be 3-10 lowercase alphanumeric characters"
             exit 1
           fi
           
-          # Validate required inputs
           if [ -z "${{ inputs.eks_cluster_name }}" ]; then
             echo "Error: EKS Cluster Name is required"
             exit 1
@@ -90,15 +88,12 @@ jobs:
           DEPLOYMENT_DIR="deployments/existing-eks/${{ inputs.workspace_name }}"
           echo "DEPLOYMENT_DIR=$DEPLOYMENT_DIR" >> $GITHUB_ENV
           mkdir -p $DEPLOYMENT_DIR
-          
-         
           cp -r aws/e6data_with_existing_eks/* $DEPLOYMENT_DIR/
 
       - name: Update configuration files
         run: |
           cd ${{ env.DEPLOYMENT_DIR }}
           
-          # Determine AWS Account ID based on environment
           case "${{ inputs.environment }}" in
             dev|uat|beta)
               ACCOUNT_ID="442042515899"
@@ -111,7 +106,6 @@ jobs:
               ;;
           esac
           
-          # Update terraform.tfvars
           printf 'aws_region = "us-east-1"\n' > terraform.tfvars
           printf 'workspace_name = "%s"\n' "${{ inputs.workspace_name }}" >> terraform.tfvars
           printf 'eks_cluster_name = "%s"\n' "${{ inputs.eks_cluster_name }}" >> terraform.tfvars
@@ -127,15 +121,10 @@ jobs:
           printf '}\n' >> terraform.tfvars
           printf 'aws_command_line_path = "/usr/bin/aws"\n' >> terraform.tfvars
           
-          
           sed -i "s|bucket = \"mybucket\"|bucket = \"${{ inputs.s3_bucket }}\"|g" provider.tf
           sed -i "s|key    = \"path/to/my/key\"|key    = \"${{ inputs.terraform_state_key }}\"|g" provider.tf
-          
-         
           sed -i "s|arn:aws:iam::442042515899:root|arn:aws:iam::${ACCOUNT_ID}:root|g" variables.tf
           
-        
-          # Create simple deployment marker file
           echo "existing_eks" > deployment-type.txt
 
       - name: Initialize Terraform
@@ -158,7 +147,6 @@ jobs:
           cd ${{ env.DEPLOYMENT_DIR }}
           terraform output -json > outputs.json
           
-          # Display outputs
           echo "## Deployment Outputs" >> $GITHUB_STEP_SUMMARY
           echo "**Workspace:** ${{ inputs.workspace_name }}" >> $GITHUB_STEP_SUMMARY
           echo "**EKS Cluster:** ${{ inputs.eks_cluster_name }}" >> $GITHUB_STEP_SUMMARY
@@ -167,4 +155,3 @@ jobs:
           echo '```json' >> $GITHUB_STEP_SUMMARY
           cat outputs.json >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-

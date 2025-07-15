@@ -1,4 +1,4 @@
-name: Destroy e6data Workspace (Simple)
+name: Destroy e6data Workspace
 
 on:
   workflow_dispatch:
@@ -28,7 +28,7 @@ jobs:
             echo "Received: ${{ inputs.confirm_destroy }}"
             exit 1
           fi
-          echo "Destruction confirmed for workspace: ${{ inputs.workspace_name }}"
+          echo "✅ Destruction confirmed for workspace: ${{ inputs.workspace_name }}"
 
   destroy:
     needs: validate-destruction
@@ -54,7 +54,6 @@ jobs:
 
       - name: Find and destroy workspace
         run: |
-          # Check if existing-eks deployment exists
           if [ -d "deployments/existing-eks/${{ inputs.workspace_name }}" ]; then
             echo "Found existing-eks deployment for ${{ inputs.workspace_name }}"
             DEPLOYMENT_TYPE="existing_eks"
@@ -64,7 +63,7 @@ jobs:
             DEPLOYMENT_TYPE="new_eks"
             DEPLOYMENT_DIR="deployments/new-eks/${{ inputs.workspace_name }}"
           else
-            echo "No deployment found for workspace: ${{ inputs.workspace_name }}"
+            echo "❌ No deployment found for workspace: ${{ inputs.workspace_name }}"
             echo "Available workspaces:"
             find deployments/ -name "deployment-type.txt" -exec dirname {} \; 2>/dev/null | sed 's|deployments/[^/]*/||' | sort || echo "No workspaces found"
             exit 1
@@ -73,7 +72,6 @@ jobs:
           echo "DEPLOYMENT_TYPE=$DEPLOYMENT_TYPE" >> $GITHUB_ENV
           echo "DEPLOYMENT_DIR=$DEPLOYMENT_DIR" >> $GITHUB_ENV
           
-          # Show deployment type
           if [ -f "$DEPLOYMENT_DIR/deployment-type.txt" ]; then
             DEPLOYMENT_TYPE_FILE=$(cat "$DEPLOYMENT_DIR/deployment-type.txt")
             echo "## Deployment Information" >> $GITHUB_STEP_SUMMARY
@@ -85,28 +83,22 @@ jobs:
         run: |
           cd ${{ env.DEPLOYMENT_DIR }}
           
-          # Initialize Terraform
           terraform init
-          
-          # Plan destruction
           terraform plan -destroy -out=destroy-plan
           
           echo "## Destruction Plan" >> $GITHUB_STEP_SUMMARY
           echo "Planning to destroy ${{ env.DEPLOYMENT_TYPE }} workspace: **${{ inputs.workspace_name }}**" >> $GITHUB_STEP_SUMMARY
           
           if [ "${{ env.DEPLOYMENT_TYPE }}" == "new_eks" ]; then
-            echo "**Warning:** This will destroy the entire EKS cluster and all associated resources!" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ **Warning:** This will destroy the entire EKS cluster and all associated resources!" >> $GITHUB_STEP_SUMMARY
           fi
           
-          # Destroy resources
           terraform destroy -auto-approve
           
-          echo "## Destruction Complete" >> $GITHUB_STEP_SUMMARY
+          echo "## ✅ Destruction Complete" >> $GITHUB_STEP_SUMMARY
           echo "Workspace **${{ inputs.workspace_name }}** has been destroyed." >> $GITHUB_STEP_SUMMARY
 
       - name: Clean up deployment folder
         run: |
-          # Remove the entire deployment folder
           rm -rf ${{ env.DEPLOYMENT_DIR }}
-          
           echo "🧹 Cleaned up deployment folder for ${{ inputs.workspace_name }}"
