@@ -66,19 +66,19 @@ jobs:
           else
             echo "No deployment found for workspace: ${{ inputs.workspace_name }}"
             echo "Available workspaces:"
-            find deployments/ -name "deployment-info.json" -exec dirname {} \; 2>/dev/null | sed 's|deployments/[^/]*/||' | sort || echo "No workspaces found"
+            find deployments/ -name "deployment-type.txt" -exec dirname {} \; 2>/dev/null | sed 's|deployments/[^/]*/||' | sort || echo "No workspaces found"
             exit 1
           fi
           
           echo "DEPLOYMENT_TYPE=$DEPLOYMENT_TYPE" >> $GITHUB_ENV
           echo "DEPLOYMENT_DIR=$DEPLOYMENT_DIR" >> $GITHUB_ENV
           
-          # Read deployment info
-          if [ -f "$DEPLOYMENT_DIR/deployment-info.json" ]; then
+          # Show deployment type
+          if [ -f "$DEPLOYMENT_DIR/deployment-type.txt" ]; then
+            DEPLOYMENT_TYPE_FILE=$(cat "$DEPLOYMENT_DIR/deployment-type.txt")
             echo "## Deployment Information" >> $GITHUB_STEP_SUMMARY
-            echo '```json' >> $GITHUB_STEP_SUMMARY
-            cat "$DEPLOYMENT_DIR/deployment-info.json" >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "**Type:** $DEPLOYMENT_TYPE_FILE" >> $GITHUB_STEP_SUMMARY
+            echo "**Workspace:** ${{ inputs.workspace_name }}" >> $GITHUB_STEP_SUMMARY
           fi
 
       - name: Initialize and destroy
@@ -106,15 +106,7 @@ jobs:
 
       - name: Clean up deployment folder
         run: |
-          # Remove deployment info from S3 (if it exists)
-          if [ -f "${{ env.DEPLOYMENT_DIR }}/deployment-info.json" ]; then
-            S3_BUCKET=$(grep -o '"s3_bucket":"[^"]*"' "${{ env.DEPLOYMENT_DIR }}/deployment-info.json" | cut -d'"' -f4)
-            if [ -n "$S3_BUCKET" ]; then
-              aws s3 rm s3://$S3_BUCKET/deployments/${{ inputs.workspace_name }}/deployment-info.json || true
-            fi
-          fi
-          
           # Remove the entire deployment folder
           rm -rf ${{ env.DEPLOYMENT_DIR }}
           
-          echo "🧹 Cleaned up deployment folder and info for ${{ inputs.workspace_name }}"
+          echo "🧹 Cleaned up deployment folder for ${{ inputs.workspace_name }}"
