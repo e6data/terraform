@@ -1,4 +1,4 @@
-name: Deploy e6datas
+name: Deploy e6data
 
 on:
   workflow_dispatch:
@@ -41,21 +41,3 @@ on:
         type: string
         default: 'e6data'
 
-env:
-  AWS_REGION: us-east-1
-  TERRAFORM_VERSION: 1.5.7
-
-jobs:
-  validate-inputs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Validate Inputs
-        run: |
-          if ! [[ "${{ inputs.workspace_name }}" =~ ^[a-z0-9]{3,10}$ ]]; then
-            echo "Error: Workspace name must be 3-10 lowercase alphanumeric characters"
-            exit 1
-          fi
-          if [ -z "${{ inputs.eks_cluster_name }}" ]; then
-            echo "Error: EKS Cluster Name is required"
-            exit 1
-          fi
