@@ -1,4 +1,4 @@
-name: Deploy e6data - New EKS
+name: test
 
 on:
   workflow_dispatch:
