@@ -1,0 +1,193 @@
+name: Deploy e6data - New EKS
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment'
+        required: true
+        type: choice
+        options:
+          - dev
+          - uat
+          - beta
+          - pilot
+          - staging
+          - prod
+      workspace_name:
+        description: 'Workspace Name (3-10 lowercase alphanumeric chars)'
+        required: true
+        type: string
+      cluster_name:
+        description: 'New EKS Cluster Name'
+        required: true
+        type: string
+      cidr_block:
+        description: 'CIDR Block (e.g., 10.0.0.0/16)'
+        required: true
+        type: string
+      kubernetes_namespace:
+        description: 'Kubernetes Namespace'
+        required: true
+        type: string
+        default: 'e6data'
+      terraform_state_key:
+        description: 'Terraform State Key (e.g., cops-beta/terraform.tfstate)'
+        required: true
+        type: string
+      s3_bucket:
+        description: 'S3 Bucket for Terraform State (e.g., internal-terraform-state)'
+        required: true
+        type: string
+      cost_tag_app:
+        description: 'Cost Tag App Value'
+        required: false
+        type: string
+        default: 'e6data'
+
+env:
+  AWS_REGION: us-east-1
+  TERRAFORM_VERSION: 1.5.7
+
+jobs:
+  validate-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate Inputs
+        run: |
+          # Validate workspace name
+          if ! [[ "${{ inputs.workspace_name }}" =~ ^[a-z0-9]{3,10}$ ]]; then
+            echo "Error: Workspace name must be 3-10 lowercase alphanumeric characters"
+            exit 1
+          fi
+          
+          # Validate CIDR block format
+          if ! [[ "${{ inputs.cidr_block }}" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}$ ]]; then
+            echo "Error: Invalid CIDR block format"
+            exit 1
+          fi
+
+  deploy:
+    needs: validate-inputs
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+      - name: Create deployment directory
+        run: |
+          DEPLOYMENT_DIR="deployments/new-eks/${{ inputs.workspace_name }}"
+          echo "DEPLOYMENT_DIR=$DEPLOYMENT_DIR" >> $GITHUB_ENV
+          mkdir -p $DEPLOYMENT_DIR
+          
+          # Copy terraform files
+          cp -r aws/e6data_with_new_eks/* $DEPLOYMENT_DIR/
+
+      - name: Update configuration files
+        run: |
+          cd ${{ env.DEPLOYMENT_DIR }}
+          
+          # Update terraform.tfvars
+          cat > terraform.tfvars <<EOF
+aws_region = "us-east-1"
+workspace_name = "${{ inputs.workspace_name }}"
+cluster_name = "${{ inputs.cluster_name }}"
+cidr_block = "${{ inputs.cidr_block }}"
+kubernetes_namespace = "${{ inputs.kubernetes_namespace }}"
+cost_tags = {
+  app = "${{ inputs.cost_tag_app }}"
+}
+helm_chart_version = "2.1.7"
+kube_version = "1.30"
+default_nodegroup_kube_version = "1.30"
+eks_disk_size = 100
+nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c8g", "r8g", "i8g", "c6gd", "r6g", "r6gd", "r7g", "r7gd", "i3"]
+excluded_az = ["us-east-1e"]
+bucket_names = ["*"]
+debug_namespaces = ["kube-system"]
+default_nodegroup_instance_types = ["c6g.medium", "c6gd.medium", "c7g.medium"]
+default_nodegroup_capacity_type = "SPOT"
+default_nodegroup_platform = "linux/arm64"
+default_nodegroup_disk_size = 50
+nat_instance_types = ["t3.nano", "t3a.nano"]
+EOF
+          
+          # Update provider.tf
+          sed -i "s|bucket = \"mybucket\"|bucket = \"${{ inputs.s3_bucket }}\"|g" provider.tf
+          sed -i "s|key    = \"path/to/my/key\"|key    = \"${{ inputs.terraform_state_key }}\"|g" provider.tf
+          
+          # Store deployment info
+          cat > deployment-info.json <<EOF
+{
+  "workspace_name": "${{ inputs.workspace_name }}",
+  "deployment_type": "new_eks",
+  "environment": "${{ inputs.environment }}",
+  "cluster_name": "${{ inputs.cluster_name }}",
+  "cidr_block": "${{ inputs.cidr_block }}",
+  "deployment_date": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "terraform_state_key": "${{ inputs.terraform_state_key }}",
+  "s3_bucket": "${{ inputs.s3_bucket }}",
+  "deployment_dir": "${{ env.DEPLOYMENT_DIR }}"
+}
+EOF
+
+      - name: Initialize Terraform
+        run: |
+          cd ${{ env.DEPLOYMENT_DIR }}
+          terraform init
+
+      - name: Plan Terraform
+        run: |
+          cd ${{ env.DEPLOYMENT_DIR }}
+          terraform plan -var-file="terraform.tfvars" -out=tfplan
+
+      - name: Apply Terraform
+        run: |
+          cd ${{ env.DEPLOYMENT_DIR }}
+          terraform apply -auto-approve tfplan
+
+      - name: Save outputs
+        run: |
+          cd ${{ env.DEPLOYMENT_DIR }}
+          terraform output -json > outputs.json
+          
+          # Display outputs
+          echo "## Deployment Outputs" >> $GITHUB_STEP_SUMMARY
+          echo "**Workspace:** ${{ inputs.workspace_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**New EKS Cluster:** ${{ inputs.cluster_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** ${{ inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "**CIDR Block:** ${{ inputs.cidr_block }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```json' >> $GITHUB_STEP_SUMMARY
+          cat outputs.json >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload deployment artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-new-eks-${{ inputs.workspace_name }}
+          path: |
+            ${{ env.DEPLOYMENT_DIR }}/deployment-info.json
+            ${{ env.DEPLOYMENT_DIR }}/outputs.json
+          retention-days: 7
+
+      - name: Store deployment record
+        run: |
+          # Store deployment info in S3 for tracking
+          aws s3 cp ${{ env.DEPLOYMENT_DIR }}/deployment-info.json \
+            s3://${{ inputs.s3_bucket }}/deployments/${{ inputs.workspace_name }}/deployment-info.json
