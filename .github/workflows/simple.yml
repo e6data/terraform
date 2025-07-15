@@ -1,0 +1,16 @@
+name: Simple Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_input:
+        description: 'Test Input'
+        required: true
+        type: string
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo test
+        run: echo "Hello ${{ inputs.test_input }}"
