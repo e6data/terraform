@@ -28,7 +28,7 @@ jobs:
             echo "Received: ${{ inputs.confirm_destroy }}"
             exit 1
           fi
-          echo "✅ Destruction confirmed for workspace: ${{ inputs.workspace_name }}"
+          echo "Destruction confirmed for workspace: ${{ inputs.workspace_name }}"
 
   destroy:
     needs: validate-destruction
@@ -64,7 +64,7 @@ jobs:
             DEPLOYMENT_TYPE="new_eks"
             DEPLOYMENT_DIR="deployments/new-eks/${{ inputs.workspace_name }}"
           else
-            echo "❌ No deployment found for workspace: ${{ inputs.workspace_name }}"
+            echo "No deployment found for workspace: ${{ inputs.workspace_name }}"
             echo "Available workspaces:"
             find deployments/ -name "deployment-info.json" -exec dirname {} \; 2>/dev/null | sed 's|deployments/[^/]*/||' | sort || echo "No workspaces found"
             exit 1
@@ -95,13 +95,13 @@ jobs:
           echo "Planning to destroy ${{ env.DEPLOYMENT_TYPE }} workspace: **${{ inputs.workspace_name }}**" >> $GITHUB_STEP_SUMMARY
           
           if [ "${{ env.DEPLOYMENT_TYPE }}" == "new_eks" ]; then
-            echo "⚠️ **Warning:** This will destroy the entire EKS cluster and all associated resources!" >> $GITHUB_STEP_SUMMARY
+            echo "**Warning:** This will destroy the entire EKS cluster and all associated resources!" >> $GITHUB_STEP_SUMMARY
           fi
           
           # Destroy resources
           terraform destroy -auto-approve
           
-          echo "## ✅ Destruction Complete" >> $GITHUB_STEP_SUMMARY
+          echo "## Destruction Complete" >> $GITHUB_STEP_SUMMARY
           echo "Workspace **${{ inputs.workspace_name }}** has been destroyed." >> $GITHUB_STEP_SUMMARY
 
       - name: Clean up deployment folder

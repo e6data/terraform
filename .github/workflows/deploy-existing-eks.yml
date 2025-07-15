@@ -91,7 +91,7 @@ jobs:
           echo "DEPLOYMENT_DIR=$DEPLOYMENT_DIR" >> $GITHUB_ENV
           mkdir -p $DEPLOYMENT_DIR
           
-          # Copy terraform files
+         
           cp -r aws/e6data_with_existing_eks/* $DEPLOYMENT_DIR/
 
       - name: Update configuration files
