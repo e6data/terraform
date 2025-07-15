@@ -38,11 +38,12 @@ jobs:
     steps:
       - name: Validate Inputs
         run: |
-          if ! [[ "${{ inputs.workspace_name }}" =~ ^[a-z0-9]{3,10}$ ]]; then
+          if ! [[ "${{ github.event.inputs.workspace_name }}" =~ ^[a-z0-9]{3,10}$ ]]; then
             echo "Error: Workspace name must be 3-10 lowercase alphanumeric characters"
             exit 1
           fi
-          if [ -z "${{ inputs.eks_cluster_name }}" ]; then
+
+          if [ -z "${{ github.event.inputs.eks_cluster_name }}" ]; then
             echo "Error: EKS Cluster Name is required"
             exit 1
           fi
