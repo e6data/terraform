@@ -1,0 +1,104 @@
+name: Destroy e6data Workspace
+
+on:
+  workflow_dispatch:
+    inputs:
+      workspace_name:
+        description: 'Workspace Name to destroy'
+        required: true
+        type: string
+      confirm_destroy:
+        description: 'Type the workspace name to confirm destruction'
+        required: true
+        type: string
+
+env:
+  AWS_REGION: us-east-1
+  TERRAFORM_VERSION: 1.5.7
+
+jobs:
+  validate-destruction:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate destruction confirmation
+        run: |
+          if [ "${{ inputs.workspace_name }}" != "${{ inputs.confirm_destroy }}" ]; then
+            echo "Error: Confirmation workspace name does not match. Destruction cancelled."
+            echo "Expected: ${{ inputs.workspace_name }}"
+            echo "Received: ${{ inputs.confirm_destroy }}"
+            exit 1
+          fi
+          echo "✅ Destruction confirmed for workspace: ${{ inputs.workspace_name }}"
+
+  destroy:
+    needs: validate-destruction
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+      - name: Find and destroy workspace
+        run: |
+          if [ -d "deployments/existing-eks/${{ inputs.workspace_name }}" ]; then
+            echo "Found existing-eks deployment for ${{ inputs.workspace_name }}"
+            DEPLOYMENT_TYPE="existing_eks"
+            DEPLOYMENT_DIR="deployments/existing-eks/${{ inputs.workspace_name }}"
+          elif [ -d "deployments/new-eks/${{ inputs.workspace_name }}" ]; then
+            echo "Found new-eks deployment for ${{ inputs.workspace_name }}"
+            DEPLOYMENT_TYPE="new_eks"
+            DEPLOYMENT_DIR="deployments/new-eks/${{ inputs.workspace_name }}"
+          else
+            echo "❌ No deployment found for workspace: ${{ inputs.workspace_name }}"
+            echo "Available workspaces:"
+            find deployments/ -name "deployment-type.txt" -exec dirname {} \; 2>/dev/null | sed 's|deployments/[^/]*/||' | sort || echo "No workspaces found"
+            exit 1
+          fi
+          
+          echo "DEPLOYMENT_TYPE=$DEPLOYMENT_TYPE" >> $GITHUB_ENV
+          echo "DEPLOYMENT_DIR=$DEPLOYMENT_DIR" >> $GITHUB_ENV
+          
+          if [ -f "$DEPLOYMENT_DIR/deployment-type.txt" ]; then
+            DEPLOYMENT_TYPE_FILE=$(cat "$DEPLOYMENT_DIR/deployment-type.txt")
+            echo "## Deployment Information" >> $GITHUB_STEP_SUMMARY
+            echo "**Type:** $DEPLOYMENT_TYPE_FILE" >> $GITHUB_STEP_SUMMARY
+            echo "**Workspace:** ${{ inputs.workspace_name }}" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Initialize and destroy
+        run: |
+          cd ${{ env.DEPLOYMENT_DIR }}
+          
+          terraform init
+          terraform plan -destroy -out=destroy-plan
+          
+          echo "## Destruction Plan" >> $GITHUB_STEP_SUMMARY
+          echo "Planning to destroy ${{ env.DEPLOYMENT_TYPE }} workspace: **${{ inputs.workspace_name }}**" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ env.DEPLOYMENT_TYPE }}" == "new_eks" ]; then
+            echo "⚠️ **Warning:** This will destroy the entire EKS cluster and all associated resources!" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          terraform destroy -auto-approve
+          
+          echo "## ✅ Destruction Complete" >> $GITHUB_STEP_SUMMARY
+          echo "Workspace **${{ inputs.workspace_name }}** has been destroyed." >> $GITHUB_STEP_SUMMARY
+
+      - name: Clean up deployment folder
+        run: |
+          rm -rf ${{ env.DEPLOYMENT_DIR }}
+          echo "🧹 Cleaned up deployment folder for ${{ inputs.workspace_name }}"

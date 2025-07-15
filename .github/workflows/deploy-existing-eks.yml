@@ -1,0 +1,157 @@
+name: Deploy e6data - Existing EKS
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment'
+        required: true
+        type: choice
+        options:
+          - dev
+          - uat
+          - beta
+          - pilot
+          - staging
+          - prod
+      workspace_name:
+        description: 'Workspace Name (3-10 lowercase alphanumeric chars)'
+        required: true
+        type: string
+      eks_cluster_name:
+        description: 'EKS Cluster Name'
+        required: true
+        type: string
+      kubernetes_namespace:
+        description: 'Kubernetes Namespace'
+        required: true
+        type: string
+        default: 'e6data'
+      terraform_state_key:
+        description: 'Terraform State Key'
+        required: true
+        type: string
+      s3_bucket:
+        description: 'S3 Bucket for Terraform State'
+        required: true
+        type: string
+      cost_tag_app:
+        description: 'Cost Tag App Value'
+        required: false
+        type: string
+        default: 'e6data'
+
+env:
+  AWS_REGION: us-east-1
+  TERRAFORM_VERSION: 1.5.7
+
+jobs:
+  validate-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate Inputs
+        run: |
+          if ! [[ "${{ inputs.workspace_name }}" =~ ^[a-z0-9]{3,10}$ ]]; then
+            echo "Error: Workspace name must be 3-10 lowercase alphanumeric characters"
+            exit 1
+          fi
+          
+          if [ -z "${{ inputs.eks_cluster_name }}" ]; then
+            echo "Error: EKS Cluster Name is required"
+            exit 1
+          fi
+
+  deploy:
+    needs: validate-inputs
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+      - name: Create deployment directory
+        run: |
+          DEPLOYMENT_DIR="deployments/existing-eks/${{ inputs.workspace_name }}"
+          echo "DEPLOYMENT_DIR=$DEPLOYMENT_DIR" >> $GITHUB_ENV
+          mkdir -p $DEPLOYMENT_DIR
+          cp -r aws/e6data_with_existing_eks/* $DEPLOYMENT_DIR/
+
+      - name: Update configuration files
+        run: |
+          cd ${{ env.DEPLOYMENT_DIR }}
+          
+          case "${{ inputs.environment }}" in
+            dev|uat|beta)
+              ACCOUNT_ID="442042515899"
+              ;;
+            pilot)
+              ACCOUNT_ID="245069423449"
+              ;;
+            staging|prod)
+              ACCOUNT_ID="352772674564"
+              ;;
+          esac
+          
+          printf 'aws_region = "us-east-1"\n' > terraform.tfvars
+          printf 'workspace_name = "%s"\n' "${{ inputs.workspace_name }}" >> terraform.tfvars
+          printf 'eks_cluster_name = "%s"\n' "${{ inputs.eks_cluster_name }}" >> terraform.tfvars
+          printf 'eks_disk_size = 100\n' >> terraform.tfvars
+          printf 'nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c8g", "r8g", "i8g", "c6gd", "r6g", "r6gd", "r7g", "r7gd", "i3"]\n' >> terraform.tfvars
+          printf 'excluded_az = ["us-east-1e"]\n' >> terraform.tfvars
+          printf 'bucket_names = ["*"]\n' >> terraform.tfvars
+          printf 'kubernetes_namespace = "%s"\n' "${{ inputs.kubernetes_namespace }}" >> terraform.tfvars
+          printf 'helm_chart_version = "2.1.7"\n' >> terraform.tfvars
+          printf 'debug_namespaces = ["kube-system"]\n' >> terraform.tfvars
+          printf 'cost_tags = {\n' >> terraform.tfvars
+          printf '  app = "%s"\n' "${{ inputs.cost_tag_app }}" >> terraform.tfvars
+          printf '}\n' >> terraform.tfvars
+          printf 'aws_command_line_path = "/usr/bin/aws"\n' >> terraform.tfvars
+          
+          sed -i "s|bucket = \"mybucket\"|bucket = \"${{ inputs.s3_bucket }}\"|g" provider.tf
+          sed -i "s|key    = \"path/to/my/key\"|key    = \"${{ inputs.terraform_state_key }}\"|g" provider.tf
+          sed -i "s|arn:aws:iam::442042515899:root|arn:aws:iam::${ACCOUNT_ID}:root|g" variables.tf
+          
+          echo "existing_eks" > deployment-type.txt
+
+      - name: Initialize Terraform
+        run: |
+          cd ${{ env.DEPLOYMENT_DIR }}
+          terraform init
+
+      - name: Plan Terraform
+        run: |
+          cd ${{ env.DEPLOYMENT_DIR }}
+          terraform plan -var-file="terraform.tfvars" -out=tfplan
+
+      - name: Apply Terraform
+        run: |
+          cd ${{ env.DEPLOYMENT_DIR }}
+          terraform apply -auto-approve tfplan
+
+      - name: Save outputs
+        run: |
+          cd ${{ env.DEPLOYMENT_DIR }}
+          terraform output -json > outputs.json
+          
+          echo "## Deployment Outputs" >> $GITHUB_STEP_SUMMARY
+          echo "**Workspace:** ${{ inputs.workspace_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**EKS Cluster:** ${{ inputs.eks_cluster_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** ${{ inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```json' >> $GITHUB_STEP_SUMMARY
+          cat outputs.json >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
