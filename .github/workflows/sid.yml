@@ -1,49 +1,18 @@
-name: Deploy
-
-on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Environment'
-        required: true
-        type: choice
-        options:
-          - dev
-          - uat
-          - beta
-          - pilot
-          - staging
-          - prod
-      workspace_name:
-        description: 'Workspace Name'
-        required: true
-        type: string
-      eks_cluster_name:
-        description: 'EKS Cluster Name'
-        required: true
-        type: string
-      kubernetes_namespace:
-        description: 'Kubernetes Namespace'
-        required: true
-        type: string
-        default: 'e6data'
-
-env:
-  AWS_REGION: us-east-1
-  TERRAFORM_VERSION: 1.5.7
-
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
 jobs:
-  validate-inputs:
+  Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - name: Validate Inputs
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
         run: |
-          if ! [[ "${{ github.event.inputs.workspace_name }}" =~ ^[a-z0-9]{3,10}$ ]]; then
-            echo "Error: Workspace name must be 3-10 lowercase alphanumeric characters"
-            exit 1
-          fi
-
-          if [ -z "${{ github.event.inputs.eks_cluster_name }}" ]; then
-            echo "Error: EKS Cluster Name is required"
-            exit 1
-          fi
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
