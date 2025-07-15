@@ -103,7 +103,7 @@ jobs:
           cd ${{ env.DEPLOYMENT_DIR }}
           
           # Update terraform.tfvars
-          cat > terraform.tfvars <<EOF
+          cat > terraform.tfvars << 'TFVARS'
 aws_region = "us-east-1"
 workspace_name = "${{ inputs.workspace_name }}"
 cluster_name = "${{ inputs.cluster_name }}"
@@ -125,14 +125,14 @@ default_nodegroup_capacity_type = "SPOT"
 default_nodegroup_platform = "linux/arm64"
 default_nodegroup_disk_size = 50
 nat_instance_types = ["t3.nano", "t3a.nano"]
-EOF
+TFVARS
           
           # Update provider.tf
           sed -i "s|bucket = \"mybucket\"|bucket = \"${{ inputs.s3_bucket }}\"|g" provider.tf
           sed -i "s|key    = \"path/to/my/key\"|key    = \"${{ inputs.terraform_state_key }}\"|g" provider.tf
           
           # Store deployment info
-          cat > deployment-info.json <<EOF
+          cat > deployment-info.json << 'DEPINFO'
 {
   "workspace_name": "${{ inputs.workspace_name }}",
   "deployment_type": "new_eks",
@@ -144,7 +144,7 @@ EOF
   "s3_bucket": "${{ inputs.s3_bucket }}",
   "deployment_dir": "${{ env.DEPLOYMENT_DIR }}"
 }
-EOF
+DEPINFO
 
       - name: Initialize Terraform
         run: |

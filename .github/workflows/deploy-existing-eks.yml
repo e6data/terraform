@@ -112,7 +112,7 @@ jobs:
           esac
           
           # Update terraform.tfvars
-          cat > terraform.tfvars <<EOF
+          cat > terraform.tfvars << 'TFVARS'
 aws_region = "us-east-1"
 workspace_name = "${{ inputs.workspace_name }}"
 eks_cluster_name = "${{ inputs.eks_cluster_name }}"
@@ -127,7 +127,7 @@ cost_tags = {
   app = "${{ inputs.cost_tag_app }}"
 }
 aws_command_line_path = "/usr/bin/aws"
-EOF
+TFVARS
           
           
           sed -i "s|bucket = \"mybucket\"|bucket = \"${{ inputs.s3_bucket }}\"|g" provider.tf
@@ -137,7 +137,7 @@ EOF
           sed -i "s|arn:aws:iam::442042515899:root|arn:aws:iam::${ACCOUNT_ID}:root|g" variables.tf
           
         
-          cat > deployment-info.json <<EOF
+          cat > deployment-info.json << 'DEPINFO'
 {
   "workspace_name": "${{ inputs.workspace_name }}",
   "deployment_type": "existing_eks",
@@ -148,7 +148,7 @@ EOF
   "s3_bucket": "${{ inputs.s3_bucket }}",
   "deployment_dir": "${{ env.DEPLOYMENT_DIR }}"
 }
-EOF
+DEPINFO
 
       - name: Initialize Terraform
         run: |
