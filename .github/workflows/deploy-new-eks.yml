@@ -103,48 +103,48 @@ jobs:
           cd ${{ env.DEPLOYMENT_DIR }}
           
           # Update terraform.tfvars
-          cat > terraform.tfvars << 'TFVARS'
-aws_region = "us-east-1"
-workspace_name = "${{ inputs.workspace_name }}"
-cluster_name = "${{ inputs.cluster_name }}"
-cidr_block = "${{ inputs.cidr_block }}"
-kubernetes_namespace = "${{ inputs.kubernetes_namespace }}"
-cost_tags = {
-  app = "${{ inputs.cost_tag_app }}"
-}
-helm_chart_version = "2.1.7"
-kube_version = "1.30"
-default_nodegroup_kube_version = "1.30"
-eks_disk_size = 100
-nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c8g", "r8g", "i8g", "c6gd", "r6g", "r6gd", "r7g", "r7gd", "i3"]
-excluded_az = ["us-east-1e"]
-bucket_names = ["*"]
-debug_namespaces = ["kube-system"]
-default_nodegroup_instance_types = ["c6g.medium", "c6gd.medium", "c7g.medium"]
-default_nodegroup_capacity_type = "SPOT"
-default_nodegroup_platform = "linux/arm64"
-default_nodegroup_disk_size = 50
-nat_instance_types = ["t3.nano", "t3a.nano"]
-TFVARS
+          {
+            echo 'aws_region = "us-east-1"'
+            echo 'workspace_name = "${{ inputs.workspace_name }}"'
+            echo 'cluster_name = "${{ inputs.cluster_name }}"'
+            echo 'cidr_block = "${{ inputs.cidr_block }}"'
+            echo 'kubernetes_namespace = "${{ inputs.kubernetes_namespace }}"'
+            echo 'cost_tags = {'
+            echo '  app = "${{ inputs.cost_tag_app }}"'
+            echo '}'
+            echo 'helm_chart_version = "2.1.7"'
+            echo 'kube_version = "1.30"'
+            echo 'default_nodegroup_kube_version = "1.30"'
+            echo 'eks_disk_size = 100'
+            echo 'nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c8g", "r8g", "i8g", "c6gd", "r6g", "r6gd", "r7g", "r7gd", "i3"]'
+            echo 'excluded_az = ["us-east-1e"]'
+            echo 'bucket_names = ["*"]'
+            echo 'debug_namespaces = ["kube-system"]'
+            echo 'default_nodegroup_instance_types = ["c6g.medium", "c6gd.medium", "c7g.medium"]'
+            echo 'default_nodegroup_capacity_type = "SPOT"'
+            echo 'default_nodegroup_platform = "linux/arm64"'
+            echo 'default_nodegroup_disk_size = 50'
+            echo 'nat_instance_types = ["t3.nano", "t3a.nano"]'
+          } > terraform.tfvars
           
           # Update provider.tf
           sed -i "s|bucket = \"mybucket\"|bucket = \"${{ inputs.s3_bucket }}\"|g" provider.tf
           sed -i "s|key    = \"path/to/my/key\"|key    = \"${{ inputs.terraform_state_key }}\"|g" provider.tf
           
           # Store deployment info
-          cat > deployment-info.json << 'DEPINFO'
-{
-  "workspace_name": "${{ inputs.workspace_name }}",
-  "deployment_type": "new_eks",
-  "environment": "${{ inputs.environment }}",
-  "cluster_name": "${{ inputs.cluster_name }}",
-  "cidr_block": "${{ inputs.cidr_block }}",
-  "deployment_date": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-  "terraform_state_key": "${{ inputs.terraform_state_key }}",
-  "s3_bucket": "${{ inputs.s3_bucket }}",
-  "deployment_dir": "${{ env.DEPLOYMENT_DIR }}"
-}
-DEPINFO
+          {
+            echo '{'
+            echo '  "workspace_name": "${{ inputs.workspace_name }}",'
+            echo '  "deployment_type": "new_eks",'
+            echo '  "environment": "${{ inputs.environment }}",'
+            echo '  "cluster_name": "${{ inputs.cluster_name }}",'
+            echo '  "cidr_block": "${{ inputs.cidr_block }}",'
+            echo '  "deployment_date": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'",'
+            echo '  "terraform_state_key": "${{ inputs.terraform_state_key }}",'
+            echo '  "s3_bucket": "${{ inputs.s3_bucket }}",'
+            echo '  "deployment_dir": "${{ env.DEPLOYMENT_DIR }}"'
+            echo '}'
+          } > deployment-info.json
 
       - name: Initialize Terraform
         run: |
