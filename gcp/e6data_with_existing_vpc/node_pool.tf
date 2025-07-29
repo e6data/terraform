@@ -263,3 +263,36 @@ resource "google_project_iam_binding" "targetpool_ksa_mapping" {
     "serviceAccount:${var.platform_sa_email}",
   ]
 }
+
+# Certificate Manager Viewer role binding for platform service account
+resource "google_project_iam_member" "platform_cert_manager_viewer" {
+  project = var.gcp_project_id
+  role    = "roles/certificatemanager.viewer"
+  member  = "serviceAccount:${var.platform_sa_email}"
+}
+
+# Custom role for CRD and third party objects permissions
+resource "google_project_iam_custom_role" "crd_list_role" {
+  role_id     = "e6data_${local.workspace_role_name}_crd_list_${random_string.random.result}"
+  title       = "e6data ${var.workspace_name} CRD List Access ${random_string.random.result}"
+  description = "Custom role for managing CustomResourceDefinitions and third party objects"
+  permissions = [
+    "container.customResourceDefinitions.list",
+    "container.thirdPartyObjects.create",
+    "container.thirdPartyObjects.delete",
+    "container.thirdPartyObjects.get",
+    "container.thirdPartyObjects.list",
+    "container.thirdPartyObjects.update"
+  ]
+  stage   = "GA"
+  project = var.gcp_project_id
+}
+
+# IAM binding for CRD list role to platform service account
+resource "google_project_iam_binding" "platform_crd_list_binding" {
+  project = var.gcp_project_id
+  role    = google_project_iam_custom_role.crd_list_role.name
+  members = [
+    "serviceAccount:${var.platform_sa_email}",
+  ]
+}
