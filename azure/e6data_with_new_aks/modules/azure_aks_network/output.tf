@@ -23,6 +23,16 @@ output "vnet_guid" {
   value       = azurerm_virtual_network.vnet.guid
 }
 
+output "vnet_id" {
+  description = "The VNet ID"
+  value       = azurerm_virtual_network.vnet.id
+}
+
+output "vnet_name" {
+  description = "The VNet name"
+  value       = azurerm_virtual_network.vnet.name
+}
+
 # output "ondemand_subnet_id" {
 #   description = "The subnet ID for ondemand"
 #   value = azurerm_subnet.ondemand.name

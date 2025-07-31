@@ -4,14 +4,14 @@ region         = "eastus"    # Azure region
 workspace_name = "workspace" # Name of the e6data workspace to be created
 
 # Details of existing resources
-aks_resource_group_name = "e6-rg" # Resource group to be use to deploy the AKS cluster in
+aks_resource_group_name = "perms" # Resource group to be use to deploy the AKS cluster in
 
 # AKS cluster details
-subscription_id        = "12345678-1234-1234-1234-1234567890ab"  # Subscription ID of Azure subscription
+subscription_id        = "244ad77a-91e4-4a8e-9193-835d79ac55e2"  # Subscription ID of Azure subscription
 aks_cluster_name       = "aks-cluster"                           # AKS cluster name
 kube_version           = "1.30"                                  # Kubernetes version
 kubernetes_namespace   = "e6data"                                # Namespace to deploy e6data workspace
-admin_group_object_ids = ["abcdefg-18b7-1234-acc4-d7a01fe6ee7e"] # A list of Object IDs of Azure Active Directory Groups which should have Admin Role on the Cluster.
+admin_group_object_ids = ["480044f4-67c7-4519-ba2b-3e15399b9ae4"] # A list of Object IDs of Azure Active Directory Groups which should have Admin Role on the Cluster.
 
 # Networking
 cidr_block = ["10.220.0.0/16"] # CIDR block for the VNet
@@ -21,8 +21,8 @@ nodepool_instance_family = ["D", "E", "L"]    # Instance families for node pools
 nodepool_instance_arch   = ["arm64", "amd64"] # Instance architecture for node pools
 
 # Data storage configuration
-data_storage_account_name = "datastorage"     # Storage account name
-data_resource_group_name  = "data-storage-rg" # Resource group for storage account
+data_storage_account_name = "e6dataengine"     # Storage account name
+data_resource_group_name  = "e6data-common" # Resource group for storage account
 list_of_containers        = ["*"]             # Containers to access in storage account
 
 # Helm chart version

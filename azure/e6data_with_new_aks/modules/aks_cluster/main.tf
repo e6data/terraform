@@ -20,6 +20,8 @@ resource "azurerm_kubernetes_cluster" "aks_e6data" {
   dns_prefix                        = var.cluster_name
   role_based_access_control_enabled = true
   kubernetes_version                = var.kube_version
+  private_cluster_enabled           = true
+  private_cluster_public_fqdn_enabled = false
 
   node_os_upgrade_channel           = "None"
 
@@ -35,6 +37,7 @@ resource "azurerm_kubernetes_cluster" "aks_e6data" {
     network_policy = "cilium"
     network_plugin_mode = "overlay"
     network_data_plane = "cilium"
+    outbound_type = "userDefinedRouting"    
   }
 
   # Enable virtual node (ACI connector) for Linux

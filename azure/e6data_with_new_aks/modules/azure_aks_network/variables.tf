@@ -19,3 +19,8 @@ variable "region" {
   type        = string
   description = "AZURE region"
 }
+
+variable "firewall_private_ip" {
+  type        = string
+  description = "Private IP address of the Azure Firewall in hub network"
+}

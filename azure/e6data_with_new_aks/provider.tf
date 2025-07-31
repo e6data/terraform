@@ -1,10 +1,10 @@
 terraform {
-    # backend "azurerm" {
-    #   resource_group_name  = "backend-rg"
-    #   storage_account_name = "backend-storage-account"
-    #   container_name       = "backend-container"
-    #   key                  = "terraform.tfstate"
-    # }
+    backend "azurerm" {
+      resource_group_name  = "analytics"
+      storage_account_name = "wstfstate123"
+      container_name       = "complete-private"
+      key                  = "terraform.tfstate"
+    }
 
   required_providers {
     azurerm = {
