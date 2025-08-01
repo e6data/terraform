@@ -186,7 +186,8 @@ resource "google_project_iam_custom_role" "RegionalAddress" {
     "compute.addresses.createInternal",
     "compute.addresses.deleteInternal",
     "compute.addresses.setLabels",
-    "compute.addresses.useInternal"
+    "compute.addresses.useInternal",
+    "compute.subnetworks.use"  # Required for creating internal addresses in a subnet
   ]
   stage   = "GA"
   project = var.gcp_project_id
