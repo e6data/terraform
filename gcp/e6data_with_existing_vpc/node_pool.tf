@@ -183,12 +183,13 @@ resource "google_project_iam_custom_role" "RegionalAddress" {
   title       = "e6data ${var.workspace_name} RegionalAddress ${random_string.random.result}"
   description = "Regional address management for internal load balancers"
   permissions = [
-    "compute.addresses.createInternal",
-    "compute.addresses.deleteInternal",
-    "compute.addresses.get",            # Required to check if address exists
-    "compute.addresses.setLabels",
-    "compute.addresses.useInternal",
-    "compute.subnetworks.use"  # Required for creating internal addresses in a subnet
+    "compute.addresses.create",         # Create regional addresses (both internal and external)
+    "compute.addresses.delete",         # Delete regional addresses
+    "compute.addresses.get",            # Get regional address details
+    "compute.addresses.list",           # List regional addresses
+    "compute.addresses.setLabels",      # Set labels on regional addresses
+    "compute.addresses.use",            # Use regional addresses
+    "compute.subnetworks.use"           # Required for creating internal addresses in a subnet
   ]
   stage   = "GA"
   project = var.gcp_project_id
