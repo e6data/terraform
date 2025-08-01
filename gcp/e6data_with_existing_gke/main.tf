@@ -181,6 +181,7 @@ resource "google_project_iam_custom_role" "RegionalAddress" {
   permissions = [
     "compute.addresses.createInternal",
     "compute.addresses.deleteInternal",
+    "compute.addresses.get",            # Required to check if address exists
     "compute.addresses.setLabels",
     "compute.addresses.useInternal",
     "compute.subnetworks.use"  # Required for creating internal addresses in a subnet
