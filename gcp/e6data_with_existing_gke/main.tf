@@ -177,33 +177,21 @@ resource "google_project_iam_custom_role" "GlobalAddress" {
 resource "google_project_iam_custom_role" "RegionalAddress" {
   role_id     = "${local.cluster_viewer_role_name}_${random_string.random.result}_regional_address_create"
   title       = "e6data ${var.workspace_name} RegionalAddress ${random_string.random.result}"
-  description = "Regional address create access including internal operations"
+  description = "Regional address management for internal load balancers"
   permissions = [
-    "compute.addresses.create",
-    "compute.addresses.createInternal",
-    "compute.addresses.delete",
-    "compute.addresses.deleteInternal",
-    "compute.addresses.get",
-    "compute.addresses.use",
-    "compute.addresses.useInternal",
-    "compute.addresses.setLabels"
+    "compute.addresses.create",         # Create regional addresses (both internal and external)
+    "compute.addresses.createInternal", # Create internal addresses
+    "compute.addresses.delete",         # Delete regional addresses
+    "compute.addresses.deleteInternal", # Delete internal addresses
+    "compute.addresses.get",            # Get regional address details
+    "compute.addresses.list",           # List regional addresses
+    "compute.addresses.setLabels",      # Set labels on regional addresses
+    "compute.addresses.use",            # Use regional addresses
+    "compute.addresses.useInternal",    # Use internal addresses
+    "compute.subnetworks.use"           # Required for creating internal addresses in a subnet
   ]
   stage   = "GA"
   project = var.gcp_project_id
-}
-
-# Create IAM policy binding for Regional Address access
-resource "google_project_iam_binding" "regional_address_create_mapping" {
-  project = var.gcp_project_id
-  role    = google_project_iam_custom_role.RegionalAddress.name
-  members = [
-    "serviceAccount:${var.platform_sa_email}",
-  ]
-  condition {
-    title       = "Regional Address write Access"
-    description = "Regional Address write Access"
-    expression  = "resource.name.startsWith(\"projects/${var.gcp_project_id}/regions/\") && resource.name.contains(\"/addresses/e6data\")"
-  }
 }
 
 resource "google_project_iam_custom_role" "security_policy" {
@@ -244,6 +232,20 @@ resource "google_project_iam_binding" "security_policy_create_mapping" {
     title       = "security_policy write Access"
     description = "security_policy write Access"
     expression  = "resource.name.startsWith(\"projects/${var.gcp_project_id}/global/securityPolicies/e6data\")"
+  }
+}
+
+# Create IAM policy binding for Regional Address operations
+resource "google_project_iam_binding" "regional_address_create_mapping" {
+  project = var.gcp_project_id
+  role    = google_project_iam_custom_role.RegionalAddress.name
+  members = [
+    "serviceAccount:${var.platform_sa_email}",
+  ]
+  condition {
+    title       = "Regional Address write Access"
+    description = "Regional Address write Access for internal load balancers"
+    expression  = "resource.name.startsWith(\"projects/${var.gcp_project_id}/regions/\") && resource.name.contains(\"/addresses/e6data\")"
   }
 }
 
