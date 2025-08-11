@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kube-api-proxy.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: e6data
+    component: {{ include "kube-api-proxy.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: e6data
+      component: {{ include "kube-api-proxy.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: e6data
+        component: {{ include "kube-api-proxy.fullname" . }}
+    spec:
+      containers:
+      - name: proxy
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: 443
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /etc/nginx
+          name: config
+          readOnly: true
+        - mountPath: /etc/nginx/tls
+          name: tls
+      volumes:
+      - name: config
+        configMap:
+          name: {{ include "kube-api-proxy.fullname" . }}-cm
+          defaultMode: 420
+      - name: tls
+        secret:
+          secretName: {{ include "kube-api-proxy.fullname" . }}-secret
+          defaultMode: 420
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
