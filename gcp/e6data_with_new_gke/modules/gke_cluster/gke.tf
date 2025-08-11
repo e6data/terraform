@@ -48,6 +48,14 @@ resource "google_container_cluster" "gke_cluster" {
       enabled = var.dns_cache_enabled
     }
 
+    network_policy_config {
+      disabled = false
+    }
+
+  }
+
+  gateway_api_config {
+    channel = "CHANNEL_STANDARD"
   }
 
   resource_labels = var.cost_labels
