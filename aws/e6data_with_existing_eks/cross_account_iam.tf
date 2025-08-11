@@ -63,7 +63,8 @@ data "aws_iam_policy_document" "cross_account_iam_eksAccess_doc" {
       "wafv2:GetWebACLForResource",
       "ec2:DescribeInstances",
       "servicequotas:GetServiceQuota",
-      "cloudwatch:GetMetricStatistics"
+      "cloudwatch:GetMetricStatistics",
+      "ec2:DescribeSubnets"
     ]
     resources = ["*"]
   }
