@@ -4,17 +4,24 @@ region         = "eastus"    # Azure region
 workspace_name = "workspace" # Name of the e6data workspace to be created
 
 # Details of existing resources
-aks_resource_group_name = "perms" # Resource group to be use to deploy the AKS cluster in
+aks_resource_group_name = "rg-azure-aws" # Resource group to be use to deploy the AKS cluster in
 
 # AKS cluster details
 subscription_id        = "244ad77a-91e4-4a8e-9193-835d79ac55e2"  # Subscription ID of Azure subscription
-aks_cluster_name       = "aks-cluster"                           # AKS cluster name
-kube_version           = "1.30"                                  # Kubernetes version
+aks_cluster_name       = "pvtnonat"                           # AKS cluster name
+kube_version           = "1.31"                                  # Kubernetes version
 kubernetes_namespace   = "e6data"                                # Namespace to deploy e6data workspace
 admin_group_object_ids = ["480044f4-67c7-4519-ba2b-3e15399b9ae4"] # A list of Object IDs of Azure Active Directory Groups which should have Admin Role on the Cluster.
 
 # Networking
 cidr_block = ["10.220.0.0/16"] # CIDR block for the VNet
+
+# Existing network resources
+existing_vnet_resource_group_name = "rg-azure-aws" # Resource group containing the existing VNet
+
+# Subnet configuration
+aks_subnet_address_prefixes = ["10.220.1.0/24"] # Address range for AKS subnet
+aci_subnet_address_prefixes = ["10.220.2.0/24"] # Address range for ACI subnet
 
 # Node pool configuration
 nodepool_instance_family = ["D", "E", "L"]    # Instance families for node pools

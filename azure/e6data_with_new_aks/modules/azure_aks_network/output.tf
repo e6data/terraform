@@ -1,6 +1,6 @@
 output "vpc_id" {
   description = "The vpc ID"
-  value       = azurerm_virtual_network.vnet.id
+  value       = data.azurerm_virtual_network.vnet.id
 }
 
 output "aks_subnet_id" {
@@ -20,17 +20,17 @@ output "aci_subnet_name" {
 
 output "vnet_guid" {
   description = "The guid for vnet"
-  value       = azurerm_virtual_network.vnet.guid
+  value       = data.azurerm_virtual_network.vnet.guid
 }
 
 output "vnet_id" {
   description = "The VNet ID"
-  value       = azurerm_virtual_network.vnet.id
+  value       = data.azurerm_virtual_network.vnet.id
 }
 
 output "vnet_name" {
   description = "The VNet name"
-  value       = azurerm_virtual_network.vnet.name
+  value       = data.azurerm_virtual_network.vnet.name
 }
 
 # output "ondemand_subnet_id" {

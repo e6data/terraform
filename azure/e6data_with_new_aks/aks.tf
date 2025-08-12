@@ -119,12 +119,12 @@ resource "kubernetes_namespace" "engine_namespace" {
   depends_on = [module.aks_e6data]
 }
 
-data "kubernetes_resources" "bootstrap" {
-  provider = kubernetes.e6data
-  api_version    = "v1"
-  kind           = "Secret"
-  namespace      = "kube-system"
-  field_selector = "type==bootstrap.kubernetes.io/token"
+# data "kubernetes_resources" "bootstrap" {
+#   provider = kubernetes.e6data
+#   api_version    = "v1"
+#   kind           = "Secret"
+#   namespace      = "kube-system"
+#   field_selector = "type==bootstrap.kubernetes.io/token"
 
-  depends_on = [ module.aks_e6data ]
-}
+#   depends_on = [ module.aks_e6data ]
+# }

@@ -12,13 +12,23 @@ module "hub_network" {
   spoke_resource_group_name = data.azurerm_resource_group.aks_resource_group.name
 }
 
-# Spoke network for AKS
+# Spoke network for AKS - using existing VNet and creating subnets
 module "network" {
   source              = "./modules/azure_aks_network"
   cidr_block          = var.cidr_block
   region              = var.region
   resource_group_name = data.azurerm_resource_group.aks_resource_group.name
   prefix              = var.prefix
+  
+  # Existing network resources
+  existing_vnet_name                = var.existing_vnet_name
+  existing_vnet_resource_group_name = var.existing_vnet_resource_group_name
+  
+  # Subnet configuration
+  aks_subnet_name             = var.aks_subnet_name
+  aks_subnet_address_prefixes = var.aks_subnet_address_prefixes
+  aci_subnet_name             = var.aci_subnet_name
+  aci_subnet_address_prefixes = var.aci_subnet_address_prefixes
   
   # Pass firewall IP for route table configuration
   firewall_private_ip = module.hub_network.firewall_private_ip

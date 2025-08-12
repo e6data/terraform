@@ -1,25 +1,24 @@
-resource "azurerm_virtual_network" "vnet" {
-  name                = "${var.prefix}-network"
-  address_space       = var.cidr_block
-  location            = var.region
-  resource_group_name = var.resource_group_name
+# Use existing VNet
+data "azurerm_virtual_network" "vnet" {
+  name                = var.existing_vnet_name
+  resource_group_name = var.existing_vnet_resource_group_name
 }
 
 # Create AKS subnet to be used by nodes and pods
 resource "azurerm_subnet" "aks" {
-  name                 = format("%s-subnet-%s", "${var.prefix}", "aks")
-  resource_group_name  = azurerm_virtual_network.vnet.resource_group_name
-  virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = [cidrsubnet(tolist(azurerm_virtual_network.vnet.address_space)[0], ceil(log(4, 2)), 0)]
+  name                 = var.aks_subnet_name
+  resource_group_name  = var.existing_vnet_resource_group_name
+  virtual_network_name = data.azurerm_virtual_network.vnet.name
+  address_prefixes     = var.aks_subnet_address_prefixes
   service_endpoints    = ["Microsoft.Storage"]
 }
 
 # Create Virtual Node (ACI) subnet
 resource "azurerm_subnet" "aci" {
-  name                 = format("%s-subnet-%s", "${var.prefix}", "aci")
-  resource_group_name  = azurerm_virtual_network.vnet.resource_group_name
-  virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = [cidrsubnet(tolist(azurerm_virtual_network.vnet.address_space)[0], ceil(log(4, 2)), 1)]
+  name                 = var.aci_subnet_name
+  resource_group_name  = var.existing_vnet_resource_group_name
+  virtual_network_name = data.azurerm_virtual_network.vnet.name
+  address_prefixes     = var.aci_subnet_address_prefixes
 
   # Designate subnet to be used by ACI
   delegation {

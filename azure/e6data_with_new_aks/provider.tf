@@ -3,7 +3,7 @@ terraform {
       resource_group_name  = "analytics"
       storage_account_name = "wstfstate123"
       container_name       = "complete-private"
-      key                  = "terraform.tfstate"
+      key                  = "nonat.tfstate"
     }
 
   required_providers {
