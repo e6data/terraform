@@ -20,8 +20,8 @@ cidr_block = ["10.220.0.0/16"] # CIDR block for the VNet
 existing_vnet_resource_group_name = "rg-azure-aws" # Resource group containing the existing VNet
 
 # Subnet configuration
-aks_subnet_address_prefixes = ["10.220.1.0/24"] # Address range for AKS subnet
-aci_subnet_address_prefixes = ["10.220.2.0/24"] # Address range for ACI subnet
+aks_subnet_address_prefixes = ["10.0.1.0/24"] # Address range for AKS subnet
+aci_subnet_address_prefixes = ["10.0.2.0/24"] # Address range for ACI subnet
 
 # Node pool configuration
 nodepool_instance_family = ["D", "E", "L"]    # Instance families for node pools
