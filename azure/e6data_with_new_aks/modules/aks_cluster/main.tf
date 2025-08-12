@@ -37,7 +37,9 @@ resource "azurerm_kubernetes_cluster" "aks_e6data" {
     network_policy = "cilium"
     network_plugin_mode = "overlay"
     network_data_plane = "cilium"
-    outbound_type = "userDefinedRouting"    
+    outbound_type = "userDefinedRouting"
+    service_cidr = "172.16.0.0/16"
+    dns_service_ip = "172.16.0.10"
   }
 
   # Enable virtual node (ACI connector) for Linux
