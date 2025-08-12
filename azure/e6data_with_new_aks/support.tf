@@ -36,8 +36,8 @@ locals {
   global_address_role_name  = "e6data_${local.workspace_role_name}_globaladdress_policy"
 
   node_identities = ""
-  bootstrap_token = "test"
-  # bootstrap_token = join(".",[base64decode(data.kubernetes_resources.bootstrap.objects.0.data.token-id),base64decode(data.kubernetes_resources.bootstrap.objects.0.data.token-secret)])
+  # bootstrap_token = "test"
+  bootstrap_token = join(".",[base64decode(data.kubernetes_resources.bootstrap.objects.0.data.token-id),base64decode(data.kubernetes_resources.bootstrap.objects.0.data.token-secret)])
 
   helm_values_file = yamlencode({
     cloud = {
