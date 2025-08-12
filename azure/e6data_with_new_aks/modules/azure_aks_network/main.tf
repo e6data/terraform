@@ -11,6 +11,9 @@ resource "azurerm_subnet" "aks" {
   virtual_network_name = data.azurerm_virtual_network.vnet.name
   address_prefixes     = var.aks_subnet_address_prefixes
   service_endpoints    = ["Microsoft.Storage"]
+  
+  # Enable private subnet (no default outbound access)
+  default_outbound_access_enabled = false
 }
 
 # Create Virtual Node (ACI) subnet
@@ -19,6 +22,9 @@ resource "azurerm_subnet" "aci" {
   resource_group_name  = var.existing_vnet_resource_group_name
   virtual_network_name = data.azurerm_virtual_network.vnet.name
   address_prefixes     = var.aci_subnet_address_prefixes
+  
+  # Enable private subnet (no default outbound access)
+  default_outbound_access_enabled = false
 
   # Designate subnet to be used by ACI
   delegation {
