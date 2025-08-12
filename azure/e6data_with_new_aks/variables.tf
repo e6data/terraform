@@ -77,7 +77,7 @@ variable "cidr_block" {
 variable "existing_vnet_name" {
   type        = string
   description = "Name of the existing VNet to use"
-  default     = "vnet-azure"
+  default     = "vnet-pvt"
 }
 
 variable "existing_vnet_resource_group_name" {
