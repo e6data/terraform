@@ -10,7 +10,12 @@ resource "azurerm_subnet" "aks" {
   resource_group_name  = var.existing_vnet_resource_group_name
   virtual_network_name = data.azurerm_virtual_network.vnet.name
   address_prefixes     = var.aks_subnet_address_prefixes
-  service_endpoints    = ["Microsoft.Storage"]
+  service_endpoints    = [
+    "Microsoft.Storage",
+    "Microsoft.AzureActiveDirectory",
+    "Microsoft.ContainerRegistry",
+    "Microsoft.Web"
+  ]
   
   # Enable private subnet (no default outbound access)
   default_outbound_access_enabled = false
