@@ -23,7 +23,8 @@ resource "azurerm_firewall_application_rule_collection" "aks" {
       "*.ubuntu.com",
       "api.snapcraft.io",
       "*.docker.io",
-      "production.cloudflare.docker.com"
+      "production.cloudflare.docker.com",
+      "*.r2.cloudflarestorage.com"
     ]
 
     protocol {
