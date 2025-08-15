@@ -70,7 +70,7 @@ resource "helm_release" "alb_controller_release" {
   }
 
   set {
-    name  = "defaultTags.app"
+    name  = "podLabels.app"
     value = "e6data"
   }
 }
