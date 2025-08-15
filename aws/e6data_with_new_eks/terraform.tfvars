@@ -10,10 +10,10 @@ workspace_name = "workspace" ### Name of the e6data workspace to be created.
 helm_chart_version = "2.1.7" ### e6data workspace Helm chart version to be used.
 
 # Kubernetes Variables
-kube_version             = "1.32" ### The Kubernetes cluster version. Version 1.24 or higher is required.
+kube_version                   = "1.32" ### The Kubernetes cluster version. Version 1.24 or higher is required.
 default_nodegroup_kube_version = "1.32"
 
-eks_disk_size            = 100    ### Disk size for the instances in the nodepool. A minimum of 100 GB is required.
+eks_disk_size            = 100 ### Disk size for the instances in the nodepool. A minimum of 100 GB is required.
 nodepool_instance_family = ["t3", "t4g", "t2", "c7g", "c7gd", "c6g", "c8g", "r8g", "i8g", "c6gd", "r6g", "r6gd", "r7g", "r7gd", "i3"]
 
 # Network Variables
@@ -50,7 +50,7 @@ alb_controller_helm_chart_version           = "1.8.1"
 # Karpenter Variables
 karpenter_namespace            = "kube-system" ### Namespace to deploy the karpenter
 karpenter_service_account_name = "karpenter"   ### Service account name for the karpenter
-karpenter_release_version      = "1.0.8"       ### Version of the karpenter Helm chart
+karpenter_release_version      = "1.5.1"       ### Version of the karpenter Helm chart
 
 debug_namespaces = ["kube-system"]
 
@@ -78,6 +78,6 @@ additional_egress_rules = [
 
 
 # vpc cni addon parameters
-warm_eni_target    = 0          # Number of extra ENIs (Elastic Network Interfaces) to keep available for pod assignment.
-warm_prefix_target = 0          # Number of extra IP address prefixes to keep available for pod assignment.
-minimum_ip_target  = 20         # Minimum number of IP addresses to keep available for pod assignment.
+warm_eni_target    = 0  # Number of extra ENIs (Elastic Network Interfaces) to keep available for pod assignment.
+warm_prefix_target = 0  # Number of extra IP address prefixes to keep available for pod assignment.
+minimum_ip_target  = 20 # Minimum number of IP addresses to keep available for pod assignment.

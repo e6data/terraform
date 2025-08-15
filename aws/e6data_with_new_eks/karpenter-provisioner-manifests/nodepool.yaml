@@ -1,4 +1,4 @@
-apiVersion: karpenter.sh/v1beta1
+apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
   name: ${nodepool_name}
@@ -25,6 +25,8 @@ spec:
           - metal         
       nodeClassRef:
         name: ${nodeclass_name}
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
       taints:
         - key: "e6data-workspace-name"
           value: ${workspace_name}
