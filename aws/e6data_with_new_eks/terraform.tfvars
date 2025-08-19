@@ -21,7 +21,7 @@ cidr_block  = "10.200.0.0/16"
 excluded_az = ["us-east-1e"]
 
 # EKS Cluster Variables
-cluster_name      = "ekscluster"                                                 ### The name of the Kubernetes cluster to be created for the e6data workspace.
+cluster_name      = "eks-cluster"                                                 ### The name of the Kubernetes cluster to be created for the e6data workspace.
 cluster_log_types = ["scheduler", "controllerManager", "authenticator", "audit"] ### List of the desired control plane logging to enable.
 
 public_access_cidrs = ["0.0.0.0/0"]
@@ -50,7 +50,7 @@ alb_controller_helm_chart_version           = "1.8.1"
 # Karpenter Variables
 karpenter_namespace            = "kube-system" ### Namespace to deploy the karpenter
 karpenter_service_account_name = "karpenter"   ### Service account name for the karpenter
-karpenter_release_version      = "1.0.8"       ### Version of the karpenter Helm chart
+karpenter_release_version      = "1.5.1"       ### Version of the karpenter Helm chart
 
 debug_namespaces = ["kube-system"]
 
