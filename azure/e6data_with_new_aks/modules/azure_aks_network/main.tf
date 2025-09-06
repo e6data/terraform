@@ -19,7 +19,7 @@ resource "azurerm_subnet" "aci" {
   name                 = format("%s-subnet-%s", "${var.prefix}", "aci")
   resource_group_name  = azurerm_virtual_network.vnet.resource_group_name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = [cidrsubnet(tolist(azurerm_virtual_network.vnet.address_space)[0], 6, 16)] # /22 - 1,024 IPs starting from 10.220.128.0
+  address_prefixes     = [cidrsubnet(tolist(azurerm_virtual_network.vnet.address_space)[0], 6, 16)] 
 
   # Designate subnet to be used by ACI
   delegation {
@@ -39,7 +39,7 @@ resource "azurerm_subnet" "alb" {
   name                 = format("%s-subnet-%s", "${var.prefix}", "alb")
   resource_group_name  = azurerm_virtual_network.vnet.resource_group_name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = [cidrsubnet(tolist(azurerm_virtual_network.vnet.address_space)[0], 8, 80)] # /24 - 256 IPs starting from 10.220.80.0
+  address_prefixes     = [cidrsubnet(tolist(azurerm_virtual_network.vnet.address_space)[0], 8, 80)]
 
   # Delegate subnet to be used by Application Gateway for Containers
   delegation {
@@ -59,7 +59,7 @@ resource "azurerm_subnet" "alb_internal" {
   name                 = format("%s-subnet-%s", "${var.prefix}", "alb-internal")
   resource_group_name  = azurerm_virtual_network.vnet.resource_group_name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = [cidrsubnet(tolist(azurerm_virtual_network.vnet.address_space)[0], 8, 81)] # /24 - 256 IPs starting from 10.220.81.0
+  address_prefixes     = [cidrsubnet(tolist(azurerm_virtual_network.vnet.address_space)[0], 8, 81)]
 
   # Delegate subnet to be used by Application Gateway for Containers (internal)
   delegation {
