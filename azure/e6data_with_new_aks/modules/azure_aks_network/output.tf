@@ -23,6 +23,26 @@ output "vnet_guid" {
   value       = azurerm_virtual_network.vnet.guid
 }
 
+output "alb_subnet_id" {
+  description = "The subnet ID for ALB (Application Gateway for Containers)"
+  value       = var.create_alb_subnet ? azurerm_subnet.alb[0].id : null
+}
+
+output "alb_subnet_name" {
+  description = "The subnet name for ALB (Application Gateway for Containers)"
+  value       = var.create_alb_subnet ? azurerm_subnet.alb[0].name : null
+}
+
+output "alb_internal_subnet_id" {
+  description = "The subnet ID for internal ALB (Application Gateway for Containers)"
+  value       = var.create_alb_internal_subnet ? azurerm_subnet.alb_internal[0].id : null
+}
+
+output "alb_internal_subnet_name" {
+  description = "The subnet name for internal ALB (Application Gateway for Containers)"
+  value       = var.create_alb_internal_subnet ? azurerm_subnet.alb_internal[0].name : null
+}
+
 # output "ondemand_subnet_id" {
 #   description = "The subnet ID for ondemand"
 #   value = azurerm_subnet.ondemand.name
