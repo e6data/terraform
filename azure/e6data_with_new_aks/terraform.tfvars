@@ -56,3 +56,38 @@ key_vault_rg_name = "" # The resource group for the specified Key Vault. If left
 # Nginx Ingress Controller Configuration
 nginx_ingress_controller_namespace = "kube-system" # Namespace where the Nginx Ingress Controller will be deployed
 nginx_ingress_controller_version   = "4.7.1"       # Version of the Nginx Ingress Controller to be installed
+
+# Azure Application Gateway for Containers (AGFC) Configuration
+agfc_enabled                        = true                  # Enable Azure Application Gateway for Containers deployment
+alb_controller_enabled              = true                  # Enable ALB Controller deployment via Helm
+alb_controller_namespace            = "kube-system"    # Kubernetes namespace where ALB Controller components will be deployed
+alb_controller_helm_namespace       = "kube-system"             # Kubernetes namespace for Helm chart deployment
+alb_controller_create_namespace     = false                  # Create the ALB Controller namespace if it doesn't exist
+alb_controller_helm_create_namespace = false               # Create the Helm deployment namespace if it doesn't exist
+alb_controller_service_account_name = "alb-controller-sa"   # Service account name for ALB Controller
+alb_controller_version              = "1.7.9"               # Version of ALB Controller Helm chart
+alb_controller_replica_count        = 2                     # Number of replicas for ALB Controller deployment
+alb_controller_log_level            = "info"                # Log level for ALB Controller (debug, info, warn, error)
+application_gateway_name            = "alb-agfc"            # Name of the Application Gateway for Containers resource
+agfc_subnet_prefix_length           = 8                     # Prefix length for AGFC subnet (creates /24 subnet when VNet is /16)
+agfc_subnet_cidr_offset             = 2                     # CIDR offset for AGFC subnet within the VNet (uses third subnet block)
+
+# ALB Controller resource limits and requests
+alb_controller_resource_limits = {
+  cpu    = "500m"
+  memory = "512Mi"
+}
+
+alb_controller_resource_requests = {
+  cpu    = "100m"
+  memory = "128Mi"
+}
+
+# Additional tags for AGFC resources (optional)
+agfc_tags = {}
+
+# Internal AGFC Configuration
+agfc_internal_enabled             = true   # Enable internal Azure Application Gateway for Containers
+agfc_internal_subnet_prefix_length = 8     # Prefix length for internal AGFC subnet (creates /24 subnet when VNet is /16)
+agfc_internal_subnet_cidr_offset   = 3     # CIDR offset for internal AGFC subnet (uses fourth subnet block)
+application_gateway_internal_name  = "alb-agfc-internal" # Name of the internal Application Gateway for Containers
