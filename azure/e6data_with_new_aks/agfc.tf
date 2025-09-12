@@ -8,7 +8,7 @@ resource "kubernetes_manifest" "application_load_balancer" {
     kind       = "ApplicationLoadBalancer"
     metadata = {
       name      = var.application_gateway_name
-      namespace = var.kubernetes_namespace
+      namespace = var.workspace_name
     }
     spec = {
       associations = [
