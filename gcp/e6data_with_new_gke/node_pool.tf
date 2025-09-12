@@ -248,7 +248,7 @@ resource "google_project_iam_binding" "regional_address_create_mapping" {
   condition {
     title       = "Regional Address write Access"
     description = "Regional Address write Access for internal load balancers"
-    expression  = "resource.name.startsWith(\"projects/${var.gcp_project_id}/regions/\") && resource.name.contains(\"/addresses/e6data\")"
+    expression  = "resource.name.startsWith(\"projects/${var.gcp_project_id}/regions/\") && resource.name.endsWith(\"/addresses/e6data\")"
   }
 }
 
