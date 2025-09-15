@@ -7,8 +7,8 @@ resource "kubernetes_manifest" "application_load_balancer" {
     apiVersion = "alb.networking.azure.io/v1"
     kind       = "ApplicationLoadBalancer"
     metadata = {
-      name      = var.application_gateway_name
-      namespace = var.workspace_name
+      name      = var.workspace_name
+      namespace = var.kubernetes_namespace
     }
     spec = {
       associations = [
