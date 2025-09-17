@@ -1,17 +1,16 @@
 terraform {
-    # backend "azurerm" {
-    #   resource_group_name  = "backend-rg"
-    #   storage_account_name = "backend-storage-account"
-    #   container_name       = "backend-container"
-    #   key                  = "terraform.tfstate"
-    # }
+  backend "s3" {
+    bucket = "mybucket"
+    key    = "path/to/my/key"
+    region = "us-east-1"
+  }
 
   required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "4.3.0"
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.35.0"
     }
-    
+
     kubectl = {
       source  = "alekc/kubectl"
       version = "2.0.4"
