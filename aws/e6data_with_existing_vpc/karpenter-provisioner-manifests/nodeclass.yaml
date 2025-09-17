@@ -25,7 +25,26 @@ spec:
   kubelet:
     maxPods: 18
   userData: |
-    echo "$(jq '.allowedUnsafeSysctls += ["net.core.somaxconn","net.ipv4.ip_local_port_range"]' /etc/kubernetes/kubelet/kubelet-config.json)" > /etc/kubernetes/kubelet/kubelet-config.json
+    MIME-Version: 1.0
+    Content-Type: multipart/mixed; boundary="BOUNDARY"
+
+    --BOUNDARY
+    Content-Type: application/node.eks.aws
+
+    ---
+    apiVersion: node.eks.aws/v1alpha1
+    kind: NodeConfig
+    spec:
+      kubelet:
+        config:
+          allowedUnsafeSysctls:
+            - "net.core.somaxconn"
+            - "net.ipv4.ip_local_port_range"
+
+    --BOUNDARY
+    Content-Type: text/x-shellscript; charset="us-ascii"
+
+    #!/bin/bash
     mount_location="/app/tmp"
     mkdir -p $mount_location
     yum install nvme-cli -y
@@ -57,3 +76,5 @@ spec:
         echo "No NVMe drives detected. Skipping NVMe-specific commands."
     fi
     chmod 777 $mount_location
+
+    --BOUNDARY--
