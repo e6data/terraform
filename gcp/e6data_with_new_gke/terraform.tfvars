@@ -10,7 +10,7 @@ workspace_name = "workspace" # The name of the e6data workspace
 # a) Accepts only lowercase alphanumeric characters.
 # b) Must have a minimum of 3 characters.
 
-helm_chart_version = "2.1.7" ### e6data workspace Helm chart version to be used.
+helm_chart_version = "2.1.8" ### e6data workspace Helm chart version to be used.
 
 # Network Variables
 gke_subnet_ip_cidr_range = "10.100.0.0/18" # The subnet IP range for GKE
