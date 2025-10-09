@@ -16,7 +16,7 @@ excluded_az = ["us-east-1e"]
 bucket_names = ["*"] ### List of bucket names that the e6data engine queries and therefore, require read access to. Default is ["*"] which means all buckets, it is advisable to change this.
 
 kubernetes_namespace = "e6data" ### Value of the Kubernetes namespace to deploy the e6data workspace.
-helm_chart_version   = "2.1.11"  ### e6data workspace Helm chart version to be used.
+helm_chart_version   = "2.1.12"  ### e6data workspace Helm chart version to be used.
 
 debug_namespaces = ["kube-system"]
 
