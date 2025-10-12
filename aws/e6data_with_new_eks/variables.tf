@@ -73,7 +73,8 @@ variable "eks_nodegroup_iam_policy_arn" {
     "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
     "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
     "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
-    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+    "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
   ]
 }
 
@@ -284,6 +285,36 @@ variable "minimum_ip_target" {
   description = "Minimum number of IP addresses to keep available for pod assignment."
   type        = number
   default     = 20
+}
+
+variable "storage_classes" {
+  description = "Storage classes"
+  default = {
+    "gp3" = {
+      storage_type               = "gp3"
+      reclaim_policy             = "Delete"
+      topology_availability_zone = "us-east-1b"
+    }
+  }
+}
+
+variable "eks_addons" {
+  description = "EKS addons"
+  default = {
+    # addon_version = "v1"
+    "aws-ebs-csi-driver" = {
+      controller = {
+        tolerations = [
+          {
+            key      = "app"
+            operator = "Equal"
+            value    = "e6data"
+            effect   = "NoSchedule"
+          }
+        ]
+      }
+    }
+  }
 }
 
 locals {

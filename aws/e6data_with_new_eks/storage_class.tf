@@ -1,37 +1,11 @@
-variable "storage_classes" {
-  description = "Storage classes"
-  default = {
-    "gp3" = {
-      storage_type               = "gp3"
-      reclaim_policy             = "Delete"
-      topology_availability_zone = "us-east-1b"
-    }
-  }
-}
-variable "eks_addons" {
-  description = "EKS addons"
-  default = {
-    # addon_version = "v1"
-    "aws-ebs-csi-driver" = {
-      controller = {
-        tolerations = [
-          {
-            key      = "app"
-            operator = "Equal"
-            value    = "e6data"
-            effect   = "NoSchedule"
-          }
-        ]
-      }
-    }
-  }
+resource "aws_eks_addon" "default_addons" {
+  cluster_name = module.eks.cluster_name
+  for_each = var.eks_addons
+  addon_name = each.key
+  configuration_values = jsonencode(each.value)
+  depends_on = [aws_eks_node_group.default_node_group, module.eks]
 }
 
-variable "region" {
-  type        = string
-  description = "the region where all the resources are created"
-  default = "us-east-1"
-}
 resource "kubernetes_storage_class" "storage_class" {
   provider = kubernetes.e6data
 
@@ -57,24 +31,5 @@ resource "kubernetes_storage_class" "storage_class" {
     }
   }
 
-  depends_on = [
-    aws_eks_addon.default_addons, ]
-}
-
-resource "aws_eks_addon" "default_addons" {
-  cluster_name = module.eks.cluster_name
-
-  for_each = var.eks_addons
-
-  addon_name = each.key
-
-  configuration_values = jsonencode("${each.value}")
-
-  depends_on = [aws_eks_node_group.default_node_group, module.eks]
-}
-
-# Attach AWS managed EBS CSI Driver policy to node group role
-resource "aws_iam_role_policy_attachment" "attach_aws_ebs_csi_policy" {
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
-  role       = aws_iam_role.eks_nodegroup_iam_role.name
+  depends_on = [aws_eks_addon.default_addons]
 }
