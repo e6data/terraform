@@ -73,34 +73,6 @@ resource "aws_eks_addon" "default_addons" {
   depends_on = [aws_eks_node_group.default_node_group, module.eks]
 }
 
-resource "aws_iam_policy" "ebs_management" {
-  name        = "${var.cluster_name}-ebs-management"
-  description = "Policy to manage EBS volumes for EKS nodes"
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "ec2:CreateVolume",
-          "ec2:DescribeVolumes",
-          "ec2:AttachVolume",
-          "ec2:DetachVolume",
-          "ec2:DeleteVolume",
-          "ec2:CreateTags"
-        ]
-        Resource = ["arn:aws:ec2:${var.region}:*:volume/*",
-        "arn:aws:ec2:${var.region}:*:instance/*"]
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "attach_ebs_policy" {
-  policy_arn = aws_iam_policy.ebs_management.arn
-  role       = aws_iam_role.eks_nodegroup_iam_role.name
-}
-
 # Attach AWS managed EBS CSI Driver policy to node group role
 resource "aws_iam_role_policy_attachment" "attach_aws_ebs_csi_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
