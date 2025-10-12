@@ -287,36 +287,6 @@ variable "minimum_ip_target" {
   default     = 20
 }
 
-variable "storage_classes" {
-  description = "Storage classes"
-  default = {
-    "gp3" = {
-      storage_type               = "gp3"
-      reclaim_policy             = "Delete"
-      topology_availability_zone = "us-east-1b"
-    }
-  }
-}
-
-variable "eks_addons" {
-  description = "EKS addons"
-  default = {
-    # addon_version = "v1"
-    "aws-ebs-csi-driver" = {
-      controller = {
-        tolerations = [
-          {
-            key      = "app"
-            operator = "Equal"
-            value    = "e6data"
-            effect   = "NoSchedule"
-          }
-        ]
-      }
-    }
-  }
-}
-
 locals {
   cross_account_id = split(":", var.e6data_cross_oidc_role_arn[0])[4]
 }

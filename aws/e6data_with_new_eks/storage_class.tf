@@ -1,35 +1,39 @@
-resource "aws_eks_addon" "default_addons" {
+resource "aws_eks_addon" "ebs_csi_driver" {
   cluster_name = module.eks.cluster_name
-  for_each = var.eks_addons
-  addon_name = each.key
-  configuration_values = jsonencode(each.value)
+  addon_name   = "aws-ebs-csi-driver"
+
+  configuration_values = jsonencode({
+    controller = {
+      tolerations = [
+        {
+          key      = "app"
+          operator = "Equal"
+          value    = "e6data"
+          effect   = "NoSchedule"
+        }
+      ]
+    }
+  })
+
   depends_on = [aws_eks_node_group.default_node_group, module.eks]
 }
 
-resource "kubernetes_storage_class" "storage_class" {
+resource "kubernetes_storage_class" "gp3" {
   provider = kubernetes.e6data
 
-  for_each = var.storage_classes
-
   metadata {
-    name = each.key
+    name = "gp3"
     annotations = {
       "storageclass.kubernetes.io/is-default-class" : "false"
     }
   }
 
   parameters = {
-    type = each.value.storage_type
+    type = "gp3"
   }
 
   storage_provisioner = "ebs.csi.aws.com"
-  reclaim_policy      = each.value.reclaim_policy
-  allowed_topologies {
-    match_label_expressions {
-      key    = "topology.kubernetes.io/zone"
-      values = [each.value.topology_availability_zone]
-    }
-  }
+  reclaim_policy      = "Delete"
 
-  depends_on = [aws_eks_addon.default_addons]
+  depends_on = [aws_eks_addon.ebs_csi_driver]
 }
