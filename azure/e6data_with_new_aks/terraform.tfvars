@@ -55,7 +55,7 @@ key_vault_rg_name = "" # The resource group for the specified Key Vault. If left
 
 # Nginx Ingress Controller Configuration
 nginx_ingress_controller_namespace = "kube-system" # Namespace where the Nginx Ingress Controller will be deployed
-nginx_ingress_controller_version   = "1.11.5"       # Version of the Nginx Ingress Controller to be installed
+nginx_ingress_controller_version   = "4.11.5"       # Version of the Nginx Ingress Controller to be installed
 
 # Azure Application Gateway for Containers (AGFC) Configuration
 agfc_enabled                        = true                  # Enable Azure Application Gateway for Containers deployment
