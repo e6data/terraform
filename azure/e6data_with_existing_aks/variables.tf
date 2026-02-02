@@ -86,15 +86,6 @@ variable "key_vault_rg_name" {
   default     = "endpoint"
 }
 
-variable "nginx_ingress_controller_version" {
-  description = "Helm chart version for the nginx ingress controller"
-  type = string
-}
-
-variable "nginx_ingress_controller_namespace" {
-  description = "Helm chart version for the nginx ingress controller"
-  type = string
-}
 
 variable "identity_pool_id" {
   type        = string
@@ -112,11 +103,6 @@ variable "deploy_akv2k8s" {
   default     = true
 }
 
-variable "deploy_nginx_ingress" {
-  description = "Decide whether to deploy nginx ingress"
-  type        = bool
-  default     = true
-}
 
 variable "debug_namespaces" {
   type        = list(string)
