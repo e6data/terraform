@@ -48,7 +48,7 @@ resource "aws_eks_node_group" "default_node_group" {
   # node_group_name = "${local.e6data_workspace_name}-default-${element(split(".", var.kube_version),1)}"
   node_group_name_prefix = "${local.e6data_workspace_name}-default-ng-"
   node_role_arn          = aws_iam_role.eks_nodegroup_iam_role.arn
-  ami_type               = "AL2_ARM_64"
+  ami_type               = "AL2023_ARM_64_STANDARD"
   subnet_ids             = module.network.private_subnet_ids
   capacity_type          = var.eks_capacity_type
   force_update_version   = true
