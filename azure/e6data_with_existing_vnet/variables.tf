@@ -139,15 +139,6 @@ variable "key_vault_rg_name" {
   default     = "endpoint"
 }
 
-variable "nginx_ingress_controller_version" {
-  description = "Helm chart version for the nginx ingress controller"
-  type = string
-}
-
-variable "nginx_ingress_controller_namespace" {
-  description = "Namespace to deploy the Karpenter"
-  type        = string
-}
 
 variable "aks_subnet_cidr" {
   description = "aks subnet cidr"

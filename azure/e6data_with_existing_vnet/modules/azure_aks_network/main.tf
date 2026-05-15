@@ -28,3 +28,43 @@ resource "azurerm_subnet" "aci" {
     }
   }
 }
+
+# Create Application Gateway for Containers (ALB) subnet
+resource "azurerm_subnet" "alb" {
+  count = var.create_alb_subnet ? 1 : 0
+
+  name                 = format("%s-subnet-%s", "${var.prefix}", "alb")
+  resource_group_name  = data.azurerm_virtual_network.vnet.resource_group_name
+  virtual_network_name = data.azurerm_virtual_network.vnet.name
+  address_prefixes     = var.alb_subnet_cidr
+
+  # Delegate subnet to be used by Application Gateway for Containers
+  delegation {
+    name = "alb-delegation"
+
+    service_delegation {
+      name    = "Microsoft.ServiceNetworking/trafficControllers"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/join/action"]
+    }
+  }
+}
+
+# Create private subnet for internal Application Gateway for Containers
+resource "azurerm_subnet" "alb_internal" {
+  count = var.create_alb_internal_subnet ? 1 : 0
+
+  name                 = format("%s-subnet-%s", "${var.prefix}", "alb-internal")
+  resource_group_name  = data.azurerm_virtual_network.vnet.resource_group_name
+  virtual_network_name = data.azurerm_virtual_network.vnet.name
+  address_prefixes     = var.alb_internal_subnet_cidr
+
+  # Delegate subnet to be used by Application Gateway for Containers (internal)
+  delegation {
+    name = "alb-internal-delegation"
+
+    service_delegation {
+      name    = "Microsoft.ServiceNetworking/trafficControllers"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/join/action"]
+    }
+  }
+}
